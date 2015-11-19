@@ -32,7 +32,7 @@ public:
 
 	virtual auto draw(video::Driver* drv) 	-> void;
 
-private:
+protected:
 	MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path);
 	Mesh* 			_mesh;
 	unsigned int 	_prg_id;

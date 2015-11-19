@@ -1,16 +1,49 @@
+#include <string>
+#include <iostream>
+#include <vector>
+
 #include "entity.h"
+#include "txtLogger.h"
+
+namespace {
+
+	id::TXTLogger* logger = id::TXTLogger::getInstance();
+
+}
 
 namespace id {
+namespace scene {
 
-Entity::Entity()
+
+ auto     Entity::createEntity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Entity*
 {
-	setLife(1);
-	setHp(1);
-	setAttack(1);
+	SDL_assert(scn && parent);
+
+	Entity* entity = new (std::nothrow)Entity(scn, parent, name, shader, path, eLife, eHp, eAttack);
+	
+	if (!entity)
+		logger->log("failed at created entity in Entity::createEntity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)", LL_WARNING);
+}
+
+
+Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)
+: MeshSceneNode(scn, parent, name, shader, path), life(eLife), hp(eHp), attack(eAttack)
+{
+	logger->log("Creating Entity...", LL_DEBUG);
+
+	logger->log("Entity has been created.", LL_INFO);
+}
+
+Entity::~Entity()
+{
+	logger->log("Entity deleting ...", LL_DEBUG);
+
+	logger->log("Entity has been deleted.", LL_INFO);
 }
 
 
 
 
 
+}//namespace scene 
 }//namespace id
