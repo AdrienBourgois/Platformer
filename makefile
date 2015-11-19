@@ -31,7 +31,7 @@ SRC = 	main.cpp\
 		loadFromJson.cpp\
 		screenshot.cpp\
 
-LIBS = SDL2 GL GLEW SDL2_image
+LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 
 MODE = release
 BIN_DIR = bin/$(MODE)/

@@ -1,5 +1,5 @@
 #include <typeinfo>
-
+#include <stdio.h>
 #include "device.h"
 #include "window.h"
 #include "txtLogger.h"
@@ -11,7 +11,7 @@
 #include "guiOpenFile.h"
 #include "driver.h"
 #include "fileUtility.h"
-
+#include "SDL2/SDL_ttf.h"
 
 int main(int argc, char* argv[])
 {
@@ -31,7 +31,19 @@ int main(int argc, char* argv[])
 
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
-	
+
+	std::cout << "Bonjour" << std::endl;	
+	TTF_Init();
+	if(TTF_Init() == -1){
+		fprintf(stderr, "Error Init TTF: %s\n", TTF_GetError());
+	}
+
+	TTF_Font *font = nullptr;
+	font = TTF_OpenFont("./assets/extra_fonts/ProggyClean.ttf", 65);
+	if(!font){
+	std::cout<< "pb font" << std::endl;
+	}
+
 	while (device->run())
 	{
 		device->getDriver()->clear();
@@ -46,6 +58,7 @@ int main(int argc, char* argv[])
 		device->getWindow()->swap();
 	}
 
+	TTF_CloseFont(font);
 	ImGui::Shutdown();
 	
 	delete debug_window;

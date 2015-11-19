@@ -1,0 +1,5 @@
+bin/
+obj/
+assets/
+src/.*.swp
+include/.*.swp

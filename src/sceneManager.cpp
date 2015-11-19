@@ -62,11 +62,11 @@ auto SceneManager::draw() -> void
 		for (; node != prg_pass->second.end(); ++node)
 		{
 			maths::Matrix4 model = (*node)->AbsoluteTransformation();
-			maths::Matrix4 mvp = proj * view * model;
-			maths::Matrix4 mv  = view * model;
+		//	maths::Matrix4 mvp = proj * view * model;
+		//	maths::Matrix4 mv  = view * model;
 			
-			_driver->AttachUniformMatrix4(prg_pass->first, "mvp", mvp);
-			_driver->AttachUniformMatrix4(prg_pass->first, "mv", mv);
+		//	_driver->AttachUniformMatrix4(prg_pass->first, "mvp", mvp);
+		//	_driver->AttachUniformMatrix4(prg_pass->first, "mv", mv);
 
 			_driver->AttachUniformMatrix4(prg_pass->first, "model", model);
 			_driver->AttachUniformMatrix4(prg_pass->first, "view", view);
