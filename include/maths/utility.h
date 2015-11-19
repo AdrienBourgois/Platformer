@@ -1,5 +1,5 @@
-#ifndef UTILITY_H
-#define UTILITY_H
+#ifndef UTILITY_H_INCLUDED
+#define UTILITY_H_INCLUDED
 
 namespace id {
 namespace maths {
@@ -10,4 +10,4 @@ namespace maths {
 } // namespace maths
 } // namespace id
 
-#endif
+#endif // UTILITY_H_INCLUDED

@@ -1,7 +1,7 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef MATRIX_H_INCLUDED
+#define MATRIX_H_INCLUDED
 
-#include "maths/Vector.h"
+#include "maths/vector.h"
 #include <array>
 
 namespace id {
@@ -71,4 +71,4 @@ typedef Matrix3x3 Matrix3;
 
 } // namespace id
 
-#endif
+#endif // MATRIX_H_INCLUDED

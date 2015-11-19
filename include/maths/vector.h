@@ -1,5 +1,5 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef VECTOR_H_INCLUDED
+#define VECTOR_H_INCLUDED
 
 #include <iostream>
 
@@ -33,4 +33,5 @@ struct Vector4
 
 std::ostream& operator<<(std::ostream& os, const id::maths::Vector3& vec);
 std::ostream& operator<<(std::ostream& os, const id::maths::Vector4& vec);
-#endif
+
+#endif // VECTOR_H_INCLUDED
