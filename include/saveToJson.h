@@ -43,7 +43,7 @@ class JsonValue
 		std::fstream _file;
 };
 
-#include "TemplateSaveJson.inl"
+#include "templateSaveJson.inl"
 
 } // namespace id
 

@@ -1,4 +1,4 @@
-#include "GUI_Window.h"
+#include "guiWindow.h"
 
 namespace id {
 
