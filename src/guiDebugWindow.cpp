@@ -1,17 +1,18 @@
 #include <SDL2/SDL.h>
-#include "GUI_DebugWindow.h"
+#include <iostream>
+
+#include "guiDebugWindow.h"
 #include "imgui_impl.h"
 #include "imgui.h"
-#include "SceneNode.h"
-#include "MeshSceneNode.h"
-#include "Mesh.h"
-#include "CameraSceneNode.h"
-#include "SaveToJson.h"
-#include "Device.h"
-#include "maths/Vector.h"
-#include "Window.h"
-#include <iostream>
-#include "GUI_EditMaterialWindow.h"
+#include "sceneNode.h"
+#include "meshSceneNode.h"
+#include "mesh.h"
+#include "cameraSceneNode.h"
+#include "saveToJson.h"
+#include "device.h"
+#include "maths/vector.h"
+#include "window.h"
+#include "guiEditMaterialWindow.h"
 
 
 namespace id {

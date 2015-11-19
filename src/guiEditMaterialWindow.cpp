@@ -1,13 +1,14 @@
 #include <SDL2/SDL.h>
-#include "GUI_EditMaterialWindow.h"
-#include "imgui_impl.h"
 #include <iostream>
-#include "MeshSceneNode.h"
-#include "Driver.h"
-#include "Shaders.h"
-#include "Mesh.h"
-#include "GUI_ChangeTextureGroupWindow.h"
-#include "GUI_EditShader.h"
+
+#include "guiEditMaterialWindow.h"
+#include "imgui_impl.h"
+#include "meshSceneNode.h"
+#include "driver.h"
+#include "shaders.h"
+#include "mesh.h"
+#include "guiChangeTextureGroupWindow.h"
+#include "guiEditShader.h"
 
 namespace id {
 

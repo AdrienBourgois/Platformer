@@ -1,11 +1,11 @@
-#include "Device.h"
-#include "Driver.h"
-#include "Window.h"
-#include "SceneManager.h"
-#include "TxtLogger.h"
+#include "device.h"
+#include "driver.h"
+#include "window.h"
+#include "sceneManager.h"
+#include "txtLogger.h"
 #include "imgui_impl.h"
-#include "Texture.h"
-#include "Screenshot.h"
+#include "texture.h"
+#include "screenshot.h"
 
 namespace {
 

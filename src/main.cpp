@@ -1,16 +1,17 @@
-#include "Device.h"
-#include "Window.h"
-#include "TxtLogger.h"
-#include "MeshSceneNode.h"
-#include "CameraSceneNode.h"
+#include <typeinfo>
+
+#include "device.h"
+#include "window.h"
+#include "txtLogger.h"
+#include "meshSceneNode.h"
+#include "cameraSceneNode.h"
 #include "imgui.h"
 #include "imgui_impl.h"
-#include "GUI_DebugWindow.h"
-#include "GUI_OpenFile.h"
-#include "Driver.h"
-#include "FileUtility.h"
+#include "guiDebugWindow.h"
+#include "guiOpenFile.h"
+#include "driver.h"
+#include "fileUtility.h"
 
-#include <typeinfo>
 
 int main(int argc, char* argv[])
 {

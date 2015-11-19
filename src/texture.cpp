@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "Texture.h"
-#include "TxtLogger.h"
+#include "texture.h"
+#include "txtLogger.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

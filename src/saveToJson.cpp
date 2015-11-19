@@ -1,8 +1,9 @@
-#include "SaveToJson.h"
-#include "MeshSceneNode.h"
-#include "Mesh.h"
-#include "Texture.h"
 #include <fstream>
+
+#include "saveToJson.h"
+#include "meshSceneNode.h"
+#include "mesh.h"
+#include "texture.h"
 
 namespace id {
 

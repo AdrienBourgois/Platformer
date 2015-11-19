@@ -1,9 +1,10 @@
 #include <SDL2/SDL.h>
-#include "Material.h"
-#include "TxtLogger.h"
 #include <sstream>
-#include "FileUtility.h"
 #include <iostream>
+
+#include "material.h"
+#include "txtLogger.h"
+#include "fileUtility.h"
 
 namespace {
     id::TXTLogger* logger = id::TXTLogger::getInstance();

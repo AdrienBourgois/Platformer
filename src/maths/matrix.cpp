@@ -1,9 +1,10 @@
-#include "maths/Matrix.h"
 #include <cmath>
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
-#include "maths/Utility.h"
+
+#include "maths/utility.h"
+#include "maths/matrix.h"
 
 namespace id {
 namespace maths {

@@ -1,8 +1,9 @@
-#include "SceneNode.h"
 #include <SDL2/SDL.h>
 #include <iostream>
-#include "maths/Vector.h"
-#include "TxtLogger.h"
+
+#include "sceneNode.h"
+#include "maths/vector.h"
+#include "txtLogger.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

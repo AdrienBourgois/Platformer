@@ -1,5 +1,5 @@
-#include "Window.h"
-#include "TxtLogger.h"
+#include "window.h"
+#include "txtLogger.h"
 
 namespace {
 

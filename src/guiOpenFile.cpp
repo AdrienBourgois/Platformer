@@ -1,8 +1,4 @@
 #include <SDL2/SDL.h>
-#include "GUI_OpenFile.h"
-#include "MeshSceneNode.h"
-#include "imgui_impl.h"
-#include "Window.h"
 #include <iostream>
 #include <dirent.h>
 #include <vector>
@@ -10,8 +6,13 @@
 #include <map>
 #include <fstream>
 #include <sstream>
-#include "FileUtility.h"
-#include "LoadFromJson.h"
+
+#include "guiOpenFile.h"
+#include "meshSceneNode.h"
+#include "imgui_impl.h"
+#include "window.h"
+#include "fileUtility.h"
+#include "loadFromJson.h"
 
 
 namespace id {

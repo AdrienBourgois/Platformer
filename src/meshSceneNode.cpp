@@ -2,14 +2,14 @@
 #include <iostream>
 #include <vector>
 
-#include "Shaders.h"
-#include "MeshSceneNode.h"
-#include "CameraSceneNode.h"
-#include "Mesh.h"
-#include "SceneManager.h"
-#include "Driver.h"
-#include "TxtLogger.h"
-#include "Texture.h"
+#include "shaders.h"
+#include "meshSceneNode.h"
+#include "cameraSceneNode.h"
+#include "mesh.h"
+#include "sceneManager.h"
+#include "driver.h"
+#include "txtLogger.h"
+#include "texture.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

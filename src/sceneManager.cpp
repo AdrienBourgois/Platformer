@@ -1,9 +1,9 @@
-#include "SceneManager.h"
-#include "SceneNode.h"
-#include "Mesh.h"
-#include "Driver.h"
-#include "CameraSceneNode.h"
-#include "TxtLogger.h"
+#include "sceneManager.h"
+#include "sceneNode.h"
+#include "mesh.h"
+#include "driver.h"
+#include "cameraSceneNode.h"
+#include "txtLogger.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

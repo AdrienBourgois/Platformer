@@ -1,12 +1,13 @@
-#include "LoadFromJson.h"
-#include "MeshSceneNode.h"
-#include "Device.h"
-#include "SceneManager.h"
-#include "Mesh.h"
-#include "Material.h"
 #include <iostream>
-#include "Texture.h"
-#include "TxtLogger.h"
+
+#include "loadFromJson.h"
+#include "meshSceneNode.h"
+#include "device.h"
+#include "sceneManager.h"
+#include "mesh.h"
+#include "material.h"
+#include "texture.h"
+#include "txtLogger.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

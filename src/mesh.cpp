@@ -1,12 +1,12 @@
 #include <GL/glew.h>
 #include <sstream>
 
-#include "Mesh.h"
-#include "Driver.h"
-#include "maths/Matrix.h"
-#include "TxtLogger.h"
-#include "Texture.h"
-#include "FileUtility.h"
+#include "mesh.h"
+#include "driver.h"
+#include "maths/matrix.h"
+#include "txtLogger.h"
+#include "texture.h"
+#include "fileUtility.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
