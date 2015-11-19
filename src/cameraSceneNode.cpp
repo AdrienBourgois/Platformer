@@ -1,8 +1,8 @@
 #include <SDL2/SDL.h>
 
-#include "CameraSceneNode.h"
-#include "maths/Matrix.h"
-#include "TxtLogger.h"
+#include "cameraSceneNode.h"
+#include "maths/matrix.h"
+#include "txtLogger.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

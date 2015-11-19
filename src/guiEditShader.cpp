@@ -1,9 +1,10 @@
 #include <SDL2/SDL.h>
-#include "GUI_EditShader.h"
-#include "imgui_impl.h"
 #include <iostream>
-#include "Shaders.h"
-#include "Driver.h"
+
+#include "guiEditShader.h"
+#include "imgui_impl.h"
+#include "shaders.h"
+#include "driver.h"
 
 namespace id {
 

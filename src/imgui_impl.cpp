@@ -1,12 +1,13 @@
 #include <GL/glew.h>
-#include "imgui_impl.h"
 #include <SDL2/SDL.h>
 #include <GL/gl.h>
+
+#include "imgui_impl.h"
 #include "imgui.h"
-#include "Driver.h"
-#include "Device.h"
-#include "Window.h"
-#include "TxtLogger.h"
+#include "driver.h"
+#include "device.h"
+#include "window.h"
+#include "txtLogger.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

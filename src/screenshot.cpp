@@ -1,11 +1,11 @@
 #include <GL/glew.h>
-
-#include "Screenshot.h"
-#include "Device.h"
-#include "Window.h"
 #include <ctime>
 #include <cstdlib>
-#include "TxtLogger.h"
+
+#include "screenshot.h"
+#include "device.h"
+#include "window.h"
+#include "txtLogger.h"
 
 namespace {
 

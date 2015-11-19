@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 
-#include "TxtLogger.h"
+#include "txtLogger.h"
 
 namespace id {
 

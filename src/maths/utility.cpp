@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "maths/Utility.h"
+#include "maths/utility.h"
 
 namespace id {
 namespace maths {

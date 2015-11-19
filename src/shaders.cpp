@@ -1,7 +1,8 @@
-#include "Shaders.h"
-#include "TxtLogger.h"
 #include <SDL2/SDL.h>
 #include <iostream>
+
+#include "shaders.h"
+#include "txtLogger.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

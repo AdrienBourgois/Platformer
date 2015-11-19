@@ -1,5 +1,6 @@
-#include "maths/Vector.h"
 #include <cmath>
+
+#include "maths/vector.h"
 
 namespace id {
 namespace maths {

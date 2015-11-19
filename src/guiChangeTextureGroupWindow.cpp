@@ -1,11 +1,12 @@
-#include "GUI_ChangeTextureGroupWindow.h"
 #include <dirent.h>
-#include "FileUtility.h"
-#include "imgui_impl.h"
-#include "Texture.h"
 #include <iostream>
 #include <string>
-#include "TxtLogger.h"
+
+#include "fileUtility.h"
+#include "guiChangeTextureGroupWindow.h"
+#include "imgui_impl.h"
+#include "texture.h"
+#include "txtLogger.h"
 
 namespace {
     id::TXTLogger* logger = id::TXTLogger::getInstance();
