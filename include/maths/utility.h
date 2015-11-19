@@ -9,8 +9,8 @@ class Vector3;
 auto degToRad(float angle) -> float;
 auto radToDeg(float angle) -> float;
 
-auto calcDistance(Vector3 pPoint, vector3 pNormal, Vector3 sCenter, float sRayon) -> float;
-auto calcDistance(Vector3 s1Center, float s1Rayon, vector3 s2center, float s2Rayon) -> float;
+auto calcDistance(Vector3 pPoint, Vector3 pNormal, Vector3 sCenter, float sRayon) -> float;
+auto calcDistance(Vector3 s1Center, float s1Rayon, Vector3 s2center, float s2Rayon) -> float;
 
 
 } // namespace maths
