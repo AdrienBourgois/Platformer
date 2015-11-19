@@ -1,10 +1,10 @@
 #include <SDL2/SDL_image.h>
 
-#include "Driver.h"
-#include "Device.h"
-#include "Window.h"
-#include "TxtLogger.h"
-#include "Shaders.h"
+#include "driver.h"
+#include "device.h"
+#include "window.h"
+#include "txtLogger.h"
+#include "shaders.h"
 
 
 namespace {
