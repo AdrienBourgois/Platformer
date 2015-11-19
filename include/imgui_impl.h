@@ -1,11 +1,11 @@
-#ifndef IMGUI_IMPL_H
-#define IMGUI_IMPL_H
+#ifndef IMGUI_IMPL_H_INCLUDED
+#define IMGUI_IMPL_H_INCLUDED
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include "imgui.h"
 #include <GL/gl.h>
-#include "Device.h"
+#include "device.h"
 
 namespace id {
 
@@ -45,4 +45,4 @@ private:
 
 } // namespace id
 
-#endif
+#endif // IMGUI_IMPL_H_INCLUDED
