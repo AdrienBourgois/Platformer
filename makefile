@@ -1,63 +1,77 @@
-TARGET = openGl 
+TARGET = plateformer 
 
 SRC = 	main.cpp\
-		Device.cpp\
-		TxtLogger.cpp\
-		Window.cpp\
-		Shaders.cpp\
-		Driver.cpp\
-		SceneManager.cpp\
-		SceneNode.cpp\
-		CameraSceneNode.cpp\
-		MeshSceneNode.cpp\
-		maths/Utility.cpp\
-		maths/Matrix.cpp\
-		maths/Vector.cpp\
-		Mesh.cpp\
-		Texture.cpp\
+		device.cpp\
+		txtLogger.cpp\
+		window.cpp\
+		shaders.cpp\
+		driver.cpp\
+		sceneManager.cpp\
+		sceneNode.cpp\
+		cameraSceneNode.cpp\
+		meshSceneNode.cpp\
+		maths/utility.cpp\
+		maths/matrix.cpp\
+		maths/vector.cpp\
+		mesh.cpp\
+		texture.cpp\
 		imgui.cpp\
 		imgui_demo.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
-		GUI_DebugWindow.cpp\
-		GUI_OpenFile.cpp\
-		FileUtility.cpp\
-		Material.cpp\
-		GUI_EditMaterialWindow.cpp\
-		GUI_ChangeTextureGroupWindow.cpp\
-		SaveToJson.cpp\
-		GUI_EditShader.cpp\
-		GUI_Window.cpp\
-		LoadFromJson.cpp\
-		Screenshot.cpp\
+		guiDebugWindow.cpp\
+		guiOpenFile.cpp\
+		fileUtility.cpp\
+		material.cpp\
+		guiEditMaterialWindow.cpp\
+		guiChangeTextureGroupWindow.cpp\
+		saveToJson.cpp\
+		guiEditShader.cpp\
+		guiWindow.cpp\
+		loadFromJson.cpp\
+		screenshot.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image
 
-BIN_DIR = bin/
-OBJ_DIR = obj/
+MODE = release
+BIN_DIR = bin/$(MODE)/
+
+OBJ_DIR = obj/$(MODE)/
+
 SRC_DIR = src/
+
 INC_DIR = include/ usr/include/SDL2/ 
 
 OBJ = $(patsubst %.cpp,$(OBJ_DIR)%.o,$(SRC))
+
 DEPENDENCIES = $(OBJ:.o=.d)
+
 ARBO = $(sort $(dir $(DEPENDENCIES) $(OBJ_DIR)))
+
 INCLUDES = $(addprefix -I,$(INC_DIR))
 LIBRARIES = $(addprefix -l,$(LIBS))
 CXXFLAGS = -MMD -W -Wall -Werror
+CPPFLAGS =
 LDFLAGS = -W -Wall -Werror
 CXX = g++ -std=c++14
 
 .PHONY: all clean fclean re debug release
 
+all: $(MODE)
+
 release: CXXFLAGS += -O3
 release: LDFLAGS += -O3
-release: all
+release: $(TARGET)
 
 debug: CXXFLAGS += -O0 -g3
 debug: LDFLAGS += -O0 -g3
-debug: all
+debug: CPPFLAGS += -D_DEBUG
+debug: $(TARGET)
 
-all: $(TARGET)
+master: CXXFLAGS += -O3
+master: LDFLAGS += -O3
+master: CPPFLAGS += -D_DEBUG
+master: $(TARGET)
 
 $(TARGET): $(BIN_DIR)$(TARGET) | $(ARBO)
 
@@ -83,9 +97,10 @@ clean:
 	$(RM) assets/json/*
 
 fclean: clean
-	$(RM) $(TARGET)
+	$(RM) $(BIN_DIR)$(TARGET)
+	$(RM) -r $(BIN_DIR)
 
-re: fclean release
+re: fclean all
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $< $(INCLUDES)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c -o $@ $< $(INCLUDES)
