@@ -65,8 +65,8 @@ auto SceneManager::draw() -> void
 			maths::Matrix4 mvp = proj * view * model;
 			maths::Matrix4 mv  = view * model;
 			
-			_driver->AttachUniformMatrix4(prg_pass->first, "mvp", mvp);
-			_driver->AttachUniformMatrix4(prg_pass->first, "mv", mv);
+//			_driver->AttachUniformMatrix4(prg_pass->first, "mvp", mvp);
+//			_driver->AttachUniformMatrix4(prg_pass->first, "mv", mv);
 
 			_driver->AttachUniformMatrix4(prg_pass->first, "model", model);
 			_driver->AttachUniformMatrix4(prg_pass->first, "view", view);
