@@ -6,6 +6,11 @@
 namespace id {
 namespace maths {
 
+struct Vector2
+{
+	float val[2];
+};
+
 struct Vector3
 {
 	float val[3];
