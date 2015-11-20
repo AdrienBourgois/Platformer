@@ -13,6 +13,8 @@ SRC = 	main.cpp\
 		maths/utility.cpp\
 		maths/matrix.cpp\
 		maths/vector.cpp\
+		maths/planCollider.cpp\
+		maths/sphereCollider.cpp\
 		mesh.cpp\
 		texture.cpp\
 		imgui.cpp\

@@ -1,6 +1,5 @@
 #include <string>
 #include <iostream>
-#include <vector>
 
 #include "shaders.h"
 #include "meshSceneNode.h"
@@ -19,11 +18,11 @@ namespace id {
 namespace scene {
 
 
-auto MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> MeshSceneNode*
+auto MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, std::vector<GLfloat> shape) -> MeshSceneNode*
 {
 	SDL_assert(scn && parent);
 
-	MeshSceneNode* meshSceneNode = new (std::nothrow)MeshSceneNode(scn, parent, name, shader, path);
+	MeshSceneNode* meshSceneNode = new (std::nothrow)MeshSceneNode(scn, parent, name, shader, path, shape);
 	if (!meshSceneNode)
 		logger->log("failed at creating meshSceneNode in MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader)", LL_WARNING);
 
@@ -31,7 +30,7 @@ auto MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, st
 
 }
 
-MeshSceneNode::MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
+MeshSceneNode::MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, std::vector<GLfloat> shape)
 : SceneNode(scn, parent, name), _mesh(nullptr)
 {
 
@@ -39,7 +38,7 @@ MeshSceneNode::MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string c
     _prg_id = scn->getDriver()->getShader()->getPrg(shader);
 
 
-	_mesh = Mesh::createMesh(path, scn->getDriver());
+	_mesh = Mesh::createMesh(path, shape, scn->getDriver());
  
 	_scn->addToRender(this, _prg_id);
  
@@ -66,17 +65,7 @@ auto MeshSceneNode::draw(video::Driver* driver) -> void
 {
 	SDL_assert(driver);
 
-	for (auto& v : _mesh->getGroups())
-	{
-		Material* material = _mesh->getMaterial();
-		Texture* texture = material->getTextureFromMTL(v.second.mtl);
-		unsigned int texture_id = 0;
-		if (texture)
-			texture_id = texture->getID();
-		driver->ChangeTexture(texture_id);
-		driver->drawTriangles(v.second.vao, v.second.vbo, v.second.dataSize());
-	}
-	SceneNode::draw(driver);
+	driver->draw(this);
 }
 
 } // namespace scene

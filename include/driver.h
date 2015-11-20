@@ -17,6 +17,10 @@ class Device;
 class Window;
 class Shaders;
 
+namespace scene{
+	class MeshSceneNode;
+} // namespace scene
+
 namespace video {
 
 class Driver
@@ -40,7 +44,7 @@ public:
 			auto clear() 	-> void;
 			auto genVertexObject(int size, float* vertices, GLuint* vbo, GLuint* vao) -> void;
 			auto deleteBuffer(GLuint* vbo) 	-> void;
-			auto drawTriangles(GLuint vao, GLuint vbo, int vertexCount) -> void;
+			auto draw(scene::MeshSceneNode* meshNode) -> void;
 			auto AttachUniformMatrix4(GLuint prg_id, std::string var_name, maths::Matrix4 mat) -> void;
 
 			auto LoadTexture(std::string const& path, GLenum format) 	-> GLuint;

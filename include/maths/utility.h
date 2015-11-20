@@ -1,6 +1,9 @@
 #ifndef UTILITY_H_INCLUDED
 #define UTILITY_H_INCLUDED
 
+#include <vector>
+#include <GL/glew.h>
+
 namespace id {
 namespace maths {
 
@@ -11,6 +14,12 @@ auto radToDeg(float angle) -> float;
 
 auto calcDistance(Vector3 pPoint, Vector3 pNormal, Vector3 sCenter, float sRayon) -> float;
 auto calcDistance(Vector3 s1Center, float s1Rayon, Vector3 s2center, float s2Rayon) -> float;
+
+class Shape
+{
+	public:
+		static std::vector<GLfloat>const cube;
+};
 
 
 } // namespace maths
