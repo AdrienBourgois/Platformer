@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 
+
 #include "enemy.h"
 #include "txtLogger.h"
 
@@ -20,7 +21,7 @@ namespace scene {
 
 auto	Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Enemy*
 {
-	//SDL_assert(scn && parent);
+//	SDL_assert(scn && parent);
 
 	Enemy* enemy = new (std::nothrow)Enemy(scn, parent, name, shader, path, eLife, eHp, eAttack);
 
@@ -34,6 +35,10 @@ Enemy::Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std:
 :Entity(scn, parent, name, shader, path, eLife, eHp, eAttack)
 {
 	logger->log("Creating Enemy...", LL_DEBUG);
+
+	eLife = enLife;
+	eHp = enHp;
+	eAttack = enAttack;
 
 	
 	logger->log("Enemy has been created.", LL_INFO);

@@ -23,7 +23,11 @@ namespace scene {
 		static auto	createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Player*;	
 
 	private:
-		
+	
+		int pLife;
+		int pHp;
+		int pAttack;
+	
 		Player(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack);
 
 	};
