@@ -35,7 +35,7 @@ public:
 	auto operator=(Mesh const&) = delete;
 	auto operator=(Mesh&&) = delete;
 
-	static 	auto createMesh(std::string const& path, video::Driver* driver) -> Mesh*;
+	static 	auto createMesh(std::string const& path, std::vector<GLfloat> shape, video::Driver* driver) -> Mesh*;
 
 			auto getObjPath() const 		-> std::string 		{ return _objPath;		}
 			auto getVertex() const 			-> unsigned int 	{ return _vertex;		}
@@ -46,7 +46,8 @@ public:
 			auto getMaterial() const 		-> Material* 		{ return _material; 	}
 
 			auto loadObj(std::string const& path) -> void;
-	
+			auto loadShape(std::vector<GLfloat> shape) -> void;	
+
 			auto getGroups() 		-> std::map< std::string, mesh_group > { return _groups; }
 	
 	static 	auto deleteAllMeshes() 	-> void;
@@ -54,7 +55,7 @@ public:
 			auto getMaterial() 		-> Material* { return _material; }
 
 private:
-	Mesh(std::string const& path, video::Driver* driver);
+	Mesh(std::string const& path, std::vector<GLfloat> shape, video::Driver* driver);
 	video::Driver* 						_driver;
 	std::string 						_objPath;
 	std::map< std::string, mesh_group > _groups;

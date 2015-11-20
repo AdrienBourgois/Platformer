@@ -13,6 +13,7 @@
 #include "fileUtility.h"
 #include "player.h"
 #include "enemy.h"
+#include "maths/utility.h"
 
 int main(int argc, char* argv[])
 {
@@ -26,6 +27,7 @@ int main(int argc, char* argv[])
 		(void) mesh_scn;
 
 	}
+		id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
 
 		id::scene::Player* ply = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj", 3, 5, 5);
 
@@ -48,7 +50,6 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 	{
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
-		
 		id::imgui_impl::NewFrame(device.get());
 		
         debug_window->Display(device.get());

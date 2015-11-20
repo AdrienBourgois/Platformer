@@ -5,7 +5,8 @@
 #include "window.h"
 #include "txtLogger.h"
 #include "shaders.h"
-
+#include "meshSceneNode.h"
+#include "mesh.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
@@ -132,11 +133,24 @@ auto Driver::genVertexObject(int size, float* vertices, GLuint* vbo, GLuint* vao
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
-auto Driver::drawTriangles(GLuint vao, GLuint vbo, int vertexCount) -> void
+auto Driver::draw(scene::MeshSceneNode* meshNode) -> void
 {
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-	glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+
+	for (auto& v : meshNode->getMesh()->getGroups())
+	{
+		Material* material = meshNode->getMesh()->getMaterial();
+		if (material)
+		{	
+			Texture* texture = material->getTextureFromMTL(v.second.mtl);
+			unsigned int texture_id = 0;
+			if (texture)
+				texture_id = texture->getID();
+			ChangeTexture(texture_id);
+		}
+		glBindVertexArray(v.second.vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, v.second.vbo);
+		glDrawArrays(GL_TRIANGLES, 0, v.second.dataSize());
+	}
 }
 
 auto Driver::useProgram(GLuint prg) -> void

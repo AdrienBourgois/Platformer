@@ -1,6 +1,8 @@
 #ifndef MESH_SCENE_NODE_H_INCLUDED
 #define MESH_SCENE_NODE_H_INCLUDED
 
+#include <vector>
+
 #include "sceneNode.h"
 
 namespace id {
@@ -22,7 +24,7 @@ public:
 	auto operator=(MeshSceneNode const&) = delete;
 	auto operator=(MeshSceneNode&&) = delete;
 
-	static 	auto createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> MeshSceneNode*;
+	static 	auto createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, std::vector<GLfloat> shape = {}) -> MeshSceneNode*;
 
 			auto getPrgId() const 			-> unsigned int { return _prg_id; }
 			void setPrgId(unsigned int prg_id);
@@ -33,10 +35,15 @@ public:
 	virtual auto draw(video::Driver* drv) 	-> void;
 
 protected:
-	MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path);
+	MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, std::vector<GLfloat> shape = {});
+	
 	Mesh* 			_mesh;
 	unsigned int 	_prg_id;
 };
+
+
+
+
 
 } // namespace scene
 } // namespace id
