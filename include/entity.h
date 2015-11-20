@@ -1,5 +1,5 @@
 #ifndef __ENTITY_H_INCLUDED__
-#define __ENTIYT_H_INCLUDED__
+#define __ENTITY_H_INCLUDED__
 
 #include "meshSceneNode.h"
 
@@ -12,7 +12,7 @@ namespace scene {
 	class Entity : public MeshSceneNode {
 
 	public:
-		~Entity();
+		virtual ~Entity();
 
 		static auto	createEntity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Entity*;
 

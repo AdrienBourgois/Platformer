@@ -7,10 +7,10 @@ namespace id {
 
 namespace scene {
 
-	class Enemy {
+	class Enemy : public Entity {
 	
 	public:
-		~Enemy();
+		virtual ~Enemy();
 
 		static auto	createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Enemy*;
 
@@ -23,4 +23,4 @@ namespace scene {
 }//namespace scene
 }//namespace id
 
-#endif
+#endif // __ENEMY_H_INCLUDED__

@@ -12,6 +12,7 @@
 #include "driver.h"
 #include "fileUtility.h"
 #include "player.h"
+#include "enemy.h"
 
 int main(int argc, char* argv[])
 {
@@ -26,9 +27,13 @@ int main(int argc, char* argv[])
 
 	}
 
-		id::scene::Player* ply = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_color4", "assets/Robot.obj", 3, 5, 5);
+		id::scene::Player* ply = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj", 3, 5, 5);
 
 	(void)ply;
+
+		id::scene::Enemy* enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/Dragon.obj", 3, 5, 5);
+
+	(void)enemy;	
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});

@@ -19,7 +19,7 @@ namespace scene {
 	class Player : public Entity {
 
 	public: 
-		~Player();
+		virtual ~Player();
 		static auto	createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Player*;	
 
 	private:

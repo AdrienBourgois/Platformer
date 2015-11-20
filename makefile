@@ -31,7 +31,8 @@ SRC = 	main.cpp\
 		loadFromJson.cpp\
 		screenshot.cpp\
 		entity.cpp\
-		player.cpp
+		player.cpp\
+		enemy.cpp
 
 LIBS = SDL2 GL GLEW SDL2_image
 

@@ -20,7 +20,7 @@ namespace scene {
 
 auto    Player::createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Player*
 {
-	SDL_assert(scn && parent);
+//	SDL_assert(scn && parent);
 
 	Player* player = new (std::nothrow)Player(scn, parent, name, shader, path, eLife, eHp, eAttack);
 	if (!player)

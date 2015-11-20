@@ -17,12 +17,14 @@ namespace scene {
 
  auto     Entity::createEntity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Entity*
 {
-	SDL_assert(scn && parent);
+//	SDL_assert(scn && parent);
 
 	Entity* entity = new (std::nothrow)Entity(scn, parent, name, shader, path, eLife, eHp, eAttack);
 	
 	if (!entity)
 		logger->log("failed at created entity in Entity::createEntity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)", LL_WARNING);
+
+	return entity;
 }
 
 
