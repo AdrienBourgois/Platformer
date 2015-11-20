@@ -24,9 +24,9 @@ namespace scene {
 
 	private:
 	
-		int pLife;
-		int pHp;
-		int pAttack;
+		int life;
+		int hp;
+		int attack;
 	
 		Player(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack);
 

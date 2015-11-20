@@ -35,9 +35,6 @@ Player::Player(SceneManager* scn, SceneNode* parent, std::string const& name, st
 {
 	logger->log("Creating Player...", LL_DEBUG);
 
-	eLife = pLife;
-	eHp = pHp;
-	eAttack = pAttack;
 
 	logger->log("Player has been created.", LL_INFO);
 }	

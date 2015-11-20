@@ -16,10 +16,6 @@ namespace scene {
 
 	private:
 
-		int enLife;
-		int enHp;
-		int enAttack;
-	
 		Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack);
 
 	};

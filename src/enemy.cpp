@@ -36,11 +36,7 @@ Enemy::Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std:
 {
 	logger->log("Creating Enemy...", LL_DEBUG);
 
-	eLife = enLife;
-	eHp = enHp;
-	eAttack = enAttack;
-
-	
+		
 	logger->log("Enemy has been created.", LL_INFO);
 }
 

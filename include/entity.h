@@ -16,20 +16,22 @@ namespace scene {
 
 		static auto	createEntity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Entity*;
 
-		auto	setLife(int l) -> void {life = l;} 
-		auto	setHp(int h) -> void {hp = h;}
-		auto	setAttack(int a) -> void {attack = a;}
+		virtual auto	setLife(int l) -> void {life = l;} 
+		virtual auto	setHp(int h) -> void {hp = h;}
+		virtual auto	setAttack(int a) -> void {attack = a;}
 
-		auto	getLife() const -> int {return this->life;}
-		auto	getHp() const -> int {return this->hp;}
-		auto	getAttack() const -> int {return this->attack;}
+		virtual auto	getLife() const -> int {return life;}
+		virtual auto	getHp() const -> int {return hp;}
+		virtual auto	getAttack() const -> int {return attack;}
+
 
 	protected:
 
 		Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack);
-	int life;
-	int hp;
-	int attack;
+
+	unsigned int life;
+	unsigned int hp;
+	unsigned int attack;
 
 	};
 }//namespace scene 
