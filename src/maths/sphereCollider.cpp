@@ -1,8 +1,10 @@
 #include "txtLogger.h"
 #include "maths/sphereCollider.h"
+#include "maths/planCollider.h"
 #include "maths/plan.h"
 #include "maths/sphere.h"
 #include "maths/utility.h"
+#include "maths/vector.h"
 
 
 namespace {
@@ -23,8 +25,6 @@ SphereCollider::~SphereCollider()
 {
     logger->log("Deleting SphereCollider...", LL_DEBUG);
 
-    plan = nullptr;
-
     logger->log("SphereCollider has been deleted.");	
 }
     
@@ -35,10 +35,10 @@ auto SphereCollider::collide(Collider const& col) -> bool
 
 auto SphereCollider::collide(SphereCollider const& col) -> bool
 {
-    Vector3 cs = sphere->getCenter();
-    Vector3 rayon = sphere->getRayon();
+    Vector3 cs = sphere.getCenter();
+    float rayon = sphere.getRayon();
 
-    float collision = calcDistance(Cs1, rayon, col.sphere.getCenter(), col.sphere.getRayon());
+    float collision = calcDistance(cs, rayon, col.sphere.getCenter(), col.sphere.getRayon());
 
     if (collision <= 0)
         return true;
@@ -48,13 +48,13 @@ auto SphereCollider::collide(SphereCollider const& col) -> bool
 
 auto SphereCollider::collide(PlanCollider const& col) -> bool
 {
-    Vector3 p1 = col.plan.getPoints()[0];
-    vector3 p2 = col.plan.getPoints()[1];
-    vector3 p3 = col.plan.getPoints()[2];
-    Vector3 cs = sphere->getCenter();
-    Vector3 rayon = sphere->getRayon();
+    Vector3 p1 = col.getPlan().getPoints()[0];
+    Vector3 p2 = col.getPlan().getPoints()[1];
+    Vector3 p3 = col.getPlan().getPoints()[2];
+    Vector3 cs = sphere.getCenter();
+    float rayon = sphere.getRayon();
 
-    pNormal = (p2 - p1).cross(p3 - p1);
+    Vector3 pNormal = (p2 - p1).crossProduct(p3 - p1);
 
     float collision = calcDistance(p1, pNormal, cs, rayon);
 
@@ -66,7 +66,8 @@ auto SphereCollider::collide(PlanCollider const& col) -> bool
 
 auto SphereCollider::collide(CubeCollider const& col) -> bool
 {
-
+	(void)col;
+	return true;
 }
 
 } // namespace maths

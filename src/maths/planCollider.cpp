@@ -1,5 +1,6 @@
 #include "txtLogger.h"
 #include "maths/planCollider.h"
+#include "maths/sphereCollider.h"
 #include "maths/plan.h"
 #include "maths/sphere.h"
 //#include "maths/cube.h"
@@ -41,7 +42,7 @@ auto PlanCollider::collide(SphereCollider const& col) const -> bool
 
 	Vector3 pNormal = (p2 - p1).crossProduct(p3 - p1);
 
-	float collision = calcDistance(p1, pNormal, col.sphere.getCenter(), col.sphere.getRayon());
+	float collision = calcDistance(p1, pNormal, col.getSphere().getCenter(), col.getSphere().getRayon());
 
 	if (collision <= 0)
 		return true;

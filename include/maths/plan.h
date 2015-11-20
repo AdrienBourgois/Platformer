@@ -20,7 +20,6 @@ class Plan
 
 	private:
 		Vector3 points[3];
-		
 };
 
 } // namespace maths

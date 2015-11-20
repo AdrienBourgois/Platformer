@@ -26,11 +26,13 @@ class PlanCollider
 		virtual auto collide(PlanCollider const&) const -> bool override;
 		virtual auto collide(CubeCollider const&) const -> bool override;
 
+		auto getPlan() const -> const Plan& { return plan; }
+
 	private:
 		Plan const& plan;
 };
 
-}
-}
+} // namespace maths
+} // namespace id
 
 #endif // PLAN_COLLIDER_H_INCLUDED
