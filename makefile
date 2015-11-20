@@ -1,4 +1,4 @@
-TARGET = openGl 
+TARGET = plateformer 
 
 SRC = 	main.cpp\
 		device.cpp\
@@ -36,31 +36,45 @@ SRC = 	main.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image
 
-BIN_DIR = bin/
-OBJ_DIR = obj/
+MODE = release
+BIN_DIR = bin/$(MODE)/
+
+OBJ_DIR = obj/$(MODE)/
+
 SRC_DIR = src/
+
 INC_DIR = include/ usr/include/SDL2/ 
 
 OBJ = $(patsubst %.cpp,$(OBJ_DIR)%.o,$(SRC))
+
 DEPENDENCIES = $(OBJ:.o=.d)
+
 ARBO = $(sort $(dir $(DEPENDENCIES) $(OBJ_DIR)))
+
 INCLUDES = $(addprefix -I,$(INC_DIR))
 LIBRARIES = $(addprefix -l,$(LIBS))
 CXXFLAGS = -MMD -W -Wall -Werror
+CPPFLAGS =
 LDFLAGS = -W -Wall -Werror
 CXX = g++ -std=c++14
 
 .PHONY: all clean fclean re debug release
 
+all: $(MODE)
+
 release: CXXFLAGS += -O3
 release: LDFLAGS += -O3
-release: all
+release: $(TARGET)
 
 debug: CXXFLAGS += -O0 -g3
 debug: LDFLAGS += -O0 -g3
-debug: all
+debug: CPPFLAGS += -D_DEBUG
+debug: $(TARGET)
 
-all: $(TARGET)
+master: CXXFLAGS += -O3
+master: LDFLAGS += -O3
+master: CPPFLAGS += -D_DEBUG
+master: $(TARGET)
 
 $(TARGET): $(BIN_DIR)$(TARGET) | $(ARBO)
 
@@ -86,9 +100,10 @@ clean:
 	$(RM) assets/json/*
 
 fclean: clean
-	$(RM) $(TARGET)
+	$(RM) $(BIN_DIR)$(TARGET)
+	$(RM) -r $(BIN_DIR)
 
-re: fclean release
+re: fclean all
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $< $(INCLUDES)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c -o $@ $< $(INCLUDES)
