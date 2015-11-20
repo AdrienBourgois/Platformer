@@ -14,21 +14,29 @@ class Texture;
 class GuiTtf
 {
 public:
-//	GuiTtf() default;
-	~GuiTtf()
+	GuiTtf();
+	~GuiTtf();
 	GuiTtf(GuiTtf const&) = delete;
 	GuiTtf(GuiTtf&&) = delete;
 	auto operator=(GuiTtf const&) -> GuiTtf = delete;
 	auto operator=(GuiTtf&&) -> GuiTtf& = delete;
 	
-	auto addfont(std::string name) ->void;
+	auto addFont(std::string name) ->void;
+	auto createText(std::string textureName, std::string text) ->void;
+	auto pickColor(Uint8 r = 0, Uint8 g = 0, Uint8 b = 0, Uint8 a = 255) -> void;
 
-	GuiTtf(std::string fonts);
+	auto setColorText(SDL_Color color) -> void {colorText = color;}
+
+	auto getMapFonts() -> std::map<std::string,TTF_Font*>& {return mapFonts;}
+	auto getMapSdl() -> std::map<std::string, SDL_Surface*>& {return mapSdlSurface;}
+	auto getColorText()-> SDL_Color	{return colorText;}
+
+//	GuiTtf(std::string fonts);
 
 private:
-
-	std::map<std::string, TTF_Font*> fonts;
-	std::map<std::string, Texture*> texturesGui;
+	SDL_Color colorText;
+	std::map<std::string, TTF_Font*> mapFonts;
+	std::map<std::string, SDL_Surface*> mapSdlSurface;
 };
 
 }//id
