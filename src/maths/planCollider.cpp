@@ -2,7 +2,9 @@
 #include "maths/planCollider.h"
 #include "maths/plan.h"
 #include "maths/sphere.h"
+//#include "maths/cube.h"
 #include "maths/utility.h"
+#include "maths/vector.h"
 
 
 namespace {
@@ -23,23 +25,21 @@ PlanCollider::~PlanCollider()
 {
 	logger->log("Deleting PlanCollider...", LL_DEBUG);
 
-	plan = nullptr;
-
 	logger->log("PlanCollider has been deleted.");	
 }
 
-auto PlanCollider::collide(Collider const& col) -> bool
+auto PlanCollider::collide(Collider const& col) const -> bool
 {
 	return col.collide(*this);
 }
 
-auto PlanCollider::collide(SphereCollider const& col) -> bool
+auto PlanCollider::collide(SphereCollider const& col) const -> bool
 {
-	Vector3 p1 = plan->getPoints()[0];
-	vector3 p2 = plan->getPoints()[1];
-	vector3 p3 = plan->getPoints()[2];
+	Vector3 p1 = plan.getPoints()[0];
+	Vector3 p2 = plan.getPoints()[1];
+	Vector3 p3 = plan.getPoints()[2];
 
-	pNormal = (p2 - p1).cross(p3 - p1);
+	Vector3 pNormal = (p2 - p1).crossProduct(p3 - p1);
 
 	float collision = calcDistance(p1, pNormal, col.sphere.getCenter(), col.sphere.getRayon());
 
@@ -48,16 +48,19 @@ auto PlanCollider::collide(SphereCollider const& col) -> bool
 	else
 		return false;
 
+	return true;
 }
 
-auto PlanCollider::collide(PlanCollider const& col) -> bool
+auto PlanCollider::collide(PlanCollider const& col) const -> bool
 {
-
+	(void)col;
+	return true;
 }
 
-auto PlanCollider::collide(CubeCollider const& col) -> bool
+auto PlanCollider::collide(CubeCollider const& col) const -> bool
 {
-
+	(void)col;
+	return true;
 }
 
 } // namespace maths

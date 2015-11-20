@@ -35,7 +35,6 @@ struct Vector4
 
 } // namespace id
 
-
 std::ostream& operator<<(std::ostream& os, const id::maths::Vector3& vec);
 std::ostream& operator<<(std::ostream& os, const id::maths::Vector4& vec);
 

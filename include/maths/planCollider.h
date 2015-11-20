@@ -7,11 +7,9 @@ namespace id{
 namespace maths{
 
 class Plan;
-class SphereCollider;
-class CubeCollider;
 
 class PlanCollider
-:public virtual collider
+:public virtual Collider
 {
 	public:
 		PlanCollider() = delete;
@@ -23,10 +21,10 @@ class PlanCollider
 
 		PlanCollider(Plan const& plan);
 
-		virtual auto collide(Collider const& col) -> bool;
-		virtual auto collide(SphereCollider const& col) -> bool;
-		virtual auto collide(PlanCollider const& col) -> bool;
-		virtual auto collide(CubeCollider const& col) -> bool;
+		virtual auto collide(Collider const&) const -> bool override;
+		virtual auto collide(SphereCollider const&) const -> bool override;
+		virtual auto collide(PlanCollider const&) const -> bool override;
+		virtual auto collide(CubeCollider const&) const -> bool override;
 
 	private:
 		Plan const& plan;

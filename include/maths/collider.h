@@ -4,6 +4,10 @@
 namespace id{
 namespace maths{
 
+class PlanCollider;
+class SphereCollider;
+class CubeCollider;
+
 class Collider
 {
 	public:
@@ -11,7 +15,8 @@ class Collider
 		virtual auto collide(SphereCollider const&) const -> bool = 0;
 		virtual auto collide(PlanCollider const&) const -> bool = 0;
 		virtual auto collide(CubeCollider const&) const -> bool = 0;	
-}
+};
+
 
 } // namespace maths
 } // namespace id
