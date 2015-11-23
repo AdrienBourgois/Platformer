@@ -8,12 +8,17 @@ namespace id {
 namespace maths {
 
 class Vector3;	
+class Vector4;	
 
 auto degToRad(float angle) -> float;
 auto radToDeg(float angle) -> float;
 
 auto calcDistance(Vector3 pPoint, Vector3 pNormal, Vector3 sCenter, float sRayon) -> float;
 auto calcDistance(Vector3 s1Center, float s1Rayon, Vector3 s2center, float s2Rayon) -> float;
+auto calcDistance(Vector3 point, Vector4 plan) -> float;
+
+auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4;
+auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool;
 
 class Shape
 {

@@ -30,9 +30,6 @@ struct Vector3
 		
 	auto dotProduct(Vector3 vec) -> float;
 	auto crossProduct(Vector3 vec) -> Vector3;
-    auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4;
-    auto distancePointToPlan(Vector3 point, Vector4 plan) -> float;
-    auto isInside(Vector3 point, std::vector<Vector3> poly) -> bool;
 
 	auto getNormalized() const 				-> Vector3;
 	auto norm() -> float;
