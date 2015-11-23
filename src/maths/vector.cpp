@@ -74,16 +74,9 @@ auto Vector3::cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4
     Vector3 AB = vec2 - vec1;
     Vector3 BC = vec3 - vec1;
 
-    std::cout << AB.val[0] << std::endl;
-    std::cout << AB.val[1] << std::endl;
-    std::cout << AB.val[2] << std::endl;
-    std::cout << BC.val[0] << std::endl;
-    std::cout << BC.val[1] << std::endl;
-    std::cout << BC.val[2] << std::endl;
-
     Vector3 M = AB.crossProduct(BC);
 
-    int d = -((vec1.val[0] * M.val[0]) + (vec1.val[1] * M.val[1]) + (vec1.val[1] * M.val[1]));
+    int d = -((vec1.val[0] * M.val[0]) + (vec1.val[1] * M.val[1]) + (vec1.val[2] * M.val[2]));
 
     Vector4 equation;
 

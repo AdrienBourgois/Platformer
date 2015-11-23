@@ -28,12 +28,12 @@ SphereCollider::~SphereCollider()
     logger->log("SphereCollider has been deleted.");	
 }
     
-auto SphereCollider::collide(Collider const& col) -> bool
+auto SphereCollider::collide(Collider const& col) const -> bool
 {
     return col.collide(*this);
 }
 
-auto SphereCollider::collide(SphereCollider const& col) -> bool
+auto SphereCollider::collide(SphereCollider const& col) const -> bool
 {
     Vector3 cs = sphere.getCenter();
     float rayon = sphere.getRayon();
@@ -46,7 +46,7 @@ auto SphereCollider::collide(SphereCollider const& col) -> bool
         return false;
 }
 
-auto SphereCollider::collide(PlanCollider const& col) -> bool
+auto SphereCollider::collide(PlanCollider const& col) const -> bool
 {
     Vector3 p1 = col.getPlan().getPoints()[0];
     Vector3 p2 = col.getPlan().getPoints()[1];
@@ -64,7 +64,7 @@ auto SphereCollider::collide(PlanCollider const& col) -> bool
         return false;
 }
 
-auto SphereCollider::collide(CubeCollider const& col) -> bool
+auto SphereCollider::collide(CubeCollider const& col) const -> bool
 {
 	(void)col;
 	return true;

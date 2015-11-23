@@ -22,10 +22,10 @@ class SphereCollider
 
         SphereCollider (Sphere const& sphere);
 
-        virtual auto collide(Collider const& col) -> bool;
-        virtual auto collide(SphereCollider const& col) -> bool;
-        virtual auto collide(CubeCollider const& col) -> bool;
-        virtual auto collide(PlanCollider const& col) -> bool;
+        virtual auto collide(Collider const& col) const -> bool override;
+        virtual auto collide(SphereCollider const& col) const -> bool override;
+        virtual auto collide(CubeCollider const& col) const -> bool override;
+        virtual auto collide(PlanCollider const& col) const -> bool override;
 
 		auto getSphere() const -> const Sphere& { return sphere; }
 
