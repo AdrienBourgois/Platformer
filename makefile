@@ -15,6 +15,7 @@ SRC = 	main.cpp\
 		maths/vector.cpp\
 		maths/planCollider.cpp\
 		maths/sphereCollider.cpp\
+		maths/sphere.cpp\
 		mesh.cpp\
 		texture.cpp\
 		imgui.cpp\

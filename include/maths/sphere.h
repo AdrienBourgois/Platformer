@@ -8,7 +8,7 @@ class Vector3;
 
 class Sphere{
 	public: 
-		Sphere() = default;
+		Sphere(Vector3 center = {0,0,0}, float rayon = 1);
 		~Sphere() = default;
 		Sphere(Sphere const&) = default;
 		Sphere(Sphere&&) = default;
