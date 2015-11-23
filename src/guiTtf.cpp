@@ -70,7 +70,8 @@ auto GuiTtf::createText(std::string textureName, std::string text) ->void
 	{
 		std::cout << "Failled creating Font" << std::endl;
 	}
-	std::pair::<std::string, SDL_Surface*> pair;
+
+	std::pair<std::string,SDL_Surface*> pair;
 	pair = std::make_pair(textureName,surfText);
 	getMapSdl().insert(pair);	
 }
