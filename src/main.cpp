@@ -1,10 +1,12 @@
 #include <typeinfo>
-
+#include <new>
+#include <stdio.h>
 #include "device.h"
 #include "window.h"
 #include "txtLogger.h"
 #include "meshSceneNode.h"
 #include "cameraSceneNode.h"
+#include "guiTtf.h"
 #include "imgui.h"
 #include "imgui_impl.h"
 #include "guiDebugWindow.h"
@@ -13,6 +15,7 @@
 #include "fileUtility.h"
 #include "guiManager.h"
 
+#include "SDL2/SDL_ttf.h"
 int main(int argc, char* argv[])
 {
 	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
@@ -31,7 +34,19 @@ int main(int argc, char* argv[])
 
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
+/*
 
+	TTF_Font *font = nullptr;
+	font = TTF_OpenFont("./assets/extra_fonts/ProggyClean.ttf", 65);
+	if(!font){
+	std::cout<< "pb font" << std::endl;
+	}
+	
+	SDL_Color colorb = {0,0,0,255};
+
+	SDL_Surface* text = TTF_RenderText_Blended(font, "Bonjour test", colorb);
+	(void)text;
+*/
 	while (device->run())
 	{
 		device->getDriver()->clear();
@@ -46,7 +61,6 @@ int main(int argc, char* argv[])
 		device->getGui()->renderGui();
 		device->getWindow()->swap();
 	}
-
 	ImGui::Shutdown();
 	
 	delete debug_window;

@@ -23,19 +23,19 @@ public:
 
 	static 	auto addTexture(std::string file) -> Texture*;
 
-			auto getID() const 						-> GLuint 		{ return _id;		  	}
-			auto setFileName(std::string newName) 	-> void 		{ _fileName = newName; 	}
-			auto getFileName() const 				-> std::string 	{ return _fileName;		}
+	auto getID() const -> GLuint{ return _id;}
+	auto setFileName(std::string newName) 	-> void { _fileName = newName; 	}
+	auto getFileName() const -> std::string 	{ return _fileName;	}
 
-			auto load() 	-> bool;
+	auto load() 	-> bool;
 
-			auto inversPixels(SDL_Surface* imageSrc)-> SDL_Surface*;
-	static 	auto deleteTextures() 					-> void;
+	auto inversPixels(SDL_Surface* imageSrc)-> SDL_Surface*;
+	static 	auto deleteTextures()	-> void;
 private:
 	GLuint 		_id;
 	std::string _fileName;
 	
-	static std::map<std::string, Texture*> textures;
+	static std::map<std::string, Texture*> textures; 
 };
 
 } // namespace id

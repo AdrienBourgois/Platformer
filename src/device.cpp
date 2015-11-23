@@ -9,6 +9,7 @@
 #include "texture.h"
 #include "screenshot.h"
 #include "guiManager.h"
+#include "SDL2/SDL_ttf.h"
 
 namespace {
 
@@ -64,6 +65,7 @@ Device::~Device()
 	
 	logger->log("Quitting SDL...", LL_DEBUG);
 	SDL_Quit();
+	TTF_Quit();
 	logger->log("SDL has been quitted");
 
 	logger->log("Device has been deleted.");

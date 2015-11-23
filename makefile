@@ -32,7 +32,7 @@ SRC = 	main.cpp\
 		guiManager.cpp\
 		guiRect.cpp\
 
-LIBS = SDL2 GL GLEW SDL2_image
+LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 
 MODE = release
 BIN_DIR = bin/$(MODE)/
