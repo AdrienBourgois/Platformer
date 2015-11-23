@@ -1,4 +1,5 @@
 #include <cmath>
+#include <vector>
 
 #include "maths/vector.h"
 
@@ -91,6 +92,24 @@ auto Vector3::cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4
 auto Vector3::distancePointToPlan(Vector3 point, Vector4 plan) -> float
 {
     return (abs(plan.val[0] * point.val[0] + plan.val[1] * point.val[1] + plan.val[2] * point.val[2] + plan.val[3]) / sqrt(pow(plan.val[0], 2) + pow(plan.val[1], 2) + pow(plan.val[2], 2)));
+}
+
+auto Vector3::isInside(Vector3 point, std::vector<Vector3> poly) -> bool
+{
+    int j = poly.size();
+
+    bool c = false;
+
+    for (unsigned int i = 0; i < poly.size(); ++i)
+    {
+        if (((poly[i].val[1] > point.val[1]) != (poly[j].val[1] > point.val[1])) &&
+           (point.val[0] < (poly[j].val[0] - poly[i].val[0]) * (point.val[1] - poly[i].val[1] / (poly[j].val[1] - poly[i].val[1] + poly[i].val[0]))))
+            c = !c;
+
+        j = i;
+    }
+
+    return c;
 }
 
 auto Vector4::operator+(Vector4 const vector) -> Vector4
