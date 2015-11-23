@@ -14,6 +14,8 @@
 #include "player.h"
 #include "enemy.h"
 #include "maths/utility.h"
+#include "event.h"
+
 
 int main(int argc, char* argv[])
 {
@@ -35,6 +37,8 @@ int main(int argc, char* argv[])
 		id::scene::Enemy* enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/Dragon.obj", 3, 3, 5);
 
 
+		id::scene::Event* ev = id::scene::Event::createEvent();
+
 id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
@@ -51,10 +55,11 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
-		
+	
+		ev->updateEvent();
+			
         debug_window->Display(device.get());
 		open_file->Display(device.get());
-
 		ImGui::Render();
 		device->getWindow()->swap();
 	}

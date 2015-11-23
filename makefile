@@ -32,7 +32,8 @@ SRC = 	main.cpp\
 		screenshot.cpp\
 		entity.cpp\
 		player.cpp\
-		enemy.cpp
+		enemy.cpp\
+		event.cpp
 
 LIBS = SDL2 GL GLEW SDL2_image
 
