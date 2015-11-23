@@ -1,3 +1,5 @@
+#include <new>
+
 #include "device.h"
 #include "driver.h"
 #include "window.h"
@@ -6,6 +8,7 @@
 #include "imgui_impl.h"
 #include "texture.h"
 #include "screenshot.h"
+#include "guiManager.h"
 
 namespace {
 
@@ -42,7 +45,7 @@ Device::Device()
 	id::imgui_impl::Init();
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
-
+	_gui			= new (std::nothrow)gui::GuiManager(_window.get(), _sceneManager);
 
 	logger->log("Device has been created.");
 }

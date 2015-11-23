@@ -16,7 +16,6 @@ SRC = 	main.cpp\
 		mesh.cpp\
 		texture.cpp\
 		imgui.cpp\
-		imgui_demo.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
 		guiDebugWindow.cpp\
@@ -30,6 +29,8 @@ SRC = 	main.cpp\
 		guiWindow.cpp\
 		loadFromJson.cpp\
 		screenshot.cpp\
+		guiManager.cpp\
+		guiRect.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image
 

@@ -6,6 +6,7 @@
 #include "txtLogger.h"
 #include "shaders.h"
 
+#include <iostream>
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

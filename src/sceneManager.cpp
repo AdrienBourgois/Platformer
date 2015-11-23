@@ -5,6 +5,8 @@
 #include "cameraSceneNode.h"
 #include "txtLogger.h"
 
+#include <iostream>
+
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
 }

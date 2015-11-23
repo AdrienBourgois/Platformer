@@ -3,9 +3,12 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
+#include <memory>
 
 #include "maths/vector.h"
 #include "guiRect.h"
+#include "sceneManager.h"
+#include "window.h"
 
 namespace id {
 namespace gui {
@@ -13,25 +16,25 @@ namespace gui {
 class GuiManager
 {
 public:
+	GuiManager(std::unique_ptr<Window>::pointer win, scene::SceneManager* scn);
 	~GuiManager();
 
-	auto initGui(SDL_Window* window) -> void;
+	auto initGui() -> void;
 	auto renderGui() -> void;
+	auto createShader(std::string const& name, GLint shaderType) -> GLuint;
+	auto createProgram(std::string const& pathShader) -> GLuint;
 	auto addButton(maths::Vector2 pos, int width, int height) -> void;
 	auto addToRender(GuiRect* rect) -> void;
 
 private:
-	GuiManager();
-
 	std::vector<GuiRect*> renderedRect;
 
 	GLuint prgID;
-	GLuint vao;
-	GLuint vbo;
 	GLuint proj;
+	float x;
 
-	int widthWindow;
-	int heightWindow;
+	std::unique_ptr<Window> win;
+	scene::SceneManager* scn;
 };
 
 } // end namespace gui

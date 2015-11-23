@@ -1,8 +1,10 @@
 #ifndef GUI_RECT_H_INCLUDED
 #define GUI_RECT_H_INCLUDED
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 
+#include "sceneManager.h"
+#include "sceneNode.h"
 #include "maths/vector.h"
 
 namespace id {
@@ -13,19 +15,19 @@ class GuiManager;
 class GuiRect
 {
 public:
-	GuiRect(GuiManager* gui, maths::Vector2 pos, int width, int height);
+	GuiRect(GuiManager* gui, maths::Vector4 color);
 	~GuiRect();
 
-	auto getPosition() const -> maths::Vector2 { return this->pos; };
 	auto getColor() const -> maths::Vector4 { return this->color; };
-	auto getWidth() const -> int { return this->width; };
-	auto getHeight() const -> int { return this->height; };
+	auto getVao() const -> GLuint { return this->vao; };
+	auto getVbo() const -> GLuint { return this->vbo; };
+	auto getRect() const -> std::vector<GLfloat> { return this->rect; };
 
 private:
-	maths::Vector2 pos;
+	std::vector<GLfloat> rect;
 	maths::Vector4 color;
-	int width;
-	int height;
+	GLuint vao;
+	GLuint vbo;
 };
 
 } // end namespace gui
