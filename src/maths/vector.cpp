@@ -49,8 +49,6 @@ auto Vector3::dotProduct(Vector3 vec) -> float
 	float bx = vec.val[0];		float by = vec.val[1];		float bz = vec.val[2];
 
 	return ax * bx + ay * by + az * bz;
-
-
 }
 
 auto Vector3::crossProduct(Vector3 vec) -> Vector3
@@ -59,7 +57,6 @@ auto Vector3::crossProduct(Vector3 vec) -> Vector3
 	float bx = vec.val[0];		float by = vec.val[1];		float bz = vec.val[2];
 		
 	return {(ay * bz - az * by), (az * bx - ax * bz), (ax * by - ay * bx)};
-
 }
 
 auto Vector3::norm() -> float
@@ -67,7 +64,6 @@ auto Vector3::norm() -> float
 	float x = this->val[0];	float y = this->val[1];	float z = this->val[2];
 	
 	return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
-	
 }
 
 auto Vector4::operator+(Vector4 const vector) -> Vector4

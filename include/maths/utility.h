@@ -18,6 +18,7 @@ auto calcDistance(Vector3 s1Center, float s1Rayon, Vector3 s2center, float s2Ray
 auto calcDistance(Vector3 point, Vector4 plan) -> float;
 
 auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4;
+auto minCoordRange(std::vector<Vector3> poly, int& x, int& y) -> void;
 auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool;
 
 class Shape

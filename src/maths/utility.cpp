@@ -1,4 +1,6 @@
 #include <cmath>
+#include <algorithm>
+#include <utility>
 
 #include "maths/utility.h"
 #include "maths/vector.h"
@@ -50,16 +52,61 @@ auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4
     return equation;
 }
 
+auto minCoordRange(std::vector<Vector3> poly, int& x, int& y) -> void
+{
+    std::vector<float> X;
+    std::vector<float> Y;
+    std::vector<float> Z;
+
+    for (unsigned int i = 0; i < poly.size(); ++i)
+    {
+        X.push_back(poly[i].val[0]);
+        Y.push_back(poly[i].val[1]);
+        Z.push_back(poly[i].val[2]);
+    }
+
+    auto minMaxX = std::minmax_element(X.begin(), X.end());
+    auto minMaxY = std::minmax_element(Y.begin(), Y.end());
+    auto minMaxZ = std::minmax_element(Z.begin(), Z.end());
+
+    float diffX = minMaxX.second - minMaxX.first;
+    float diffY = minMaxY.second - minMaxY.first;
+    float diffZ = minMaxZ.second - minMaxZ.first;
+
+    float min = std::min(std::min(diffX, diffY), diffZ);
+
+    if (min == diffX)
+    {
+        x = 1;
+        y = 2;
+    }
+    else if (min == diffY)
+    {
+        x = 0;
+        y = 2;
+    }
+    else if (min == diffZ)
+    {
+        x = 0;
+        y = 1;
+    }
+}
+
 auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool
 {
     int j = poly.size();
 
     bool c = false;
 
+    int x = 0;
+    int y = 0;
+
+    minCoordRange(poly, x, y);
+
     for (unsigned int i = 0; i < poly.size(); ++i)
     {
-        if (((poly[i].val[1] > point.val[1]) != (poly[j].val[1] > point.val[1])) &&
-           (point.val[0] < (poly[j].val[0] - poly[i].val[0]) * (point.val[1] - poly[i].val[1] / (poly[j].val[1] - poly[i].val[1] + poly[i].val[0]))))
+        if (((poly[i].val[y] > point.val[y]) != (poly[j].val[y] > point.val[y])) &&
+           (point.val[x] < (poly[j].val[x] - poly[i].val[x]) * (point.val[y] - poly[i].val[y] / (poly[j].val[y] - poly[i].val[y] + poly[i].val[x]))))
             c = !c;
 
         j = i;
