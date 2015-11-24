@@ -13,7 +13,7 @@ class Player;
 	public:
 		~Event();
 
-		static auto	createEvent() -> Event*;
+		static auto	createEvent(Player* player) -> Event*;
 
 		auto	setPlayer(Player* player) -> void {this->player = player;}
 		auto	getPlayer() const -> Player* {return player;}	
@@ -22,11 +22,10 @@ class Player;
 
 	private:
 	
-	Event();
+	Event(Player* player);
 
 	Player* player;
-//	float speed;
-			
+	std::vector<Player*> facing;	
 	};
 
 

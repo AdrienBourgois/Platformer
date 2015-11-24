@@ -9,6 +9,9 @@
 #include "player.h"
 #include "txtLogger.h"
 #include "entity.h"
+#include "maths/matrix.h"
+#include <cstdlib>
+#define M_PI 3.14159265358979323846
 
 namespace {
 
@@ -21,7 +24,8 @@ namespace id {
 namespace scene {
 
 
-Event::Event()
+Event::Event(Player* player)
+:player(player)
 {
 	logger->log("Creating Event...", LL_DEBUG);
 	
@@ -38,9 +42,9 @@ Event::~Event()
 
 }
 
-auto	Event::createEvent() -> Event*
+auto	Event::createEvent(Player* player) -> Event*
 {
-	Event* ev = new (std::nothrow)Event();
+	Event* ev = new (std::nothrow)Event(player);
 	
 	if (!ev)
 		logger->log("failed at creating event in Event::createEvent()",LL_WARNING);
@@ -53,10 +57,58 @@ auto	Event::updateEvent() -> void
 {
 		const Uint8* state = SDL_GetKeyboardState(nullptr);
 		
-	//	float speed = 2.f;
-		
+		float speed = 0.3f;
+		float x = player->getPosition().val[0];
+		float y = player->getPosition().val[1];
+		float z = player->getPosition().val[2];	
+		float rotx = player->getRotation().val[0];	
+		float roty = player->getRotation().val[1];	
+		float rotz = player->getRotation().val[2];	
+		std::vector<Player*> facingx = maths::Matrix4::rotateX(1.f);	
+
 		if (state[SDL_SCANCODE_W])
-			
+		{
+			z += 1.f * speed;
+		}
+	
+		if (state[SDL_SCANCODE_S])
+		{
+			z -= 1.f * speed;
+		}
+	
+		if (state[SDL_SCANCODE_D])
+		{
+			x += 1.f * speed;
+		}
+
+		if (state[SDL_SCANCODE_A])
+		{
+			x -= 1.f * speed;
+		}
+
+		if (state[SDL_SCANCODE_SPACE])
+		{
+			y += 1.f * speed;
+		}
+		
+		if (state[SDL_SCANCODE_C])
+		{
+			y -= 1.f * speed;
+		}
+
+		if (state[SDL_SCANCODE_Q])
+		{
+			roty -= 5.f * speed;	
+			facingx = cos(roty.Y * M_PI/180.f);
+		}	
+
+		if (state[SDL_SCANCODE_E])
+		{
+			roty += 5.f * speed;	
+		}	
+
+		player->setPosition({x, y, z});
+		player->setRotation({rotx, roty, rotz});	
 }
 
 }//namespace scene
