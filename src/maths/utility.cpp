@@ -28,9 +28,9 @@ auto calcDistance(Vector3 s1Center, float s1Rayon, Vector3 s2Center, float s2Ray
 	return (s1Center - s2Center).norm() - (s1Rayon + s2Rayon);
 }
 
-auto calcDistance(Vector3 point, Vector4 plan) -> float
+auto calcDistance(Vector3 point, Vector4 poly2d) -> float
 {
-    return (abs(plan.val[0] * point.val[0] + plan.val[1] * point.val[1] + plan.val[2] * point.val[2] + plan.val[3]) / sqrt(pow(plan.val[0], 2) + pow(plan.val[1], 2) + pow(plan.val[2], 2)));
+    return (abs(poly2d.val[0] * point.val[0] + poly2d.val[1] * point.val[1] + poly2d.val[2] * point.val[2] + poly2d.val[3]) / sqrt(pow(poly2d.val[0], 2) + pow(poly2d.val[1], 2) + pow(poly2d.val[2], 2)));
 }
 
 auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4
