@@ -19,7 +19,7 @@ namespace id {
 namespace gui {
 
 GuiRect::GuiRect()
-: color({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0) 
+: pos({0.f, 0.f}), width(0), height(0), color({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), isPressed(false) 
 {
 	logger->log("Creating Gui...", LL_INFO);
 
@@ -57,6 +57,9 @@ auto GuiRect::createRect(maths::Vector2 pos, float width, float height, maths::V
 		cornerDownRightX, cornerDownRightY, color.val[0], color.val[1], color.val[2], color.val[3],
 		cornerUpRightX, cornerUpRightY, color.val[0], color.val[1], color.val[2], color.val[3],
 	};
+	this->pos = pos;
+	this->width = width;
+	this->height = height;
 	this->color = color;
 	createVertexObject();
 }
@@ -80,6 +83,9 @@ auto GuiRect::createButton(GuiManager* gui, maths::Vector2 pos, float width, flo
         cornerDownRightX, cornerDownRightY, 1.f, 1.f,
         cornerUpRightX, cornerUpRightY, 1.f, 0.f
     };
+	this->pos = pos;
+	this->width = width;
+	this->height = height;
 	this->color = colorBg;
 	
 	createText(gui, text, colorText);

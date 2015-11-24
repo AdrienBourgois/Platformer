@@ -1,4 +1,5 @@
 #include <new>
+#include <SDL2/SDL_ttf.h>
 
 #include "device.h"
 #include "driver.h"
@@ -9,7 +10,7 @@
 #include "texture.h"
 #include "screenshot.h"
 #include "guiManager.h"
-#include "SDL2/SDL_ttf.h"
+#include "guiEventReceiver.h"
 
 namespace {
 
@@ -79,6 +80,7 @@ auto Device::run() -> bool
 	SDL_Event ev;
     while (SDL_PollEvent(&ev))
     {
+		this->_gui->getGuiEvt()->eventListener(&ev);
 		imgui_impl::ProcessEvent(&ev);
         switch (ev.type)
         {

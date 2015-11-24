@@ -1,12 +1,13 @@
+#include <SDL2/SDL_ttf.h>
 #include <typeinfo>
 #include <new>
 #include <stdio.h>
+
 #include "device.h"
 #include "window.h"
 #include "txtLogger.h"
 #include "meshSceneNode.h"
 #include "cameraSceneNode.h"
-#include "guiTtf.h"
 #include "imgui.h"
 #include "imgui_impl.h"
 #include "guiDebugWindow.h"
@@ -14,8 +15,8 @@
 #include "driver.h"
 #include "fileUtility.h"
 #include "guiManager.h"
+#include "guiEventReceiver.h"
 
-#include "SDL2/SDL_ttf.h"
 int main(int argc, char* argv[])
 {
 	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
@@ -34,19 +35,10 @@ int main(int argc, char* argv[])
 
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
-/*
 
-	TTF_Font *font = nullptr;
-	font = TTF_OpenFont("./assets/extra_fonts/ProggyClean.ttf", 65);
-	if(!font){
-	std::cout<< "pb font" << std::endl;
-	}
-	
-	SDL_Color colorb = {0,0,0,255};
+	device->getGui()->addButton({ 0, 0 }, 200, 200, { 0.f, 0.f, 0.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, " Je suis Charlie ");
+	//device->getGui()->addButton({400, 100}, 100 , 50, {0.f, 0.f, 0.f, 1.f}, {1.f, 0.f, 0.f, 1.f}, " sdfjofdjo[ ");
 
-	SDL_Surface* text = TTF_RenderText_Blended(font, "Bonjour test", colorb);
-	(void)text;
-*/
 	while (device->run())
 	{
 		device->getDriver()->clear();

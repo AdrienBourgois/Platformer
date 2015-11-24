@@ -27,18 +27,27 @@ public:
 	auto vertexAttributesButton() -> void;
 
 	auto getColor() const -> maths::Vector4 { return this->color; };
+	auto getPos() const -> maths::Vector2 { return this->pos; };
+	auto getWidth() const -> float { return this->width; };
+	auto getHeight() const -> float { return this->height; };
 	auto getVao() const -> GLuint { return this->vao; };
 	auto getVbo() const -> GLuint { return this->vbo; };
 	auto getRect() const -> std::vector<GLfloat> { return this->rect; };
 	auto getTexID() const -> GLuint { return this->texID; };
 
-private:
+	auto setIsPressed(bool pressed) -> void { this->isPressed = pressed; };
 
+private:
 	std::vector<GLfloat> rect;
+	maths::Vector2 pos;
+	float width;
+	float height;
 	maths::Vector4 color;
 	GLuint vao;
 	GLuint vbo;
 	GLuint texID;
+
+	bool isPressed;
 };
 
 } // end namespace gui

@@ -5,10 +5,10 @@
 #include <memory>
 
 #include "guiManager.h"
-#include "txtLogger.h"
 #include "guiRect.h"
+#include "guiEventReceiver.h"
 #include "sceneManager.h"
-#include "guiTtf.h"
+#include "txtLogger.h"
 
 #include <iostream>
 
@@ -22,13 +22,12 @@ namespace gui {
 GuiManager::GuiManager(int widthWin, int heightWin)
 : widthWin(widthWin), heightWin(heightWin)
 {
-	initGui();
 	if (TTF_Init() == -1)
 	{
 		logger->log("Initialisation of TFF failed", LL_ERROR);
 	}
-
-	this->font = TTF_OpenFont("/usr/share/fonts/truetype/tlwg/Norasi.ttf", 100);
+	this->guiEvt = new GuiEventReceiver(this);
+	initGui();
 }
 GuiManager::~GuiManager()
 {
@@ -49,6 +48,7 @@ auto GuiManager::initGui() -> void
 
 	this->prgIDRect = createProgram("pos2d_color4");
 	this->prgIDButton = createProgram("gui");
+	this->font = TTF_OpenFont("/usr/share/fonts/truetype/tlwg/Norasi.ttf", 100);
 
 	logger->log("Gui initialized", LL_INFO);
 }

@@ -14,6 +14,8 @@
 namespace id {
 namespace gui {
 
+class GuiEventReceiver;
+
 class GuiManager
 {
 public:
@@ -29,10 +31,15 @@ public:
 	auto addRect(maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void;
 	auto addButton(maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text) -> void;
 
+	auto getRenderedRect() -> std::vector<GuiRect*>& { return this->renderedRect; };
+	auto getGuiEvt() const -> GuiEventReceiver* { return this->guiEvt; };
 	auto getFont() const -> TTF_Font* { return this->font; };
+	auto getWidthWin() const -> int { return this->widthWin; };
+	auto getHeightWin() const -> int { return this->heightWin; };
 
 private:
 	std::vector<GuiRect*> renderedRect;
+	GuiEventReceiver* guiEvt;
 
 	GLuint prgIDRect;
 	GLuint prgIDButton;
