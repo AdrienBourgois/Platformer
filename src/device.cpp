@@ -46,7 +46,7 @@ Device::Device()
 	id::imgui_impl::Init();
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
-	_gui			= new (std::nothrow)gui::GuiManager(_window.get(), _sceneManager);
+	_gui			= new (std::nothrow)gui::GuiManager(_window.get()->getWidth(), _window.get()->getHeight());
 
 	logger->log("Device has been created.");
 }
@@ -57,6 +57,8 @@ Device::~Device()
 
 	_driver.reset(nullptr);
 	_window.reset(nullptr);
+	delete _gui;
+	_gui = nullptr;
 	delete _sceneManager;
 	_sceneManager = nullptr;
 

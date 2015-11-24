@@ -2,6 +2,7 @@
 #define GUI_H_INCLUDED
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <vector>
 #include <memory>
 
@@ -16,25 +17,30 @@ namespace gui {
 class GuiManager
 {
 public:
-	GuiManager(std::unique_ptr<Window>::pointer win, scene::SceneManager* scn);
+	GuiManager(int widthWin, int heightWin);
 	~GuiManager();
 
 	auto initGui() -> void;
 	auto renderGui() -> void;
 	auto createShader(std::string const& name, GLint shaderType) -> GLuint;
 	auto createProgram(std::string const& pathShader) -> GLuint;
-	auto addButton(maths::Vector2 pos, int width, int height) -> void;
 	auto addToRender(GuiRect* rect) -> void;
+
+	auto addRect(maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void;
+	auto addButton(maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text) -> void;
+
+	auto getFont() const -> TTF_Font* { return this->font; };
 
 private:
 	std::vector<GuiRect*> renderedRect;
 
-	GLuint prgID;
+	GLuint prgIDRect;
+	GLuint prgIDButton;
 	GLuint proj;
-	float x;
+	TTF_Font* font;
 
-	std::unique_ptr<Window> win;
-	scene::SceneManager* scn;
+	int widthWin;
+	int heightWin;
 };
 
 } // end namespace gui
