@@ -28,9 +28,9 @@ auto calcDistance(Vector3 s1Center, float s1Rayon, Vector3 s2Center, float s2Ray
 	return (s1Center - s2Center).norm() - (s1Rayon + s2Rayon);
 }
 
-auto calcDistance(Vector3 point, Vector4 poly2d) -> float
+auto calcDistance(Vector3 point, Vector4 polyhedron) -> float
 {
-    return (abs(poly2d.val[0] * point.val[0] + poly2d.val[1] * point.val[1] + poly2d.val[2] * point.val[2] + poly2d.val[3]) / sqrt(pow(poly2d.val[0], 2) + pow(poly2d.val[1], 2) + pow(poly2d.val[2], 2)));
+    return (abs(polyhedron.val[0] * point.val[0] + polyhedron.val[1] * point.val[1] + polyhedron.val[2] * point.val[2] + polyhedron.val[3]) / sqrt(pow(polyhedron.val[0], 2) + pow(polyhedron.val[1], 2) + pow(polyhedron.val[2], 2)));
 }
 
 auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4
@@ -92,7 +92,7 @@ auto minCoordRange(std::vector<Vector3> poly, int& x, int& y) -> void
     }
 }
 
-auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool
+auto isPointInsidePolygone(Vector3 point, std::vector<Vector3> poly) -> bool
 {
     int j = poly.size();
 

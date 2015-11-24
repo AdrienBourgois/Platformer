@@ -1,7 +1,7 @@
 #include "txtLogger.h"
 #include "maths/sphereCollider.h"
-#include "maths/poly2dCollider.h"
-#include "maths/poly2d.h"
+#include "maths/polyhedronCollider.h"
+#include "maths/polyhedron.h"
 #include "maths/sphere.h"
 #include "maths/utility.h"
 #include "maths/vector.h"
@@ -46,11 +46,11 @@ auto SphereCollider::collide(SphereCollider const& col) const -> bool
         return false;
 }
 
-auto SphereCollider::collide(Poly2DCollider const& col) const -> bool
+auto SphereCollider::collide(PolyhedronCollider const& col) const -> bool
 {
-    Vector3 p1 = col.getPoly2D().getPoints()[0];
-    Vector3 p2 = col.getPoly2D().getPoints()[1];
-    Vector3 p3 = col.getPoly2D().getPoints()[2];
+    Vector3 p1 = col.getPolyhedron().getPoints()[0];
+    Vector3 p2 = col.getPolyhedron().getPoints()[1];
+    Vector3 p3 = col.getPolyhedron().getPoints()[2];
     Vector3 cs = sphere.getCenter();
     float rayon = sphere.getRayon();
 
