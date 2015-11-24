@@ -25,7 +25,6 @@ class Player;
 	Event(Player* player);
 
 	Player* player;
-	std::vector<Player*> facing;	
 	};
 
 

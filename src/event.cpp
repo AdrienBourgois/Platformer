@@ -64,7 +64,6 @@ auto	Event::updateEvent() -> void
 		float rotx = player->getRotation().val[0];	
 		float roty = player->getRotation().val[1];	
 		float rotz = player->getRotation().val[2];	
-		std::vector<Player*> facingx = maths::Matrix4::rotateX(1.f);	
 
 		if (state[SDL_SCANCODE_W])
 		{
@@ -99,7 +98,6 @@ auto	Event::updateEvent() -> void
 		if (state[SDL_SCANCODE_Q])
 		{
 			roty -= 5.f * speed;	
-			facingx = cos(roty.Y * M_PI/180.f);
 		}	
 
 		if (state[SDL_SCANCODE_E])
