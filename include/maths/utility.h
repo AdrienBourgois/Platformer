@@ -21,6 +21,8 @@ auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4;
 auto minCoordRange(std::vector<Vector3> poly, int& x, int& y) -> void;
 auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool;
 
+auto getPointsFromVectorFloat(std::vector<GLfloat> shape) -> std::vector<Vector3>;
+
 class Shape
 {
 	public:

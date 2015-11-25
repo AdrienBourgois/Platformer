@@ -55,8 +55,33 @@ auto PolyhedronCollider::collide(SphereCollider const& col) const -> bool
 
 auto PolyhedronCollider::collide(PolyhedronCollider const& col) const -> bool
 {
-	(void)col;
-	return true;
+	Vector3 x, y, z;
+	int i = 0;
+	for (auto&& point : this->polyhedron.getPoints())
+	{
+		for (auto&& pointCol : col.getPolyhedron().getPoints())
+		{
+			if (i % 3 == 0)
+				x = pointCol;
+			else if (i % 3 == 1 )
+				y = pointCol;
+			else if ( i % 3 == 2 )
+			{
+				z = pointCol;
+				Vector4 polyhedronEquat = cartEquation(x, y, z);
+	
+				float collision = calcDistance(point, polyhedronEquat); 
+				if (collision <= 0)
+					return true;
+				else return false;
+			}	
+			++i;
+		}
+	}
+
+
+
+	return false;
 }
 
 auto PolyhedronCollider::collide(CubeCollider const& col) const -> bool

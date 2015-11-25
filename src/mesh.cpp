@@ -97,7 +97,7 @@ auto Mesh::loadObj(std::string const& path) -> void
 	std::vector<std::vector<float>> vertnorm;
 	std::map< std::string, std::vector<std::vector<std::string>> > faces;
 	std::string cur_group = "";
-	//
+	
 	std::string line;
 	std::string type;
 	
