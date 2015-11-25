@@ -7,15 +7,7 @@ namespace id {
 
 namespace scene {
 
-	enum states {
 	
-		walk,
-		jump,
-		dead,
-		stationary
-
-	};
-
 	class Player : public Entity {
 
 	public: 
@@ -23,7 +15,8 @@ namespace scene {
 		static auto	createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Player*;	
 
 	private:
-	
+
+			
 		int life;
 		int hp;
 		int attack;

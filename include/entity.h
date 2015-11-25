@@ -1,6 +1,7 @@
 #ifndef __ENTITY_H_INCLUDED__
 #define __ENTITY_H_INCLUDED__
 
+#include "stateMachine.h"
 #include "meshSceneNode.h"
 
 

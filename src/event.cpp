@@ -10,8 +10,7 @@
 #include "txtLogger.h"
 #include "entity.h"
 #include "maths/matrix.h"
-#include <cstdlib>
-#define M_PI 3.14159265358979323846
+#include <cmath>
 
 namespace {
 
@@ -24,8 +23,8 @@ namespace id {
 namespace scene {
 
 
-Event::Event(Player* player)
-:player(player)
+Event::Event(Player* player, Enemy* enemy)
+:player(player), enemy(enemy)
 {
 	logger->log("Creating Event...", LL_DEBUG);
 	
@@ -42,12 +41,12 @@ Event::~Event()
 
 }
 
-auto	Event::createEvent(Player* player) -> Event*
+auto	Event::createEvent(Player* player, Enemy* enemy) -> Event*
 {
-	Event* ev = new (std::nothrow)Event(player);
+	Event* ev = new (std::nothrow)Event(player, enemy);
 	
 	if (!ev)
-		logger->log("failed at creating event in Event::createEvent()",LL_WARNING);
+		logger->log("failed at creating event in Event::createEvent(Player* player, Enemy* enemy)",LL_WARNING);
 
 	return ev;
 }
@@ -56,8 +55,9 @@ auto	Event::createEvent(Player* player) -> Event*
 auto	Event::updateEvent() -> void
 {
 		const Uint8* state = SDL_GetKeyboardState(nullptr);
-		
-		float speed = 0.3f;
+	
+		bool run = false;	
+		float speed = 0.2f;
 		float x = player->getPosition().val[0];
 		float y = player->getPosition().val[1];
 		float z = player->getPosition().val[2];	
@@ -65,49 +65,58 @@ auto	Event::updateEvent() -> void
 		float roty = player->getRotation().val[1];	
 		float rotz = player->getRotation().val[2];	
 
-		if (state[SDL_SCANCODE_W])
+/*
+		switch (player)
 		{
-			z += 1.f * speed;
-		}
-	
-		if (state[SDL_SCANCODE_S])
-		{
-			z -= 1.f * speed;
-		}
-	
-		if (state[SDL_SCANCODE_D])
-		{
-			x += 1.f * speed;
+			case STATE_STANDING:
+				if (state[SDL_SCANCODE_R] && run == false)
+				{
+					speed = 0.5f;
+					run = true;
+				}
 		}
 
-		if (state[SDL_SCANCODE_A])
-		{
-			x -= 1.f * speed;
-		}
+*/
 
-		if (state[SDL_SCANCODE_SPACE])
+		if (state[SDL_SCANCODE_R] && run == false)
 		{
-			y += 1.f * speed;
+			speed = 0.5f;
+			run = true;
 		}
 		
+		if (state[SDL_SCANCODE_W])
+			z += 1.f * speed;
+	
+		if (state[SDL_SCANCODE_S])
+			z -= 1.f * speed;
+	
+		if (state[SDL_SCANCODE_D])
+			x += 1.f * speed;
+
+		if (state[SDL_SCANCODE_A])
+			x -= 1.f * speed;
+
+		if (state[SDL_SCANCODE_SPACE])
+			y += 1.f * speed;
+		
 		if (state[SDL_SCANCODE_C])
-		{
 			y -= 1.f * speed;
-		}
 
 		if (state[SDL_SCANCODE_Q])
-		{
 			roty -= 5.f * speed;	
-		}	
 
 		if (state[SDL_SCANCODE_E])
-		{
 			roty += 5.f * speed;	
-		}	
 
 		player->setPosition({x, y, z});
 		player->setRotation({rotx, roty, rotz});	
 }
+
+auto	enemyPatrol() -> void
+{
+	
+}
+
 
 }//namespace scene
 }//namespace id 
