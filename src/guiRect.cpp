@@ -18,8 +18,8 @@ namespace {
 namespace id {
 namespace gui {
 
-GuiRect::GuiRect()
-: pos({0.f, 0.f}), width(0), height(0), color({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), isPressed(false) 
+GuiRect::GuiRect(GuiManager* gui)
+: gui(gui), pos({0.f, 0.f}), width(0), height(0), color({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), id(-1), isPressed(false), visible(false)
 {
 	logger->log("Creating Gui...", LL_INFO);
 
@@ -37,7 +37,7 @@ GuiRect::~GuiRect()
 
 	logger->log("GuiRect deleted", LL_INFO);
 }
-auto GuiRect::createRect(maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void
+auto GuiRect::createRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void
 {
 	float cornerUpRightX = pos.val[0] + (width/2);
 	float cornerUpRightY = -(pos.val[1] + (height/2));
@@ -57,13 +57,32 @@ auto GuiRect::createRect(maths::Vector2 pos, float width, float height, maths::V
 		cornerDownRightX, cornerDownRightY, color.val[0], color.val[1], color.val[2], color.val[3],
 		cornerUpRightX, cornerUpRightY, color.val[0], color.val[1], color.val[2], color.val[3],
 	};
+	if (parent)
+    {
+        this->parent = parent;
+        parent->addChild(this);
+        if (parent->getVisible())
+            this->visible = visible;
+        else
+            this->visible = false;
+    }
+    else
+    {
+        this->parent = this->gui->getRootGui();
+        this->visible = visible;
+    }
 	this->pos = pos;
 	this->width = width;
 	this->height = height;
 	this->color = color;
+	if (parent->getVisible())
+		this->visible = visible;
+	else
+		this->visible = false;
+
 	createVertexObject();
 }
-auto GuiRect::createButton(GuiManager* gui, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text) -> void
+auto GuiRect::createButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void
 {
 	float cornerUpRightX = pos.val[0] + (width/2);
     float cornerUpRightY = -(pos.val[1] + (height/2));
@@ -83,18 +102,33 @@ auto GuiRect::createButton(GuiManager* gui, maths::Vector2 pos, float width, flo
         cornerDownRightX, cornerDownRightY, 1.f, 1.f,
         cornerUpRightX, cornerUpRightY, 1.f, 0.f
     };
+	if (parent)
+    {
+        this->parent = parent;
+        parent->addChild(this);
+		if (parent->getVisible())
+			this->visible = visible;
+		else
+			this->visible = false;
+    }
+    else
+    {
+        this->parent = this->gui->getRootGui();
+		this->visible = visible;
+    }
 	this->pos = pos;
 	this->width = width;
 	this->height = height;
 	this->color = colorBg;
+	this->id = id;
 	
-	createText(gui, text, colorText);
+	createText(text, colorText);
 	createVertexObject();
 }
-auto GuiRect::createText(GuiManager* gui, std::string const& text, maths::Vector4 colorText) -> void
+auto GuiRect::createText(std::string const& text, maths::Vector4 colorText) -> void
 {
 	SDL_Color color = { (Uint8)(colorText.val[0] * 255), (Uint8)(colorText.val[1] * 255), (Uint8)(colorText.val[2] * 255), (Uint8)(colorText.val[3] * 255) };
-	SDL_Surface* surf = TTF_RenderText_Blended(gui->getFont(), text.c_str(), color);
+	SDL_Surface* surf = TTF_RenderText_Blended(this->gui->getFont(), text.c_str(), color);
 	SDL_assert(surf);
 
 	glGenTextures(1, &this->texID);
@@ -138,6 +172,18 @@ auto GuiRect::vertexAttributesButton() -> void
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), (void*)(2*sizeof(GLfloat)));
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+}
+auto GuiRect::addChild(GuiRect* child) -> void
+{
+	this->children.push_back(child);
+}
+auto GuiRect::setVisible(bool visible) -> void
+{
+	this->visible = visible;
+	for (std::vector<GuiRect*>::iterator it = this->children.begin(); it != this->children.end(); ++it)
+	{
+		(*it)->setVisible(visible);
+	}
 }
 
 } // end namespace gui

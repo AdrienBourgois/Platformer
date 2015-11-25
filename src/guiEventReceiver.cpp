@@ -46,21 +46,24 @@ auto GuiEventReceiver::checkButtonClicked() -> bool
 {
 	for (std::vector<GuiRect*>::iterator it = this->gui->getRenderedRect().begin(); it !=  this->gui->getRenderedRect().end(); ++it)
 	{
-		if ((*it)->getTexID() != 0)
+		if ((*it)->getVisible())
 		{
-			float width = (*it)->getWidth();
-			float height = (*it)->getHeight();
-			maths::Vector2 pos = (*it)->getPos();
-			float leftSide = pos.val[0] - (width/2);
-			float rightSide = pos.val[0] + (width/2);
-			float bottomSide = pos.val[1] - (height/2);
-			float upSide = pos.val[1] + (height/2);
-
-			if ((this->mouseX > leftSide && this->mouseX < rightSide) && (this->mouseY > bottomSide && this->mouseY < upSide))
+			if ((*it)->getTexID() != 0)
 			{
-				
+				float width = (*it)->getWidth();
+				float height = (*it)->getHeight();
+				maths::Vector2 pos = (*it)->getPos();
+				float leftSide = pos.val[0] - (width/2);
+				float rightSide = pos.val[0] + (width/2);
+				float bottomSide = pos.val[1] - (height/2);
+				float upSide = pos.val[1] + (height/2);
 
-				return true;
+				if ((this->mouseX > leftSide && this->mouseX < rightSide) && (this->mouseY > bottomSide && this->mouseY < upSide))
+				{
+					(*it)->setIsPressed(true);
+
+					return true;
+				}
 			}
 		}
 	}
@@ -72,6 +75,7 @@ auto GuiEventReceiver::setMouseCoords() -> void
 	SDL_GetMouseState(&this->mouseX, &this->mouseY);
 	this->mouseX -= this->gui->getWidthWin()/2;
 	this->mouseY -= this->gui->getHeightWin()/2;
+	this->mouseY = -this->mouseY;
 }
 
 } // end namespace gui

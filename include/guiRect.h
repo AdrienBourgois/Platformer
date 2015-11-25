@@ -16,16 +16,19 @@ class GuiManager;
 class GuiRect
 {
 public:
-	GuiRect();
+	GuiRect(GuiManager* gui);
 	~GuiRect();
 
-	auto createRect(maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void;
-	auto createButton(GuiManager* gui, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text) -> void;
-	auto createText(GuiManager* gui, std::string const& text, maths::Vector4 colorText) -> void;
+	auto createRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void;
+	auto createButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void;
+	auto createText(std::string const& text, maths::Vector4 colorText) -> void;
 	auto createVertexObject() -> void;
 	auto vertexAttributesRect() -> void;
 	auto vertexAttributesButton() -> void;
 
+	auto addChild(GuiRect* child) -> void;
+
+	auto getParent() const -> GuiRect* { return this->parent; };
 	auto getColor() const -> maths::Vector4 { return this->color; };
 	auto getPos() const -> maths::Vector2 { return this->pos; };
 	auto getWidth() const -> float { return this->width; };
@@ -34,10 +37,17 @@ public:
 	auto getVbo() const -> GLuint { return this->vbo; };
 	auto getRect() const -> std::vector<GLfloat> { return this->rect; };
 	auto getTexID() const -> GLuint { return this->texID; };
+	auto getVisible() const -> bool { return this->visible; };
+	auto getID() const -> int { return this->id; };
+	auto getIsPressed() const -> bool { return this->isPressed; };
 
 	auto setIsPressed(bool pressed) -> void { this->isPressed = pressed; };
+	auto setVisible(bool visible) -> void;
 
 private:
+	GuiManager* gui;
+	GuiRect* parent;
+	std::vector<GuiRect*> children;
 	std::vector<GLfloat> rect;
 	maths::Vector2 pos;
 	float width;
@@ -47,7 +57,9 @@ private:
 	GLuint vbo;
 	GLuint texID;
 
+	int id;
 	bool isPressed;
+	bool visible;
 };
 
 } // end namespace gui

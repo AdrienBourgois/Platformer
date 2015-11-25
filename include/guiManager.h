@@ -28,11 +28,14 @@ public:
 	auto createProgram(std::string const& pathShader) -> GLuint;
 	auto addToRender(GuiRect* rect) -> void;
 
-	auto addRect(maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void;
-	auto addButton(maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text) -> void;
+	auto addRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void;
+	auto addButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void;
+	auto buttonIsPressed(int id) -> bool;
+	auto getGuiRectFromID(int id) -> GuiRect*;
 
 	auto getRenderedRect() -> std::vector<GuiRect*>& { return this->renderedRect; };
 	auto getGuiEvt() const -> GuiEventReceiver* { return this->guiEvt; };
+	auto getRootGui() const -> GuiRect* { return this->rootGui; };
 	auto getFont() const -> TTF_Font* { return this->font; };
 	auto getWidthWin() const -> int { return this->widthWin; };
 	auto getHeightWin() const -> int { return this->heightWin; };
@@ -40,6 +43,7 @@ public:
 private:
 	std::vector<GuiRect*> renderedRect;
 	GuiEventReceiver* guiEvt;
+	GuiRect* rootGui;
 
 	GLuint prgIDRect;
 	GLuint prgIDButton;

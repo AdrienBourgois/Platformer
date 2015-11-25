@@ -49,6 +49,7 @@ auto GuiManager::initGui() -> void
 	this->prgIDRect = createProgram("pos2d_color4");
 	this->prgIDButton = createProgram("gui");
 	this->font = TTF_OpenFont("/usr/share/fonts/truetype/tlwg/Norasi.ttf", 100);
+	this->rootGui = new GuiRect(this);
 
 	logger->log("Gui initialized", LL_INFO);
 }
@@ -72,26 +73,29 @@ auto GuiManager::renderGui() -> void
 
 	for (std::vector<GuiRect*>::iterator it = this->renderedRect.begin(); it != this->renderedRect.end(); ++it)
 	{
-		if ((*it)->getTexID() != 0)
+		if ((*it)->getVisible())
 		{
-			glUseProgram(this->prgIDButton);
-			GLint projLoc = glGetUniformLocation(this->prgIDButton, "proj");
-			GLint colorLoc = glGetUniformLocation(this->prgIDButton, "back_color");
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, &camOrtho[0]);
-			glUniform4f(colorLoc, (*it)->getColor().val[0], (*it)->getColor().val[1], (*it)->getColor().val[2], (*it)->getColor().val[3]);
-		}
-		else
-		{
-			glUseProgram(this->prgIDRect);
-			GLint location = glGetUniformLocation(this->prgIDRect, "proj");
-            glUniformMatrix4fv(location, 1, GL_FALSE, &camOrtho[0]);
-		}
+			if ((*it)->getTexID() != 0)
+			{
+				glUseProgram(this->prgIDButton);
+				GLint projLoc = glGetUniformLocation(this->prgIDButton, "proj");
+				GLint colorLoc = glGetUniformLocation(this->prgIDButton, "back_color");
+				glUniformMatrix4fv(projLoc, 1, GL_FALSE, &camOrtho[0]);
+				glUniform4f(colorLoc, (*it)->getColor().val[0], (*it)->getColor().val[1], (*it)->getColor().val[2], (*it)->getColor().val[3]);
+			}
+			else
+			{
+				glUseProgram(this->prgIDRect);
+				GLint location = glGetUniformLocation(this->prgIDRect, "proj");
+        	    glUniformMatrix4fv(location, 1, GL_FALSE, &camOrtho[0]);
+			}
 
-		glBindVertexArray((*it)->getVao());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->getVbo());
-		glBindTexture(GL_TEXTURE_2D, (*it)->getTexID());
+			glBindVertexArray((*it)->getVao());
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->getVbo());
+			glBindTexture(GL_TEXTURE_2D, (*it)->getTexID());
 
-		glDrawArrays(GL_TRIANGLES, 0, (*it)->getRect().size());
+			glDrawArrays(GL_TRIANGLES, 0, (*it)->getRect().size());
+		}
 	}
 
 	glEnable(GL_DEPTH_TEST);
@@ -189,25 +193,55 @@ auto GuiManager::addToRender(GuiRect* rect) -> void
 {
 	this->renderedRect.push_back(rect);
 }
-auto GuiManager::addRect(maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void
+auto GuiManager::addRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void
 {
 	logger->log("Creating Rect...", LL_INFO);
 
-	GuiRect* newRect = new GuiRect();
-	newRect->createRect(pos, width, height, color);
+	GuiRect* newRect = new GuiRect(this);
+	newRect->createRect(parent, pos, width, height, color, visible);
 	addToRender(newRect);
 
 	logger->log("Rect created", LL_INFO);
 }
-auto GuiManager::addButton(maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text) -> void
+auto GuiManager::addButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void
 {
 	logger->log("Creating button...", LL_INFO);
 
-	GuiRect* newButton = new GuiRect();
-	newButton->createButton(this, pos, width, height, colorBg, colorText, text);
+	GuiRect* newButton = new GuiRect(this);
+	newButton->createButton(parent, pos, width, height, colorBg, colorText, text, visible, id);
 	addToRender(newButton);
 
 	logger->log("Button created", LL_INFO);
+}
+auto GuiManager::buttonIsPressed(int id) -> bool
+{
+    for (std::vector<GuiRect*>::iterator it = this->renderedRect.begin(); it != this->renderedRect.end(); ++it)
+    {
+        if ((*it)->getID() == id)
+        {
+            if ((*it)->getIsPressed())
+            {
+                (*it)->setIsPressed(false);
+                return true;
+            }
+            else
+                return false;
+        }
+    }
+    logger->log("Pass bad id in function buttonIsPressed", LL_WARNING);
+    return false;
+}
+auto GuiManager::getGuiRectFromID(int id) -> GuiRect*
+{
+	for (std::vector<GuiRect*>::iterator it = this->renderedRect.begin(); it != this->renderedRect.end(); ++it)
+	{
+		if ((*it)->getID() == id)
+		{
+			return *it;
+		}
+	}
+	logger->log("No matching GuiRect id in function getGuiRectFromID", LL_WARNING);
+	return nullptr;
 }
 
 } // end namespace gui
