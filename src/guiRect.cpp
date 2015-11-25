@@ -29,6 +29,8 @@ GuiRect::~GuiRect()
 {
 	logger->log("Deleting GuiRect...", LL_INFO);
 
+	this->gui = nullptr;
+	this->parent = nullptr;
 	glDeleteVertexArrays(1, &this->vao);
 	this->vao = 0;
 	glDeleteBuffers(1, &this->vbo);
@@ -39,87 +41,37 @@ GuiRect::~GuiRect()
 }
 auto GuiRect::createRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void
 {
-	float cornerUpRightX = pos.val[0] + (width/2);
-	float cornerUpRightY = -(pos.val[1] + (height/2));
-	float cornerUpLeftX = pos.val[0] - (width/2);
-	float cornerUpLeftY = -(pos.val[1] + (height/2));
-	float cornerDownLeftX = pos.val[0] - (width/2);
-	float cornerDownLeftY = -(pos.val[1] - (height/2));
-	float cornerDownRightX = pos.val[0] + (width/2);
-	float cornerDownRightY = -(pos.val[1] - (height/2));
+	maths::Vector4x2 coordsRect = calculatePosCornerRect(pos, width, height);
 
 	this->rect =
 	{
-		cornerUpRightX, cornerUpRightY, color.val[0], color.val[1], color.val[2], color.val[3],
-		cornerUpLeftX, cornerUpLeftY, color.val[0], color.val[1], color.val[2], color.val[3],
-		cornerDownLeftX, cornerDownLeftY, color.val[0], color.val[1], color.val[2], color.val[3],
-		cornerDownLeftX, cornerDownLeftY, color.val[0], color.val[1], color.val[2], color.val[3],
-		cornerDownRightX, cornerDownRightY, color.val[0], color.val[1], color.val[2], color.val[3],
-		cornerUpRightX, cornerUpRightY, color.val[0], color.val[1], color.val[2], color.val[3],
+		coordsRect.val[0][0], coordsRect.val[0][1], color.val[0], color.val[1], color.val[2], color.val[3],
+		coordsRect.val[1][0], coordsRect.val[1][1], color.val[0], color.val[1], color.val[2], color.val[3],
+		coordsRect.val[2][0], coordsRect.val[2][1], color.val[0], color.val[1], color.val[2], color.val[3],
+		coordsRect.val[2][0], coordsRect.val[2][1], color.val[0], color.val[1], color.val[2], color.val[3],
+		coordsRect.val[3][0], coordsRect.val[3][1], color.val[0], color.val[1], color.val[2], color.val[3],
+		coordsRect.val[0][0], coordsRect.val[1][1], color.val[0], color.val[1], color.val[2], color.val[3],
 	};
-	if (parent)
-    {
-        this->parent = parent;
-        parent->addChild(this);
-        if (parent->getVisible())
-            this->visible = visible;
-        else
-            this->visible = false;
-    }
-    else
-    {
-        this->parent = this->gui->getRootGui();
-        this->visible = visible;
-    }
-	this->pos = pos;
-	this->width = width;
-	this->height = height;
-	this->color = color;
-	if (parent->getVisible())
-		this->visible = visible;
-	else
-		this->visible = false;
+
+	stockParameters(parent, visible, pos, width, height, color);
 
 	createVertexObject();
 }
 auto GuiRect::createButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void
 {
-	float cornerUpRightX = pos.val[0] + (width/2);
-    float cornerUpRightY = -(pos.val[1] + (height/2));
-    float cornerUpLeftX = pos.val[0] - (width/2);
-    float cornerUpLeftY = -(pos.val[1] + (height/2));
-    float cornerDownLeftX = pos.val[0] - (width/2);
-    float cornerDownLeftY = -(pos.val[1] - (height/2));
-    float cornerDownRightX = pos.val[0] + (width/2);
-    float cornerDownRightY = -(pos.val[1] - (height/2));
+	maths::Vector4x2 coordsRect = calculatePosCornerRect(pos, width, height);
 
 	this->rect =
     {
-        cornerUpRightX, cornerUpRightY, 1.f, 0.f,
-        cornerUpLeftX, cornerUpLeftY, 0.f, 0.f,
-        cornerDownLeftX, cornerDownLeftY, 0.f, 1.f,
-        cornerDownLeftX, cornerDownLeftY, 0.f, 1.f,
-        cornerDownRightX, cornerDownRightY, 1.f, 1.f,
-        cornerUpRightX, cornerUpRightY, 1.f, 0.f
+        coordsRect.val[0][0], coordsRect.val[0][1], 1.f, 0.f,
+        coordsRect.val[1][0], coordsRect.val[1][1], 0.f, 0.f,
+        coordsRect.val[2][0], coordsRect.val[2][1], 0.f, 1.f,
+        coordsRect.val[2][0], coordsRect.val[2][1], 0.f, 1.f,
+        coordsRect.val[3][0], coordsRect.val[3][1], 1.f, 1.f,
+        coordsRect.val[0][0], coordsRect.val[0][1], 1.f, 0.f
     };
-	if (parent)
-    {
-        this->parent = parent;
-        parent->addChild(this);
-		if (parent->getVisible())
-			this->visible = visible;
-		else
-			this->visible = false;
-    }
-    else
-    {
-        this->parent = this->gui->getRootGui();
-		this->visible = visible;
-    }
-	this->pos = pos;
-	this->width = width;
-	this->height = height;
-	this->color = colorBg;
+
+	stockParameters(parent, visible, pos, width, height, colorBg);
 	this->id = id;
 	
 	createText(text, colorText);
@@ -172,6 +124,40 @@ auto GuiRect::vertexAttributesButton() -> void
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), (void*)(2*sizeof(GLfloat)));
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+}
+auto GuiRect::calculatePosCornerRect(maths::Vector2 pos, float width, float height) -> maths::Vector4x2
+{
+	float cornerUpRightX = pos.val[0] + (width/2);
+    float cornerUpRightY = -(pos.val[1] + (height/2));
+    float cornerUpLeftX = pos.val[0] - (width/2);
+    float cornerUpLeftY = -(pos.val[1] + (height/2));
+    float cornerDownLeftX = pos.val[0] - (width/2);
+    float cornerDownLeftY = -(pos.val[1] - (height/2));
+    float cornerDownRightX = pos.val[0] + (width/2);
+    float cornerDownRightY = -(pos.val[1] - (height/2));
+
+	return { cornerUpRightX, cornerUpRightY, cornerUpLeftX, cornerUpLeftY, cornerDownLeftX, cornerDownLeftY, cornerDownRightX, cornerDownRightY };
+}
+auto GuiRect::stockParameters(GuiRect* parent, bool visible, maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void
+{
+	if (parent)
+	{
+		this->parent = parent;
+		parent->addChild(this);
+		if (parent->getVisible())
+			this->visible = visible;
+		else
+			this->visible = false;
+	}
+    else
+    {
+        this->parent = this->gui->getRootGui();
+        this->visible = visible;
+    }
+    this->pos = pos;
+    this->width = width;
+    this->height = height;
+    this->color = color;
 }
 auto GuiRect::addChild(GuiRect* child) -> void
 {

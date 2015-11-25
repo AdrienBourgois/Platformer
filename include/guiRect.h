@@ -25,6 +25,8 @@ public:
 	auto createVertexObject() -> void;
 	auto vertexAttributesRect() -> void;
 	auto vertexAttributesButton() -> void;
+	auto calculatePosCornerRect(maths::Vector2 pos, float width, float height) -> maths::Vector4x2;
+	auto stockParameters(GuiRect* parent, bool visible, maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void;
 
 	auto addChild(GuiRect* child) -> void;
 

@@ -23,9 +23,8 @@ GuiManager::GuiManager(int widthWin, int heightWin)
 : widthWin(widthWin), heightWin(heightWin)
 {
 	if (TTF_Init() == -1)
-	{
 		logger->log("Initialisation of TFF failed", LL_ERROR);
-	}
+
 	this->guiEvt = new GuiEventReceiver(this);
 	initGui();
 }
@@ -34,10 +33,16 @@ GuiManager::~GuiManager()
 	logger->log("Deleting Gui...", LL_INFO);
 
 	for (std::vector<GuiRect*>::iterator it = this->renderedRect.begin(); it != this->renderedRect.end(); ++it)
-	{
 		delete *it;
-	}
 
+	delete this->guiEvt;
+	glDeleteProgram(this->prgIDRect);
+	this->prgIDRect = 0;
+	glDeleteProgram(this->prgIDButton);
+	this->prgIDButton = 0;
+	delete this->rootGui;
+
+	TTF_CloseFont(this->font);
 	TTF_Quit();
 
 	logger->log("Gui deleted", LL_INFO);
@@ -236,9 +241,7 @@ auto GuiManager::getGuiRectFromID(int id) -> GuiRect*
 	for (std::vector<GuiRect*>::iterator it = this->renderedRect.begin(); it != this->renderedRect.end(); ++it)
 	{
 		if ((*it)->getID() == id)
-		{
 			return *it;
-		}
 	}
 	logger->log("No matching GuiRect id in function getGuiRectFromID", LL_WARNING);
 	return nullptr;

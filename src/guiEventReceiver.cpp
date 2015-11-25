@@ -26,6 +26,8 @@ GuiEventReceiver::~GuiEventReceiver()
 {
 	logger->log("Deleting GuiEventReceiver...", LL_INFO);
 
+	this->gui = nullptr;
+
 	logger->log("GuiEventReceiver deleted", LL_INFO);
 }
 auto GuiEventReceiver::eventListener(SDL_Event* ev) -> bool

@@ -31,10 +31,14 @@ struct Vector4
 	auto operator*=(float& val) 			-> Vector4&;	
 };
 
+struct Vector4x2
+{
+	float val[4][2];
+};
+
 } // namespace maths
 
 } // namespace id
-
 
 std::ostream& operator<<(std::ostream& os, const id::maths::Vector3& vec);
 std::ostream& operator<<(std::ostream& os, const id::maths::Vector4& vec);
