@@ -112,7 +112,9 @@ auto	Event::updateEvent() -> void
 
 		for (auto&& node : player->getScene()->getRootNode()->getChildrens())	
 			if (player->getPolyhedronCollider()->collide(node->getPolyhedronCollider()) && player != node)
-			{}
+			{
+				std::cout << "collision" << std::endl;
+			}
 
 }
 

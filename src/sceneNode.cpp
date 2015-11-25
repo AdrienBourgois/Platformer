@@ -102,6 +102,7 @@ auto SceneNode::delChild(SceneNode* child) -> void
 auto SceneNode::setPosition(maths::Vector3 vec) -> void
 {
 	_transformation.setPosition(vec);
+	polyhedronCollider->getPolyhedron()->setCenter(vec);
 }
 
 auto SceneNode::getPosition() const -> maths::Vector3

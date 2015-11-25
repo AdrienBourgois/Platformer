@@ -8,7 +8,8 @@ namespace {
 namespace id {
 namespace maths {
 
-Polyhedron::Polyhedron(std::vector<Vector3> points)
+Polyhedron::Polyhedron(std::vector<Vector3> points, Vector3 center)
+:center(center)
 {
     logger->log("Creating polyhedron...", LL_DEBUG);
 

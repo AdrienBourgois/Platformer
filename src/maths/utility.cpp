@@ -36,10 +36,11 @@ auto calcDistance(Vector3 point, Vector4 polyhedron) -> float
 auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4
 {
     Vector3 AB = vec2 - vec1;
+	std::cout << AB << std::endl;
     Vector3 BC = vec3 - vec1;
-
+	std::cout << BC << std::endl;
     Vector3 M = AB.crossProduct(BC);
-
+	std::cout << M << std::endl;
     int d = -((vec1.val[0] * M.val[0]) + (vec1.val[1] * M.val[1]) + (vec1.val[2] * M.val[2]));
 
     Vector4 equation;
@@ -90,6 +91,7 @@ auto minCoordRange(std::vector<Vector3> poly, int& x, int& y) -> void
         x = 0;
         y = 1;
     }
+
 }
 
 auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool

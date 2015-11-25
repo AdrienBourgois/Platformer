@@ -24,7 +24,7 @@ class PolyhedronCollider
 		virtual auto collide(PolyhedronCollider* const) const -> bool override;
 		virtual auto collide(CubeCollider* const) const -> bool override;
 
-		auto getPolyhedron() const -> const Polyhedron* { return polyhedron; }
+		auto getPolyhedron() const -> Polyhedron* { return polyhedron; }
 		auto setPolyhedron(Polyhedron* poly) -> void { polyhedron = poly; } 
 
 	private:

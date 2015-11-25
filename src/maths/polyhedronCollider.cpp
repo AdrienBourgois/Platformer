@@ -59,10 +59,11 @@ auto PolyhedronCollider::collide(PolyhedronCollider* const col) const -> bool
 {
 
 	Vector3 x, y, z;
+	Vector3 point = polyhedron->getCenter();
+	std::cout << point << std::endl;
+	
 	std::vector<Vector3> poly;
 	int i = 0;
-	for (auto&& point : this->polyhedron->getPoints())
-	{
 		for (auto&& pointCol : col->getPolyhedron()->getPoints())
 		{
 			if (i % 3 == 0)
@@ -72,6 +73,7 @@ auto PolyhedronCollider::collide(PolyhedronCollider* const col) const -> bool
 			}
 			else if (i % 3 == 1 )
 			{
+				x = pointCol;
 				y = pointCol;
 				poly.push_back(y);
 			}
@@ -79,20 +81,20 @@ auto PolyhedronCollider::collide(PolyhedronCollider* const col) const -> bool
 			{
 				z = pointCol;
 				poly.push_back(z);
+				std::cout << x << y << z << std::endl;
 				Vector4 polyhedronEquat = cartEquation(x, y, z);
+				std::cout << polyhedronEquat << std::endl;;
 				float collision = calcDistance(point, polyhedronEquat);
+				std::cout << collision << std::endl;
 				if (collision <= 0)
 				{
 					if ( isPointInsidePoly(point, poly))
-					{
 						return true;
-					}
 				}
 			}
-			poly.clear();	
 			++i;
+			poly.clear();	
 		}
-	}
 
 	return false;
 }
