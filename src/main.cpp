@@ -36,8 +36,10 @@ int main(int argc, char* argv[])
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
 
-	device->getGui()->addButton({ 0, 0 }, 200, 200, { 0.f, 0.f, 0.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, " Je suis Charlie ");
-	//device->getGui()->addButton({400, 100}, 100 , 50, {0.f, 0.f, 0.f, 1.f}, {1.f, 0.f, 0.f, 1.f}, " sdfjofdjo[ ");
+	device->getGui()->addButton(nullptr, { 0, 0 }, 200, 200, { 0.f, 0.f, 0.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, " Je suis Charlie ", true, 1);
+	device->getGui()->addButton(device->getGui()->getGuiRectFromID(1), {200, 100}, 100 , 50, {0.f, 0.f, 0.f, 1.f}, {1.f, 0.f, 0.f, 1.f}, " sdfjofdjo[ ", true, 2);
+	device->getGui()->addButton(device->getGui()->getGuiRectFromID(2), {-200, 0}, 100, 20, {0.7f, 0.2f, 0.4f, 1.f}, {0.f, 0.f, 0.f, 1.f}, " Texte Moche ", true, 3);
+	//device->getGui()->getGuiRectFromID(1)->setVisible(false);
 
 	while (device->run())
 	{
@@ -48,6 +50,11 @@ int main(int argc, char* argv[])
 		
         debug_window->Display(device.get());
 		open_file->Display(device.get());
+
+		if (device->getGui()->buttonIsPressed(1))
+		{
+			std::cout << "Je suis Charlie" << std::endl;
+		}
 
 		ImGui::Render();
 		device->getGui()->renderGui();
