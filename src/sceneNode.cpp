@@ -1,6 +1,9 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
+#include "maths/utility.h"
+#include "maths/polyhedronCollider.h"
+#include "maths/polyhedron.h"
 #include "sceneNode.h"
 #include "maths/vector.h"
 #include "txtLogger.h"
@@ -27,9 +30,14 @@ auto SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::strin
 }
 
 SceneNode::SceneNode(SceneManager* scn, SceneNode* parent, std::string const& name)
-: _scn(scn), _parent(parent), _name(name), _visible(true)
+: _scn(scn), _parent(parent), _name(name), _visible(true), polyhedronCollider(nullptr) 
 {
 	logger->log("Creating SceneNode...", LL_DEBUG);
+
+	
+	id::maths::Polyhedron* poly = new maths::Polyhedron(maths::Shape::cube);
+	id::maths::PolyhedronCollider* polyCol = new maths::PolyhedronCollider(poly);
+	this->polyhedronCollider = polyCol;
 
 	if (_parent)
 		_parent->addChild(this);

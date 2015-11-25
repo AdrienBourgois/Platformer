@@ -34,8 +34,9 @@ public:
 
 	virtual auto draw(video::Driver* drv) 	-> void;
 
-private:
-	MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, std::vector<GLfloat> shape);
+protected:
+	MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, std::vector<GLfloat> shape = {});
+	
 	Mesh* 			_mesh;
 	unsigned int 	_prg_id;
 };

@@ -1,6 +1,9 @@
 #include <string>
 #include <iostream>
 
+#include "maths/polyhedron.h"
+#include "maths/polyhedronCollider.h"
+#include "maths/utility.h"
 #include "shaders.h"
 #include "meshSceneNode.h"
 #include "cameraSceneNode.h"
@@ -39,6 +42,15 @@ MeshSceneNode::MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string c
 
 
 	_mesh = Mesh::createMesh(path, shape, scn->getDriver());
+/*	
+	if (_mesh)
+	{
+		std::vector<id::maths::Vector3> points = maths::getPointsFromVectorFloat(_mesh->getGroups()[0].data);
+
+		maths::Polyhedron* poly = new maths::Polyhedron(points);
+		this->polyhedronCollider->setPolyhedron(poly);
+	}
+*/
  
 	_scn->addToRender(this, _prg_id);
  

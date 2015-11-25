@@ -11,6 +11,8 @@ namespace id {
 
 namespace maths{
 	struct Vector3;
+	class PolyhedronCollider;
+	class Polyhedron;
 } // namespace maths
 
 namespace scene {
@@ -45,6 +47,8 @@ public:
 	virtual auto getParent() const 					-> SceneNode* 				{ return _parent; }
 	virtual auto getScene() const 					-> SceneManager* 			{ return _scn; }
 	
+	virtual auto getPolyhedronCollider() const -> maths::PolyhedronCollider* { return polyhedronCollider; }
+	
 	virtual auto addToDeletionQueue() 				-> void;
 
 protected:
@@ -54,6 +58,8 @@ protected:
 	std::string 			_name;
 	std::vector<SceneNode*> _childrens;
 	bool 					_visible;
+
+	maths::PolyhedronCollider* polyhedronCollider;
 	
 	maths::Matrix4 			_transformation;
 };

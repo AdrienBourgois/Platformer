@@ -11,10 +11,10 @@ class CubeCollider;
 class Collider
 {
 	public:
-		virtual auto collide(Collider const&) const -> bool = 0;
-		virtual auto collide(SphereCollider const&) const -> bool = 0;
-		virtual auto collide(PolyhedronCollider const&) const -> bool = 0;
-		virtual auto collide(CubeCollider const&) const -> bool = 0;	
+	//	virtual auto collide(Collider* const) const -> bool = 0;
+		virtual auto collide(SphereCollider* const) const -> bool = 0;
+		virtual auto collide(PolyhedronCollider* const) const -> bool = 0;
+		virtual auto collide(CubeCollider* const) const -> bool = 0;	
 };
 
 

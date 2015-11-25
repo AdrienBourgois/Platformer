@@ -1,6 +1,6 @@
 #include "maths/polyhedron.h"
 #include "txtLogger.h"
-
+#include "maths/utility.h"
 namespace { 
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
 }
@@ -26,6 +26,11 @@ Polyhedron::Polyhedron(Vector3 point1, Vector3 point2, Vector3 point3)
     points.push_back(point3);
 
 	logger->log("Polyhedron has been created.");
+}
+
+Polyhedron::Polyhedron(std::vector<float> point)
+{
+	points = maths::getPointsFromVectorFloat(point);
 }
 
 Polyhedron::~Polyhedron()

@@ -20,17 +20,17 @@ class SphereCollider
         auto operator=(SphereCollider const&) -> SphereCollider = delete;
         auto operator=(SphereCollider&&) -> SphereCollider = delete;
 
-        SphereCollider (Sphere const& sphere);
+        SphereCollider (Sphere* sphere);
 
-        virtual auto collide(Collider const& col) const -> bool override;
-        virtual auto collide(SphereCollider const& col) const -> bool override;
-        virtual auto collide(CubeCollider const& col) const -> bool override;
-        virtual auto collide(PolyhedronCollider const& col) const -> bool override;
+  //      virtual auto collide(Collider* const) const -> bool override;
+        virtual auto collide(SphereCollider* const) const -> bool override;
+        virtual auto collide(CubeCollider* const) const -> bool override;
+        virtual auto collide(PolyhedronCollider* const) const -> bool override;
 
-		auto getSphere() const -> const Sphere& { return sphere; }
+		auto getSphere() const -> const Sphere* { return sphere; }
 
     private:
-        Sphere const& sphere;
+        Sphere* sphere;
 };
 
 } // namespace maths
