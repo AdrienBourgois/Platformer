@@ -3,7 +3,6 @@
 #include "maths/sphereCollider.h"
 #include "maths/polyhedron.h"
 #include "maths/sphere.h"
-//#include "maths/cube.h"
 #include "maths/utility.h"
 #include "maths/vector.h"
 
@@ -55,32 +54,29 @@ auto PolyhedronCollider::collide(SphereCollider const& col) const -> bool
 
 auto PolyhedronCollider::collide(PolyhedronCollider const& col) const -> bool
 {
+	unsigned int i = 0;
+	std::cout << "collision test polyhedron" << std::endl;
 	Vector3 x, y, z;
-	int i = 0;
-	for (auto&& point : this->polyhedron.getPoints())
+	for (auto&& point : polyhedron.getPoints())
 	{
-		for (auto&& pointCol : col.getPolyhedron().getPoints())
+		for (auto&& pointFace : col.getPolyhedron().getPoints())
 		{
 			if (i % 3 == 0)
-				x = pointCol;
-			else if (i % 3 == 1 )
-				y = pointCol;
-			else if ( i % 3 == 2 )
+				x = pointFace;
+			else if (i % 3 == 1)
+				y = pointFace;
+			else if (i % 3 == 2)
 			{
-				z = pointCol;
-				Vector4 polyhedronEquat = cartEquation(x, y, z);
-	
-				float collision = calcDistance(point, polyhedronEquat); 
-				if (collision <= 0)
-					return true;
-				else return false;
-			}	
+				z = pointFace;
+				Vector4 planEquat = cartEquation(x, y, z);
+				float distance = calcDistance(point, planEquat);
+				if (distance <= 0)
+					if ( isPointInsidePoly(point, {x, y, z}))
+						return true;
+			}
 			++i;
 		}
 	}
-
-
-
 	return false;
 }
 

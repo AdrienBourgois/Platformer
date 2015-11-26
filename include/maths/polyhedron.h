@@ -1,5 +1,5 @@
-#ifndef POLY2D_H_INCLUDED
-#define POLY2D_H_INCLUDED
+#ifndef POLYHEDRON_H_INCLUDED
+#define POLYHEDRON_H_INCLUDED
 
 #include <vector>
 #include "maths/vector.h"
@@ -28,4 +28,4 @@ class Polyhedron
 } // namespace maths
 } // namespace id
 
-#endif // POLY2D_H_INCLUDED
+#endif // POLYHEDRON_H_INCLUDED

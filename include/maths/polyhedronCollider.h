@@ -1,5 +1,5 @@
-#ifndef POLY2D_COLLIDER_H_INCLUDED
-#define POLY2D_COLLIDER_H_INCLUDED
+#ifndef POLYHEDRON_COLLIDER_H_INCLUDED
+#define POLYHEDRON_COLLIDER_H_INCLUDED
 
 #include "maths/collider.h"
 
@@ -30,9 +30,10 @@ class PolyhedronCollider
 
 	private:
 		Polyhedron const& polyhedron;
+		
 };
 
 } // namespace maths
 } // namespace id
 
-#endif // POLY2D_COLLIDER_H_INCLUDED
+#endif // POLYHEDRON_COLLIDER_H_INCLUDED

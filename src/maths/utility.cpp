@@ -4,6 +4,7 @@
 
 #include "maths/utility.h"
 #include "maths/vector.h"
+#include "maths/matrix.h"
 
 namespace id {
 namespace maths {
@@ -92,7 +93,7 @@ auto minCoordRange(std::vector<Vector3> poly, int& x, int& y) -> void
     }
 }
 
-auto isPointInsidePolygone(Vector3 point, std::vector<Vector3> poly) -> bool
+auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool
 {
     int j = poly.size();
 
@@ -102,20 +103,18 @@ auto isPointInsidePolygone(Vector3 point, std::vector<Vector3> poly) -> bool
     int y = 0;
 
     minCoordRange(poly, x, y);
-
     for (unsigned int i = 0; i < poly.size(); ++i)
     {
         if (((poly[i].val[y] > point.val[y]) != (poly[j].val[y] > point.val[y])) &&
            (point.val[x] < (poly[j].val[x] - poly[i].val[x]) * (point.val[y] - poly[i].val[y] / (poly[j].val[y] - poly[i].val[y] + poly[i].val[x]))))
-            c = !c;
+				c = !c;
 
         j = i;
     }
-
     return c;
 }
 
-auto getPointsFromVectorFloat(std::vector<GLfloat> shape) -> std::vector<Vector3>
+auto getPointsFromVectorFloat(std::vector<float> shape) -> std::vector<Vector3>
 {
 	std::vector<Vector3> points;
 	Vector3 point;
@@ -138,6 +137,21 @@ auto getPointsFromVectorFloat(std::vector<GLfloat> shape) -> std::vector<Vector3
 
 	return points;	
 
+}
+
+auto calCoordFromMatrix(std::vector<Vector3> vecPoint, Matrix4x4 matrix) -> std::vector<Vector3>
+{
+	Vector3 oldPos;
+
+	for (auto&& point : vecPoint)
+	{
+		oldPos = point;
+		matrix *= matrix.translate(point.val[0], point.val[1], point.val[2]);
+		point = matrix.getPosition();
+		matrix *= matrix.translate(-oldPos.val[0], -oldPos.val[1], -oldPos.val[2]);
+	}
+
+	return vecPoint;	
 }
 
 
