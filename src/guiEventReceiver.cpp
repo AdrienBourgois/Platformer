@@ -30,21 +30,23 @@ GuiEventReceiver::~GuiEventReceiver()
 
 	logger->log("GuiEventReceiver deleted", LL_INFO);
 }
-auto GuiEventReceiver::eventListener(SDL_Event* ev) -> bool
+auto GuiEventReceiver::eventListener(SDL_Event* ev) -> void
 {
 	setMouseCoords();
+	checkButtonHover();
 	if (ev->type == SDL_MOUSEBUTTONDOWN)
 	{
 		if (ev->button.button == SDL_BUTTON_LEFT)
 		{
 			checkButtonClicked();
-			return true;
 		}
 	}
-
-	return false;
+	else
+	{
+		resetPressed();
+	}
 }
-auto GuiEventReceiver::checkButtonClicked() -> bool
+auto GuiEventReceiver::checkMouseOnButton() -> GuiRect*
 {
 	for (std::vector<GuiRect*>::iterator it = this->gui->getRenderedRect().begin(); it !=  this->gui->getRenderedRect().end(); ++it)
 	{
@@ -60,17 +62,27 @@ auto GuiEventReceiver::checkButtonClicked() -> bool
 				float bottomSide = pos.val[1] - (height/2);
 				float upSide = pos.val[1] + (height/2);
 
-				if ((this->mouseX > leftSide && this->mouseX < rightSide) && (this->mouseY > bottomSide && this->mouseY < upSide))
-				{
-					(*it)->setIsPressed(true);
-
-					return true;
-				}
+				if ((this->mouseX > leftSide && this->mouseX < rightSide) 
+					&& (this->mouseY > bottomSide && this->mouseY < upSide))
+					return *it;
 			}
 		}
 	}
-
-	return false;
+	return nullptr;
+}
+auto GuiEventReceiver::checkButtonClicked() -> void
+{
+	GuiRect* button = checkMouseOnButton();
+	if (button)
+		button->setIsPressed(true);
+}
+auto GuiEventReceiver::checkButtonHover() -> void
+{
+	GuiRect* button = checkMouseOnButton();
+	if (button)
+		button->setHover(true);
+	else
+		resetEvents();
 }
 auto GuiEventReceiver::setMouseCoords() -> void
 {
@@ -78,6 +90,25 @@ auto GuiEventReceiver::setMouseCoords() -> void
 	this->mouseX -= this->gui->getWidthWin()/2;
 	this->mouseY -= this->gui->getHeightWin()/2;
 	this->mouseY = -this->mouseY;
+}
+auto GuiEventReceiver::resetEvents() -> void
+{
+	resetPressed();
+	resetHover();
+}
+auto GuiEventReceiver::resetPressed() -> void
+{
+	for (std::vector<GuiRect*>::iterator it = this->gui->getRenderedRect().begin(); it != this->gui->getRenderedRect().end(); ++it)
+    {
+        (*it)->setIsPressed(false);
+    }
+}
+auto GuiEventReceiver::resetHover() -> void
+{
+	for (std::vector<GuiRect*>::iterator it = this->gui->getRenderedRect().begin(); it != this->gui->getRenderedRect().end(); ++it)
+    {
+        (*it)->setHover(false);
+    }
 }
 
 } // end namespace gui

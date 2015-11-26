@@ -4,8 +4,6 @@
 #include <GL/glew.h>
 #include <string>
 
-#include "sceneManager.h"
-#include "sceneNode.h"
 #include "maths/vector.h"
 
 namespace id {
@@ -39,11 +37,13 @@ public:
 	auto getVbo() const -> GLuint { return this->vbo; };
 	auto getRect() const -> std::vector<GLfloat> { return this->rect; };
 	auto getTexID() const -> GLuint { return this->texID; };
-	auto getVisible() const -> bool { return this->visible; };
 	auto getID() const -> int { return this->id; };
 	auto getIsPressed() const -> bool { return this->isPressed; };
+	auto getHover() const -> bool { return this->hover; };
+	auto getVisible() const -> bool { return this->visible; };
 
 	auto setIsPressed(bool pressed) -> void { this->isPressed = pressed; };
+	auto setHover(bool hover) -> void { this->hover = hover; };
 	auto setVisible(bool visible) -> void;
 
 private:
@@ -61,6 +61,7 @@ private:
 
 	int id;
 	bool isPressed;
+	bool hover;
 	bool visible;
 };
 

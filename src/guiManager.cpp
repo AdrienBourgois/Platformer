@@ -86,7 +86,16 @@ auto GuiManager::renderGui() -> void
 				GLint projLoc = glGetUniformLocation(this->prgIDButton, "proj");
 				GLint colorLoc = glGetUniformLocation(this->prgIDButton, "back_color");
 				glUniformMatrix4fv(projLoc, 1, GL_FALSE, &camOrtho[0]);
-				glUniform4f(colorLoc, (*it)->getColor().val[0], (*it)->getColor().val[1], (*it)->getColor().val[2], (*it)->getColor().val[3]);
+				maths::Vector4 color = (*it)->getColor();
+				if ((*it)->getHover() && !(*it)->getIsPressed())
+				{
+					(color.val[0] < 0.7f) ? color.val[0] += 0.1f : color.val[0] -= 0.1f;
+					(color.val[1] < 0.7f) ? color.val[1] += 0.1f : color.val[1] -= 0.1f;
+					(color.val[2] < 0.7f) ? color.val[2] += 0.1f : color.val[2] -= 0.1f;
+					glUniform4f(colorLoc, color.val[0], color.val[1], color.val[2], (*it)->getColor().val[3]);
+				}
+				else
+					glUniform4f(colorLoc, (*it)->getColor().val[0], (*it)->getColor().val[1], (*it)->getColor().val[2], (*it)->getColor().val[3]);
 			}
 			else
 			{
@@ -225,10 +234,9 @@ auto GuiManager::buttonIsPressed(int id) -> bool
         if ((*it)->getID() == id)
         {
             if ((*it)->getIsPressed())
-            {
-                (*it)->setIsPressed(false);
+			{
                 return true;
-            }
+			}
             else
                 return false;
         }

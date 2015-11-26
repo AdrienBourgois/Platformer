@@ -14,9 +14,14 @@ public:
 	GuiEventReceiver(GuiManager* gui);
 	~GuiEventReceiver();
 
-	auto eventListener(SDL_Event* ev) -> bool;
-	auto checkButtonClicked() -> bool;
+	auto eventListener(SDL_Event* ev) -> void;
+	auto checkMouseOnButton() -> GuiRect*;
+	auto checkButtonClicked() -> void;
+	auto checkButtonHover() -> void;
 	auto setMouseCoords() -> void;
+	auto resetEvents() -> void;
+	auto resetPressed() -> void;
+	auto resetHover() -> void;
 
 private:
 	GuiManager* gui;

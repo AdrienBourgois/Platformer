@@ -19,7 +19,7 @@ namespace id {
 namespace gui {
 
 GuiRect::GuiRect(GuiManager* gui)
-: gui(gui), pos({0.f, 0.f}), width(0), height(0), color({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), id(-1), isPressed(false), visible(false)
+: gui(gui), pos({0.f, 0.f}), width(0), height(0), color({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), id(-1), isPressed(false), hover(false), visible(false)
 {
 	logger->log("Creating Gui...", LL_INFO);
 
