@@ -1,8 +1,7 @@
-#include <string>
-#include <iostream>
-#include <vector>
-#include <cstdint>
 #include <SDL2/SDL.h>
+#include <string>
+#include <vector>
+#include <cmath>
 
 #include "sceneNode.h"
 #include "sceneManager.h"
@@ -10,11 +9,9 @@
 #include "player.h"
 #include "txtLogger.h"
 #include "entity.h"
-#include "maths/matrix.h"
 #include "maths/polyhedronCollider.h"
-#include <cstdlib>
-#define M_PI 3.14159265358979323846
 
+#include <iostream>
 namespace {
 
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
@@ -77,12 +74,15 @@ auto	Event::updateEvent() -> void
 			z -= 1.f * speed;
 		}
 	
-		if (state[SDL_SCANCODE_D])
+		if (state[SDL_SCANCODE_E])
 		{
-			x += 1.f * speed;
+			if (state[SDL_SCANCODE_W])
+				x += 1.f * speed * 1 /sqrt(2);
+			else
+				x += 1.f * speed;
 		}
 
-		if (state[SDL_SCANCODE_A])
+		if (state[SDL_SCANCODE_Q])
 		{
 			x -= 1.f * speed;
 		}
@@ -97,14 +97,14 @@ auto	Event::updateEvent() -> void
 			y -= 1.f * speed;
 		}
 
-		if (state[SDL_SCANCODE_Q])
-		{
-			roty -= 5.f * speed;	
-		}	
-
-		if (state[SDL_SCANCODE_E])
+		if (state[SDL_SCANCODE_A])
 		{
 			roty += 5.f * speed;	
+		}	
+
+		if (state[SDL_SCANCODE_D])
+		{
+			roty -= 5.f * speed;	
 		}	
 
 		player->setPosition({x, y, z});

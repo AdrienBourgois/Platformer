@@ -1,35 +1,32 @@
-#ifndef __EVENT_H_INCLUDED__
-#define __EVENT_H_INCLUDED__
+#ifndef EVENT_H_INCLUDED
+#define EVENT_H_INCLUDED
 
 
 namespace id {
-
 namespace scene {
 
 class Player;
 
-	class Event {
-	
-	public:
-		~Event();
+class Event
+{
+public:
+	~Event();
 
-		static auto	createEvent(Player* player) -> Event*;
+	static auto	createEvent(Player* player) -> Event*;
 
-		auto	setPlayer(Player* player) -> void {this->player = player;}
-		auto	getPlayer() const -> Player* {return player;}	
+	auto	setPlayer(Player* player) -> void {this->player = player;}
+	auto	getPlayer() const -> Player* {return player;}	
 
-		auto	updateEvent() -> void;		
+	auto	updateEvent() -> void;		
 
-	private:
-	
+private:	
 	Event(Player* player);
 
 	Player* player;
 	std::vector<Player*> facing;	
-	};
-
+};
 
 }//namespace scene
 }//namespace id 
 
-#endif	
+#endif // EVENT_H_INCLUDED	
