@@ -1,17 +1,23 @@
 #include "logger.h"
-template<typename ... Param>
-void Logger::logT()
+template<typename T, typename ... Param>
+void Logger::logT(LG_LEVEL logLevel, T value)
 {
-	std::cout << logString.str() << std::endl;
+	std::stringstream ss;
+	ss << recordLogFlag(logLevel);
+	ss << logString.str();
+	ss << value;
+
+	(void)logLevel;
+	
+	std::cout << ss.str() << std::endl;
 //	addBufferString("%s", logString);
 	logString.str("");
 }
 
 template<typename T, typename ... param>
-void Logger::logT(const T first, const param... others)
+void Logger::logT(LG_LEVEL logLevel,T const value ,const param... others)
 {
-	logString << first << " ";
-	logT(others...);
+	logString << value <<" ";
+	logT(logLevel, others...);
 }
-
 

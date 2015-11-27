@@ -6,7 +6,7 @@
 #define xstr(s) string(s)
 #define string(s) #s
 
-#define LOG(...) id::Logger::getInstance()->logT(__FILE__ ":" xstr(__LINE__) " in function", __FUNCTION__,__VA_ARGS__)
+#define LOG(LVL, ...) id::Logger::getInstance()->logT(LVL, __FILE__ ":" xstr(__LINE__) " in function", __FUNCTION__,__VA_ARGS__)
 #else
 #define LOG(...)
 #endif
@@ -16,11 +16,7 @@
 #include <cstdarg>
 #include <iostream>
 #include <sstream>
-
-namespace id {
-
-
-enum LOG_LEVEL
+enum LG_LEVEL
 {
 	_ERROR = 0,
 	_WARNING,
@@ -29,6 +25,7 @@ enum LOG_LEVEL
 	_DEBUG,
 	_ALL
 };
+namespace id {
 
 class Logger
 {
@@ -40,26 +37,26 @@ public:
 	Logger(Logger const&) = delete;
 	Logger& operator=(Logger const&) = delete;
 
-	auto getLogLevel() const -> LOG_LEVEL { return logLevel;}
-	auto setLog(LOG_LEVEL loglvl) -> void { logLevel = loglvl;}
+	auto getLogLevel() const -> LG_LEVEL { return logLevel;}
+	auto setLog(LG_LEVEL loglvl) -> void { logLevel = loglvl;}
 
-	template<typename ... Param>
-	void logT();
+	template<typename T,typename ... Param>
+	void logT(LG_LEVEL, T value);
 
 	template<typename T, typename ... param>
-	void logT(const T first, const param... others);
+	void logT(const LG_LEVEL, T const value,const param... others);
 
 	static Logger* instance;
 private:
 	Logger();
-	LOG_LEVEL	logLevel;
+	LG_LEVEL	logLevel;
 		
 	std::string	logPath;
 	std::string	logFile;
 	std::stringstream	logString;
 	auto setLogFile() -> void;
 	
-	auto recordLogFlag(std::ofstream&, LOG_LEVEL) -> void;
+	auto recordLogFlag(LG_LEVEL) -> std::string;
 };
 #include "logger.inl"
 

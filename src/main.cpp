@@ -18,7 +18,8 @@ int main(int argc, char* argv[])
 	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
 //	id::TXTLogger::getInstance()->
 //	int jesus = 57444;
-	LOG(32);
+	LOG(_ERROR, 32, 454,4554754,455454);
+
 	std::unique_ptr<id::Device> device = device->create();
 //	std::cout << __FILE__ << std::endl;	
 	if (argc > 1)

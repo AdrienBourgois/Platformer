@@ -55,31 +55,32 @@ auto Logger::setLogFile() ->void
 	logOFS.close();
 }
 
-void Logger::recordLogFlag(std::ofstream& logOFS, LOG_LEVEL logFlag)
+auto Logger::recordLogFlag(LG_LEVEL logFlag) -> std::string
 {
 	switch (logFlag)
 	{
 		case _DEBUG:
-			logOFS << "DEBUG   -> ";
+			return "DEBUG   -> ";
 		break;
 
 		case _ERROR:
-			logOFS << "ERROR   -> ";
+			return "ERROR   -> ";
 		break;
 
 		case _WARNING:
-			logOFS << "WARNING -> ";
+			return "WARNING -> ";
 		break;
 
 		case _INFO:
-			logOFS << "INFO    -> ";
+			return "INFO    -> ";
 		break;
 
 		case _GAME:
-			logOFS << "GAME    -> ";
+			return "GAME    -> ";
 		break;
 
 		default:
+			return "";
 			break;
 	}
 }
