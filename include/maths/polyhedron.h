@@ -20,7 +20,7 @@ class Polyhedron
 
 
 		auto getPoints() const -> const std::vector<Vector3> { return points; }
-
+		auto setPoints(std::vector<Vector3> vec) -> void { points = vec;}
 	private:
         std::vector<Vector3> points;
 };

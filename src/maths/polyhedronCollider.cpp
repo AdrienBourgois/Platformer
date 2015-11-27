@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "txtLogger.h"
 #include "maths/polyhedronCollider.h"
 #include "maths/sphereCollider.h"
@@ -14,7 +16,7 @@ namespace {
 namespace id{
 namespace maths{
 
-PolyhedronCollider::PolyhedronCollider(Polyhedron const& polyhedron)
+PolyhedronCollider::PolyhedronCollider(Polyhedron& polyhedron)
 :polyhedron(polyhedron)
 {
 	logger->log("Creating PolyhedronCollider...", LL_DEBUG);
@@ -55,7 +57,6 @@ auto PolyhedronCollider::collide(SphereCollider const& col) const -> bool
 auto PolyhedronCollider::collide(PolyhedronCollider const& col) const -> bool
 {
 	unsigned int i = 0;
-	std::cout << "collision test polyhedron" << std::endl;
 	Vector3 x, y, z;
 	for (auto&& point : polyhedron.getPoints())
 	{
@@ -68,8 +69,13 @@ auto PolyhedronCollider::collide(PolyhedronCollider const& col) const -> bool
 			else if (i % 3 == 2)
 			{
 				z = pointFace;
-				if ( isPointInsidePoly(point, {x, y, z}))
-					return true;
+				Vector4 planEquat = cartEquation(x, y, z);
+				float distance = calcDistance(point, planEquat);
+				if (distance <= 1)	
+				{
+					if ( isPointInsidePoly(point, {x, y, z}))
+						return true;
+				}
 			}
 			++i;
 		}

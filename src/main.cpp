@@ -28,8 +28,8 @@ int main(int argc, char* argv[])
 	}
 	auto mesh =	id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
 	auto mesh2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
-	mesh->setPosition({15,10,15});
-	mesh2->setPosition({11,11,16});	
+	mesh->setPosition({2,15,40});
+	mesh2->setPosition({3,13.5,40});	
 
 
 	std::vector<id::maths::Vector3> points         = id::maths::getPointsFromVectorFloat(id::maths::Shape::cube);
@@ -42,11 +42,7 @@ int main(int argc, char* argv[])
 	id::maths::PolyhedronCollider polyhedronCollider(polyhedron);
 	id::maths::PolyhedronCollider polyhedronCollider2(polyhedron2);
 
-	if (polyhedronCollider.collide(polyhedronCollider2))
-		std::cout << "collision" << std::endl;
-	else
-		std::cout << "pas de collision" << std::endl;
- 
+
 
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
@@ -65,6 +61,16 @@ int main(int argc, char* argv[])
         debug_window->Display(device.get());
 		open_file->Display(device.get());
 
+	 newPointsMesh  = id::maths::calCoordFromMatrix(points, mesh->AbsoluteTransformation());
+	 newPointsMesh2 = id::maths::calCoordFromMatrix(points, mesh2->AbsoluteTransformation());
+	polyhedronCollider.getPolyhedron().setPoints(newPointsMesh);
+	polyhedronCollider2.getPolyhedron().setPoints(newPointsMesh2);
+
+	if (polyhedronCollider.collide(polyhedronCollider2))
+		std::cout << "collision" << std::endl;
+	else
+		std::cout << "pas de collision" << std::endl;
+ 
 		ImGui::Render();
 		device->getWindow()->swap();
 	}

@@ -38,12 +38,12 @@ auto Vector3::getNormalized() const -> Vector3
 	return {ax/len,ay/len,az/len};
 }
 
-auto Vector3::operator-(Vector3 const vector) -> Vector3
+auto Vector3::operator-(Vector3 const vector) const -> Vector3
 {
 	return { this->val[0] - vector.val[0], this->val[1] - vector.val[1], this->val[2] - vector.val[2] };
 }
 
-auto Vector3::dotProduct(Vector3 vec) -> float
+auto Vector3::dotProduct(Vector3 const vec)const -> float
 {	
 	float ax = this->val[0];	float ay = this->val[1];	float az = this->val[2];
 	float bx = vec.val[0];		float by = vec.val[1];		float bz = vec.val[2];
@@ -51,7 +51,7 @@ auto Vector3::dotProduct(Vector3 vec) -> float
 	return ax * bx + ay * by + az * bz;
 }
 
-auto Vector3::crossProduct(Vector3 vec) -> Vector3
+auto Vector3::crossProduct(Vector3 const vec)const-> Vector3
 {
 	float ax = this->val[0];	float ay = this->val[1];	float az = this->val[2];
 	float bx = vec.val[0];		float by = vec.val[1];		float bz = vec.val[2];
@@ -59,7 +59,7 @@ auto Vector3::crossProduct(Vector3 vec) -> Vector3
 	return {(ay * bz - az * by), (az * bx - ax * bz), (ax * by - ay * bx)};
 }
 
-auto Vector3::norm() -> float
+auto Vector3::norm() const -> float
 {
 	float x = this->val[0];	float y = this->val[1];	float z = this->val[2];
 	

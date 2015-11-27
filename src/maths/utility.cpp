@@ -31,7 +31,7 @@ auto calcDistance(Vector3 s1Center, float s1Rayon, Vector3 s2Center, float s2Ray
 
 auto calcDistance(Vector3 point, Vector4 polyhedron) -> float
 {
-    return (abs(polyhedron.val[0] * point.val[0] + polyhedron.val[1] * point.val[1] + polyhedron.val[2] * point.val[2] + polyhedron.val[3]) / sqrt(pow(polyhedron.val[0], 2) + pow(polyhedron.val[1], 2) + pow(polyhedron.val[2], 2)));
+    return ((abs(polyhedron.val[0] * point.val[0] + polyhedron.val[1] * point.val[1] + polyhedron.val[2] * point.val[2] + polyhedron.val[3])) / (sqrt(pow(polyhedron.val[0], 2) + pow(polyhedron.val[1], 2) + pow(polyhedron.val[2], 2))));
 }
 
 auto cartEquation(Vector3 vec1, Vector3 vec2, Vector3 vec3) -> Vector4
@@ -95,22 +95,25 @@ auto minCoordRange(std::vector<Vector3> poly, int& x, int& y) -> void
 
 auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool
 {
-    int j = poly.size();
+    int j = poly.size()-1;
 
     bool c = false;
 
     int x = 0;
     int y = 0;
-
-    minCoordRange(poly, x, y);
+	int z = 0;
+	minCoordRange(poly, x, y);
     for (unsigned int i = 0; i < poly.size(); ++i)
     {
         if (((poly[i].val[y] > point.val[y]) != (poly[j].val[y] > point.val[y])) &&
-           (point.val[x] < (poly[j].val[x] - poly[i].val[x]) * (point.val[y] - poly[i].val[y] / (poly[j].val[y] - poly[i].val[y] + poly[i].val[x]))) && (point.val[2] < poly[i].val[2]))
-				c = !c;
-
+           (point.val[x] < ((((poly[j].val[x] - poly[i].val[x]) * (point.val[y] - poly[i].val[y])) / (poly[j].val[y] - poly[i].val[y] ))+ poly[i].val[x])))
+		{
+			c = !c;
+			++z;
+		}
         j = i;
     }
+	std::cout << z << std::endl;
     return c;
 }
 
@@ -156,53 +159,61 @@ auto calCoordFromMatrix(std::vector<Vector3> vecPoint, Matrix4x4 matrix) -> std:
 
 
 std::vector<GLfloat> const Shape::cube{
-	-1.0f, -1.0f, -1.0f,	0.f, 0.f,		 0.f, 0.f, 0.f,
-	-1.0f, -1.0f, 1.0f,		1.f, 0.f,		 0.f, 0.f, 0.f,
-	-1.0f, 1.0f, 1.0f,		1.f, 1.f,		 0.f, 0.f, 0.f,
- 
-     1.0f, 1.0f, -1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f,
-    -1.0f, -1.0f, -1.0f,	1.f, 0.f,		 0.f, 0.f, 0.f,
-    -1.0f, 1.0f, -1.0f,		1.f, 1.f,		 0.f, 0.f, 0.f,
- ////////////////////////////////////		 /
-	 1.0f, -1.0f, 1.0f,		1.f, 1.f,		 0.f, 0.f, 0.f,
-    -1.0f, -1.0f, -1.0f,	0.f, 0.f,		 0.f, 0.f, 0.f,
-    1.0f, -1.0f, -1.0f,		1.f, 0.f,		 0.f, 0.f, 0.f,
-                                                           
-	1.0f, 1.0f, -1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f,
-    1.0f, -1.0f, -1.0f,		0.f, 0.f,		 0.f, 0.f, 0.f,
-    -1.0f, -1.0f, -1.0f,	1.f, 0.f,		 0.f, 0.f, 0.f,
- ////////////////////////////////////		 /
-	-1.0f, -1.0f, -1.0f,	0.f, 0.f,		 0.f, 0.f, 0.f,
-    -1.0f, 1.0f, 1.0f,		1.f, 1.f,		 0.f, 0.f, 0.f,
-    -1.0f, 1.0f, -1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f,
-                                                           
-	1.0f, -1.0f, 1.0f,		1.f, 1.f,		 0.f, 0.f, 0.f,
-    -1.0f, -1.0f, 1.0f, 	0.f, 1.f,		 0.f, 0.f, 0.f,
-    -1.0f, -1.0f, -1.0f,	0.f, 0.f,		 0.f, 0.f, 0.f,
- ////////////////////////////////////		 /  
-	-1.0f, 1.0f, 1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f,
-    -1.0f, -1.0f, 1.0f,		0.f, 0.f,		 0.f, 0.f, 0.f,
-    1.0f, -1.0f, 1.0f,		1.f, 0.f,		 0.f, 0.f, 0.f,
-                                                           
-	1.0f, 1.0f, 1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f,
-    1.0f, -1.0f, -1.0f,		1.f, 0.f,		 0.f, 0.f, 0.f,
-    1.0f, 1.0f, -1.0f,		1.f, 1.f,		 0.f, 0.f, 0.f,
- ////////////////////////////////////		 /
-	1.0f, -1.0f, -1.0f,		1.f, 0.f,		 0.f, 0.f, 0.f,
-    1.0f, 1.0f, 1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f,
-    1.0f,-1.0f, 1.0f,		0.f, 0.f,		 0.f, 0.f, 0.f, 
-                                                           
-	1.0f, 1.0f, 1.0f,		1.f, 0.f,		 0.f, 0.f, 0.f, 
-    1.0f, 1.0f, -1.0f,		1.f, 1.f,		 0.f, 0.f, 0.f, 
-    -1.0f, 1.0f, -1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f, 
- ////////////////////////////////////		 /   
-	1.0f, 1.0f, 1.0f,		1.f, 0.f,		 0.f, 0.f, 0.f, 
-    -1.0f, 1.0f, -1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f, 
-    -1.0f, 1.0f, 1.0f,		0.f, 0.f,		 0.f, 0.f, 0.f, 
-                                                           
-	1.0f, 1.0f, 1.0f,		1.f, 1.f,		 0.f, 0.f, 0.f, 
-    -1.0f, 1.0f, 1.0f,		0.f, 1.f,		 0.f, 0.f, 0.f, 
-    1.0f, -1.0f, 1.0f, 		1.f, 0.f,		 0.f, 0.f, 0.f
+
+	//back face
+	1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+    1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
+    -1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+											  			
+     1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+    -1.0f, 1.0f,-1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
+											
+	//front face							
+	-1.0f, 1.0f, 1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f,-1.0f, 1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
+    1.0f,-1.0f, 1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+											  		  
+	1.0f, 1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f, 1.0f, 1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+    1.0f,-1.0f, 1.0f, 		1.f, 0.f,		0.f, 0.f, 0.f,
+											
+	//top face								
+	1.0f, 1.0f, 1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+    1.0f, 1.0f,-1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+											  			
+	1.0f, 1.0f, 1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+    -1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f, 1.0f, 1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
+											
+	//bottom face							  
+	 1.0f,-1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
+    1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+											  			
+	1.0f,-1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f,-1.0f, 1.0f, 		0.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
+											
+	//left face								
+	-1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,  
+    -1.0f,-1.0f, 1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+    -1.0f, 1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
+											  			
+	-1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
+    -1.0f, 1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
+    -1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+											
+	// right face							   
+	1.0f, 1.0f, 1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+    1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+    1.0f, 1.0f,-1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
+											  			
+	1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
+    1.0f, 1.0f, 1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
+    1.0f,-1.0f, 1.0f,		0.f, 0.f,		0.f, 0.f, 0.f
+
 };
 
 } // namespace maths
