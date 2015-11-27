@@ -51,9 +51,10 @@ auto GuiManager::initGui() -> void
 {
 	logger->log("Initialize Gui...", LL_INFO);
 
+	glViewport(0, 0, (GLsizei)this->widthWin, (GLsizei)this->heightWin);
 	this->prgIDRect = createProgram("pos2d_color4");
 	this->prgIDButton = createProgram("gui");
-	this->font = TTF_OpenFont("/usr/share/fonts/truetype/tlwg/Norasi.ttf", 100);
+	this->font = TTF_OpenFont("/usr/share/fonts/truetype/gentium-basic/GenBasB.ttf", 100);
 	this->rootGui = new GuiRect(this);
 
 	logger->log("Gui initialized", LL_INFO);
@@ -65,8 +66,6 @@ auto GuiManager::renderGui() -> void
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
-
-	glViewport(0, 0, (GLsizei)this->widthWin, (GLsizei)this->heightWin);
 
 	const GLfloat camOrtho[16] = 
 	{
@@ -207,12 +206,23 @@ auto GuiManager::addToRender(GuiRect* rect) -> void
 {
 	this->renderedRect.push_back(rect);
 }
-auto GuiManager::addRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void
+auto GuiManager::removeToRender(GuiRect* rect) -> void
+{
+	for (std::vector<GuiRect*>::iterator it = this->renderedRect.begin(); it != this->renderedRect.end(); ++it)
+	{
+		if (rect->getID() == (*it)->getID())
+		{
+			this->renderedRect.erase(it);
+			return;
+		}
+	}
+}
+auto GuiManager::addRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible, int id) -> void
 {
 	logger->log("Creating Rect...", LL_INFO);
 
 	GuiRect* newRect = new GuiRect(this);
-	newRect->createRect(parent, pos, width, height, color, visible);
+	newRect->createRect(parent, pos, width, height, color, visible, id);
 	addToRender(newRect);
 
 	logger->log("Rect created", LL_INFO);
@@ -235,6 +245,7 @@ auto GuiManager::buttonIsPressed(int id) -> bool
         {
             if ((*it)->getIsPressed())
 			{
+				(*it)->setIsPressed(false);
                 return true;
 			}
             else
@@ -244,7 +255,7 @@ auto GuiManager::buttonIsPressed(int id) -> bool
     logger->log("Pass bad id in function buttonIsPressed", LL_WARNING);
     return false;
 }
-auto GuiManager::getGuiRectFromID(int id) -> GuiRect*
+auto GuiManager::getRectFromID(int id) -> GuiRect*
 {
 	for (std::vector<GuiRect*>::iterator it = this->renderedRect.begin(); it != this->renderedRect.end(); ++it)
 	{

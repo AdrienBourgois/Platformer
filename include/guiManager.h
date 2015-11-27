@@ -27,11 +27,12 @@ public:
 	auto createShader(std::string const& name, GLint shaderType) -> GLuint;
 	auto createProgram(std::string const& pathShader) -> GLuint;
 	auto addToRender(GuiRect* rect) -> void;
+	auto removeToRender(GuiRect* rect) -> void;
 
-	auto addRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void;
+	auto addRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible, int id) -> void;
 	auto addButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void;
 	auto buttonIsPressed(int id) -> bool;
-	auto getGuiRectFromID(int id) -> GuiRect*;
+	auto getRectFromID(int id) -> GuiRect*;
 
 	auto getRenderedRect() -> std::vector<GuiRect*>& { return this->renderedRect; };
 	auto getGuiEvt() const -> GuiEventReceiver* { return this->guiEvt; };

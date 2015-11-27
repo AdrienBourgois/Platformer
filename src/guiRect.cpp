@@ -39,8 +39,9 @@ GuiRect::~GuiRect()
 
 	logger->log("GuiRect deleted", LL_INFO);
 }
-auto GuiRect::createRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void
+auto GuiRect::createRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible, int id) -> void
 {
+	stockParameters(parent, visible, pos, width, height, color, id);
 	maths::Vector4x2 coordsRect = calculatePosCornerRect(pos, width, height);
 
 	this->rect =
@@ -53,12 +54,11 @@ auto GuiRect::createRect(GuiRect* parent, maths::Vector2 pos, float width, float
 		coordsRect.val[0][0], coordsRect.val[1][1], color.val[0], color.val[1], color.val[2], color.val[3],
 	};
 
-	stockParameters(parent, visible, pos, width, height, color);
-
 	createVertexObject();
 }
 auto GuiRect::createButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void
 {
+	stockParameters(parent, visible, pos, width, height, colorBg, id);
 	maths::Vector4x2 coordsRect = calculatePosCornerRect(pos, width, height);
 
 	this->rect =
@@ -70,9 +70,6 @@ auto GuiRect::createButton(GuiRect* parent, maths::Vector2 pos, float width, flo
         coordsRect.val[3][0], coordsRect.val[3][1], 1.f, 1.f,
         coordsRect.val[0][0], coordsRect.val[0][1], 1.f, 0.f
     };
-
-	stockParameters(parent, visible, pos, width, height, colorBg);
-	this->id = id;
 	
 	createText(text, colorText);
 	createVertexObject();
@@ -80,7 +77,7 @@ auto GuiRect::createButton(GuiRect* parent, maths::Vector2 pos, float width, flo
 auto GuiRect::createText(std::string const& text, maths::Vector4 colorText) -> void
 {
 	SDL_Color color = { (Uint8)(colorText.val[0] * 255), (Uint8)(colorText.val[1] * 255), (Uint8)(colorText.val[2] * 255), (Uint8)(colorText.val[3] * 255) };
-	SDL_Surface* surf = TTF_RenderText_Blended(this->gui->getFont(), text.c_str(), color);
+	SDL_Surface* surf = TTF_RenderText_Blended(this->gui->getFont(), (" " + text + " ").c_str(), color);
 	SDL_assert(surf);
 
 	glGenTextures(1, &this->texID);
@@ -127,18 +124,20 @@ auto GuiRect::vertexAttributesButton() -> void
 }
 auto GuiRect::calculatePosCornerRect(maths::Vector2 pos, float width, float height) -> maths::Vector4x2
 {
-	float cornerUpRightX = pos.val[0] + (width/2);
-    float cornerUpRightY = -(pos.val[1] + (height/2));
-    float cornerUpLeftX = pos.val[0] - (width/2);
-    float cornerUpLeftY = -(pos.val[1] + (height/2));
-    float cornerDownLeftX = pos.val[0] - (width/2);
-    float cornerDownLeftY = -(pos.val[1] - (height/2));
-    float cornerDownRightX = pos.val[0] + (width/2);
-    float cornerDownRightY = -(pos.val[1] - (height/2));
+	float posX = (this->parent) ? pos.val[0] + this->parent->getPos().val[0] : pos.val[0];
+	float posY = (this->parent) ? pos.val[1] + this->parent->getPos().val[1] : pos.val[1];
+	float upRightX = posX + (width/2);
+    float upRightY = -(posY + (height/2));
+    float upLeftX = posX - (width/2);
+    float upLeftY = -(posY + (height/2));
+    float downLeftX = posX - (width/2);
+    float downLeftY = -(posY - (height/2));
+    float downRightX = posX + (width/2);
+    float downRightY = -(posY - (height/2));
 
-	return { cornerUpRightX, cornerUpRightY, cornerUpLeftX, cornerUpLeftY, cornerDownLeftX, cornerDownLeftY, cornerDownRightX, cornerDownRightY };
+	return { upRightX, upRightY, upLeftX, upLeftY, downLeftX, downLeftY, downRightX, downRightY };
 }
-auto GuiRect::stockParameters(GuiRect* parent, bool visible, maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void
+auto GuiRect::stockParameters(GuiRect* parent, bool visible, maths::Vector2 pos, float width, float height, maths::Vector4 color, int id) -> void
 {
 	if (parent)
 	{
@@ -158,6 +157,7 @@ auto GuiRect::stockParameters(GuiRect* parent, bool visible, maths::Vector2 pos,
     this->width = width;
     this->height = height;
     this->color = color;
+	this->id = id;
 }
 auto GuiRect::addChild(GuiRect* child) -> void
 {

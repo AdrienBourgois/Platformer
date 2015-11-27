@@ -6,21 +6,23 @@
 namespace id {
 namespace gui {
 
-class GuiManager:
+class GuiManager;
 class GuiRect;
 
 class GuiMenu
 {
 public:
+	GuiMenu(GuiManager* gui);
 	~GuiMenu();
 
 	auto createMenuTitleScreen() -> void;
-	auto deleteMenuTitleScreen() -> void;
+	auto deleteMenu() -> void;
+
+	auto setVisible(bool visible) -> void;
 
 private:
-	GuiMenu();
-
-	std::vector<GuiRect*> rectMenu;
+	GuiManager* gui;
+	std::vector<int> rectMenu;
 };
 
 } // end namespace gui

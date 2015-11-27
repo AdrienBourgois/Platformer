@@ -3,7 +3,8 @@
 #include "guiEventReceiver.h"
 #include "guiManager.h"
 #include "guiRect.h"
-#include "maths/vector.h"
+#include "guiOption.h"
+#include "guiID.h"
 #include "txtLogger.h"
 
 #include <iostream>
@@ -74,7 +75,10 @@ auto GuiEventReceiver::checkButtonClicked() -> void
 {
 	GuiRect* button = checkMouseOnButton();
 	if (button)
+	{
 		button->setIsPressed(true);
+		executeButtonAction(button);
+	}
 }
 auto GuiEventReceiver::checkButtonHover() -> void
 {
@@ -83,6 +87,32 @@ auto GuiEventReceiver::checkButtonHover() -> void
 		button->setHover(true);
 	else
 		resetEvents();
+}
+auto GuiEventReceiver::executeButtonAction(GuiRect* button) -> void
+{
+	switch (button->getID())
+	{
+		case GUI_ID_BUTTON_NEW_GAME:
+		{
+			std::cout << "new game" << std::endl;
+			break;
+		}
+		case GUI_ID_BUTTON_CONTINUE:
+		{
+			std::cout << "continue" << std::endl;
+			break;
+		}
+		case GUI_ID_BUTTON_OPTIONS:
+		{
+			new GuiOption(this->gui);
+			break;
+		}
+		case GUI_ID_BUTTON_QUIT:
+		{
+			std::cout << "quit" << std::endl;
+			break;
+		}
+	}
 }
 auto GuiEventReceiver::setMouseCoords() -> void
 {

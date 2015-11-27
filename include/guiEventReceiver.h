@@ -18,6 +18,7 @@ public:
 	auto checkMouseOnButton() -> GuiRect*;
 	auto checkButtonClicked() -> void;
 	auto checkButtonHover() -> void;
+	auto executeButtonAction(GuiRect* button) -> void;
 	auto setMouseCoords() -> void;
 	auto resetEvents() -> void;
 	auto resetPressed() -> void;

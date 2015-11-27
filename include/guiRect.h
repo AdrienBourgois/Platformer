@@ -17,17 +17,18 @@ public:
 	GuiRect(GuiManager* gui);
 	~GuiRect();
 
-	auto createRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void;
+	auto createRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible, int id) -> void;
 	auto createButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void;
 	auto createText(std::string const& text, maths::Vector4 colorText) -> void;
 	auto createVertexObject() -> void;
 	auto vertexAttributesRect() -> void;
 	auto vertexAttributesButton() -> void;
 	auto calculatePosCornerRect(maths::Vector2 pos, float width, float height) -> maths::Vector4x2;
-	auto stockParameters(GuiRect* parent, bool visible, maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void;
+	auto stockParameters(GuiRect* parent, bool visible, maths::Vector2 pos, float width, float height, maths::Vector4 color, int id) -> void;
 
 	auto addChild(GuiRect* child) -> void;
 
+	auto getGui() const -> GuiManager* { return this->gui; };
 	auto getParent() const -> GuiRect* { return this->parent; };
 	auto getColor() const -> maths::Vector4 { return this->color; };
 	auto getPos() const -> maths::Vector2 { return this->pos; };
