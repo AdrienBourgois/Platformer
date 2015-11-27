@@ -106,7 +106,7 @@ auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool
     for (unsigned int i = 0; i < poly.size(); ++i)
     {
         if (((poly[i].val[y] > point.val[y]) != (poly[j].val[y] > point.val[y])) &&
-           (point.val[x] < (poly[j].val[x] - poly[i].val[x]) * (point.val[y] - poly[i].val[y] / (poly[j].val[y] - poly[i].val[y] + poly[i].val[x]))))
+           (point.val[x] < (poly[j].val[x] - poly[i].val[x]) * (point.val[y] - poly[i].val[y] / (poly[j].val[y] - poly[i].val[y] + poly[i].val[x]))) && (point.val[2] < poly[i].val[2]))
 				c = !c;
 
         j = i;

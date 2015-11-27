@@ -68,11 +68,8 @@ auto PolyhedronCollider::collide(PolyhedronCollider const& col) const -> bool
 			else if (i % 3 == 2)
 			{
 				z = pointFace;
-				Vector4 planEquat = cartEquation(x, y, z);
-				float distance = calcDistance(point, planEquat);
-				if (distance <= 0)
-					if ( isPointInsidePoly(point, {x, y, z}))
-						return true;
+				if ( isPointInsidePoly(point, {x, y, z}))
+					return true;
 			}
 			++i;
 		}
