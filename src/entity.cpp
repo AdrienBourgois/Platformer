@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "elementId.h"
-#include "stateMachine.h"
+#include "stateManager.h"
 #include "entity.h"
 #include "txtLogger.h"
 
@@ -35,9 +35,6 @@ Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, st
 {
 	logger->log("Creating Entity...", LL_DEBUG);
 
-	life = 0;
-	hp = 0;
-	attack = 0;
 
 	logger->log("Entity has been created.", LL_INFO);
 }

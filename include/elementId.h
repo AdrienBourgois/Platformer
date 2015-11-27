@@ -4,7 +4,7 @@
 
 
 	
-		enum ElementID {
+		enum StateID {
 			
 			STATE_STANDING = 0,
 			STATE_WALKING,

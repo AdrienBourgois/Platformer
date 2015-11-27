@@ -1,7 +1,7 @@
 #ifndef __ENTITY_H_INCLUDED__
 #define __ENTITY_H_INCLUDED__
 
-#include "stateMachine.h"
+#include "stateManager.h"
 
 #include "meshSceneNode.h"
 
@@ -11,7 +11,7 @@ namespace id {
 
 namespace scene {
 
-	class Entity : public MeshSceneNode, public StateMachine {
+	class Entity : public MeshSceneNode, public StateManager {
 
 	public:
 		virtual ~Entity();
@@ -29,6 +29,7 @@ namespace scene {
 		virtual auto	setEntityState(int state) -> void override {this->state = state;}
 		virtual auto	getEntityState() -> int override {return state;}
 
+//		virtual	auto	
 
 	protected:
 

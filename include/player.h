@@ -14,8 +14,11 @@ namespace scene {
 		virtual ~Player();
 		static auto	createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Player*;	
 
-		auto	setSpeed(int speed) -> void {this->speed = speed;}
-		auto	getSpeed() const -> int {return speed;}
+		auto	setSpeed(float speed) -> void {this->speed = speed;}
+		auto	getSpeed() const -> float {return speed;}
+		
+		auto	setSpeedRun(float speedrun) -> void {this->speedrun = speedrun;}
+		auto	getSpeedRun() const -> float {return speedrun;}
 
 	private:
 	
@@ -25,7 +28,8 @@ namespace scene {
 	
 		Player(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack);
 
-		int speed;
+		float speed;
+		float speedrun;
 	};
 
 

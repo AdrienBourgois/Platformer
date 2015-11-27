@@ -34,7 +34,7 @@ class StatePlayer;
 //	Entity* entity;
 	
 	Event(Player* player, Enemy* enemy);
-
+	float speed;
 	
 
 	};

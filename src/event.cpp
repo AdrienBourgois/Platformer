@@ -28,8 +28,7 @@ Event::Event(Player* player, Enemy* enemy)
 :player(player), enemy(enemy)
 {
 	logger->log("Creating Event...", LL_DEBUG);
-	
-	player->setSpeed(1.f);	
+
 
 	logger->log("Event has been created.", LL_INFO);	
 }
@@ -58,7 +57,7 @@ auto	Event::eventReceiver() -> void
 {
 		const Uint8* state = SDL_GetKeyboardState(nullptr);
 	
-		bool run = false;	
+		float speedrun = player->getSpeedRun();
 		float speed = player->getSpeed();
 		float x = player->getPosition().val[0];
 		float y = player->getPosition().val[1];
@@ -70,36 +69,42 @@ auto	Event::eventReceiver() -> void
 		player->setEntityState(STATE_STANDING);
 
 		
-		
-		if (state[SDL_SCANCODE_W])
+		if (state[SDL_SCANCODE_S])
 		{	
 			z += 1.f * speed;
 			player->setEntityState(STATE_WALKING);
+			state[SDL_SCANCODE_R] ? z += 1.f * speedrun : z += 1.f* speed;
 		}
 	
-		if (state[SDL_SCANCODE_S])
+		if (state[SDL_SCANCODE_W])
 		{
 			z -= 1.f * speed;
 			player->setEntityState(STATE_WALKING);
+			state[SDL_SCANCODE_R] ? z -= 1.f * speedrun : z -= 1.f* speed;
 		}
 		
 		if (state[SDL_SCANCODE_D])
 		{
 			x += 1.f * speed;
 			player->setEntityState(STATE_WALKING);
+			state[SDL_SCANCODE_R] ? x += 1.f * speedrun : x += 1.f* speed;
 		}
 
 		if (state[SDL_SCANCODE_A])
 		{
 			x -= 1.f * speed;
 			player->setEntityState(STATE_WALKING);
+			state[SDL_SCANCODE_R] ? x -= 1.f * speedrun : x -= 1.f* speed;
 		}
-		if (state[SDL_SCANCODE_R] && run == false)
+		
+		if (state[SDL_SCANCODE_R])
 		{
-			player->setSpeed(2.f);	
-			run = true;
+			speedrun += 1.f * speed;
+			speed = speedrun;
 			player->setEntityState(STATE_RUNNING);
 		}
+	
+	
 		if (state[SDL_SCANCODE_SPACE])
 		{
 			y += 1.f * speed;
@@ -116,7 +121,7 @@ auto	Event::eventReceiver() -> void
 			roty += 5.f * speed;	
 
 		
-
+		std::cout << "speed : " << speed << std::endl;
 		std::cout << player->getEntityState() << std::endl;
 		player->setPosition({x, y, z});
 		player->setRotation({rotx, roty, rotz});	
