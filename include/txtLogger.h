@@ -3,6 +3,8 @@
 
 #include <fstream>
 #include <string>
+#include <cstdarg>
+#include <iostream>
 
 namespace id {
 

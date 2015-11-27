@@ -102,7 +102,15 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 				ImGui::TreePop();
 				return;
 			}
-			
+		
+			if ((node != (node->getScene()->getRootNode())) &&
+			(node != ((scene::SceneNode*)(node->getScene()->getActiveCamera()))) &&			
+			ImGui::SmallButton("Show Collider"))
+			{
+				ImGui::Text("text");
+				std::cout << "WIP" << std::endl;
+			}
+
 			if ((node != (node->getScene()->getRootNode())) &&
 			(node != ((scene::SceneNode*)(node->getScene()->getActiveCamera()))) &&
 			ImGui::SmallButton("Save"))
@@ -127,6 +135,7 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 				ImGui::TreePop();
 				return;
 			}
+
 		for (scene::SceneNode* child : node->getChildrens())
 		{
 			DebugWindow::DisplayNodesTree(child);

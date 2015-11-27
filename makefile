@@ -30,6 +30,7 @@ SRC = 	main.cpp\
 		guiWindow.cpp\
 		loadFromJson.cpp\
 		screenshot.cpp\
+		logger.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image
 
@@ -55,12 +56,13 @@ CPPFLAGS =
 LDFLAGS = -W -Wall -Werror
 CXX = g++ -std=c++14
 
-.PHONY: all clean fclean re debug release
+.PHONY: all clean fclean re debug release clog
 
 all: $(MODE)
 
 release: CXXFLAGS += -O3
 release: LDFLAGS += -O3
+release: clog
 release: $(TARGET)
 
 debug: CXXFLAGS += -O0 -g3
@@ -88,17 +90,21 @@ $(ARBO):
 
 -include $(DEPENDENCIES)
 
-clean:
+clog:
+	$(RM) logs/*
+
+clean:  clog
 	$(RM) $(OBJ)
 	$(RM) $(DEPENDENCIES)
 	$(RM) -r $(ARBO)
 	$(RM) .*.swp
-	$(RM) logs/*
 	$(RM) assets/json/*
 
 fclean: clean
 	$(RM) $(BIN_DIR)$(TARGET)
 	$(RM) -r $(BIN_DIR)
+
+
 
 re: fclean all
 
