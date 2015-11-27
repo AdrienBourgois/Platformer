@@ -6,8 +6,11 @@ namespace id {
 
 namespace scene {
 
+//class Entity;
 class Player;
 class Enemy;
+class StatePlayer;
+
 
 	class Event {
 	
@@ -22,12 +25,13 @@ class Enemy;
 		auto	setEnemy(Enemy* enemy) -> void {this->enemy = enemy;}
 		auto	getEnemy() const -> Enemy* {return enemy;}
 
-		auto	updateEvent() -> void;		
+		auto	eventReceiver() -> void;		
 		auto	enemyPatrol() -> void;
 
 	private:
 	Player* player;	
 	Enemy* enemy;
+//	Entity* entity;
 	
 	Event(Player* player, Enemy* enemy);
 

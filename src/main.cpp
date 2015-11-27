@@ -57,7 +57,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
 
-		ev->updateEvent();
+		ev->eventReceiver();
 			
 		debug_window->Display(device.get());
 		open_file->Display(device.get());

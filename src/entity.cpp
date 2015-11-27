@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 
+#include "elementId.h"
+#include "stateMachine.h"
 #include "entity.h"
 #include "txtLogger.h"
 
@@ -29,7 +31,7 @@ namespace scene {
 
 
 Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)
-: MeshSceneNode(scn, parent, name, shader, path), life(eLife), hp(eHp), attack(eAttack)
+:MeshSceneNode(scn, parent, name, shader, path), life(eLife), hp(eHp), attack(eAttack), state(STATE_STANDING)
 {
 	logger->log("Creating Entity...", LL_DEBUG);
 

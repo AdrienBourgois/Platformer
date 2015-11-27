@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <SDL2/SDL.h>
 
+#include "elementId.h"
 #include "sceneNode.h"
 #include "event.h"
 #include "player.h"
@@ -28,6 +29,7 @@ Event::Event(Player* player, Enemy* enemy)
 {
 	logger->log("Creating Event...", LL_DEBUG);
 	
+	player->setSpeed(1.f);	
 
 	logger->log("Event has been created.", LL_INFO);	
 }
@@ -52,12 +54,12 @@ auto	Event::createEvent(Player* player, Enemy* enemy) -> Event*
 }
 
 
-auto	Event::updateEvent() -> void
+auto	Event::eventReceiver() -> void
 {
 		const Uint8* state = SDL_GetKeyboardState(nullptr);
 	
 		bool run = false;	
-		float speed = 0.2f;
+		float speed = player->getSpeed();
 		float x = player->getPosition().val[0];
 		float y = player->getPosition().val[1];
 		float z = player->getPosition().val[2];	
@@ -65,39 +67,44 @@ auto	Event::updateEvent() -> void
 		float roty = player->getRotation().val[1];	
 		float rotz = player->getRotation().val[2];	
 
-/*
-		switch (player)
-		{
-			case STATE_STANDING:
-				if (state[SDL_SCANCODE_R] && run == false)
-				{
-					speed = 0.5f;
-					run = true;
-				}
-		}
+		player->setEntityState(STATE_STANDING);
 
-*/
-
-		if (state[SDL_SCANCODE_R] && run == false)
-		{
-			speed = 0.5f;
-			run = true;
-		}
+		
 		
 		if (state[SDL_SCANCODE_W])
+		{	
 			z += 1.f * speed;
+			player->setEntityState(STATE_WALKING);
+		}
 	
 		if (state[SDL_SCANCODE_S])
+		{
 			z -= 1.f * speed;
-	
+			player->setEntityState(STATE_WALKING);
+		}
+		
 		if (state[SDL_SCANCODE_D])
+		{
 			x += 1.f * speed;
+			player->setEntityState(STATE_WALKING);
+		}
 
 		if (state[SDL_SCANCODE_A])
+		{
 			x -= 1.f * speed;
-
+			player->setEntityState(STATE_WALKING);
+		}
+		if (state[SDL_SCANCODE_R] && run == false)
+		{
+			player->setSpeed(2.f);	
+			run = true;
+			player->setEntityState(STATE_RUNNING);
+		}
 		if (state[SDL_SCANCODE_SPACE])
+		{
 			y += 1.f * speed;
+			player->setEntityState(STATE_JUMPING);
+		}
 		
 		if (state[SDL_SCANCODE_C])
 			y -= 1.f * speed;
@@ -108,6 +115,9 @@ auto	Event::updateEvent() -> void
 		if (state[SDL_SCANCODE_E])
 			roty += 5.f * speed;	
 
+		
+
+		std::cout << player->getEntityState() << std::endl;
 		player->setPosition({x, y, z});
 		player->setRotation({rotx, roty, rotz});	
 }

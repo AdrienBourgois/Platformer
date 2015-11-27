@@ -2,6 +2,7 @@
 #define __ENTITY_H_INCLUDED__
 
 #include "stateMachine.h"
+
 #include "meshSceneNode.h"
 
 
@@ -10,7 +11,7 @@ namespace id {
 
 namespace scene {
 
-	class Entity : public MeshSceneNode {
+	class Entity : public MeshSceneNode, public StateMachine {
 
 	public:
 		virtual ~Entity();
@@ -24,15 +25,20 @@ namespace scene {
 		virtual auto	getLife() const -> int {return life;}
 		virtual auto	getHp() const -> int {return hp;}
 		virtual auto	getAttack() const -> int {return attack;}
+	
+		virtual auto	setEntityState(int state) -> void override {this->state = state;}
+		virtual auto	getEntityState() -> int override {return state;}
 
 
 	protected:
+
 
 		Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack);
 
 	unsigned int life;
 	unsigned int hp;
 	unsigned int attack;
+	int state;
 
 	};
 }//namespace scene 

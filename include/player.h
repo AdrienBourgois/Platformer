@@ -14,15 +14,18 @@ namespace scene {
 		virtual ~Player();
 		static auto	createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Player*;	
 
-	private:
+		auto	setSpeed(int speed) -> void {this->speed = speed;}
+		auto	getSpeed() const -> int {return speed;}
 
-			
+	private:
+	
 		int life;
 		int hp;
 		int attack;
 	
 		Player(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack);
 
+		int speed;
 	};
 
 

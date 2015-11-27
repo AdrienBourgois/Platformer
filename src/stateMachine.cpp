@@ -14,7 +14,6 @@ StateMachine::StateMachine()
 {
 	logger->log("Creating StateMachine ...", LL_DEBUG);
 
-	setEntityState(STATE_STANDING);
 
 	logger->log("StateMachine has been created.", LL_INFO);
 }
