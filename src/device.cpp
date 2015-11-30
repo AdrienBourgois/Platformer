@@ -10,7 +10,6 @@
 #include "texture.h"
 #include "screenshot.h"
 #include "guiManager.h"
-#include "guiEventReceiver.h"
 
 namespace {
 
@@ -47,7 +46,7 @@ Device::Device()
 	id::imgui_impl::Init();
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
-	_gui			= new (std::nothrow)gui::GuiManager(_window.get()->getWidth(), _window.get()->getHeight());
+	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
 
 	logger->log("Device has been created.");
 }
@@ -58,8 +57,6 @@ Device::~Device()
 
 	_driver.reset(nullptr);
 	_window.reset(nullptr);
-	delete _gui;
-	_gui = nullptr;
 	delete _sceneManager;
 	_sceneManager = nullptr;
 
@@ -68,7 +65,6 @@ Device::~Device()
 	
 	logger->log("Quitting SDL...", LL_DEBUG);
 	SDL_Quit();
-	TTF_Quit();
 	logger->log("SDL has been quitted");
 
 	logger->log("Device has been deleted.");
@@ -80,7 +76,6 @@ auto Device::run() -> bool
 	SDL_Event ev;
     while (SDL_PollEvent(&ev))
     {
-		this->_gui->getGuiEvt()->eventListener(&ev);
 		imgui_impl::ProcessEvent(&ev);
         switch (ev.type)
         {
