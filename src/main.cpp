@@ -1,5 +1,4 @@
-#include <typeinfo>
-
+/*
 #include "device.h"
 #include "window.h"
 #include "txtLogger.h"
@@ -11,12 +10,24 @@
 #include "guiOpenFile.h"
 #include "driver.h"
 #include "fileUtility.h"
+*/
 
-
+#include "txtLogger.h"
+#include "saveJson.h"
+#include <iostream>
 int main(int argc, char* argv[])
 {
+	(void)argc;
+	(void)argv;
+
 	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
 
+	id::json::JsonObject obj;
+	obj["id"] = new id::json::JsonNumber(-1);
+	obj.serialize();
+
+
+/*
 	std::unique_ptr<id::Device> device = device->create();
 	
 	if (argc > 1)
@@ -31,6 +42,9 @@ int main(int argc, char* argv[])
 
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
+
+
+
 	
 	while (device->run())
 	{
@@ -50,6 +64,6 @@ int main(int argc, char* argv[])
 	
 	delete debug_window;
 	delete open_file;
-	
+*/	
 	return EXIT_SUCCESS;
 }

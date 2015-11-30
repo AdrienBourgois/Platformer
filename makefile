@@ -1,8 +1,9 @@
 TARGET = plateformer 
 
 SRC = 	main.cpp\
-		device.cpp\
+		saveJson.cpp\
 		txtLogger.cpp\
+		#device.cpp\
 		window.cpp\
 		shaders.cpp\
 		driver.cpp\
@@ -15,21 +16,19 @@ SRC = 	main.cpp\
 		maths/vector.cpp\
 		mesh.cpp\
 		texture.cpp\
+		fileUtility.cpp\
+		material.cpp\
+		screenshot.cpp\
+		guiEditMaterialWindow.cpp\
+		guiChangeTextureGroupWindow.cpp\
+		guiEditShader.cpp\
+		guiWindow.cpp\
 		imgui.cpp\
 		imgui_demo.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
 		guiDebugWindow.cpp\
 		guiOpenFile.cpp\
-		fileUtility.cpp\
-		material.cpp\
-		guiEditMaterialWindow.cpp\
-		guiChangeTextureGroupWindow.cpp\
-		saveToJson.cpp\
-		guiEditShader.cpp\
-		guiWindow.cpp\
-		loadFromJson.cpp\
-		screenshot.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image
 

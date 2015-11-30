@@ -8,7 +8,7 @@
 #include "meshSceneNode.h"
 #include "mesh.h"
 #include "cameraSceneNode.h"
-#include "saveToJson.h"
+#include "saveJson.h"
 #include "device.h"
 #include "maths/vector.h"
 #include "window.h"
@@ -107,7 +107,7 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 			(node != ((scene::SceneNode*)(node->getScene()->getActiveCamera()))) &&
 			ImGui::SmallButton("Save"))
 			{
-				JsonValue::saveToJson(static_cast<scene::MeshSceneNode*>(node));
+			//	JsonValue::saveToJson(static_cast<scene::MeshSceneNode*>(node));
 				ImGui::OpenPopup("Save");
 				ImGui::TreePop();
 				return;

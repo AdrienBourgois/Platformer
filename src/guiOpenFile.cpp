@@ -12,7 +12,7 @@
 #include "imgui_impl.h"
 #include "window.h"
 #include "fileUtility.h"
-#include "loadFromJson.h"
+//#include "loadFromJson.h"
 
 
 namespace id {
@@ -82,8 +82,8 @@ auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool forc
 
 			bool selec = false;
 			ImGui::Selectable(("   " + file_name).c_str(), &selec);
-			if (selec)
-				JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
+		//	if (selec)
+//				JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
 		}
 	}
 }
