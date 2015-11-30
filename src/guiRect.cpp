@@ -1,5 +1,4 @@
 #include <GL/glew.h>
-#include <SDL2/SDL.h>
 #include <vector>
 
 #include "txtLogger.h"
@@ -14,11 +13,9 @@ namespace id {
 namespace gui {
 
 GuiRect::GuiRect(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible)
-: gui(gui), parent(parent), posX(posX), posY(posY), width(width), height(height), color({0.f, 0.f, 0.f, 0.f}), id(id), visible(visible)
+: gui(gui), parent(parent), shaderName(""), posX(posX), posY(posY), width(width), height(height), colorBg({0.f, 0.f, 0.f, 0.f}), id(id), visible(visible)
 {
 	logger->log("Creating GuiRect...", LL_INFO);
-
-	SDL_assert(gui);
 
 	logger->log("GuiRect created", LL_INFO);
 }
@@ -28,13 +25,22 @@ GuiRect::~GuiRect()
 
 	logger->log("GuiRect deleted", LL_INFO);
 }
-auto GuiRect::createRect(maths::Vector4 color) -> void
+auto GuiRect::createElement(maths::Vector4 color) -> void
 {
-	this->color = color;
-	calculateCoordsRect();
+	this->shaderName = "pos2d_colorBg";
+	this->colorBg = color;
+	maths::Vector4x2 coordsRect = calculateCoordsRect();
+	this->rect = {
+		coordsRect.val[0][0], coordsRect.val[0][1], this->colorBg.val[0], this->colorBg.val[1], this->colorBg.val[2], this->colorBg.val[3],
+        coordsRect.val[1][0], coordsRect.val[1][1], this->colorBg.val[0], this->colorBg.val[1], this->colorBg.val[2], this->colorBg.val[3],
+        coordsRect.val[2][0], coordsRect.val[2][1], this->colorBg.val[0], this->colorBg.val[1], this->colorBg.val[2], this->colorBg.val[3],
+        coordsRect.val[2][0], coordsRect.val[2][1], this->colorBg.val[0], this->colorBg.val[1], this->colorBg.val[2], this->colorBg.val[3],
+        coordsRect.val[3][0], coordsRect.val[3][1], this->colorBg.val[0], this->colorBg.val[1], this->colorBg.val[2], this->colorBg.val[3],
+        coordsRect.val[0][0], coordsRect.val[0][1], this->colorBg.val[0], this->colorBg.val[1], this->colorBg.val[2], this->colorBg.val[3],
+	};
 	genVertexObject();
 }
-auto GuiRect::calculateCoordsRect() -> void
+auto GuiRect::calculateCoordsRect() -> maths::Vector4x2
 {
 	float posX = (this->parent) ? this->posX + this->parent->getPosX() : this->posX;
 	float posY = (this->parent) ? this->posY + this->parent->getPosY() : this->posY;
@@ -46,14 +52,8 @@ auto GuiRect::calculateCoordsRect() -> void
 	float downLeftY = -(posY - (this->height/2));
 	float downRightX = posX + (this->width/2);
 	float downRightY = -(posY - (this->height/2));
-	this->rect = {
-		upRightX, upRightY, this->color.val[0], this->color.val[1], this->color.val[2], this->color.val[3],
-		upLeftX, upLeftY, this->color.val[0], this->color.val[1], this->color.val[2], this->color.val[3],
-		downLeftX, downLeftY, this->color.val[0], this->color.val[1], this->color.val[2], this->color.val[3],
-		downLeftX, downLeftY, this->color.val[0], this->color.val[1], this->color.val[2], this->color.val[3],
-		downRightX, downRightY, this->color.val[0], this->color.val[1], this->color.val[2], this->color.val[3],
-		upRightX, upRightY, this->color.val[0], this->color.val[1], this->color.val[2], this->color.val[3],
-	};
+
+	return {upRightX, upRightY, upLeftX, upLeftY, downLeftX, downLeftY, downRightX, downRightY};
 }
 auto GuiRect::genVertexObject() -> void
 {
@@ -68,6 +68,9 @@ auto GuiRect::genVertexObject() -> void
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (void*)(2*sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 } // end namespace gui
