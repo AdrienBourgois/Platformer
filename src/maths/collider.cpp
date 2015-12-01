@@ -28,18 +28,23 @@ Collider::~Collider()
 	logger->log("Collider has been deleted.");	
 }
 
-auto Collider::addBoundingBox(Polyhedron const& poly) -> void
+auto Collider::updateBoundingBox() -> void
 {
-    std::vector<Vector3> points = poly.getPoints();
+    std::vector<Vector3> points = this->getPolyhedron().getPoints();
 
     float Xmin = (*(std::min_element(points.begin(), points.end(), less_by_x))).val[0];
-    float Xmax = (*(std::min_element(points.begin(), points.end(), less_by_x))).val[0];
+    float Xmax = (*(std::min_element(points.begin(), points.end(), more_by_x))).val[0];
     float Ymin = (*(std::min_element(points.begin(), points.end(), less_by_y))).val[1];
-    float Ymax = (*(std::min_element(points.begin(), points.end(), less_by_y))).val[1];
+    float Ymax = (*(std::min_element(points.begin(), points.end(), more_by_y))).val[1];
     float Zmin = (*(std::min_element(points.begin(), points.end(), less_by_z))).val[2];
-    float Zmax = (*(std::min_element(points.begin(), points.end(), less_by_z))).val[2];
+    float Zmax = (*(std::min_element(points.begin(), points.end(), more_by_z))).val[2];
 
     this->boundingBox = std::make_pair((Vector3){Xmin, Ymin, Zmin}, (Vector3){Xmax, Ymax, Zmax});
+    std::cout << Xmin << "//" << Xmax << std::endl;
+    std::cout << Ymin << "//" << Ymax << std::endl;
+    std::cout << Zmin << "//" << Zmax << std::endl;
+    std::cout << "-----------------------" << std::endl;
+
 }
 
 auto Collider::collide(Collider const& col) const -> bool
@@ -53,6 +58,7 @@ auto Collider::collide(Collider const& col) const -> bool
         max1.val[1] > min2.val[1] && min1.val[1] < max2.val[1] &&
         max1.val[2] > min2.val[2] && min1.val[2] < max2.val[2])
         return true;
+
 
     return false;
 }

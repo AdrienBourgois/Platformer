@@ -33,10 +33,10 @@ int main(int argc, char* argv[])
         1.0f, 0.5f, 0.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
     };
     
-	auto mesh = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", triangle);
-    auto mesh2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", triangle);
+	auto mesh = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
+    auto mesh2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
 	mesh->setPosition({2,15,40});
-	mesh2->setPosition({3,13.5,40});	
+	mesh2->setPosition({3,13.5,40});
 
 
 	std::vector<id::maths::Vector3> points         = id::maths::getPointsFromVectorFloat(triangle);
@@ -72,6 +72,9 @@ int main(int argc, char* argv[])
 	newPointsMesh2 = id::maths::calCoordFromMatrix(points, mesh2->AbsoluteTransformation());
 	polyhedronCollider.getPolyhedron().setPoints(newPointsMesh);
 	polyhedronCollider2.getPolyhedron().setPoints(newPointsMesh2);
+
+    polyhedronCollider.updateBoundingBox();
+    polyhedronCollider2.updateBoundingBox();
 
  		ImGui::Render();
 		device->getWindow()->swap();

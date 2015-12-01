@@ -271,5 +271,19 @@ auto less_by_z(const Vector3& point1, const Vector3& point2) -> bool
     return point1.val[2] < point2.val[2];
 }
 
+auto more_by_x(const Vector3& point1, const Vector3& point2) -> bool
+{
+    return point1.val[0] > point2.val[0];
+}
+
+auto more_by_y(const Vector3& point1, const Vector3& point2) -> bool
+{
+    return point1.val[1] > point2.val[1];
+}
+
+auto more_by_z(const Vector3& point1, const Vector3& point2) -> bool
+{
+    return point1.val[2] > point2.val[2];
+}
 } // namespace maths
 } // namespace id

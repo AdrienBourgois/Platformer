@@ -23,7 +23,7 @@ class Collider
 
 		Collider(Polyhedron& polyhedron);
 
-        auto addBoundingBox(Polyhedron const&) -> void;
+        auto updateBoundingBox() -> void;
 
 		auto collide(Collider const&) const -> bool;
         auto advancedCollide(Collider const&) const -> bool;

@@ -31,6 +31,9 @@ auto collideRayTriangle(const Vector3 V1, const Vector3 V2, const Vector3 V3, co
 auto less_by_x(const Vector3& point1, const Vector3& point2) -> bool;
 auto less_by_y(const Vector3& point1, const Vector3& point2) -> bool;
 auto less_by_z(const Vector3& point1, const Vector3& point2) -> bool;
+auto more_by_x(const Vector3& point1, const Vector3& point2) -> bool;
+auto more_by_y(const Vector3& point1, const Vector3& point2) -> bool;
+auto more_by_z(const Vector3& point1, const Vector3& point2) -> bool;
 
 class Shape
 {
