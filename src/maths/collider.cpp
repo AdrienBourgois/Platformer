@@ -1,10 +1,10 @@
 #include <cmath>
+#include <algorithm>
 
 #include "txtLogger.h"
 #include "maths/collider.h"
 #include "maths/polyhedron.h"
 #include "maths/utility.h"
-#include "maths/vector.h"
 
 
 namespace {
@@ -28,7 +28,36 @@ Collider::~Collider()
 	logger->log("Collider has been deleted.");	
 }
 
+auto Collider::addBoundingBox(Polyhedron const& poly) -> void
+{
+    std::vector<Vector3> points = poly.getPoints();
+
+    float Xmin = (*(std::min_element(points.begin(), points.end(), less_by_x))).val[0];
+    float Xmax = (*(std::min_element(points.begin(), points.end(), less_by_x))).val[0];
+    float Ymin = (*(std::min_element(points.begin(), points.end(), less_by_y))).val[1];
+    float Ymax = (*(std::min_element(points.begin(), points.end(), less_by_y))).val[1];
+    float Zmin = (*(std::min_element(points.begin(), points.end(), less_by_z))).val[2];
+    float Zmax = (*(std::min_element(points.begin(), points.end(), less_by_z))).val[2];
+
+    this->boundingBox = std::make_pair((Vector3){Xmin, Ymin, Zmin}, (Vector3){Xmax, Ymax, Zmax});
+}
+
 auto Collider::collide(Collider const& col) const -> bool
+{
+    Vector3 min1 = this->boundingBox.first;
+    Vector3 max1 = this->boundingBox.second;
+    Vector3 min2 = col.getBoundingBox().first;
+    Vector3 max2 = col.getBoundingBox().second;
+
+    if (max1.val[0] > min2.val[0] && min1.val[0] < max2.val[0] &&
+        max1.val[1] > min2.val[1] && min1.val[1] < max2.val[1] &&
+        max1.val[2] > min2.val[2] && min1.val[2] < max2.val[2])
+        return true;
+
+    return false;
+}
+
+auto Collider::advancedCollide(Collider const& col) const -> bool
 {
     std::vector<Vector3> points1 = this->polyhedron.getPoints();
     std::vector<Vector3> points2 =   col.polyhedron.getPoints();
