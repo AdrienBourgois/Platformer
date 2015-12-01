@@ -6,7 +6,7 @@
 #include "imgui_impl.h"
 #include "texture.h"
 #include "screenshot.h"
-
+#include "logger.h"
 namespace {
 
 id::TXTLogger* logger = id::TXTLogger::getInstance();
@@ -23,7 +23,7 @@ auto Device::create() -> std::unique_ptr<Device>
 		logger->log("Failed at creating device in Device::create()", LL_ERROR);
 		SDL_assert(dev);
 	}
-
+	LOG(L_ERROR,"BONJOUR", "i54");
 	return std::unique_ptr<Device>(dev);
 
 }

@@ -13,7 +13,7 @@
 #include "maths/vector.h"
 #include "window.h"
 #include "guiEditMaterialWindow.h"
-
+#include "guiLogger.h"
 
 namespace id {
 
@@ -21,11 +21,13 @@ DebugWindow::DebugWindow()
 : GUI_Window(true)
 {
 	_edit_material_window = new EditMaterialWindow();
+	_guiLogger = new DebugLogger();
 }
 
 DebugWindow::~DebugWindow()
 {
 	delete _edit_material_window;
+	delete _guiLogger;
 }
 
 auto DebugWindow::Display(Device* dev) -> void

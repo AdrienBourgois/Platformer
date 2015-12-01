@@ -1,14 +1,16 @@
 #ifndef LOGGER_H_INCLUDED
 #define LOGGER_H_INCLUDED
 
-#ifndef _DEBUG
+#ifdef _DEBUG
 
 #define xstr(s) string(s)
 #define string(s) #s
 
 #define LOG(LVL, ...) id::Logger::getInstance()->logT(LVL, __FILE__ ":" xstr(__LINE__) " in function", __FUNCTION__,__VA_ARGS__)
 #else
-#define LOG(...)
+#define xstr(s) string(s)
+#define string(s) #s
+#define LOG(LVL, ...) id::Logger::getInstance()->logT(LVL, __FILE__ ":" xstr(__LINE__) " in function", __FUNCTION__,__VA_ARGS__)
 #endif
 
 #include <fstream>
@@ -16,14 +18,15 @@
 #include <cstdarg>
 #include <iostream>
 #include <sstream>
+#include <vector>
 enum LG_LEVEL
 {
-	_ERROR = 0,
-	_WARNING,
-	_INFO,
-	_GAME,
-	_DEBUG,
-	_ALL
+	L_ERROR = 0,
+	L_WARNING,
+	L_INFO,
+	L_GAME,
+	L_DEBUG,
+	L_ALL
 };
 namespace id {
 
@@ -36,8 +39,10 @@ public:
 
 	Logger(Logger const&) = delete;
 	Logger& operator=(Logger const&) = delete;
-
+	
+	auto getTime() -> std::string;
 	auto getLogLevel() const -> LG_LEVEL { return logLevel;}
+	auto getBufLogString() -> std::vector<std::string>& {return bufLogString;}
 	auto setLog(LG_LEVEL loglvl) -> void { logLevel = loglvl;}
 
 	template<typename T,typename ... Param>
@@ -54,6 +59,7 @@ private:
 	std::string	logPath;
 	std::string	logFile;
 	std::stringstream	logString;
+	std::vector<std::string>	bufLogString;
 	auto setLogFile() -> void;
 	
 	auto recordLogFlag(LG_LEVEL) -> std::string;

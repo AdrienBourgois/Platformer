@@ -5,7 +5,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-
 #include "logger.h"
 
 namespace id {
@@ -23,12 +22,28 @@ Logger* Logger::getInstance()
 }
 
 Logger::Logger()
-: logLevel(_INFO), logPath("./logs/"), logFile("DEBUG_LOG_"), logString("")
+: logLevel(L_INFO), logPath("./logs/"), logFile("DEBUG_LOG_"), logString("")
 {
+	#ifndef _DEBUG
+	logFile = "RELEASE_LOG";
+	#endif
+	std::cout << "logger creating" << std::endl;
 	setLogFile();
 }
 
-
+auto Logger::getTime() -> std::string
+{
+	time_t t = time(0);
+	struct tm* now = localtime(&t);	
+	std::string sTime; 
+	sTime += std::to_string(now->tm_hour);
+	sTime += ":";
+	sTime += std::to_string(now->tm_min);
+	sTime += ":";
+	sTime += std::to_string(now->tm_sec);
+	sTime += " ";
+	return sTime;
+}
 auto Logger::setLogFile() ->void
 {
 
@@ -59,24 +74,24 @@ auto Logger::recordLogFlag(LG_LEVEL logFlag) -> std::string
 {
 	switch (logFlag)
 	{
-		case _DEBUG:
-			return "DEBUG   -> ";
+		case L_DEBUG:
+			return "DEBUG   ->";
 		break;
 
-		case _ERROR:
-			return "ERROR   -> ";
+		case L_ERROR:
+			return "ERROR   ->";
 		break;
 
-		case _WARNING:
-			return "WARNING -> ";
+		case L_WARNING:
+			return "WARNING ->";
 		break;
 
-		case _INFO:
-			return "INFO    -> ";
+		case L_INFO:
+			return "INFO    ->";
 		break;
 
-		case _GAME:
-			return "GAME    -> ";
+		case L_GAME:
+			return "GAME    ->";
 		break;
 
 		default:

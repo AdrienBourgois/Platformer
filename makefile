@@ -31,6 +31,7 @@ SRC = 	main.cpp\
 		loadFromJson.cpp\
 		screenshot.cpp\
 		logger.cpp\
+		guiLogger.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image
 
@@ -68,6 +69,7 @@ release: $(TARGET)
 debug: CXXFLAGS += -O0 -g3
 debug: LDFLAGS += -O0 -g3
 debug: CPPFLAGS += -D_DEBUG
+debug: clog 
 debug: $(TARGET)
 
 master: CXXFLAGS += -O3
