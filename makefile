@@ -14,7 +14,7 @@ SRC = 	main.cpp\
 		maths/matrix.cpp\
 		maths/vector.cpp\
 		maths/polyhedron.cpp\
-		maths/polyhedronCollider.cpp\
+		maths/collider.cpp\
 		mesh.cpp\
 		texture.cpp\
 		imgui.cpp\

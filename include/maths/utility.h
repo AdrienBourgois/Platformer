@@ -25,6 +25,8 @@ auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool;
 auto getPointsFromVectorFloat(std::vector<float> shape) -> std::vector<Vector3>;
 auto calCoordFromMatrix(std::vector<Vector3> vec, Matrix4x4 matrix) -> std::vector<Vector3>;
 
+auto collideRayTriangle(const Vector3 V1, const Vector3 V2, const Vector3 V3, const Vector3 O, const Vector3 D) -> bool;
+
 
 class Shape
 {

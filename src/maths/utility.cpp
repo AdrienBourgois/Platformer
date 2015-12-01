@@ -1,6 +1,7 @@
 #include <cmath>
 #include <algorithm>
 #include <utility>
+#include <iostream>
 
 #include "maths/utility.h"
 #include "maths/vector.h"
@@ -215,6 +216,45 @@ std::vector<GLfloat> const Shape::cube{
     1.0f,-1.0f, 1.0f,		0.f, 0.f,		0.f, 0.f, 0.f
 
 };
+
+auto collideRayTriangle(const Vector3 V1, const Vector3 V2, const Vector3 V3, const Vector3 O, const Vector3 D) -> bool
+{
+    Vector3 e1 = V2 - V1;
+    Vector3 e2 = V3 - V1;
+
+    Vector3 P = D.crossProduct(e2);
+
+    float det = e1.dotProduct(P);
+    std::cout << "det : " << det << std::endl;
+
+    if (det > -0.000001 && det < 0.000001) return 0;
+
+    det = 1.f / det;
+
+    Vector3 T = O - V1;
+
+    float u = T.dotProduct(P) * det;
+
+    if(u < 0.f || u > 1.f) return false;
+
+    Vector3 Q = T.crossProduct(e1);
+
+    float v = D.dotProduct(Q) * det;
+    std::cout << "v : " << v << std::endl;
+
+    if(v < 0.f || u + v  > 1.f) return 0;
+
+    float t = e2.dotProduct(Q) * det;
+
+    std::cout << "t : " << t << std::endl;
+    if (t > 1)
+    {
+        std::cout << "Traingle-Ray collision" << std::endl;
+        return true;
+    }
+
+    return false;
+}
 
 } // namespace maths
 } // namespace id

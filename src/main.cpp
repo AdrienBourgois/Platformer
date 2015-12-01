@@ -13,7 +13,7 @@
 #include "fileUtility.h"
 #include "maths/utility.h"
 #include "maths/polyhedron.h"
-#include "maths/polyhedronCollider.h"
+#include "maths/collider.h"
 
 int main(int argc, char* argv[])
 {
@@ -26,21 +26,28 @@ int main(int argc, char* argv[])
 		id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), id::FileUtility::getFileNameFromPath(argv[1]), "pos3d_tex2d", argv[1]);
 		(void) mesh_scn;
 	}
-	auto mesh =	id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
-	auto mesh2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
+
+    std::vector<GLfloat> triangle{
+        0.0f, 0.0f, 0.0f,       0.f, 1.f,       0.f, 0.f, 0.f,
+        1.0f,-0.5f, 0.0f,       0.f, 0.f,       0.f, 0.f, 0.f,
+        1.0f, 0.5f, 0.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
+    };
+    
+	auto mesh = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", triangle);
+    auto mesh2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", triangle);
 	mesh->setPosition({2,15,40});
 	mesh2->setPosition({3,13.5,40});	
 
 
-	std::vector<id::maths::Vector3> points         = id::maths::getPointsFromVectorFloat(id::maths::Shape::cube);
+	std::vector<id::maths::Vector3> points         = id::maths::getPointsFromVectorFloat(triangle);
 	std::vector<id::maths::Vector3> newPointsMesh  = id::maths::calCoordFromMatrix(points, mesh->AbsoluteTransformation());
 	std::vector<id::maths::Vector3> newPointsMesh2 = id::maths::calCoordFromMatrix(points, mesh2->AbsoluteTransformation());
 
 	id::maths::Polyhedron polyhedron(newPointsMesh);
 	id::maths::Polyhedron polyhedron2(newPointsMesh2);
 
-	id::maths::PolyhedronCollider polyhedronCollider(polyhedron);
-	id::maths::PolyhedronCollider polyhedronCollider2(polyhedron2);
+	id::maths::Collider polyhedronCollider(polyhedron);
+	id::maths::Collider polyhedronCollider2(polyhedron2);
 
 
 
@@ -61,18 +68,18 @@ int main(int argc, char* argv[])
         debug_window->Display(device.get());
 		open_file->Display(device.get());
 
-	 newPointsMesh  = id::maths::calCoordFromMatrix(points, mesh->AbsoluteTransformation());
-	 newPointsMesh2 = id::maths::calCoordFromMatrix(points, mesh2->AbsoluteTransformation());
+	newPointsMesh  = id::maths::calCoordFromMatrix(points, mesh->AbsoluteTransformation());
+	newPointsMesh2 = id::maths::calCoordFromMatrix(points, mesh2->AbsoluteTransformation());
 	polyhedronCollider.getPolyhedron().setPoints(newPointsMesh);
 	polyhedronCollider2.getPolyhedron().setPoints(newPointsMesh2);
 
-	if (polyhedronCollider.collide(polyhedronCollider2))
-		std::cout << "collision" << std::endl;
-	else
-		std::cout << "pas de collision" << std::endl;
- 
-		ImGui::Render();
+ 		ImGui::Render();
 		device->getWindow()->swap();
+
+        if (polyhedronCollider.collide(polyhedronCollider2))
+            std::cout << "collision" << std::endl;
+        else
+        	std::cout << "pas de collision" << std::endl;
 	}
 
 	ImGui::Shutdown();

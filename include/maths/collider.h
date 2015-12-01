@@ -1,25 +1,35 @@
 #ifndef COLLIDER_H_INCLUDED
 #define COLLIDER_H_INCLUDED
 
+#include "maths/collider.h"
+
 namespace id{
 namespace maths{
 
-class PolyhedronCollider;
-class SphereCollider;
-class CubeCollider;
+class Polyhedron;
 
 class Collider
 {
 	public:
-		virtual auto collide(Collider const&) const -> bool = 0;
-		virtual auto collide(SphereCollider const&) const -> bool = 0;
-		virtual auto collide(PolyhedronCollider const&) const -> bool = 0;
-		virtual auto collide(CubeCollider const&) const -> bool = 0;	
-};
+		Collider() = delete;
+		virtual ~Collider();
+		Collider(Collider const&) = delete;
+		Collider(Collider&&) = delete;
+		auto operator=(Collider const&) -> Collider& = default;
+		auto operator=(Collider&&) -> Collider& = delete;
 
+		Collider(Polyhedron& polyhedron);
+
+		auto collide(Collider const&) const -> bool;
+
+		auto getPolyhedron() const -> Polyhedron& { return polyhedron; }
+		//auto setPolyhedron(Polyhedron const& poly) -> void { polyhedron = poly;}
+	private:
+		Polyhedron& polyhedron;
+		
+};
 
 } // namespace maths
 } // namespace id
-
 
 #endif // COLLIDER_H_INCLUDED
