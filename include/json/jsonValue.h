@@ -1,6 +1,9 @@
 #ifndef JSON_VALUE_H_INCLUDED
 #define JSON_VALUE_H_INCLUDED
 
+#include <string>
+#include <vector>
+
 namespace id {
 namespace json {
 
@@ -13,10 +16,12 @@ public:
 	auto operator=(JsonValue const&) -> JsonValue& = delete;
 	auto operator=(JsonValue&&) -> JsonValue& = delete;
 
-	virtual auto serialize() -> void;
+	virtual auto serialize() -> std::string { return "";}
+	static auto deleteAllJsonValue() -> void;
 
 protected:
 	JsonValue() = default;	
+	static std::vector<JsonValue*> jsonVal;
 };
 
 } // namespace json

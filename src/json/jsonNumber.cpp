@@ -8,11 +8,11 @@ namespace {
 namespace id {
 namespace json {
 
-JsonNumber::JsonNumber(long double number)
+JsonNumber::JsonNumber(double number)
 :number(number)
 {
 	logger->log("Creating JsonNumber...", LL_DEBUG);
-
+	jsonVal.push_back(this);
 	logger->log("JsonNumber has been created.");
 }
 
@@ -23,9 +23,9 @@ JsonNumber::~JsonNumber()
 	logger->log("JsonNumber has been deleted.");
 }
 
-auto JsonNumber::serialize() -> void
+auto JsonNumber::serialize() -> std::string
 {
-	serializeAsNumber(number);
+	return std::to_string(number);
 }
 
 } // namespace json 

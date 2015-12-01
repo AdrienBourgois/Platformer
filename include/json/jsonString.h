@@ -19,7 +19,7 @@ public:
 
 	JsonString(std::string str);
 
-	virtual auto serialize() -> void override;
+	virtual auto serialize() -> std::string override;
 
 private:
 	std::string str;

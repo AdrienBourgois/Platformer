@@ -3,16 +3,17 @@
 #include "json/jsonObject.h"
 #include "txtLogger.h"
 
-#include <iostream>
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
 }
+
+int id::json::JsonWriter::indentation = 0;
 
 namespace id {
 namespace json { 
 
 JsonWriter::JsonWriter(std::string name)
-:file(("./assets/json/" + name + ".json").c_str(), std::ios_base::out), indentation(0)
+:file(("./assets/json/" + name + ".json").c_str(), std::ios_base::out)
 {
 	logger->log("Creating JsonWriter...", LL_DEBUG);
 
@@ -28,10 +29,12 @@ JsonWriter::~JsonWriter()
 	logger->log("JsonWriter has been deleted");
 }
 
-auto JsonWriter::indent() -> void
+auto JsonWriter::indent() -> std::string
 {
+	std::string str = "";
 	for (int i = 0; i < indentation; ++i)
-		std::cout << "\t";
+		str += "\t";
+	return str;
 }
 
 auto JsonWriter::write(JsonObject* obj) -> void
@@ -42,72 +45,31 @@ auto JsonWriter::write(JsonObject* obj) -> void
 auto JsonWriter::serializeAsObject(std::map<std::string, JsonValue*> mapValue) -> void
 {
 
-	std::cout << "{" << std::endl;
+	file << "{" << std::endl;
 	if (!mapValue.empty())
 	{
-
 		indentation++;
 
 		unsigned int i = 1;
 		unsigned int j = mapValue.size();
 		for (auto&& val : mapValue)
 		{
-			indent();
-			std::cout << "\"" << val.first << "\" : ";
-			val.second->serialize();
+			file << indent();
+			file << "\"" << val.first << "\" : ";
+			file << val.second->serialize();
 			if ( i == j)
-				std::cout << std::endl;
+				file << "\n";
 			else
-				std::cout << "," << std::endl;
+				file << ",\n";
 			++i;
 		}
 
 		--indentation;
-		indent();
+		file << indent();
 	}
-	std::cout << "}";
+	file << "}";
 
 }
 
-auto JsonWriter::serializeAsArray(std::vector<JsonValue*> arrayValue) -> void
-{
-	std::cout << "[ ";
-
-	unsigned int i = 1;
-	unsigned int j = arrayValue.size();
-	for (auto&& val : arrayValue)
-	{
-		val->serialize();
-		if (i != j)
-			std::cout << ", ";
-		++i;
-	}
-	std::cout << "]";
-
-}
-
-auto JsonWriter::serializeAsString(std::string str) -> void
-{
-	std::cout << "\"" << str << "\"";
-}
-
-auto JsonWriter::serializeAsBool(bool boolean) -> void
-{
-	if (boolean)
-		std::cout << "true";
-	else
-		std::cout << "false";
-}
-
-auto JsonWriter::serializeAsNumber(long double number) -> void
-{
-	std::cout << number;
-}
-
-auto JsonWriter::serializeAsNull() -> void
-{
-	std::cout << "null";
-}
-							    
 } // namespace json
 } // namespace id

@@ -20,7 +20,7 @@
 #include "json/jsonNumber.h"
 #include "json/jsonBool.h"
 #include "json/jsonNull.h"
-
+#include "json/jsonValue.h"
 int main(int argc, char* argv[])
 {
 	(void)argc;
@@ -32,29 +32,29 @@ int main(int argc, char* argv[])
 
 	id::json::JsonObject* obj  = new id::json::JsonObject;
 	id::json::JsonObject* obj1 = new id::json::JsonObject;
+	id::json::JsonObject* obj2 = new id::json::JsonObject;
+	id::json::JsonObject* obj3 = new id::json::JsonObject;
+	id::json::JsonObject* obj4 = new id::json::JsonObject;
+
+	obj->addInObject("visible", new id::json::JsonBool(true));
+	obj->addInObject("pointer", new id::json::JsonNull());
+	obj2->addInObject("mon boule", new id::json::JsonBool(false));
+	obj3->addInObject("mon autre boule", new id::json::JsonString("Youuuhouuuuuu"));
+	obj2->addInObject("un obj", obj3);
 	id::json::JsonArray*  arr  = new id::json::JsonArray;
-	
-	arr->addInArray(new id::json::JsonNumber(5));
-	arr->addInArray(new id::json::JsonNumber(1224));
-	arr->addInArray(new id::json::JsonString("mon tableau"));
-	arr->addInArray(new id::json::JsonBool(false));
-
-	obj1->addInObject("id", new id::json::JsonNumber(-1));
-	obj1->addInObject("name", new id::json::JsonString("Jojo"));
-
-	arr->addInArray(obj1);
 	arr->addInArray(new id::json::JsonNumber(124));
 	arr->addInArray(new id::json::JsonNumber(12524));
-	arr->addInArray(new id::json::JsonNumber(1864));
+	arr->addInArray(obj2);
+	obj->addInObject("array", arr);
+	obj1->addInObject("id", new id::json::JsonNumber(-1));
+	obj1->addInObject("name", new id::json::JsonString("Jojo"));
+	obj1->addInObject("obj inconnu", obj4);
 
-	obj1->addInObject("array", arr);
-	obj->addInObject("visible", new id::json::JsonBool(true));
 	obj->addInObject("obj1", obj1);
-	obj->addInObject("pointer", new id::json::JsonNull());
 
 	jsonWriter.write(obj);
 
-
+	id::json::JsonValue::deleteAllJsonValue();
 /*
 	std::unique_ptr<id::Device> device = device->create();
 	

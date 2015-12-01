@@ -11,7 +11,8 @@ namespace json {
 JsonNull::JsonNull()
 {
 	logger->log("Creating JsonNull...", LL_DEBUG);
-
+	jsonVal.push_back(this);
+	logger->log("JsonNull has been created.");
 }
 
 JsonNull::~JsonNull()
@@ -21,9 +22,9 @@ JsonNull::~JsonNull()
 	logger->log("JsonNull has been deleted.");
 }
 
-auto JsonNull::serialize() -> void
+auto JsonNull::serialize() -> std::string 
 {
-	serializeAsNull();
+	return "null";
 }
 
 } // namespace json 

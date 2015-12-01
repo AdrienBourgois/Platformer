@@ -9,6 +9,7 @@ SRC = 	main.cpp\
 		json/jsonBool.cpp\
 		json/jsonNumber.cpp\
 		json/jsonNull.cpp\
+		json/jsonValue.cpp\
 		#saveJson.cpp\
 		device.cpp\
 		window.cpp\

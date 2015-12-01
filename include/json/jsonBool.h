@@ -19,7 +19,7 @@ public:
 
 	JsonBool(bool boolean);
 
-	virtual auto serialize() -> void override;
+	virtual auto serialize() -> std::string override;
 
 private:
 	bool boolean;

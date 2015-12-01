@@ -17,7 +17,7 @@ public:
 	auto operator=(JsonNull const&) -> JsonNull& = default;
 	auto operator=(JsonNull&&) -> JsonNull& = default;
 
-	virtual auto serialize() -> void override;
+	virtual auto serialize() -> std::string override;
 
 };
 

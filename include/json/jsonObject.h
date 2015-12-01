@@ -19,7 +19,7 @@ public:
 	auto operator=(JsonObject&&) -> JsonObject& = default;
 
 	auto addInObject(std::string, JsonValue*) -> void;
-	virtual auto serialize() -> void override;
+	virtual auto serialize() -> std::string override;
 
 	auto getMapValue() const -> std::map<std::string, JsonValue*> { return mapValue; } 
 

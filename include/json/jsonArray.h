@@ -19,7 +19,7 @@ public:
 	auto operator=(JsonArray&&) -> JsonArray& = default;
 
 	auto addInArray(JsonValue* val) -> void;
-	virtual auto serialize() -> void override;
+	virtual auto serialize() -> std::string override;
 
 	auto getArrayValue() const -> std::vector<JsonValue*> { return arrayValue; }
 

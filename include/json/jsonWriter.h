@@ -2,9 +2,8 @@
 #define JSON_WRITER_H_INCLUDED
 
 #include <fstream>
-#include <string>
 #include <map>
-#include <vector>
+#include <string>
 
 namespace id {
 namespace json {
@@ -23,18 +22,14 @@ public:
 	auto operator=(JsonWriter&&) -> JsonWriter& = delete;
 	
 	auto serializeAsObject(std::map<std::string, JsonValue*>) -> void;
-	auto serializeAsArray(std::vector<JsonValue*>) -> void;
-	auto serializeAsString(std::string) -> void;
-	auto serializeAsBool(bool) -> void;
-	auto serializeAsNumber(long double) -> void;
-	auto serializeAsNull() -> void;
 
-	auto indent() -> void;
+	auto indent() -> std::string;
 	auto write(JsonObject* obj) -> void; 
 
-protected:
+	static int 		indentation;
+private:
 	std::fstream 	file;
-	int 		indentation;
+
 };
 
 } // namespace json

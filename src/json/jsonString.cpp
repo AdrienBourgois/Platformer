@@ -1,5 +1,5 @@
 #include "txtLogger.h"
-#include "json/jsonObject.h"
+#include "json/jsonString.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
@@ -13,6 +13,8 @@ JsonString::JsonString(std::string str)
 {
 	logger->log("Creating JsonString...", LL_DEBUG);
 
+	jsonVal.push_back(this);
+
 	logger->log("JsonString has been created.");
 }
 
@@ -23,9 +25,9 @@ JsonString::~JsonString()
 	logger->log("JsonString has been deleted.");
 }
 
-auto JsonString::serialize() -> void
+auto JsonString::serialize() -> std::string
 {
-	serializeAsString();
+	return "\"" + str + "\"";
 }
 
 } // namespace json 

@@ -12,7 +12,7 @@ JsonBool::JsonBool(bool boolean)
 :boolean(boolean)
 {
 	logger->log("Creating JsonBool...", LL_DEBUG);
-
+	jsonVal.push_back(this);
 	logger->log("JsonBool has been created.");
 }
 
@@ -23,9 +23,13 @@ JsonBool::~JsonBool()
 	logger->log("JsonBool has been deleted.");
 }
 
-auto JsonBool::serialize() -> void
+auto JsonBool::serialize() -> std::string
 {
-	serializeAsBool(boolean);
+	if (boolean)
+		return "true";
+	else
+		return "false";
+
 }
 
 } // namespace json 
