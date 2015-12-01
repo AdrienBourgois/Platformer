@@ -25,6 +25,15 @@ JsonObject::JsonObject()
 	logger->log("JsonObject has been created.");
 }
 
+JsonObject::JsonObject(JsonObject const& obj)
+{
+	logger->log("Creating JsonObject by copy...", LL_DEBUG);
+	
+	mapValue = obj.getMapValue();
+
+	logger->log("JsonObject has been created by copy.");
+}
+
 JsonObject::~JsonObject()
 {
 	logger->log("Deleting JsonObject...", LL_DEBUG);
@@ -32,38 +41,37 @@ JsonObject::~JsonObject()
 	logger->log("JsonObject has been deleted.");
 }
 
+auto JsonObject::addInObject(std::string str, JsonValue* val) -> void
+{
+	mapValue[str] = val;
+}
+
 auto JsonObject::serialize() -> void
 {
-	indent();
 	std::cout << "{" << std::endl;
-	if (mapValue.empty())
+	if (!mapValue.empty())
 	{
-		std::cout << "}" << std::endl;
-		return;
-	}
 
-	indentation++;
+		indentation++;
 
-	for (auto&& val : mapValue)
-	{
+		unsigned int i = 1;
+		unsigned int j = mapValue.size();
+		for (auto&& val : mapValue)
+		{
+			indent();
+			std::cout << "\"" << val.first << "\" : ";
+			val.second->serialize();
+			if ( i == j)
+				std::cout << std::endl;
+			else
+				std::cout << "," << std::endl;
+			++i;
+		}
+
+		--indentation;
 		indent();
-		std::cout << "\"" << val.first << "\" :";
-		val.second->serialize();
 	}
-
-	--indentation;
-	indent();
-	std::cout << "}" << std::endl;
-}
-
-auto JsonObject::operator[](std::string str) -> JsonValue*&
-{
-	return mapValue[str];
-}
-
-auto JsonObject::serialize(std::ostream& os) -> void
-{
-(void)os;
+	std::cout << "}";
 }
 
 JsonArray::JsonArray()
@@ -73,6 +81,15 @@ JsonArray::JsonArray()
 	logger->log("JsonArray has been created.");
 }
 
+JsonArray::JsonArray(JsonArray const& arr)
+{
+	logger->log("Creating JsonArray by copy...", LL_DEBUG);
+	
+	arrayValue = arr.getArrayValue();
+
+	logger->log("JsonArray has been created by copy.");
+}
+
 JsonArray::~JsonArray()
 {
 	logger->log("Deleting JsonArray...", LL_DEBUG);
@@ -80,15 +97,25 @@ JsonArray::~JsonArray()
 	logger->log("JsonArray has been deleted.");
 }
 
-auto JsonArray::serialize() -> void
+auto JsonArray::addInArray(JsonValue* val) -> void
 {
-
+	arrayValue.push_back(val);
 }
 
-auto JsonArray::serialize(std::ostream& os) -> void
+auto JsonArray::serialize() -> void
 {
+	std::cout << "[ ";
 
-(void)os;
+	unsigned int i = 1;
+	unsigned int j = arrayValue.size();
+	for (auto&& val : arrayValue)
+	{
+		val->serialize();
+		if (i != j)
+			std::cout << ", ";
+		++i;
+	}
+	std::cout << "]";
 }
 
 
@@ -109,13 +136,10 @@ JsonString::~JsonString()
 
 auto JsonString::serialize() -> void
 {
-}
-
-auto JsonString::serialize(std::ostream& os) -> void
-{
-(void)os;
+	std::cout << "\"" << str << "\"";
 
 }
+
 
 
 JsonBool::JsonBool(bool boolean)
@@ -135,12 +159,10 @@ JsonBool::~JsonBool()
 
 auto JsonBool::serialize() -> void
 {
-
-}
-
-auto JsonBool::serialize(std::ostream& os) -> void
-{
-(void)os;
+	if (boolean)
+		std::cout << "true";
+	else
+		std::cout << "false";
 
 }
 
@@ -162,22 +184,16 @@ JsonNumber::~JsonNumber()
 
 auto JsonNumber::serialize() -> void
 {
-	indent();
-	std::cout << number << "," << std::endl;
+	std::cout << number;
 }
 
-auto JsonNumber::serialize(std::ostream& os) -> void
-{
-(void)os;
 
-}
 
 
 JsonNull::JsonNull()
 {
 	logger->log("Creating JsonNull...", LL_DEBUG);
 
-	logger->log("JsonNull has been created.");
 }
 
 JsonNull::~JsonNull()
@@ -189,14 +205,9 @@ JsonNull::~JsonNull()
 
 auto JsonNull::serialize() -> void
 {
-
+	std::cout << "null";
 }
 
-auto JsonNull::serialize(std::ostream& os) -> void
-{
-(void)os;
-
-}
 
 } // namespace json 
 } // namespace id

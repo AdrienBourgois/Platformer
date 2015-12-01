@@ -17,10 +17,9 @@ public:
 	virtual ~JsonValue() = default;
 
 	virtual auto serialize() -> void{}; 
-	virtual auto serialize(std::ostream& os) -> void {(void)os;}
 
 	static int indentation;
-
+	
 };
 
 
@@ -30,17 +29,17 @@ class JsonObject
 public:
 	JsonObject();
 	virtual ~JsonObject();
-	JsonObject(JsonObject const&) = default;
+	JsonObject(JsonObject const&);
 	JsonObject(JsonObject&&) = default;
 	auto operator=(JsonObject const&) -> JsonObject& = default;
 	auto operator=(JsonObject&&) -> JsonObject& = default;
 
+	auto addInObject(std::string, JsonValue*) -> void;
 	virtual auto serialize() -> void override;
-	virtual auto serialize(std::ostream& os) -> void override;
 
-	auto operator[](std::string str) -> JsonValue*&;
+	auto getMapValue() const -> std::map<std::string, JsonValue*> { return mapValue; } 
 
-//private:
+private:
 	std::map<std::string, JsonValue*> mapValue;
 };
 ///////////////////
@@ -52,16 +51,18 @@ class JsonArray
 public:
 	JsonArray();
 	virtual ~JsonArray();
-	JsonArray(JsonArray const&) = default;
+	JsonArray(JsonArray const&);
 	JsonArray(JsonArray&&) = default;
 	auto operator=(JsonArray const&) -> JsonArray& = default;
 	auto operator=(JsonArray&&) -> JsonArray& = default;
 
+	auto addInArray(JsonValue* val) -> void;
 	virtual auto serialize() -> void override;
-	virtual auto serialize(std::ostream& os) -> void override;
+
+	auto getArrayValue() const -> std::vector<JsonValue*> { return arrayValue; }
 
 private:
-	std::vector<JsonValue> arrayValue;
+	std::vector<JsonValue*> arrayValue;
 };
 ///////////////////
 
@@ -80,7 +81,6 @@ public:
 	JsonString(std::string str);
 
 	virtual auto serialize() -> void override;
-	virtual auto serialize(std::ostream& os) -> void override;
 
 private:
 	std::string str;
@@ -101,7 +101,6 @@ public:
 	JsonBool(bool boolean);
 
 	virtual auto serialize() -> void override;
-	virtual auto serialize(std::ostream& os) -> void override;
 
 private:
 	bool boolean;
@@ -122,9 +121,8 @@ public:
 	JsonNumber(long double number);
 
 	virtual auto serialize() -> void override;
-	virtual auto serialize(std::ostream& os) -> void override;
 
-//private:
+private:
 	long double number;
 };
 ///////////////////
@@ -142,7 +140,6 @@ public:
 	auto operator=(JsonNull&&) -> JsonNull& = default;
 
 	virtual auto serialize() -> void override;
-	virtual auto serialize(std::ostream& os) -> void override;
 
 };
 

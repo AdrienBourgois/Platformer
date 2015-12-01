@@ -22,8 +22,27 @@ int main(int argc, char* argv[])
 
 	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
 
-	id::json::JsonObject obj;
-	obj["id"] = new id::json::JsonNumber(-1);
+	id::json::JsonObject 	obj;
+	id::json::JsonObject 	obj1;
+	id::json::JsonArray 	arr;
+	
+	arr.addInArray(new id::json::JsonNumber(5));
+	arr.addInArray(new id::json::JsonNumber(1224));
+	arr.addInArray(new id::json::JsonString("mon tableau"));
+	arr.addInArray(new id::json::JsonBool(false));
+
+	obj1.addInObject("id", new id::json::JsonNumber(-1));
+	obj1.addInObject("name", new id::json::JsonString("Jojo"));
+
+	arr.addInArray(new id::json::JsonObject(obj1));
+	arr.addInArray(new id::json::JsonNumber(124));
+	arr.addInArray(new id::json::JsonNumber(12524));
+	arr.addInArray(new id::json::JsonNumber(1864));
+
+	obj1.addInObject("array", new id::json::JsonArray(arr));
+	obj.addInObject("visible", new id::json::JsonBool(true));
+	obj.addInObject("obj1", new id::json::JsonObject(obj1));
+	obj.addInObject("pointer", new id::json::JsonNull());
 	obj.serialize();
 
 
