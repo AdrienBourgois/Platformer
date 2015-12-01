@@ -1,5 +1,6 @@
 #include "stateManager.h"
 #include "txtLogger.h"
+#include "elementId.h"
 
 namespace {
 
@@ -26,5 +27,22 @@ StateManager::~StateManager()
 }
 
 
+/*auto	StateManager::entityIs() -> bool
+{
+	bool inMovement = false;
+
+	if (getEntityState() == STATE_WALKING)
+		inMovement = true;
+
+	if (getEntityState() == STATE_RUNNING)
+		inMovement = true;
+
+	if (getEntityState() == STATE_STANDING)
+		inMovement = false;
+
+	return inMovement;
+
+}
+*/
 }//namespace scene
 }//namespace id 

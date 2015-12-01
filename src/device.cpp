@@ -36,6 +36,9 @@ Device::Device()
 	SDL_Init(SDL_INIT_VIDEO);
 	logger->log("SDL has been initialized");
 
+	//deltaTime = 0.f;
+	//last = std::chrono::high_resolution_clock::now();
+
 	_window		 	= Window::createWindow(1280, 720);	
 	_driver			= video::Driver::createDriver(_window.get());
 	

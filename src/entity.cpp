@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "elementId.h"
-#include "stateManager.h"
 #include "entity.h"
 #include "txtLogger.h"
 
@@ -46,7 +45,25 @@ Entity::~Entity()
 	logger->log("Entity has been deleted.", LL_INFO);
 }
 
+auto	Entity::entityIs() -> void 
+{
+		float speed = 0.f;
 
+
+		if (getEntityState() == STATE_WALKING)
+		{
+			speed = 1.f;
+			setSpeed(speed);
+		}		
+
+		else if (getEntityState() == STATE_RUNNING)
+		{
+			speed = 2.f;
+			setSpeedRun(speed);
+		}
+
+		
+}
 
 
 

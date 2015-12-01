@@ -4,9 +4,10 @@
 
 namespace id {
 
+	class Device;
+
 namespace scene {
 
-//class Entity;
 class Player;
 class Enemy;
 class StatePlayer;
@@ -18,12 +19,15 @@ class StatePlayer;
 		~Event();
 
 		static auto	createEvent(Player* player, Enemy* enemy) -> Event*;
-
+/*
 		auto	setPlayer(Player* player) -> void {this->player = player;}
 		auto	getPlayer() const -> Player* {return player;}	
 
 		auto	setEnemy(Enemy* enemy) -> void {this->enemy = enemy;}
 		auto	getEnemy() const -> Enemy* {return enemy;}
+*/
+		auto	getDevice() const -> Device* {return dev;}
+
 
 		auto	eventReceiver() -> void;		
 		auto	enemyPatrol() -> void;
@@ -31,10 +35,10 @@ class StatePlayer;
 	private:
 	Player* player;	
 	Enemy* enemy;
-//	Entity* entity;
+	
+	Device* dev;	
 	
 	Event(Player* player, Enemy* enemy);
-	float speed;
 	
 
 	};

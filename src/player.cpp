@@ -34,9 +34,6 @@ Player::Player(SceneManager* scn, SceneNode* parent, std::string const& name, st
 :Entity(scn, parent, name, shader, path, eLife, eHp, eAttack)
 {
 	logger->log("Creating Player...", LL_DEBUG);
-
-	setSpeed(0.5f);
-	setSpeedRun(1.f);
 	
 	logger->log("Player has been created.", LL_INFO);
 }	

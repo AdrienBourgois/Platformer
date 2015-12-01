@@ -47,9 +47,13 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
 
-	unsigned int enemyl = ply->getAttack() - enemy->getHp();
+//	unsigned int enemyl = ply->getAttack() - enemy->getHp();
 
-	std::cout << "Enemy Hp: " << enemyl << std::endl;
+//	std::cout << "Enemy Hp: " << enemyl << std::endl;
+
+
+	float last = SDL_GetTicks();
+	float deltaTime = 0.f;
 		
 	while (device->run())
 	{
@@ -57,6 +61,14 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
 
+		float now = SDL_GetTicks();
+
+		deltaTime = (now - last) / 1000.f;
+		last = now;
+		device->setDeltaTime(deltaTime);
+		std::cout << &device << std::endl;
+		std::cout << device->getDeltaTime() << std::endl;
+		
 		ev->eventReceiver();
 			
 		debug_window->Display(device.get());

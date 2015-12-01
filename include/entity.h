@@ -11,6 +11,8 @@ namespace id {
 
 namespace scene {
 
+	class Event;
+
 	class Entity : public MeshSceneNode, public StateManager {
 
 	public:
@@ -29,7 +31,13 @@ namespace scene {
 		virtual auto	setEntityState(int state) -> void override {this->state = state;}
 		virtual auto	getEntityState() -> int override {return state;}
 
-//		virtual	auto	
+		virtual auto	setSpeedRun(float speedrun) -> void {this->speedrun = speedrun;}
+		virtual auto	getSpeedRun() const -> float {return speedrun;}
+		
+		virtual auto	setSpeed(float speed) -> void {this->speed = speed;}
+		virtual auto	getSpeed() const -> float {return speed;}
+		
+		virtual	auto	entityIs() -> bool;
 
 	protected:
 
@@ -40,6 +48,9 @@ namespace scene {
 	unsigned int hp;
 	unsigned int attack;
 	int state;
+	float speed;
+	float speedrun;
+
 
 	};
 }//namespace scene 

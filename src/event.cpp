@@ -3,7 +3,10 @@
 #include <vector>
 #include <cstdint>
 #include <SDL2/SDL.h>
+#include <cmath>
 
+#include "device.h"
+#include "stateManager.h"
 #include "elementId.h"
 #include "sceneNode.h"
 #include "event.h"
@@ -11,7 +14,6 @@
 #include "txtLogger.h"
 #include "entity.h"
 #include "maths/matrix.h"
-#include <cmath>
 
 namespace {
 
@@ -67,47 +69,46 @@ auto	Event::eventReceiver() -> void
 		float rotz = player->getRotation().val[2];	
 
 		player->setEntityState(STATE_STANDING);
-
+	
+		player->entityIs();
 		
 		if (state[SDL_SCANCODE_S])
-		{	
-			z += 1.f * speed;
+		{
+			z += speed;
 			player->setEntityState(STATE_WALKING);
-			state[SDL_SCANCODE_R] ? z += 1.f * speedrun : z += 1.f* speed;
+			state[SDL_SCANCODE_R] ? z += speedrun : z += speed;
 		}
 	
 		if (state[SDL_SCANCODE_W])
 		{
-			z -= 1.f * speed;
+			z -= speed;
 			player->setEntityState(STATE_WALKING);
-			state[SDL_SCANCODE_R] ? z -= 1.f * speedrun : z -= 1.f* speed;
+			state[SDL_SCANCODE_R] ? z -= speedrun : z -= speed;
 		}
 		
 		if (state[SDL_SCANCODE_D])
 		{
-			x += 1.f * speed;
+			x += speed;
 			player->setEntityState(STATE_WALKING);
-			state[SDL_SCANCODE_R] ? x += 1.f * speedrun : x += 1.f* speed;
+			state[SDL_SCANCODE_R] ? x += speedrun : x += speed;
 		}
 
 		if (state[SDL_SCANCODE_A])
 		{
-			x -= 1.f * speed;
+			x -= speed;
 			player->setEntityState(STATE_WALKING);
-			state[SDL_SCANCODE_R] ? x -= 1.f * speedrun : x -= 1.f* speed;
+			state[SDL_SCANCODE_R] ? x -= speedrun : x -= speed;
 		}
 		
 		if (state[SDL_SCANCODE_R])
 		{
-			speedrun += 1.f * speed;
-			speed = speedrun;
 			player->setEntityState(STATE_RUNNING);
 		}
 	
 	
 		if (state[SDL_SCANCODE_SPACE])
 		{
-			y += 1.f * speed;
+			y += speed;
 			player->setEntityState(STATE_JUMPING);
 		}
 		
@@ -120,10 +121,13 @@ auto	Event::eventReceiver() -> void
 		if (state[SDL_SCANCODE_E])
 			roty += 5.f * speed;	
 
-		
+	
+		if (player->entityIs() == true)
+		player->setPosition({x, y, z});
+	
 		std::cout << "speed : " << speed << std::endl;
 		std::cout << player->getEntityState() << std::endl;
-		player->setPosition({x, y, z});
+		std::cout << "MovementIs: " << player->entityIs() << std::endl;
 		player->setRotation({rotx, roty, rotz});	
 }
 

@@ -1,4 +1,5 @@
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL.h>
 
 #include "driver.h"
 #include "device.h"
@@ -30,7 +31,7 @@ Driver::Driver(Window* window)
 	}
 
 	setAttribute(4, 2, 8, 8, 8, 24, 1);
-
+	
 	initGlew();
 
 	_shaders = Shaders::createShaders();
@@ -202,6 +203,7 @@ auto Driver::ChangeTexture(GLuint index) -> void
 {
 	glBindTexture(GL_TEXTURE_2D, index);
 }
+
 
 } // namespace video
 } // namespace id
