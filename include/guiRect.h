@@ -24,6 +24,7 @@ public:
 	auto getParent() const -> GuiRect* { return this->parent; };
 	auto getRect() -> std::vector<float>* { return &this->rect; };
 	auto getShaderName() -> std::string* { return &this->shaderName; };
+	auto getType() const -> std::string { return this->type; };
 	auto getPosX() const -> float { return this->posX; };
 	auto getPosY() const -> float { return this->posY; };
 	auto getWidth() const -> float { return this->width; };
@@ -31,23 +32,29 @@ public:
 	auto getColorBg() const -> maths::Vector4 { return this->colorBg; };
 	auto getVao() const -> GLuint { return this->vao; };
 	auto getVbo() const -> GLuint { return this->vbo; };
+	auto getTexID() const -> GLuint { return this->texID; };
 	auto getID() const -> int { return this->id; };
 	auto getVisible() const -> bool { return this->visible; };
 
-private:
+	auto setListenEvent(bool listen) -> void { this->listenEvent = listen; };
+
+protected:
 	GuiManager* gui;
 	GuiRect* parent;
 	std::vector<GuiRect*> children;
 	std::vector<float> rect;
 	std::string shaderName;
+	std::string type;
 
 	float posX, posY;
 	float width, height;
 	maths::Vector4 colorBg;
 	GLuint vao;
 	GLuint vbo;
+	GLuint texID;
 	int id;
 	bool visible;
+	bool listenEvent;
 };
 
 } // end namespace

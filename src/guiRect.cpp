@@ -13,7 +13,7 @@ namespace id {
 namespace gui {
 
 GuiRect::GuiRect(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible)
-: gui(gui), parent(parent), shaderName(""), posX(posX), posY(posY), width(width), height(height), colorBg({0.f, 0.f, 0.f, 0.f}), id(id), visible(visible)
+: gui(gui), parent(parent), shaderName(""), type(""), posX(posX), posY(posY), width(width), height(height), colorBg({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), id(id), visible(visible), listenEvent(false)
 {
 	logger->log("Creating GuiRect...", LL_INFO);
 
@@ -27,7 +27,8 @@ GuiRect::~GuiRect()
 }
 auto GuiRect::createElement(maths::Vector4 color) -> void
 {
-	this->shaderName = "pos2d_colorBg";
+	this->shaderName = "pos2d_color4";
+	this->type = "rect";
 	this->colorBg = color;
 	maths::Vector4x2 coordsRect = calculateCoordsRect();
 	this->rect = {

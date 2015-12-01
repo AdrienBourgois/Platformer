@@ -1,10 +1,16 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <memory>
 
 #include "txtLogger.h"
 #include "guiManager.h"
 #include "guiRect.h"
+#include "guiButton.h"
+
+// debug
+#include <iostream>
+// end
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
@@ -17,6 +23,10 @@ GuiManager::GuiManager(int windowWidth, int windowHeight)
 {
 	logger->log("Creating GuiManager...", LL_INFO);
 
+	if (TTF_Init() == -1)
+		logger->log("Failed to initialisation TTF", LL_INFO);
+
+	this->font = TTF_OpenFont("/usr/share/fonts/truetype/gentium-basic/GenBasB.ttf", 60);
 	loadProgram("pos2d_color4");
 	loadProgram("pos2d_tex2d_color4");
 	this->windowWidth = windowWidth;
@@ -64,9 +74,16 @@ auto GuiManager::render() -> void
 			glUseProgram(prgID);
 			GLint projLoc = glGetUniformLocation(prgID, "proj");
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, this->camOrtho.data());
+			if ((*it)->getType() == "button")
+			{
+				maths::Vector4 color = (*it)->getColorBg();
+				GLint colorLoc = glGetUniformLocation(prgID, "color");
+				glUniform4f(colorLoc, color.val[0], color.val[1], color.val[2], color.val[3]);
+			}
 
 			glBindVertexArray((*it)->getVao());
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->getVbo());
+			glBindTexture(GL_TEXTURE_2D, (*it)->getTexID());
 			glDrawArrays(GL_TRIANGLES, 0, (*it)->getRect()->size());
 		}
 	}
@@ -82,6 +99,18 @@ auto GuiManager::addRect(GuiRect* parent, float posX, float posY, float width, f
 	GuiRect* newRect = new GuiRect(this, parent, posX, posY, width, height, id, visible);
 	newRect->createElement(color);
 	addToRender(newRect);
+}
+auto GuiManager::addButton(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 colorBg, std::string const& text, maths::Vector4 colorText) -> void
+{
+	GuiButton* newButton = new GuiButton(this, parent, posX, posY, width, height, id, visible);
+	newButton->createElement(colorBg, text, colorText);
+	addToRender(newButton);
+}
+auto GuiManager::addStaticText(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::string const& text, maths::Vector4 colorText) -> void
+{
+	addButton(parent, posX, posY, width, height, id, visible, {0.f, 0.f, 0.f, 0.f}, text, colorText);
+	GuiRect* newStaticText = getElementFromID(id);
+	newStaticText->setListenEvent(false);
 }
 auto GuiManager::addToRender(GuiRect* newRect) -> void
 {
@@ -129,13 +158,10 @@ auto GuiManager::loadShader(std::string const& name, GLint shaderType) -> GLuint
 	std::fstream file;
     std::string filePath;
     if (shaderType == GL_VERTEX_SHADER)
-    {
         filePath = "./assets/shaders/" + name + "_vs.glsl";
-    }
     else
-    {
         filePath = "./assets/shaders/" + name + "_fs.glsl";
-    }
+
     file.open(filePath, std::fstream::in | std::fstream::binary);
     SDL_assert(file.is_open());
 
@@ -163,11 +189,39 @@ auto GuiManager::loadShader(std::string const& name, GLint shaderType) -> GLuint
         SDL_assert(false);
     }
     else
-    {
         std::cout << "Shader [" << filePath << "] compilation success" << std::endl;
-    }
 
 	return id;
+}
+auto GuiManager::loadText(std::string const& text, maths::Vector4 colorText) -> GLuint
+{
+	SDL_Color color = { (Uint8)(colorText.val[0]*255), (Uint8)(colorText.val[1]*255), (Uint8)(colorText.val[2]*255), (Uint8)(colorText.val[3]*255) };
+	SDL_Surface* surf = TTF_RenderText_Blended(this->font, (" " + text + " ").c_str(), color);
+
+	SDL_assert(surf);
+
+	GLuint texID;
+	glGenTextures(1, &texID);
+	glBindTexture(GL_TEXTURE_2D, texID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surf->w, surf->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surf->pixels);
+
+	SDL_FreeSurface(surf);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return texID;
+}
+auto GuiManager::getElementFromID(int id) -> GuiRect*
+{
+	for (std::vector<GuiRect*>::iterator it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
+	{
+		if ((*it)->getID() == id)
+			return *it;
+	}
+	return nullptr;
 }
 
 } // end namespace gui

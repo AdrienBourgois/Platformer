@@ -13,6 +13,7 @@
 #include "guiOpenFile.h"
 #include "driver.h"
 #include "fileUtility.h"
+#include "guiManager.h"
 
 int main(int argc, char* argv[])
 {
@@ -33,6 +34,11 @@ int main(int argc, char* argv[])
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
 
+	device->getGui()->addRect(nullptr, 100, 100, 50, 50, 1, true, {1.f, 1.f, 1.f, 1.f});
+	device->getGui()->addButton(nullptr, 0, 0, 100, 100, 2, true, {0.f, 0.f, 0.f, 1.f}, "Button", {1.f, 1.f, 1.f, 1.f});
+	//device->getGui()->addRect(nullptr, 0, 0, 100, 100, 3, true, {0.f, 0.f, 0.f, 1.f});
+	device->getGui()->addStaticText(nullptr, -300, 0, 150, 100, 4, true, "Static text", {0.6f, 0.2f, 0.4f, 1.f});
+
 	while (device->run())
 	{
 		device->getDriver()->clear();
@@ -44,6 +50,7 @@ int main(int argc, char* argv[])
 		open_file->Display(device.get());
 
 		ImGui::Render();
+		device->getGui()->render();
 		device->getWindow()->swap();
 	}
 	ImGui::Shutdown();
