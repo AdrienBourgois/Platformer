@@ -1,9 +1,16 @@
 TARGET = plateformer 
 
 SRC = 	main.cpp\
-		saveJson.cpp\
 		txtLogger.cpp\
-		#device.cpp\
+		json/jsonWriter.cpp\
+		json/jsonObject.cpp\
+		json/jsonArray.cpp\
+		json/jsonString.cpp\
+		json/jsonBool.cpp\
+		json/jsonNumber.cpp\
+		json/jsonNull.cpp\
+		#saveJson.cpp\
+		device.cpp\
 		window.cpp\
 		shaders.cpp\
 		driver.cpp\
@@ -39,7 +46,7 @@ OBJ_DIR = obj/$(MODE)/
 
 SRC_DIR = src/
 
-INC_DIR = include/ usr/include/SDL2/ 
+INC_DIR = include/ //usr/include/SDL2/ 
 
 OBJ = $(patsubst %.cpp,$(OBJ_DIR)%.o,$(SRC))
 
