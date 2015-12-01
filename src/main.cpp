@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 	mesh2->setPosition({3,13.5,40});
 
 
-	std::vector<id::maths::Vector3> points         = id::maths::getPointsFromVectorFloat(triangle);
+	std::vector<id::maths::Vector3> points         = id::maths::getPointsFromVectorFloat(id::maths::Shape::cube);
 	std::vector<id::maths::Vector3> newPointsMesh  = id::maths::calCoordFromMatrix(points, mesh->AbsoluteTransformation());
 	std::vector<id::maths::Vector3> newPointsMesh2 = id::maths::calCoordFromMatrix(points, mesh2->AbsoluteTransformation());
 
@@ -48,9 +48,6 @@ int main(int argc, char* argv[])
 
 	id::maths::Collider polyhedronCollider(polyhedron);
 	id::maths::Collider polyhedronCollider2(polyhedron2);
-
-
-
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
@@ -78,11 +75,6 @@ int main(int argc, char* argv[])
 
  		ImGui::Render();
 		device->getWindow()->swap();
-
-        if (polyhedronCollider.collide(polyhedronCollider2))
-            std::cout << "collision" << std::endl;
-        else
-        	std::cout << "pas de collision" << std::endl;
 	}
 
 	ImGui::Shutdown();

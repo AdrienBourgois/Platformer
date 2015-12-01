@@ -40,11 +40,6 @@ auto Collider::updateBoundingBox() -> void
     float Zmax = (*(std::min_element(points.begin(), points.end(), more_by_z))).val[2];
 
     this->boundingBox = std::make_pair((Vector3){Xmin, Ymin, Zmin}, (Vector3){Xmax, Ymax, Zmax});
-    std::cout << Xmin << "//" << Xmax << std::endl;
-    std::cout << Ymin << "//" << Ymax << std::endl;
-    std::cout << Zmin << "//" << Zmax << std::endl;
-    std::cout << "-----------------------" << std::endl;
-
 }
 
 auto Collider::collide(Collider const& col) const -> bool
@@ -54,11 +49,10 @@ auto Collider::collide(Collider const& col) const -> bool
     Vector3 min2 = col.getBoundingBox().first;
     Vector3 max2 = col.getBoundingBox().second;
 
-    if (max1.val[0] > min2.val[0] && min1.val[0] < max2.val[0] &&
-        max1.val[1] > min2.val[1] && min1.val[1] < max2.val[1] &&
-        max1.val[2] > min2.val[2] && min1.val[2] < max2.val[2])
+    if (max1.val[0] >= min2.val[0] && min1.val[0] <= max2.val[0] &&
+        max1.val[1] >= min2.val[1] && min1.val[1] <= max2.val[1] &&
+        max1.val[2] >= min2.val[2] && min1.val[2] <= max2.val[2])
         return true;
-
 
     return false;
 }
