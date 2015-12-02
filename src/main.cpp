@@ -46,14 +46,14 @@ int main(int argc, char* argv[])
 	id::OpenFile* open_file = new id::OpenFile();
 
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
-	bool visible2 = true;	
+//	bool visible2 = true;	
 	while (device->run())
 	{
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
 		
-		ImGui::ShowTestWindow(&visible2);
+//		ImGui::ShowTestWindow(&visible2);
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
 		
