@@ -7,42 +7,39 @@ namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
 }
 
-
 namespace id {
 namespace scene {
 
+
 StateManager::StateManager()
 {
-	logger->log("Creating StateManager ...", LL_DEBUG);
+	logger->log("Initializing StateManager...", LL_DEBUG);
 
-
-	logger->log("StateManager has been created.", LL_INFO);
+	logger->log("StateManager has been initialized.", LL_DEBUG);
 }
 
 StateManager::~StateManager()
 {
-	logger->log("Deleting StateManager ...", LL_DEBUG);
+	logger->log("Deleting StateManager.", LL_DEBUG);
 
-	logger->log("StateManager has been deleted.", LL_INFO);
+	logger->log("StateManager has been deleted.", LL_DEBUG);
 }
 
-
-/*auto	StateManager::entityIs() -> bool
+auto StateManager::entityIs() -> bool
 {
-	bool inMovement = false;
+	bool inMovement = false;	
 
-	if (getEntityState() == STATE_WALKING)
+	if (STATE_WALKING)
 		inMovement = true;
 
-	if (getEntityState() == STATE_RUNNING)
+	else if (STATE_RUNNING)
 		inMovement = true;
 
-	if (getEntityState() == STATE_STANDING)
+	else
 		inMovement = false;
 
 	return inMovement;
-
 }
-*/
+
 }//namespace scene
 }//namespace id 

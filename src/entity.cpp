@@ -1,6 +1,5 @@
 #include <string>
 #include <iostream>
-#include <vector>
 
 #include "elementId.h"
 #include "entity.h"
@@ -10,62 +9,38 @@ namespace {
 
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
 
-}
+}//namespace 
 
 namespace id {
 namespace scene {
 
 
- auto     Entity::createEntity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Entity*
+Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
+:MeshSceneNode(scn, parent, name, shader, path), speed(0.f), state(STATE_STANDING), speedrun(0.f)
 {
-//	SDL_assert(scn && parent);
+	logger->log("Creating Entity ...", LL_DEBUG);
 
-	Entity* entity = new (std::nothrow)Entity(scn, parent, name, shader, path, eLife, eHp, eAttack);
-	
-	if (!entity)
-		logger->log("failed at created entity in Entity::createEntity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)", LL_WARNING);
-
-	return entity;
-}
-
-
-Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)
-:MeshSceneNode(scn, parent, name, shader, path), life(eLife), hp(eHp), attack(eAttack), state(STATE_STANDING)
-{
-	logger->log("Creating Entity...", LL_DEBUG);
-
-
-	logger->log("Entity has been created.", LL_INFO);
+	logger->log("Entity has been created.", LL_DEBUG);
 }
 
 Entity::~Entity()
 {
-	logger->log("Entity deleting ...", LL_DEBUG);
+	logger->log("Deleting Entity ...", LL_DEBUG);
 
-	logger->log("Entity has been deleted.", LL_INFO);
+
+	logger->log("Entity has been deleted.", LL_DEBUG);
 }
 
-auto	Entity::entityIs() -> void 
+auto Entity::entitySpeedIs() -> void 
 {
-		float speed = 0.f;
+	if (STATE_WALKING)
+		setSpeed(0.3f);
 
+	if (STATE_RUNNING)
+		setSpeedRun(1.f);
 
-		if (getEntityState() == STATE_WALKING)
-		{
-			speed = 1.f;
-			setSpeed(speed);
-		}		
-
-		else if (getEntityState() == STATE_RUNNING)
-		{
-			speed = 2.f;
-			setSpeedRun(speed);
-		}
-
-		
 }
 
 
-
-}//namespace scene 
-}//namespace id
+}//namespace scene
+}//namespace id 

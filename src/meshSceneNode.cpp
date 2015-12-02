@@ -18,11 +18,11 @@ namespace id {
 namespace scene {
 
 
-auto MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, std::vector<GLfloat> shape) -> MeshSceneNode*
+auto MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> MeshSceneNode*
 {
 	SDL_assert(scn && parent);
 
-	MeshSceneNode* meshSceneNode = new (std::nothrow)MeshSceneNode(scn, parent, name, shader, path, shape);
+	MeshSceneNode* meshSceneNode = new (std::nothrow)MeshSceneNode(scn, parent, name, shader, path);
 	if (!meshSceneNode)
 		logger->log("failed at creating meshSceneNode in MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader)", LL_WARNING);
 
@@ -30,7 +30,7 @@ auto MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, st
 
 }
 
-MeshSceneNode::MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, std::vector<GLfloat> shape)
+MeshSceneNode::MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
 : SceneNode(scn, parent, name), _mesh(nullptr)
 {
 
@@ -38,7 +38,7 @@ MeshSceneNode::MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string c
     _prg_id = scn->getDriver()->getShader()->getPrg(shader);
 
 
-	_mesh = Mesh::createMesh(path, shape, scn->getDriver());
+	_mesh = Mesh::createMesh(path, scn->getDriver());
  
 	_scn->addToRender(this, _prg_id);
  

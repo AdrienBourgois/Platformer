@@ -1,50 +1,46 @@
-#include <string>
 #include <iostream>
-#include <vector>
+#include <string>
 
 #include "player.h"
 #include "txtLogger.h"
 
-
 namespace {
 
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
+	id::TXTLogger * logger = id::TXTLogger::getInstance();
 
-}
-
+}//namespace 
 
 namespace id {
-
 namespace scene {
 
-
-auto    Player::createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Player*
-{
-//	SDL_assert(scn && parent);
-
-	Player* player = new (std::nothrow)Player(scn, parent, name, shader, path, eLife, eHp, eAttack);
-	if (!player)
-		logger->log("failed at creating player in Player::createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)", LL_WARNING);
-
-	return player;
-}
-
-
-Player::Player(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)
-:Entity(scn, parent, name, shader, path, eLife, eHp, eAttack)
+Player::Player(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
+:Entity(scn, parent, name, shader, path)
 {
 	logger->log("Creating Player...", LL_DEBUG);
-	
-	logger->log("Player has been created.", LL_INFO);
-}	
+
+	//setSpeedRun(1.f);
+
+	logger->log("Player has been created.", LL_DEBUG);
+
+}
 
 Player::~Player()
 {
 	logger->log("Deleting Player...", LL_DEBUG);
 
-	logger->log("Player has been deleted.", LL_INFO);
+	logger->log("Player has been deleted.", LL_DEBUG);
+}
+
+auto Player::createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> Player*
+{
+	Player* player = new(std::nothrow)Player(scn, parent, name, shader, path);
+
+	if(!player)
+		logger->log("Failed at creating player in Player::createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)", LL_WARNING);
+
+	return player;
 }
 
 
-}//namespace scene 
 }//namespace id 
+}//namespace scene 

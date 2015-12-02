@@ -2,30 +2,30 @@
 #define __STATEMANAGER_H_INCLUDED__
 #include "elementId.h"
 
-
 namespace id {
 namespace scene {
 
-	class StateManager {
+class StateManager {
 
-	public:
-		StateManager();
-		virtual ~StateManager();
-		
-		virtual auto	setEntityState(int state) -> void {this->state = state;}
-		virtual auto	getEntityState() -> int {return state;}		
+public:
+
+	StateManager();
+	virtual ~StateManager();
+
+	virtual auto setEntityState(int state) -> void {this->state = state;}
+	virtual auto getEntityState() -> int {return state;}
 	
-		virtual auto	entityIs() -> bool; //use for know if the entity move or not	
+	virtual auto entityIs() -> bool;
 
-	private:
-
+private:
 	int state;
 
-	};
-
+};
 
 }//namespace scene
 }//namespace id 
 
 
-#endif
+
+
+#endif // __STATEMANAGER_H_INCLUDED__
