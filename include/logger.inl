@@ -3,8 +3,6 @@
 template<typename T, typename ... Param>
 void Logger::logT(LG_LEVEL logLevel, T value)
 {
-	std::cout << "allo" << std::endl;
-	
 	std::stringstream ss;
 	ss << getTime();
 	ss << recordLogFlag(logLevel);
@@ -15,13 +13,11 @@ void Logger::logT(LG_LEVEL logLevel, T value)
 	logOF.close();
 	bufLogString.push_back(ss.str());
 
-	std::cout<< "DANS VECTOR " << *bufLogString.begin() << std::endl;
-
 	(void)logLevel;
 	#ifdef _DEBUG
-		std::cout << ss.str() << std::endl;
+//		std::cout << ss.str() << std::endl;
 	#else
-		std::cout << "DEBUG"<< std::endl;
+//		std::cout << ss.str() << std::endl;
 	#endif
 	
 	logString.str("");

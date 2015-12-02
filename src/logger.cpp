@@ -27,7 +27,6 @@ Logger::Logger()
 	#ifndef _DEBUG
 	logFile = "RELEASE_LOG";
 	#endif
-	std::cout << "logger creating" << std::endl;
 	setLogFile();
 }
 
@@ -94,6 +93,10 @@ auto Logger::recordLogFlag(LG_LEVEL logFlag) -> std::string
 			return "GAME    ->";
 		break;
 
+		case L_LOOP:
+			return "LOOP	->";
+		break;
+	
 		default:
 			return "";
 			break;

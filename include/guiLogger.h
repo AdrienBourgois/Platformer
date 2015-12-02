@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <array>
 
 namespace id {
 
@@ -32,7 +33,7 @@ private:
 	ImGuiTextFilter	filter;
 	ImVector<int>	lineOffsets;
 	bool		scrollToBottom;
-	std::map<std::string, bool> mapCheck;	
+	std::array<bool, L_COUNT>	arrayCheck;
 };
 
 } // id

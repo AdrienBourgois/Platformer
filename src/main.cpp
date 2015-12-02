@@ -24,6 +24,9 @@ int main(int argc, char* argv[])
 	LOG(L_ERROR, 32, 454,4554754,455454);
 
 	LOG(L_ERROR, 4432, "dqwedqwdqw",4554754,455454);
+	LOG(L_GAME, 4432, "dqwedqwdqw",4554754,455454);
+	LOG(L_WARNING, 4432, "dqwedqwdqw",4554754,455454);
+	LOG(L_LOOP, 4432, "dqwedqwdqw",4554754,455454);
 	LOG(L_ERROR, "pouet");
 	std::unique_ptr<id::Device> device = device->create();
 	
@@ -39,8 +42,8 @@ int main(int argc, char* argv[])
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
 
-//	id::DebugWindow* debug_window = new id::DebugWindow();
-//	id::OpenFile* open_file = new id::OpenFile();
+	id::DebugWindow* debug_window = new id::DebugWindow();
+	id::OpenFile* open_file = new id::OpenFile();
 
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
 	bool visible2 = true;	
@@ -51,8 +54,8 @@ int main(int argc, char* argv[])
 		id::imgui_impl::NewFrame(device.get());
 		
 		ImGui::ShowTestWindow(&visible2);
-//		debug_window->Display(device.get());
-//		open_file->Display(device.get());
+		debug_window->Display(device.get());
+		open_file->Display(device.get());
 		
 		debug_logger->DisplayLog();	
 		#ifdef _DEBUG
@@ -62,9 +65,9 @@ int main(int argc, char* argv[])
 	}
 
 	ImGui::Shutdown();
-	
-//	delete debug_window;
-//	delete open_file;
+	delete debug_logger;	
+	delete debug_window;
+	delete open_file;
 	
 	return EXIT_SUCCESS;
 }

@@ -1,17 +1,10 @@
 #ifndef LOGGER_H_INCLUDED
 #define LOGGER_H_INCLUDED
 
-#ifdef _DEBUG
-
 #define xstr(s) string(s)
 #define string(s) #s
 
-#define LOG(LVL, ...) id::Logger::getInstance()->logT(LVL, __FILE__ ":" xstr(__LINE__) " in function", __FUNCTION__,__VA_ARGS__)
-#else
-#define xstr(s) string(s)
-#define string(s) #s
-#define LOG(LVL, ...) id::Logger::getInstance()->logT(LVL, __FILE__ ":" xstr(__LINE__) " in function", __FUNCTION__,__VA_ARGS__)
-#endif
+#define LOG(LVL, ...) id::Logger::getInstance()->logT(LVL, __FILE__ ":" xstr(__LINE__) " in", __FUNCTION__,__VA_ARGS__)
 
 #include <fstream>
 #include <string>
@@ -26,7 +19,9 @@ enum LG_LEVEL
 	L_INFO,
 	L_GAME,
 	L_DEBUG,
-	L_ALL
+	L_LOOP,
+	L_COUNT
+	
 };
 namespace id {
 
