@@ -10,6 +10,7 @@
 #include "texture.h"
 #include "screenshot.h"
 #include "guiManager.h"
+#include "guiEventReceiver.h"
 
 namespace {
 
@@ -77,6 +78,7 @@ auto Device::run() -> bool
     while (SDL_PollEvent(&ev))
     {
 		imgui_impl::ProcessEvent(&ev);
+		this->_gui->getGuiEvt()->eventListener(&ev);
         switch (ev.type)
         {
             case SDL_QUIT:

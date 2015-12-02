@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <string>
+#include <functional>
 
 #include "txtLogger.h"
 #include "guiButton.h"
@@ -13,8 +14,8 @@ namespace {
 namespace id {
 namespace gui {
 
-GuiButton::GuiButton(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible)
-: GuiRect(gui, parent, posX, posY, width, height, id, visible)
+GuiButton::GuiButton(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::function<void()> func)
+: GuiRect(gui, parent, posX, posY, width, height, id, visible, func)
 {
 	logger->log("Creating Button...", LL_INFO);
 

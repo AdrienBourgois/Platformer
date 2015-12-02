@@ -2,11 +2,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <memory>
+#include <functional>
 
 #include "txtLogger.h"
 #include "guiManager.h"
 #include "guiRect.h"
 #include "guiButton.h"
+#include "guiEventReceiver.h"
 
 // debug
 #include <iostream>
@@ -29,6 +31,7 @@ GuiManager::GuiManager(int windowWidth, int windowHeight)
 	this->font = TTF_OpenFont("/usr/share/fonts/truetype/gentium-basic/GenBasB.ttf", 60);
 	loadProgram("pos2d_color4");
 	loadProgram("pos2d_tex2d_color4");
+	this->guiEvt = new GuiEventReceiver(this);
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 	this->camOrtho = {
@@ -37,7 +40,7 @@ GuiManager::GuiManager(int windowWidth, int windowHeight)
         0.f, 0.f, -2.f/(100.f - 0.1f), 0.f,
         0.f, 0.f, 0.f, 1.f
 	};
-	this->root = new GuiRect(this, nullptr, 0, 0, 0, 0, 0, false);
+	this->root = new GuiRect(this, nullptr, 0, 0, 0, 0, 0, false, nullptr);
 
 	logger->log("GuiManager created", LL_INFO);
 }
@@ -70,7 +73,7 @@ auto GuiManager::render() -> void
 	{
 		if ((*it)->getVisible())
 		{
-			GLuint prgID = this->programGui.find(*(*it)->getShaderName())->second;
+			GLuint prgID = this->programGui.find((*it)->getShaderName())->second;
 			glUseProgram(prgID);
 			GLint projLoc = glGetUniformLocation(prgID, "proj");
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, this->camOrtho.data());
@@ -84,7 +87,7 @@ auto GuiManager::render() -> void
 			glBindVertexArray((*it)->getVao());
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->getVbo());
 			glBindTexture(GL_TEXTURE_2D, (*it)->getTexID());
-			glDrawArrays(GL_TRIANGLES, 0, (*it)->getRect()->size());
+			glDrawArrays(GL_TRIANGLES, 0, (*it)->getRect().size());
 		}
 	}
 
@@ -96,19 +99,19 @@ auto GuiManager::render() -> void
 }
 auto GuiManager::addRect(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 color) -> void
 {
-	GuiRect* newRect = new GuiRect(this, parent, posX, posY, width, height, id, visible);
+	GuiRect* newRect = new GuiRect(this, parent, posX, posY, width, height, id, visible, nullptr);
 	newRect->createElement(color);
 	addToRender(newRect);
 }
-auto GuiManager::addButton(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 colorBg, std::string const& text, maths::Vector4 colorText) -> void
+auto GuiManager::addButton(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 colorBg, std::string const& text, maths::Vector4 colorText, std::function<void()> func) -> void
 {
-	GuiButton* newButton = new GuiButton(this, parent, posX, posY, width, height, id, visible);
+	GuiButton* newButton = new GuiButton(this, parent, posX, posY, width, height, id, visible, func);
 	newButton->createElement(colorBg, text, colorText);
 	addToRender(newButton);
 }
 auto GuiManager::addStaticText(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::string const& text, maths::Vector4 colorText) -> void
 {
-	addButton(parent, posX, posY, width, height, id, visible, {0.f, 0.f, 0.f, 0.f}, text, colorText);
+	addButton(parent, posX, posY, width, height, id, visible, {0.f, 0.f, 0.f, 0.f}, text, colorText, nullptr);
 	GuiRect* newStaticText = getElementFromID(id);
 	newStaticText->setListenEvent(false);
 }

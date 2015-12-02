@@ -1,6 +1,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <typeinfo>
 #include <new>
+#include <functional>
 
 #include "device.h"
 #include "window.h"
@@ -14,6 +15,14 @@
 #include "driver.h"
 #include "fileUtility.h"
 #include "guiManager.h"
+#include "guiMenu.h"
+
+#include <iostream>
+
+void print(int num1, int num2)
+{
+	std::cout << num1 + num2 << std::endl;
+}
 
 int main(int argc, char* argv[])
 {
@@ -34,10 +43,11 @@ int main(int argc, char* argv[])
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
 
-	device->getGui()->addRect(nullptr, 100, 100, 50, 50, 1, true, {1.f, 1.f, 1.f, 1.f});
-	device->getGui()->addButton(nullptr, 0, 0, 100, 100, 2, true, {0.f, 0.f, 0.f, 1.f}, "Button", {1.f, 1.f, 1.f, 1.f});
-	//device->getGui()->addRect(nullptr, 0, 0, 100, 100, 3, true, {0.f, 0.f, 0.f, 1.f});
-	device->getGui()->addStaticText(nullptr, -300, 0, 150, 100, 4, true, "Static text", {0.6f, 0.2f, 0.4f, 1.f});
+	//int windowWidth = device->getGui()->getWidth();
+	//std::function<int()> func = [&windowWidth]() {return windowWidth;};
+	
+	id::gui::GuiMenu* menu = new  id::gui::GuiMenu(device->getGui());
+	menu->createMenuTitleScreen();
 
 	while (device->run())
 	{

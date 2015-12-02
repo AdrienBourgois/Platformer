@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <functional>
 
 #include "maths/matrix.h"
 #include "maths/vector.h"
@@ -15,6 +16,7 @@ namespace id {
 namespace gui {
 
 class GuiRect;
+class GuiEventReceiver;
 
 class GuiManager
 {
@@ -29,7 +31,7 @@ public:
 	auto render() -> void;
 
 	auto addRect(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 color) -> void;
-	auto addButton(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 colorBg, std::string const& text, maths::Vector4 colorText) -> void;
+	auto addButton(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 colorBg, std::string const& text, maths::Vector4 colorText, std::function<void()> func) -> void;
 	auto addStaticText(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::string const& text, maths::Vector4 colorText) -> void;
 	auto addToRender(GuiRect* newRect) -> void;
 
@@ -38,10 +40,17 @@ public:
 	auto loadText(std::string const& text, maths::Vector4 colorText) -> GLuint;
 	auto getElementFromID(int id) -> GuiRect*;
 
+	auto getDrawRect() const& -> std::vector<GuiRect*> { return this->drawRect; };
+	auto getGuiEvt() const& -> GuiEventReceiver* { return this->guiEvt; };
+	auto getWidth() const -> int { return this->windowWidth; };
+	auto getHeight() const -> int { return this->windowHeight; };
+	auto getRoot() const& -> GuiRect* { return this->root; };
+
 private:
 	GuiManager(int windowWidth, int windowHeight);
 	std::vector<GuiRect*> drawRect;
 	std::map<std::string, GLuint> programGui;
+	GuiEventReceiver* guiEvt;
 
 	int windowWidth, windowHeight;
 	std::array<float, 16> camOrtho;

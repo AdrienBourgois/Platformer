@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <vector>
+#include <functional>
 
 #include "txtLogger.h"
 #include "guiRect.h"
@@ -12,10 +13,19 @@ namespace {
 namespace id {
 namespace gui {
 
-GuiRect::GuiRect(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible)
-: gui(gui), parent(parent), shaderName(""), type(""), posX(posX), posY(posY), width(width), height(height), colorBg({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), id(id), visible(visible), listenEvent(false)
+GuiRect::GuiRect(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::function<void()> func)
+: gui(gui), parent(parent), shaderName(""), type(""), posX(posX), posY(posY), width(width), height(height), colorBg({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), id(id), visible(visible), listenEvent(false), pressed(false), func(func)
 {
 	logger->log("Creating GuiRect...", LL_INFO);
+
+	if (parent)
+	{
+		parent->addChild(this);
+	}
+	else
+	{
+		this->parent = gui->getRoot();
+	}
 
 	logger->log("GuiRect created", LL_INFO);
 }
@@ -55,6 +65,10 @@ auto GuiRect::calculateCoordsRect() -> maths::Vector4x2
 	float downRightY = -(posY - (this->height/2));
 
 	return {upRightX, upRightY, upLeftX, upLeftY, downLeftX, downLeftY, downRightX, downRightY};
+}
+auto GuiRect::addChild(GuiRect* child) -> void
+{
+	this->children.push_back(child);
 }
 auto GuiRect::genVertexObject() -> void
 {
