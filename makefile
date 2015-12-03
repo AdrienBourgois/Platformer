@@ -12,7 +12,7 @@ SRC = 	main.cpp\
 		json/jsonValue.cpp\
 		json/jsonReader.cpp\
 		fileUtility.cpp\
-		#device.cpp\
+		device.cpp\
 		window.cpp\
 		shaders.cpp\
 		driver.cpp\

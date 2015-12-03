@@ -7,6 +7,9 @@
 #include <fstream>
 
 namespace id {
+
+class Device;
+
 namespace json {
 
 class JsonValue;
@@ -21,16 +24,16 @@ public:
 	auto operator=(JsonReader const&) -> JsonReader& = delete;
 	auto operator=(JsonReader&&) -> JsonReader& = delete;
 
-	auto readBool(std::string key) -> bool;
-	auto readString(std::string key) -> std::string;
-	auto readNull(std::string key) -> bool;
-	auto readNumber(std::string key) -> double;
-	auto readStringArray(std::string key) -> std::vector<std::string>;
-	auto readBoolArray(std::string key) -> std::vector<bool>;
-	auto readNumberArray(std::string key) -> std::vector<double>;
+	auto readBool(std::string key) -> std::vector<bool>;
+	auto readString(std::string key) -> std::vector<std::string>;
+	auto readNull(std::string key) -> std::vector<bool>;
+	auto readNumber(std::string key) -> std::vector<float>;
+	auto readStringArray(std::string key) -> std::vector<std::vector<std::string>>;
+	auto readBoolArray(std::string key) -> std::vector<std::vector<bool>>;
+	auto readNumberArray(std::string key) -> std::vector<std::vector<float>>;
 
 
-//	auto loadNode() -> bool;
+	auto loadAllNode(Device* device) -> void;
 
 private:
 	std::ifstream file;

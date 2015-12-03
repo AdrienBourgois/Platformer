@@ -8,7 +8,7 @@ namespace {
 namespace id {
 namespace json {
 
-JsonNumber::JsonNumber(double number)
+JsonNumber::JsonNumber(float number)
 :number(number)
 {
 	logger->log("Creating JsonNumber...", LL_DEBUG);

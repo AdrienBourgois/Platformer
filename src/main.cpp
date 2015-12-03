@@ -1,4 +1,4 @@
-/*
+
 #include "device.h"
 #include "window.h"
 #include "txtLogger.h"
@@ -10,8 +10,6 @@
 #include "guiOpenFile.h"
 #include "driver.h"
 #include "fileUtility.h"
-*/
-
 #include "txtLogger.h"
 #include "json/jsonWriter.h"
 #include "json/jsonObject.h"
@@ -22,7 +20,7 @@
 #include "json/jsonNull.h"
 #include "json/jsonValue.h"
 #include "json/jsonReader.h"
-
+#include "maths/matrix.h"
 #include <string>
 #include <iostream>
 int main(int argc, char* argv[])
@@ -59,23 +57,11 @@ int main(int argc, char* argv[])
 
 	id::json::JsonValue::deleteAllJsonValue();
 */
-	id::json::JsonReader jsonReader;
-	std::string str = jsonReader.readString("name");
-	std::cout << str << std::endl;
-	std::string parent = jsonReader.readString("parent");
-	std::cout << parent << std::endl;
-	std::string objPath = jsonReader.readString("objPath");
-	std::cout << objPath << std::endl;
-	std::string texturePath = jsonReader.readString("texturePath");
-	std::cout << texturePath << std::endl;
-	std::vector<double> vecDouble = jsonReader.readNumberArray("transformation");	
-	for (auto&& val : vecDouble)
-	{
-		std::cout << val << std::endl;
-	}
-
-/*
 	std::unique_ptr<id::Device> device = device->create();
+
+	id::json::JsonReader jsonReader;
+
+	jsonReader.loadAllNode(device.get());
 	
 	if (argc > 1)
 	{
@@ -111,6 +97,6 @@ int main(int argc, char* argv[])
 	
 	delete debug_window;
 	delete open_file;
-*/	
+	
 	return EXIT_SUCCESS;
 }

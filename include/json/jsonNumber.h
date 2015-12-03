@@ -17,12 +17,12 @@ public:
 	auto operator=(JsonNumber const&) -> JsonNumber& = default;
 	auto operator=(JsonNumber&&) -> JsonNumber& = default;
 
-	JsonNumber(double number);
+	JsonNumber(float number);
 
 	virtual auto serialize() -> std::string override;
 
 private:
-	double number;
+	float number;
 };
 
 } // namespace json
