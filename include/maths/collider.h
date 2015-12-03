@@ -13,28 +13,21 @@ class Polyhedron;
 
 class Collider
 {
-	public:
-		Collider() = delete;
-		virtual ~Collider();
-		Collider(Collider const&) = delete;
-		Collider(Collider&&) = delete;
-		auto operator=(Collider const&) -> Collider& = default;
-		auto operator=(Collider&&) -> Collider& = delete;
-
-		Collider(Polyhedron& polyhedron);
+    public:
+        Collider(Polyhedron& polyhedron);
+        ~Collider();
 
         auto updateBoundingBox() -> void;
 
-		auto collide(Collider const&) const -> bool;
+        auto collide(Collider const&) const -> bool;
         auto advancedCollide(Collider const&) const -> bool;
 
-		auto getPolyhedron() const -> Polyhedron& { return polyhedron; }
+        auto getPolyhedron() const -> Polyhedron& { return polyhedron; }
         auto getBoundingBox() const -> std::pair<Vector3, Vector3> { return boundingBox; }
-		//auto setPolyhedron(Polyhedron const& poly) -> void { polyhedron = poly;}
-	private:
-		Polyhedron& polyhedron;
+
+    private:
+        Polyhedron& polyhedron;
         std::pair<Vector3, Vector3> boundingBox;
-		
 };
 
 } // namespace maths
