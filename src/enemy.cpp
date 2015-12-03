@@ -1,51 +1,47 @@
-#include <string>
 #include <iostream>
-#include <vector>
-
+#include <string>
 
 #include "enemy.h"
 #include "txtLogger.h"
 
-
 namespace {
 
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
+	id::TXTLogger * logger = id::TXTLogger::getInstance();
 
-}
-
+}//namespace 
 
 namespace id {
-
 namespace scene {
 
-
-auto	Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack) -> Enemy*
-{
-//	SDL_assert(scn && parent);
-
-	Enemy* enemy = new (std::nothrow)Enemy(scn, parent, name, shader, path, eLife, eHp, eAttack);
-
-	if (!enemy)
-		logger->log("failed at creating enemy in Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack", LL_WARNING);
-
-	return enemy;
-}
-
-Enemy::Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path, int eLife, int eHp, int eAttack)
-:Entity(scn, parent, name, shader, path, eLife, eHp, eAttack)
+Enemy::Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
+:Entity(scn, parent, name, shader, path)
 {
 	logger->log("Creating Enemy...", LL_DEBUG);
 
-		
-	logger->log("Enemy has been created.", LL_INFO);
+	setHp(1);
+	setLife(1);
+	setAttack(1);
+
+	logger->log("Enemy has been created.", LL_DEBUG);	
 }
 
 Enemy::~Enemy()
 {
-	
 	logger->log("Deleting Enemy...", LL_DEBUG);
-
-	logger->log("Enemy has been deleted.", LL_INFO);
+	
+	logger->log("Enemy has been Enemy", LL_DEBUG);
 }
+
+auto Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> Enemy*
+{
+	Enemy* enemy = new (std::nothrow)Enemy(scn, parent, name, shader, path);
+
+	if (!enemy)
+		logger->log("failed at created enemy in Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)", LL_WARNING);
+
+	return enemy;
+}
+
+
 }//namespace scene
 }//namespace id

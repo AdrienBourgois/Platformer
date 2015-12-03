@@ -3,6 +3,8 @@
 
 #include "player.h"
 #include "txtLogger.h"
+#include "event.h"
+
 
 namespace {
 
@@ -18,7 +20,9 @@ Player::Player(SceneManager* scn, SceneNode* parent, std::string const& name, st
 {
 	logger->log("Creating Player...", LL_DEBUG);
 
-	//setSpeedRun(1.f);
+	setHp(9);
+	setLife(3);
+	setAttack(3);
 
 	logger->log("Player has been created.", LL_DEBUG);
 

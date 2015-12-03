@@ -32,6 +32,7 @@ SRC = 	main.cpp\
 		screenshot.cpp\
 		entity.cpp\
 		player.cpp\
+		enemy.cpp\
 		event.cpp\
 		stateManager.cpp
 

@@ -14,6 +14,7 @@ namespace video{
 
 namespace scene{
 	class SceneManager;
+	class Event;
 } // namespace scene
 
 class Window;
@@ -33,6 +34,8 @@ public:
 			auto getDriver() const 			-> video::Driver* 				{ return _driver.get();	}
 			auto getSceneManager() const 	-> scene::SceneManager* 		{ return _sceneManager;	}
 			auto setSceneManager(scene::SceneManager* smgr) -> void 		{ _sceneManager = smgr;	}
+			auto getEvent() const -> scene::Event* {return _event;}
+
 
 			auto run() 	-> bool;
 
@@ -45,6 +48,7 @@ private:
 	std::unique_ptr<video::Driver> 	_driver;
 	std::unique_ptr<Window>			_window;
 	scene::SceneManager*			_sceneManager;
+	scene::Event*	_event;
 	
 	float deltaTime;
 };

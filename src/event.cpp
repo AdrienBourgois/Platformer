@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "event.h"
+#include "enemy.h"
 #include "player.h"
 #include "txtLogger.h"
 #include "maths/matrix.h"
@@ -17,8 +18,8 @@ namespace {
 namespace id {
 namespace scene {
 
-Event::Event(Player* player)
-:player(player) 
+Event::Event(Player* player, Enemy* enemy)
+:player(player), enemy(enemy)
 {
 	logger->log("Initializing Event...", LL_DEBUG);
 
@@ -31,21 +32,17 @@ Event::~Event()
 
 	logger->log("Event deleted.",LL_DEBUG);
 }
-/*
-auto Event::createEvent(Player* player) -> Event*
+
+auto Event::playerEventReceiver() -> bool 
 {
-	Event* ev = new (std::nothrow)Event(player);
+	if (!player)
+	{
+		std::cout << "y " << std::endl;
+		return false;
+	}
 
-	if(!ev)
-		logger->log("failed at creating Event in Event::createEvent(Player* player)", LL_WARNING);
-
-	return ev;		
-}
-*/
-
-auto Event::eventReceiver() -> void
-{
-		player->setEntityState(STATE_STANDING);
+	if (player)
+	player->setEntityState(STATE_STANDING);
 		
 	const Uint8* state = SDL_GetKeyboardState(nullptr);
 
@@ -71,38 +68,57 @@ auto Event::eventReceiver() -> void
 
 	else if (state[SDL_SCANCODE_W])
 	{
-		z -=  speed;
+		z -= speed;
 		player->setEntityState(STATE_WALKING);
-		state[SDL_SCANCODE_R] ? z -=  speedrun : z -= speed;
+		state[SDL_SCANCODE_R] ? z -= speedrun : z -= speed;
 	}
 
 	if (state[SDL_SCANCODE_D])
 	{
 		x +=  speed;
 		player->setEntityState(STATE_WALKING);
-		state[SDL_SCANCODE_R] ? x +=  speedrun : x += speed;
+		state[SDL_SCANCODE_R] ? x += speedrun : x += speed;
 	}
 
 	else if (state[SDL_SCANCODE_A])
 	{
-		x -=  speed;
+		x -= speed;
 		player->setEntityState(STATE_WALKING);
-		state[SDL_SCANCODE_R] ? x -=  speedrun : x -= speed;
+		state[SDL_SCANCODE_R] ? x -= speedrun : x -= speed;
 		
 	}
+	// ===== debug =======
+	if (state[SDL_SCANCODE_J])
+		delete player;
 
+	// ===== end ====
 	if (state[SDL_SCANCODE_R])
 	{
 		speed = speedrun;
 		player->setEntityState(STATE_RUNNING);
 	}
-
-	if (player->entityIs() == true)
-	player->setPosition({x, y, z});
 	
+	if (player->entityIs() == true)
+		player->setPosition({x, y, z});
+	
+	if (player->getHp() == 0)
+		player->setEntityState(STATE_DEAD);
+
 	player->setRotation({rotx, roty, rotz});
 
+
+	if (player->getEntityState() == STATE_DEAD)
+		std::cout << player->getEntityState() << std::endl;
+
+	return true;
+
 }
+
+auto Event::enemyEventReceiver() -> void
+{
+	
+}
+
 
 }//namespace scene
 }//namespace id

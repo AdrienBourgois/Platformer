@@ -35,9 +35,12 @@ auto StateManager::entityIs() -> bool
 	else if (STATE_RUNNING)
 		inMovement = true;
 
-	else
+	else if (STATE_DEAD)
 		inMovement = false;
 
+	else
+		inMovement = false;
+	
 	return inMovement;
 }
 

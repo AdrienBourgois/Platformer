@@ -25,6 +25,14 @@ public:
 	virtual auto setSpeedRun(float speedrun) -> void {this->speedrun = speedrun;}
 	virtual auto getSpeedRun() const -> float {return speedrun;}
 
+	virtual auto setHp(unsigned int hp) -> void {this->hp = hp;}
+	virtual auto getHp() const -> unsigned int {return hp;}
+
+	virtual auto setLife(unsigned int life) -> void {this->life = life;}
+	virtual auto getLife() const -> unsigned int {return life;}
+
+	virtual auto setAttack(unsigned int attack) -> void {this->attack = attack;}
+	virtual auto getAttack() const -> unsigned int {return attack;}
 	
 	virtual auto entitySpeedIs() -> void;
 
@@ -35,6 +43,9 @@ protected:
 	float speed;
 	int state;
 	float speedrun;
+	unsigned int hp;
+	unsigned int life;
+	unsigned int attack;
 
 };
 

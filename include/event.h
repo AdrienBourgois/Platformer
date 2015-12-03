@@ -12,13 +12,19 @@ class Event {
 
 public :
 
-	Event(Player* player);
+	Event(Player* player, Enemy* enemy);
 	~Event();
 	
 
 	static auto createEvent(Player* player) -> Event*;
 
-	auto eventReceiver() -> void;
+	auto playerEventReceiver() -> bool;
+	auto enemyEventReceiver() -> void;
+
+
+	auto setPlayer(Player* player) -> void {this->player = player;}
+	auto getPlayer() const -> Player* {return player;}
+
 
 private:
 

@@ -6,6 +6,7 @@
 #include "imgui_impl.h"
 #include "texture.h"
 #include "screenshot.h"
+#include "event.h"
 
 namespace {
 
@@ -35,9 +36,6 @@ Device::Device()
 	logger->log("Initializing SDL...", LL_DEBUG);
 	SDL_Init(SDL_INIT_VIDEO);
 	logger->log("SDL has been initialized");
-
-	//deltaTime = 0.f;
-	//last = std::chrono::high_resolution_clock::now();
 
 	_window		 	= Window::createWindow(1280, 720);	
 	_driver			= video::Driver::createDriver(_window.get());
@@ -76,6 +74,7 @@ auto Device::run() -> bool
     while (SDL_PollEvent(&ev))
     {
 		imgui_impl::ProcessEvent(&ev);
+	//	getEvent()->eventReceiver();
         switch (ev.type)
         {
             case SDL_QUIT:
