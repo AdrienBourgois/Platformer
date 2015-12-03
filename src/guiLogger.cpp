@@ -62,111 +62,16 @@ auto DebugLogger::DrawLogWindow(const char* title) ->void
 		filter.Draw("Filter",-100.0f);
 
 		ImGui::Separator();
-	//	ImGui::SameLine();
 
 		std::string filter_build = filter.InputBuf; // Input dans la barre filter
-		
-		ImGui::Checkbox("Error", &arrayCheck[L_ERROR]);
-		if(arrayCheck[L_ERROR])
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "Error";
-		}
-		else
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "-Error";
-		}
-		ImGui::SameLine();
+		auto filter_final = ImGuiTextFilter(CheckboxFilter(filter_build));	
 	
-		ImGui::Checkbox("Debug", &arrayCheck[L_DEBUG]);
-		if(arrayCheck[L_DEBUG])
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "Debug";
-		}
-		else
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "-Debug";
-		}
-		
-		ImGui::SameLine();
-	
-		ImGui::Checkbox("Game", &arrayCheck[L_GAME]);
-		if(arrayCheck[L_GAME])
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "Game";
-		}
-		else
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "-Game";
-		}
-		
-		ImGui::SameLine();
-	
-		ImGui::Checkbox("Info", &arrayCheck[L_INFO]);
-		if(arrayCheck[L_INFO])
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "Info";
-		}
-		else
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "-Info";
-		}
-			
-		ImGui::SameLine();
-	
-		ImGui::Checkbox("Warning", &arrayCheck[L_WARNING]);
-		if(arrayCheck[L_WARNING])
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "Warning";
-		}
-		else
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "-Warning";
-		}
-			
-		ImGui::SameLine();
-
-		ImGui::Checkbox("Loop", &arrayCheck[L_LOOP]);
-		if(arrayCheck[L_LOOP])
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "Loop";
-		}
-		else
-		{
-			if(!filter_build.empty())
-				filter_build += ',';
-			filter_build += "-Loop";
-		}
-		
-		auto filter_final = ImGuiTextFilter(filter_build.c_str());	
 		ImGui::Separator();
 
 		ImGui::BeginChild("scrolling",ImVec2(0,0),false, ImGuiWindowFlags_HorizontalScrollbar);
 		{	
 			if(copy) ImGui::LogToClipboard();
 		
-
 			{
 				const char* buf_begin = buf.begin();
 				const char* line = buf_begin;
@@ -187,4 +92,103 @@ auto DebugLogger::DrawLogWindow(const char* title) ->void
 		ImGui::End();
 	}
 }
+
+auto DebugLogger::CheckboxFilter(std::string filter_build) -> const char*
+{
+	ImGui::Checkbox("Error", &arrayCheck[L_ERROR]);
+	if(arrayCheck[L_ERROR])
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "Error";
+	}
+	else
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "-Error";
+	}
+	ImGui::SameLine();
+
+	ImGui::Checkbox("Debug", &arrayCheck[L_DEBUG]);
+	if(arrayCheck[L_DEBUG])
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "Debug";
+	}
+	else
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "-Debug";
+	}
+	
+	ImGui::SameLine();
+
+	ImGui::Checkbox("Game", &arrayCheck[L_GAME]);
+	if(arrayCheck[L_GAME])
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "Game";
+	}
+	else
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "-Game";
+	}
+	
+	ImGui::SameLine();
+
+	ImGui::Checkbox("Info", &arrayCheck[L_INFO]);
+	if(arrayCheck[L_INFO])
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "Info";
+	}
+	else
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "-Info";
+	}
+		
+	ImGui::SameLine();
+
+	ImGui::Checkbox("Warning", &arrayCheck[L_WARNING]);
+	if(arrayCheck[L_WARNING])
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "Warning";
+	}
+	else
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "-Warning";
+	}
+		
+	ImGui::SameLine();
+
+	ImGui::Checkbox("Loop", &arrayCheck[L_LOOP]);
+	if(arrayCheck[L_LOOP])
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "Loop";
+	}
+	else
+	{
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += "-Loop";
+	}
+
+	return filter_build.c_str();
+}
+
 }//end id 

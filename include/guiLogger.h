@@ -26,6 +26,7 @@ public:
 	auto Clear()-> void;
 	auto AddLog(const char* ftm, ...) ->void;
 	auto DrawLogWindow(const char* tittle)-> void;
+	auto CheckboxFilter(std::string filter_build) -> const char*;
 
 private:
 

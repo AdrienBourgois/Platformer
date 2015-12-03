@@ -18,20 +18,18 @@
 int main(int argc, char* argv[])
 {
 	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
-//	id::TXTLogger::getInstance()->
-//	int jesus = 57444;
-//	(void)debug_logger;
-	LOG(L_ERROR, 32, 454,4554754,455454);
 
+	LOG(L_ERROR, 32, 454,4554754,455454);
 	LOG(L_ERROR, 4432, "dqwedqwdqw",4554754,455454);
 	LOG(L_GAME, 4432, "dqwedqwdqw",4554754,455454);
 	LOG(L_WARNING, 4432, "dqwedqwdqw",4554754,455454);
 	LOG(L_LOOP, 4432, "dqwedqwdqw",4554754,455454);
 	LOG(L_ERROR, "pouet");
+
+	LOG(L_INFO, 4432, "dqwedqwdqw",4554754,455454);
+	LOG(L_DEBUG, 4432, "dqwedqwdqw",4554754,455454);
 	std::unique_ptr<id::Device> device = device->create();
 	
-//	id::DebugLogger* debug_logger = new id::DebugLogger;	
-//	std::cout << __FILE__ << std::endl;	
 	if (argc > 1)
 	{
 		id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), id::FileUtility::getFileNameFromPath(argv[1]), "pos3d_tex2d", argv[1]);
@@ -42,10 +40,11 @@ int main(int argc, char* argv[])
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
 
-	id::DebugWindow* debug_window = new id::DebugWindow();
-	id::OpenFile* open_file = new id::OpenFile();
-
+	
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
+	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
+	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
+
 //	bool visible2 = true;	
 	while (device->run())
 	{
