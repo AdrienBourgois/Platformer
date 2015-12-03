@@ -6,6 +6,7 @@
 #include "guiEventReceiver.h"
 #include "guiManager.h"
 #include "guiRect.h"
+#include "guiButton.h"
 
 // debug
 #include <iostream>
@@ -19,7 +20,7 @@ namespace id {
 namespace gui {
 
 GuiEventReceiver::GuiEventReceiver(GuiManager* gui)
-: gui(gui)
+: gui(gui), mouseX(0), mouseY(0), listenKeys(false)
 {
 	logger->log("Creating GuiEventReceiver...", LL_INFO);
 
@@ -34,6 +35,8 @@ GuiEventReceiver::~GuiEventReceiver()
 auto GuiEventReceiver::eventListener(SDL_Event* ev) -> void
 {
 	getMouseCoords();
+	listenNextKey(ev);
+	
 	if (ev->type == SDL_MOUSEBUTTONDOWN)
 	{
 		if (ev->button.button == SDL_BUTTON_LEFT)
@@ -72,12 +75,32 @@ auto GuiEventReceiver::checkMouseOnButton() -> void
 		}
 	}
 }
+auto GuiEventReceiver::listenNextKey(SDL_Event* ev) -> void
+{
+	if (ev->type == SDL_KEYDOWN && this->listenKeys)
+	{
+		std::string key = SDL_GetScancodeName(ev->key.keysym.scancode);
+		if (key != "")
+		{
+			GuiButton* but = (GuiButton*)this->gui->getPressedElement();
+			but->setNewText(key);
+			this->listenKeys = false;
+			resetEvents();
+		}
+	}
+}
 auto GuiEventReceiver::getMouseCoords() -> void
 {
 	SDL_GetMouseState(&this->mouseX, &this->mouseY);
 	this->mouseX -= this->gui->getWidth()/2;
 	this->mouseY -= this->gui->getHeight()/2;
 	this->mouseY = -this->mouseY;
+}
+auto GuiEventReceiver::resetEvents() -> void
+{
+	std::vector<GuiRect*> drawRect = this->gui->getDrawRect();
+    for (auto it = drawRect.begin(); it !=  drawRect.end(); ++it)
+		(*it)->setPressed(false);
 }
 
 } // end namespace gui

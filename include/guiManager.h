@@ -16,6 +16,7 @@ namespace id {
 namespace gui {
 
 class GuiRect;
+class GuiButton;
 class GuiEventReceiver;
 class GuiMenu;
 
@@ -41,7 +42,9 @@ public:
 	auto loadProgram(std::string const& nameShader) -> void;
 	auto loadShader(std::string const& name, GLint shaderType) -> GLuint;
 	auto loadText(std::string const& text, maths::Vector4 colorText) -> GLuint;
+	auto changeText(GuiButton* button) -> void;
 	auto getElementFromID(int id) -> GuiRect*;
+	auto getPressedElement() -> GuiRect*;
 
 	auto getDrawRect() const& -> std::vector<GuiRect*> { return this->drawRect; };
 	auto getGuiEvt() const& -> GuiEventReceiver* { return this->guiEvt; };

@@ -42,6 +42,7 @@ public:
 	auto getFunc() -> std::function<void()> { return this->func; };
 
 	auto setListenEvent(bool listen) -> void { this->listenEvent = listen; };
+	auto setTexID(GLuint newTexID) -> void { this->texID = newTexID; };
 	auto setVisible(bool visible) -> void;
 	auto setPressed(bool press) -> void { this->pressed = press; };
 

@@ -80,8 +80,17 @@ auto GuiManager::render() -> void
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, this->camOrtho.data());
 			if ((*it)->getType() == "button")
 			{
-				maths::Vector4 color = (*it)->getColorBg();
+				GuiButton* but = (GuiButton*)*it;
+				if (but->getText() != but->getNewText())
+					changeText(but);
+
 				GLint colorLoc = glGetUniformLocation(prgID, "color");
+				maths::Vector4 color;
+				if ((*it)->getPressed())
+					color = {0.85f, 0.64f, 0.12f, 1.f};
+				else
+					color = (*it)->getColorBg();
+
 				glUniform4f(colorLoc, color.val[0], color.val[1], color.val[2], color.val[3]);
 			}
 
@@ -228,11 +237,29 @@ auto GuiManager::loadText(std::string const& text, maths::Vector4 colorText) -> 
 
 	return texID;
 }
+auto GuiManager::changeText(GuiButton* button) -> void
+{
+	GLuint texID = button->getTexID();
+	glDeleteTextures(1, &texID);
+	button->setTexID(0);
+	GLuint newTexID = loadText(button->getNewText(), button->getColorText());
+	button->setTexID(newTexID);
+	button->setText(button->getNewText());
+}
 auto GuiManager::getElementFromID(int id) -> GuiRect*
 {
 	for (std::vector<GuiRect*>::iterator it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
 	{
 		if ((*it)->getID() == id)
+			return *it;
+	}
+	return nullptr;
+}
+auto GuiManager::getPressedElement() -> GuiRect*
+{
+    for (auto it = this->drawRect.begin(); it !=  this->drawRect.end(); ++it)
+	{
+    	if ((*it)->getPressed())
 			return *it;
 	}
 	return nullptr;

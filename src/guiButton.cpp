@@ -31,7 +31,10 @@ auto GuiButton::createElement(maths::Vector4 colorBg, std::string const& text, m
 {
 	this->shaderName = "pos2d_tex2d_color4";
 	this->type = "button";
+	this->text = text;
+	this->newText = text;
 	this->colorBg = colorBg;
+	this->colorText = colorText;
 	maths::Vector4x2 coordsRect = calculateCoordsRect();
 	this->rect = {
 		coordsRect.val[0][0], coordsRect.val[0][1], 1.f, 0.f,
