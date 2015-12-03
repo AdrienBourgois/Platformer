@@ -76,9 +76,6 @@ int main(int argc, char* argv[])
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
 
-
-
-	
 	while (device->run())
 	{
 		device->getDriver()->clear();

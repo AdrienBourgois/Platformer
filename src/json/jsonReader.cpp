@@ -6,11 +6,23 @@
 #include "device.h"
 #include "sceneManager.h"
 #include "meshSceneNode.h"
+#include "sceneNode.h"
 #include "maths/matrix.h"
 #include <iostream>
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
+
+auto findNode(std::string name, id::scene::SceneNode* node) -> id::scene::SceneNode*
+{
+	if (node->getName() == name)
+		return node;
+	for (auto&& nod : node->getChildrens())
+		return findNode(name, nod);
+	return nullptr;
+
+}
+
 }
 
 namespace id {
@@ -258,7 +270,7 @@ auto JsonReader::readNumberArray(std::string key) -> std::vector<std::vector<flo
 					sstr >> keyFile; // ignore '['
 					sstr >> keyFile;
 					std::vector<float> vecDouble;
-					while (keyFile != "]" && keyFile != "],")
+					while (*keyFile.begin() != ']')
 					{
 						finalNumber = id::FileUtility::getNumberStringFromString(keyFile);
 						vecDouble.push_back(std::stof(finalNumber));
@@ -283,7 +295,8 @@ auto JsonReader::loadAllNode(Device* device) ->void
 
 	for (unsigned int i = 0; i < name.size(); ++i)
 	{
-		id::scene::MeshSceneNode* mesh = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), name[i], "pos3d_tex2d", objPath[i]);
+		scene::SceneNode* node = findNode(parent[i], device->getSceneManager()->getRootNode());
+		id::scene::MeshSceneNode* mesh = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), node, name[i], "pos3d_tex2d", objPath[i]);
 
 		id::maths::Matrix4 mat = id::maths::Matrix4({matrix[i][0],matrix[i][1],matrix[i][2],matrix[i][3],matrix[i][4],matrix[i][5],matrix[i][6],matrix[i][7],matrix[i][8],matrix[i][9],matrix[i][10],matrix[i][11],matrix[i][12],matrix[i][13],matrix[i][14],matrix[i][15]});
 
