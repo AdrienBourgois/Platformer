@@ -10,16 +10,15 @@ class JsonBool
 :public JsonValue
 {
 public:
-	JsonBool() = default;
+	JsonBool(bool boolean = true);
 	virtual ~JsonBool();
 	JsonBool(JsonBool const&) = default;
 	JsonBool(JsonBool&&) = default;
 	auto operator=(JsonBool const&) -> JsonBool& = default;
 	auto operator=(JsonBool&&) -> JsonBool& = default;
 
-	JsonBool(bool boolean);
-
 	virtual auto serialize() -> std::string override;
+			auto setBool(bool bol) -> JsonBool* {boolean = bol; return this;} 
 
 private:
 	bool boolean;

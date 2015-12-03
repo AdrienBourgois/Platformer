@@ -21,14 +21,12 @@ public:
 	auto operator=(JsonWriter const&) -> JsonWriter& = delete;
 	auto operator=(JsonWriter&&) -> JsonWriter& = delete;
 	
-	auto serializeAsObject(std::map<std::string, JsonValue*>) -> void;
-
 	auto indent() -> std::string;
 	auto write(JsonObject* obj) -> void; 
 
 	static int 		indentation;
 private:
-	std::fstream 	file;
+	std::ofstream 	file;
 
 };
 

@@ -39,11 +39,7 @@ auto JsonWriter::indent() -> std::string
 
 auto JsonWriter::write(JsonObject* obj) -> void
 {
-	serializeAsObject(obj->getMapValue());
-}
-
-auto JsonWriter::serializeAsObject(std::map<std::string, JsonValue*> mapValue) -> void
-{
+	std::map<std::string, JsonValue*> mapValue = obj->getMapValue();
 
 	file << "{" << std::endl;
 	if (!mapValue.empty())

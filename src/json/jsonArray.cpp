@@ -54,7 +54,7 @@ auto JsonArray::serialize() ->std::string
 			str += ", ";
 		++i;
 	}
-	str += "]";
+	str += " ]";
 	return str;
 
 }

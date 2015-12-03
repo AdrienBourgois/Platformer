@@ -21,40 +21,59 @@
 #include "json/jsonBool.h"
 #include "json/jsonNull.h"
 #include "json/jsonValue.h"
+#include "json/jsonReader.h"
+
+#include <string>
+#include <iostream>
 int main(int argc, char* argv[])
 {
 	(void)argc;
 	(void)argv;
 
 	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
-
+/*
 	id::json::JsonWriter jsonWriter;
 
 	id::json::JsonObject* obj  = new id::json::JsonObject;
-	id::json::JsonObject* obj1 = new id::json::JsonObject;
-	id::json::JsonObject* obj2 = new id::json::JsonObject;
-	id::json::JsonObject* obj3 = new id::json::JsonObject;
-	id::json::JsonObject* obj4 = new id::json::JsonObject;
+	id::json::JsonObject* objRoot  = new id::json::JsonObject;
 
-	obj->addInObject("visible", new id::json::JsonBool(true));
-	obj->addInObject("pointer", new id::json::JsonNull());
-	obj2->addInObject("mon boule", new id::json::JsonBool(false));
-	obj3->addInObject("mon autre boule", new id::json::JsonString("Youuuhouuuuuu"));
-	obj2->addInObject("un obj", obj3);
-	id::json::JsonArray*  arr  = new id::json::JsonArray;
-	arr->addInArray(new id::json::JsonNumber(124));
-	arr->addInArray(new id::json::JsonNumber(12524));
-	arr->addInArray(obj2);
-	obj->addInObject("array", arr);
-	obj1->addInObject("id", new id::json::JsonNumber(-1));
-	obj1->addInObject("name", new id::json::JsonString("Jojo"));
-	obj1->addInObject("obj inconnu", obj4);
-
-	obj->addInObject("obj1", obj1);
-
+	objRoot->addInObject("parent", new id::json::JsonNull);
+	objRoot->addInObject("name", new id::json::JsonString("root"));
+	id::json::JsonArray* matrixRoot = new id::json::JsonArray;
+	for (int i = 0; i < 16; ++i)
+	{
+		if ( i == 0 || i == 5 || i == 10 || i == 15)
+			matrixRoot->addInArray(new id::json::JsonNumber(1));
+		else
+			matrixRoot->addInArray(new id::json::JsonNumber(0));
+	}
+	objRoot->addInObject("transformation", matrixRoot);
+	id::json::JsonObject* meshRoot = new id::json::JsonObject;
+	meshRoot->addInObject("objPath", new id::json::JsonString("./assets/model/Dragon.obj"));
+	id::json::JsonObject* materialRoot = new id::json::JsonObject;
+	materialRoot->addInObject("texturePath", new id::json::JsonString("./assets/model/dragon.png"));
+	meshRoot->addInObject("material", materialRoot);
+	objRoot->addInObject("mesh", meshRoot);
+	obj->addInObject("root", objRoot);
 	jsonWriter.write(obj);
 
 	id::json::JsonValue::deleteAllJsonValue();
+*/
+	id::json::JsonReader jsonReader;
+	std::string str = jsonReader.readString("name");
+	std::cout << str << std::endl;
+	std::string parent = jsonReader.readString("parent");
+	std::cout << parent << std::endl;
+	std::string objPath = jsonReader.readString("objPath");
+	std::cout << objPath << std::endl;
+	std::string texturePath = jsonReader.readString("texturePath");
+	std::cout << texturePath << std::endl;
+	std::vector<double> vecDouble = jsonReader.readNumberArray("transformation");	
+	for (auto&& val : vecDouble)
+	{
+		std::cout << val << std::endl;
+	}
+
 /*
 	std::unique_ptr<id::Device> device = device->create();
 	

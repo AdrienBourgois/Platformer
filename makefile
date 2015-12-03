@@ -10,8 +10,9 @@ SRC = 	main.cpp\
 		json/jsonNumber.cpp\
 		json/jsonNull.cpp\
 		json/jsonValue.cpp\
-		#saveJson.cpp\
-		device.cpp\
+		json/jsonReader.cpp\
+		fileUtility.cpp\
+		#device.cpp\
 		window.cpp\
 		shaders.cpp\
 		driver.cpp\
@@ -24,7 +25,6 @@ SRC = 	main.cpp\
 		maths/vector.cpp\
 		mesh.cpp\
 		texture.cpp\
-		fileUtility.cpp\
 		material.cpp\
 		screenshot.cpp\
 		guiEditMaterialWindow.cpp\
