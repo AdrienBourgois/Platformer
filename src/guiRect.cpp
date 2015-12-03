@@ -87,6 +87,12 @@ auto GuiRect::genVertexObject() -> void
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+auto GuiRect::setVisible(bool visible) -> void
+{
+	this->visible = visible;
+	for (auto it = this->children.begin(); it != this->children.end(); ++it)
+		(*it)->setVisible(visible);
+}
 
 } // end namespace gui
 

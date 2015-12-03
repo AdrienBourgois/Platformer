@@ -45,9 +45,8 @@ int main(int argc, char* argv[])
 
 	//int windowWidth = device->getGui()->getWidth();
 	//std::function<int()> func = [&windowWidth]() {return windowWidth;};
-	
-	id::gui::GuiMenu* menu = new  id::gui::GuiMenu(device->getGui());
-	menu->createMenuTitleScreen();
+
+	device->getGui()->addMenuTitleScreen();	
 
 	while (device->run())
 	{

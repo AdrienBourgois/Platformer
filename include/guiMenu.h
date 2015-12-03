@@ -22,6 +22,7 @@ public:
 private:
 	GuiManager* gui;
 	std::vector<int> idRectMenu;
+	int windowWidth, windowHeight;
 };
 
 } // end namespace gui

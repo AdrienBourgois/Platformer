@@ -9,6 +9,7 @@
 #include "guiRect.h"
 #include "guiButton.h"
 #include "guiEventReceiver.h"
+#include "guiMenu.h"
 
 // debug
 #include <iostream>
@@ -28,7 +29,7 @@ GuiManager::GuiManager(int windowWidth, int windowHeight)
 	if (TTF_Init() == -1)
 		logger->log("Failed to initialisation TTF", LL_INFO);
 
-	this->font = TTF_OpenFont("/usr/share/fonts/truetype/gentium-basic/GenBasB.ttf", 60);
+	this->font = TTF_OpenFont("/usr/share/fonts/truetype/gentium-basic/GenBasB.ttf", 100);
 	loadProgram("pos2d_color4");
 	loadProgram("pos2d_tex2d_color4");
 	this->guiEvt = new GuiEventReceiver(this);
@@ -114,6 +115,16 @@ auto GuiManager::addStaticText(GuiRect* parent, float posX, float posY, float wi
 	addButton(parent, posX, posY, width, height, id, visible, {0.f, 0.f, 0.f, 0.f}, text, colorText, nullptr);
 	GuiRect* newStaticText = getElementFromID(id);
 	newStaticText->setListenEvent(false);
+}
+auto GuiManager::addMenuTitleScreen() -> void
+{
+	GuiMenu* newMenu = new GuiMenu(this);
+	newMenu->createMenuTitleScreen();
+}
+auto GuiManager::addMenuSettings() -> void
+{
+	GuiMenu* newMenu = new GuiMenu(this);
+	newMenu->createMenuSettings();
 }
 auto GuiManager::addToRender(GuiRect* newRect) -> void
 {
