@@ -20,6 +20,7 @@ SRC = 	cameraSceneNode.cpp\
 		guiRect.cpp\
 		guiWindow.cpp\
 		imgui.cpp\
+		imgui_demo.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
 		json/jsonArray.cpp\
@@ -34,7 +35,10 @@ SRC = 	cameraSceneNode.cpp\
 		logger.cpp\
 		main.cpp\
 		material.cpp\
+		maths/collider.cpp\
+		maths/colliderManager.cpp\
 		maths/matrix.cpp\
+		maths/polyhedron.cpp\
 		maths/utility.cpp\
 		maths/vector.cpp\
 		mesh.cpp\
@@ -56,9 +60,14 @@ BIN_DIR = bin/$(MODE)/
 
 OBJ_DIR = obj/$(MODE)/
 
+MODE = release
+BIN_DIR = bin/$(MODE)/
+
+OBJ_DIR = obj/$(MODE)/
+
 SRC_DIR = src/
 
-INC_DIR = include/ //usr/include/SDL2/ 
+INC_DIR = include/ usr/include/SDL2/ 
 
 OBJ = $(patsubst %.cpp,$(OBJ_DIR)%.o,$(SRC))
 
@@ -74,6 +83,8 @@ LDFLAGS = -W -Wall -Werror
 CXX = g++ -std=c++14
 
 .PHONY: all clean fclean re debug release clog
+
+all: $(MODE)
 
 all: $(MODE)
 
@@ -121,8 +132,6 @@ clean:  clog
 fclean: clean
 	$(RM) $(BIN_DIR)$(TARGET)
 	$(RM) -r $(BIN_DIR)
-
-
 
 re: fclean all
 
