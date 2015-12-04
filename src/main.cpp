@@ -20,14 +20,6 @@ int main(int argc, char* argv[])
 	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
 
 	LOG(L_ERROR, 32, 454,4554754,455454);
-	LOG(L_ERROR, 4432, "dqwedqwdqw",4554754,455454);
-	LOG(L_GAME, 4432, "dqwedqwdqw",4554754,455454);
-	LOG(L_WARNING, 4432, "dqwedqwdqw",4554754,455454);
-	LOG(L_LOOP, 4432, "dqwedqwdqw",4554754,455454);
-	LOG(L_ERROR, "pouet");
-
-	LOG(L_INFO, 4432, "dqwedqwdqw",4554754,455454);
-	LOG(L_DEBUG, 4432, "dqwedqwdqw",4554754,455454);
 	std::unique_ptr<id::Device> device = device->create();
 	
 	if (argc > 1)

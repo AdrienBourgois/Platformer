@@ -63,8 +63,14 @@ auto DebugLogger::DrawLogWindow(const char* title) ->void
 
 		ImGui::Separator();
 
-		std::string filter_build = filter.InputBuf; // Input dans la barre filter
-		auto filter_final = ImGuiTextFilter(CheckboxFilter(filter_build));	
+		std::string filter_build = "";
+		filter_build = CheckboxFilter(filter_build.c_str());
+		if(!filter_build.empty())
+			filter_build += ',';
+		filter_build += filter.InputBuf;
+// filter.InputBuf; // Input dans la barre filter
+
+		auto filter_final = ImGuiTextFilter(filter_build.c_str());	
 	
 		ImGui::Separator();
 
@@ -96,13 +102,7 @@ auto DebugLogger::DrawLogWindow(const char* title) ->void
 auto DebugLogger::CheckboxFilter(std::string filter_build) -> const char*
 {
 	ImGui::Checkbox("Error", &arrayCheck[L_ERROR]);
-	if(arrayCheck[L_ERROR])
-	{
-		if(!filter_build.empty())
-			filter_build += ',';
-		filter_build += "Error";
-	}
-	else
+	if(!arrayCheck[L_ERROR])
 	{
 		if(!filter_build.empty())
 			filter_build += ',';
@@ -111,13 +111,7 @@ auto DebugLogger::CheckboxFilter(std::string filter_build) -> const char*
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Debug", &arrayCheck[L_DEBUG]);
-	if(arrayCheck[L_DEBUG])
-	{
-		if(!filter_build.empty())
-			filter_build += ',';
-		filter_build += "Debug";
-	}
-	else
+	if(!arrayCheck[L_DEBUG])
 	{
 		if(!filter_build.empty())
 			filter_build += ',';
@@ -127,13 +121,7 @@ auto DebugLogger::CheckboxFilter(std::string filter_build) -> const char*
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Game", &arrayCheck[L_GAME]);
-	if(arrayCheck[L_GAME])
-	{
-		if(!filter_build.empty())
-			filter_build += ',';
-		filter_build += "Game";
-	}
-	else
+	if(!arrayCheck[L_GAME])
 	{
 		if(!filter_build.empty())
 			filter_build += ',';
@@ -143,13 +131,7 @@ auto DebugLogger::CheckboxFilter(std::string filter_build) -> const char*
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Info", &arrayCheck[L_INFO]);
-	if(arrayCheck[L_INFO])
-	{
-		if(!filter_build.empty())
-			filter_build += ',';
-		filter_build += "Info";
-	}
-	else
+	if(!arrayCheck[L_INFO])
 	{
 		if(!filter_build.empty())
 			filter_build += ',';
@@ -159,13 +141,7 @@ auto DebugLogger::CheckboxFilter(std::string filter_build) -> const char*
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Warning", &arrayCheck[L_WARNING]);
-	if(arrayCheck[L_WARNING])
-	{
-		if(!filter_build.empty())
-			filter_build += ',';
-		filter_build += "Warning";
-	}
-	else
+	if(!arrayCheck[L_WARNING])
 	{
 		if(!filter_build.empty())
 			filter_build += ',';
@@ -175,13 +151,7 @@ auto DebugLogger::CheckboxFilter(std::string filter_build) -> const char*
 	ImGui::SameLine();
 
 	ImGui::Checkbox("Loop", &arrayCheck[L_LOOP]);
-	if(arrayCheck[L_LOOP])
-	{
-		if(!filter_build.empty())
-			filter_build += ',';
-		filter_build += "Loop";
-	}
-	else
+	if(!arrayCheck[L_LOOP])
 	{
 		if(!filter_build.empty())
 			filter_build += ',';

@@ -73,3 +73,10 @@ auto CameraSceneNode::moveForward(float speed) -> void
 
 } // namespace scene
 } // namespace id
+
+std::ostream& operator<<(std::ostream& os, const id::scene::CameraSceneNode& cam)
+{
+	os << "CameraSceneNode :" << " Fovy: " << cam.getFOV() << " Ratio: " << cam.getRatio() << " Near: " << cam.getNear() << " Far: " << cam.getFar();
+	return os;
+}
+

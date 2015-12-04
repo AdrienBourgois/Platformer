@@ -2,7 +2,7 @@
 #define CAMERA_SCENE_NODE_H_INCLUDED
 
 #include <string>
-
+#include <iostream>
 #include "sceneNode.h"
 
 namespace id {
@@ -46,5 +46,5 @@ private:
 } // namespace scene
 } // namespace id
 
-
+std::ostream& operator<<(std::ostream& os, const id::scene::CameraSceneNode& cam);
 #endif // CAMERA_SCENE_NODE_H_INCLUDED

@@ -8,9 +8,12 @@ void Logger::logT(LG_LEVEL logLevel, T value)
 	ss << recordLogFlag(logLevel);
 	ss << logString.str();
 	ss << value << '\n' ;
-	std::ofstream logOF ((logPath + logFile).c_str(), std::ios_base::out | std::ios_base::app);
-	logOF << ss.str() << std::endl;
-	logOF.close();
+	if(logLevel != L_LOOP)
+	{
+		std::ofstream logOF ((logPath + logFile).c_str(), std::ios_base::out | std::ios_base::app);
+		logOF << ss.str() << std::endl;
+		logOF.close();
+	}
 	bufLogString.push_back(ss.str());
 
 	(void)logLevel;
