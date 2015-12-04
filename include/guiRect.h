@@ -16,7 +16,7 @@ class GuiRect
 {
 public:
 	GuiRect(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::function<void()> func);
-	~GuiRect();
+	virtual ~GuiRect();
 
 	virtual auto createElement(maths::Vector4 color) -> void;
 	auto calculateCoordsRect() -> maths::Vector4x2;

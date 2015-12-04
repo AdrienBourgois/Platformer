@@ -49,6 +49,19 @@ GuiManager::~GuiManager()
 {
 	logger->log("Deleting GuiManager...", LL_INFO);
 
+	TTF_CloseFont(this->font);
+	TTF_Quit();
+	delete this->guiEvt;
+	this->guiEvt = nullptr;
+	for (auto&& rec : this->drawRect)
+		delete rec;
+	for (auto&& menu : this->listMenus)
+		delete menu;
+	this->drawRect.clear();
+	delete this->root;
+	this->root = nullptr;
+
+
 	logger->log("GuiManager deleted", LL_INFO);
 }
 auto GuiManager::createGuiManager(int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>
@@ -80,7 +93,7 @@ auto GuiManager::render() -> void
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, this->camOrtho.data());
 			if ((*it)->getType() == "button")
 			{
-				GuiButton* but = (GuiButton*)*it;
+				GuiButton* but = static_cast<GuiButton*>(*it);
 				if (but->getText() != but->getNewText())
 					changeText(but);
 
@@ -129,11 +142,13 @@ auto GuiManager::addMenuTitleScreen() -> void
 {
 	GuiMenu* newMenu = new GuiMenu(this);
 	newMenu->createMenuTitleScreen();
+	this->listMenus.push_back(newMenu);
 }
 auto GuiManager::addMenuSettings() -> void
 {
 	GuiMenu* newMenu = new GuiMenu(this);
 	newMenu->createMenuSettings();
+	this->listMenus.push_back(newMenu);
 }
 auto GuiManager::addToRender(GuiRect* newRect) -> void
 {
@@ -161,12 +176,12 @@ auto GuiManager::loadProgram(std::string const& nameShader) -> void
 
         auto infolog = new char[len];
         glGetProgramInfoLog(prgID, len, &len, infolog);
-        std::cerr << "Program link error : " << infolog << std::endl;
+		std::cerr << "Program link error : " << infolog << std::endl;
         SDL_assert(false);
     }
     else
     {
-        std::cout << "Program linkage success" << std::endl;
+        logger->log("Program linkage success");
     }
 
 	glDetachShader(prgID, vsID);
@@ -208,12 +223,15 @@ auto GuiManager::loadShader(std::string const& name, GLint shaderType) -> GLuint
 
         auto infolog = new char[len];
         glGetShaderInfoLog(id, len, &len, infolog);
-        std::cerr << "Shader [" << filePath << "] compile error : " << infolog << std::endl;
+		std::cerr << "Shader [" << filePath << "] compile error : " << infolog << std::endl;
         SDL_assert(false);
     }
     else
-        std::cout << "Shader [" << filePath << "] compilation success" << std::endl;
-
+    {
+		std::string str = "Shader [" + filePath + "] compilation success";
+		logger->log(str);
+	}
+	
 	return id;
 }
 auto GuiManager::loadText(std::string const& text, maths::Vector4 colorText) -> GLuint

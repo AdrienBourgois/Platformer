@@ -55,6 +55,7 @@ public:
 private:
 	GuiManager(int windowWidth, int windowHeight);
 	std::vector<GuiRect*> drawRect;
+	std::vector<GuiMenu*> listMenus;
 	std::map<std::string, GLuint> programGui;
 	GuiEventReceiver* guiEvt;
 

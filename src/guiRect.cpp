@@ -33,6 +33,18 @@ GuiRect::~GuiRect()
 {
 	logger->log("Deleting GuiRect...", LL_INFO);
 
+	this->gui = nullptr;
+	this->parent = nullptr;
+	this->children.clear();
+	this->rect.clear();
+	glDeleteVertexArrays(1, &this->vao);
+	this->vao = 0;
+	glDeleteBuffers(1, &this->vbo);
+	this->vbo = 0;
+	glDeleteTextures(1, &this->texID);
+	this->texID = 0;
+	this->func = nullptr;
+
 	logger->log("GuiRect deleted", LL_INFO);
 }
 auto GuiRect::createElement(maths::Vector4 color) -> void

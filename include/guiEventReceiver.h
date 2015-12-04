@@ -17,7 +17,7 @@ public:
 	auto eventListener(SDL_Event* ev) -> void;
 	auto checkMouseOnButton() -> void;
 	auto listenNextKey(SDL_Event* ev) -> void;
-	auto getMouseCoords() -> void;
+	auto refreshMouseCoords() -> void;
 	auto resetEvents() -> void;
 
 	auto setListenKeys(bool listen) -> void { this->listenKeys = listen; };

@@ -60,6 +60,7 @@ Device::~Device()
 	_window.reset(nullptr);
 	delete _sceneManager;
 	_sceneManager = nullptr;
+	_gui.reset(nullptr);
 
 	id::imgui_impl::Shutdown();
 	Texture::deleteTextures();

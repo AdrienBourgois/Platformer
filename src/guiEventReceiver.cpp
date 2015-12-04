@@ -30,11 +30,13 @@ GuiEventReceiver::~GuiEventReceiver()
 {
 	logger->log("Deleting GuiEventReceiver...", LL_INFO);
 
+	this->gui = nullptr;
+
 	logger->log("GuiEventReceiver deleted", LL_INFO);
 }
 auto GuiEventReceiver::eventListener(SDL_Event* ev) -> void
 {
-	getMouseCoords();
+	refreshMouseCoords();
 	listenNextKey(ev);
 	
 	if (ev->type == SDL_MOUSEBUTTONDOWN)
@@ -46,7 +48,8 @@ auto GuiEventReceiver::eventListener(SDL_Event* ev) -> void
 	}
 }
 auto GuiEventReceiver::checkMouseOnButton() -> void
-{	
+{
+	resetEvents();
 	std::vector<GuiRect*> drawRect = this->gui->getDrawRect();
 	for (auto it = drawRect.begin(); it !=  drawRect.end(); ++it)
 	{
@@ -82,14 +85,14 @@ auto GuiEventReceiver::listenNextKey(SDL_Event* ev) -> void
 		std::string key = SDL_GetScancodeName(ev->key.keysym.scancode);
 		if (key != "")
 		{
-			GuiButton* but = (GuiButton*)this->gui->getPressedElement();
+			GuiButton* but = static_cast<GuiButton*>(this->gui->getPressedElement());
 			but->setNewText(key);
 			this->listenKeys = false;
 			resetEvents();
 		}
 	}
 }
-auto GuiEventReceiver::getMouseCoords() -> void
+auto GuiEventReceiver::refreshMouseCoords() -> void
 {
 	SDL_GetMouseState(&this->mouseX, &this->mouseY);
 	this->mouseX -= this->gui->getWidth()/2;

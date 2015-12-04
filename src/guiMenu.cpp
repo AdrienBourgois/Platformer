@@ -34,6 +34,9 @@ GuiMenu::~GuiMenu()
 {
 	logger->log("Deleting GuiMenu...", LL_INFO);
 
+	this->gui = nullptr;
+	this->idRectMenu.clear();
+
 	logger->log("GuiMenu deleted", LL_INFO);
 }
 auto GuiMenu::createMenuTitleScreen() -> void
