@@ -33,13 +33,10 @@ Event::~Event()
 	logger->log("Event deleted.",LL_DEBUG);
 }
 
-auto Event::playerEventReceiver() -> bool 
+auto Event::playerEventReceiver() -> void 
 {
 	if (!player)
-	{
-		std::cout << "y " << std::endl;
-		return false;
-	}
+		return;
 
 	if (player)
 	player->setEntityState(STATE_STANDING);
@@ -87,11 +84,28 @@ auto Event::playerEventReceiver() -> bool
 		state[SDL_SCANCODE_R] ? x -= speedrun : x -= speed;
 		
 	}
-	// ===== debug =======
+/*	// ===== debug =======
 	if (state[SDL_SCANCODE_J])
 		delete player;
 
-	// ===== end ====
+*/	// ===== end ====
+
+
+
+	if (state[SDL_SCANCODE_Q])
+	{
+		rotz -= speed;
+		player->setEntityState(STATE_WALKING);
+	}
+
+
+	else if (state[SDL_SCANCODE_E])
+	{
+		rotz += speed;
+		player->setEntityState(STATE_WALKING);	
+	}
+
+
 	if (state[SDL_SCANCODE_R])
 	{
 		speed = speedrun;
@@ -100,25 +114,18 @@ auto Event::playerEventReceiver() -> bool
 	
 	if (player->entityIs() == true)
 		player->setPosition({x, y, z});
+
+		player->setRotation({rotx, roty, rotz});
 	
 	if (player->getHp() == 0)
 		player->setEntityState(STATE_DEAD);
 
-	player->setRotation({rotx, roty, rotz});
 
 
 	if (player->getEntityState() == STATE_DEAD)
 		std::cout << player->getEntityState() << std::endl;
 
-	return true;
-
 }
-
-auto Event::enemyEventReceiver() -> void
-{
-	
-}
-
 
 }//namespace scene
 }//namespace id

@@ -15,7 +15,7 @@ public:
 	virtual auto setEntityState(int state) -> void {this->state = state;}
 	virtual auto getEntityState() -> int {return state;}
 	
-	virtual auto entityIs() -> bool;
+	virtual auto entityIs() -> bool; // To know if the player is in movement or not 
 
 private:
 	int state;

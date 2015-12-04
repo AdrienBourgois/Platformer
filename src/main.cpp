@@ -34,9 +34,9 @@ int main(int argc, char* argv[])
 		id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "");
 
 
-	id::scene::Enemy * enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/Dragon.obj");
+	id::scene::Enemy * enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/Dragon.obj"); // enemy creation
 
-	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj");
+	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj"); // player creation
 
 		
 
@@ -45,7 +45,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
 
-	id::scene::Event* ev = new id::scene::Event(player, enemy);
+	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
 
 
 	id::DebugWindow* debug_window = new id::DebugWindow();
@@ -57,7 +57,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
 	
-		if (player)	
+		if (player) // if player was not create create , don't try to use the event
 		ev->playerEventReceiver();
 
 		debug_window->Display(device.get());

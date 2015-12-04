@@ -11,7 +11,7 @@ class Entity : public MeshSceneNode, public StateManager {
 
 public:
 
-	~Entity();
+	virtual ~Entity();
 
 
 	virtual auto setEntityState(int state) -> void override {this->state = state;}
@@ -34,7 +34,7 @@ public:
 	virtual auto setAttack(unsigned int attack) -> void {this->attack = attack;}
 	virtual auto getAttack() const -> unsigned int {return attack;}
 	
-	virtual auto entitySpeedIs() -> void;
+	virtual auto entitySpeedIs() -> void; // For adjust the speed of the player according to his state (walk, run, dead ...)
 
 protected:
 

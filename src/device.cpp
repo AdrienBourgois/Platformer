@@ -74,7 +74,6 @@ auto Device::run() -> bool
     while (SDL_PollEvent(&ev))
     {
 		imgui_impl::ProcessEvent(&ev);
-	//	getEvent()->eventReceiver();
         switch (ev.type)
         {
             case SDL_QUIT:

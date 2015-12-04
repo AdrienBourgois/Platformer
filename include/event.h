@@ -18,12 +18,12 @@ public :
 
 	static auto createEvent(Player* player) -> Event*;
 
-	auto playerEventReceiver() -> bool;
+	auto playerEventReceiver() -> void;
 	auto enemyEventReceiver() -> void;
 
 
-	auto setPlayer(Player* player) -> void {this->player = player;}
-	auto getPlayer() const -> Player* {return player;}
+//	auto setPlayer(Player* player) -> void {this->player = player;}
+//	auto getPlayer() const -> Player* {return player;}
 
 
 private:
