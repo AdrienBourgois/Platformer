@@ -1,4 +1,5 @@
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL.h>
 
 #include "driver.h"
 #include "device.h"
@@ -7,6 +8,8 @@
 #include "shaders.h"
 
 #include <iostream>
+#include "meshSceneNode.h"
+#include "mesh.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
@@ -30,7 +33,7 @@ Driver::Driver(Window* window)
 	}
 
 	setAttribute(4, 2, 8, 8, 8, 24, 1);
-
+	
 	initGlew();
 
 	_shaders = Shaders::createShaders();
@@ -133,11 +136,24 @@ auto Driver::genVertexObject(int size, float* vertices, GLuint* vbo, GLuint* vao
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
-auto Driver::drawTriangles(GLuint vao, GLuint vbo, int vertexCount) -> void
+auto Driver::draw(scene::MeshSceneNode* meshNode) -> void
 {
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-	glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+
+	for (auto& v : meshNode->getMesh()->getGroups())
+	{
+		Material* material = meshNode->getMesh()->getMaterial();
+		if (material)
+		{	
+			Texture* texture = material->getTextureFromMTL(v.second.mtl);
+			unsigned int texture_id = 0;
+			if (texture)
+				texture_id = texture->getID();
+			ChangeTexture(texture_id);
+		}
+		glBindVertexArray(v.second.vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, v.second.vbo);
+		glDrawArrays(GL_TRIANGLES, 0, v.second.dataSize());
+	}
 }
 
 auto Driver::useProgram(GLuint prg) -> void
@@ -147,7 +163,6 @@ auto Driver::useProgram(GLuint prg) -> void
 
 auto Driver::deleteProgram(GLuint prg) -> void
 {
-//	this->useProgram(0);
 	glDeleteProgram(prg);
 }
 
@@ -165,7 +180,6 @@ auto Driver::AttachUniformMatrix4(GLuint prg_id, std::string var_name, maths::Ma
 
 auto Driver::LoadTexture(std::string const& path, GLenum format) -> GLuint
 {
-	//logger->log(std::string("Loading " + path), LL_INFO);
 	SDL_Surface* surf = IMG_Load(path.c_str());
 
     SDL_assert(surf);
@@ -189,6 +203,7 @@ auto Driver::ChangeTexture(GLuint index) -> void
 {
 	glBindTexture(GL_TEXTURE_2D, index);
 }
+
 
 } // namespace video
 } // namespace id

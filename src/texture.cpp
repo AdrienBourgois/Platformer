@@ -9,7 +9,7 @@ namespace {
 
 namespace id {
 
-std::map<std::string, Texture*> Texture::textures = std::map<std::string, Texture*>();
+std::map<std::string, Texture*> Texture::textures;
 
 auto Texture::addTexture(std::string file) -> Texture* 
 {

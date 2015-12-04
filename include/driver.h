@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <chrono>
 
 #include "maths/matrix.h"
 #include "imgui.h"
@@ -16,6 +17,10 @@ namespace id
 class Device;
 class Window;
 class Shaders;
+
+namespace scene{
+	class MeshSceneNode;
+} // namespace scene
 
 namespace video {
 
@@ -40,19 +45,22 @@ public:
 			auto clear() 	-> void;
 			auto genVertexObject(int size, float* vertices, GLuint* vbo, GLuint* vao) -> void;
 			auto deleteBuffer(GLuint* vbo) 	-> void;
-			auto drawTriangles(GLuint vao, GLuint vbo, int vertexCount) -> void;
+			auto draw(scene::MeshSceneNode* meshNode) -> void;
 			auto AttachUniformMatrix4(GLuint prg_id, std::string var_name, maths::Matrix4 mat) -> void;
 
 			auto LoadTexture(std::string const& path, GLenum format) 	-> GLuint;
 			auto ChangeTexture(GLuint index) -> void;
 
 			auto getShader() const 	-> Shaders* 		{return _shaders.get();}
+
+
 					
 private:
 	Driver(Window* window);
 	
 	SDL_GLContext 				_context;
 	std::unique_ptr<Shaders> 	_shaders;
+
 };
 
 } // namespace video

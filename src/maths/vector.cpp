@@ -32,6 +32,45 @@ auto Vector3::getNormalized() const -> Vector3
 	return {ax/len,ay/len,az/len};
 }
 
+auto Vector3::operator-(Vector3 const vector) -> Vector3
+{
+	return { this->val[0] - vector.val[0], this->val[1] - vector.val[1], this->val[2] - vector.val[2] };
+}
+
+auto Vector3::dotProduct(Vector3 vec) -> float
+{	
+	float ax = this->val[0];	float ay = this->val[1];	float az = this->val[2];
+	float bx = vec.val[0];		float by = vec.val[1];		float bz = vec.val[2];
+
+	return ax * bx + ay * by + az * bz;
+
+
+}
+
+auto Vector3::crossProduct(Vector3 vec) -> Vector3
+{
+	float ax = this->val[0];	float ay = this->val[1];	float az = this->val[2];
+	float bx = vec.val[0];		float by = vec.val[1];		float bz = vec.val[2];
+		
+	return {(ay * bz - az * by), (az * bx - ax * bz), (ax * by - ay * bx)};
+
+}
+
+auto Vector3::norm() -> float
+{
+	float x = this->val[0];	float y = this->val[1];	float z = this->val[2];
+	
+	return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+	
+}
+
+
+
+
+
+
+
+
 auto Vector4::operator+(Vector4 const vector) -> Vector4
 {
 	return { this->val[0] + vector.val[0], this->val[1] + vector.val[1], this->val[2] + vector.val[2], this->val[3] + vector.val[3] };

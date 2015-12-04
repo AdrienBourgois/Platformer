@@ -11,6 +11,8 @@
 #include "screenshot.h"
 #include "guiManager.h"
 #include "guiEventReceiver.h"
+#include "logger.h"
+#include "event.h"
 
 namespace {
 
@@ -28,7 +30,7 @@ auto Device::create() -> std::unique_ptr<Device>
 		logger->log("Failed at creating device in Device::create()", LL_ERROR);
 		SDL_assert(dev);
 	}
-
+	LOG(L_ERROR,"BONJOUR", "i54");
 	return std::unique_ptr<Device>(dev);
 
 }
