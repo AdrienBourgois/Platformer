@@ -78,6 +78,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
 		
+		device->getGui()->render();
 		#ifdef _DEBUG
 			ImGui::Render();
 		#endif
@@ -85,9 +86,6 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		if (player) // if player was not create create , don't try to use the event
 			ev->playerEventReceiver();
 
-		device->getGui()->renderGui();
-
-		device->getGui()->render();
 		device->getWindow()->swap();
 	}
 	ImGui::Shutdown();
