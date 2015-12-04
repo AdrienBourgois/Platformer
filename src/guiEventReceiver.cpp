@@ -7,6 +7,7 @@
 #include "guiManager.h"
 #include "guiRect.h"
 #include "guiButton.h"
+#include "json/jsonWriter.h"
 
 // debug
 #include <iostream>

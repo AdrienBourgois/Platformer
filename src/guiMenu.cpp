@@ -109,6 +109,20 @@ auto GuiMenu::createMenuSettings() -> void
 	this->idRectMenu.push_back(GUI_ID_TEXT_PAUSE);
 	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), -(this->windowHeight/3.6), this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_PAUSE, true, colorBut, "P", colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_PAUSE);
+
+	std::function<void()> funcButAccept = [this, gui]() {this->deleteMenu(); gui->getListMenus().front()->setVisible(true);};
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), this->windowWidth/3, -(this->windowHeight/2.8), this->windowWidth/15, this->windowHeight/16, GUI_ID_BUTTON_BACK, true, colorBut, "Accept", colorText, funcButAccept);
+	this->idRectMenu.push_back(GUI_ID_BUTTON_BACK);
+}
+auto GuiMenu::deleteMenu() -> void
+{
+	for (auto it = this->idRectMenu.begin(); it != this->idRectMenu.end(); ++it)
+	{
+		delete this->gui->getElementFromID(*it);
+		this->gui->removeToRender(this->gui->getElementFromID(*it));
+	}
+	this->gui->removeMenu(this);
+	delete this;
 }
 auto GuiMenu::setVisible(bool visible) -> void
 {

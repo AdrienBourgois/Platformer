@@ -142,17 +142,43 @@ auto GuiManager::addMenuTitleScreen() -> void
 {
 	GuiMenu* newMenu = new GuiMenu(this);
 	newMenu->createMenuTitleScreen();
-	this->listMenus.push_back(newMenu);
+	addMenu(newMenu);
 }
 auto GuiManager::addMenuSettings() -> void
 {
 	GuiMenu* newMenu = new GuiMenu(this);
 	newMenu->createMenuSettings();
-	this->listMenus.push_back(newMenu);
+	addMenu(newMenu);
 }
 auto GuiManager::addToRender(GuiRect* newRect) -> void
 {
 	this->drawRect.push_back(newRect);
+}
+auto GuiManager::addMenu(GuiMenu* newMenu) -> void
+{
+	this->listMenus.push_back(newMenu);
+}
+auto GuiManager::removeToRender(GuiRect* rectToDelete) -> void
+{
+	for (auto it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
+	{
+		if ((*it)->getID() == rectToDelete->getID())
+		{
+			this->drawRect.erase(it);
+			return;
+		}
+	}
+}
+auto GuiManager::removeMenu(GuiMenu* menuToDelete) -> void
+{
+	for (auto it = this->listMenus.begin(); it != this->listMenus.end(); ++it)
+	{
+		if (*it == menuToDelete)
+		{
+			this->listMenus.erase(it);
+			return;
+		}
+	}
 }
 auto GuiManager::loadProgram(std::string const& nameShader) -> void
 {

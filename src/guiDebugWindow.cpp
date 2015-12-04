@@ -116,7 +116,6 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 			(node != ((scene::SceneNode*)(node->getScene()->getActiveCamera()))) &&
 			ImGui::SmallButton("Save"))
 			{
-			//	JsonValue::saveToJson(static_cast<scene::MeshSceneNode*>(node));
 				ImGui::OpenPopup("Save");
 				ImGui::TreePop();
 				return;

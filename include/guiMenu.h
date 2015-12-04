@@ -16,6 +16,7 @@ public:
 
 	auto createMenuTitleScreen() -> void;
 	auto createMenuSettings() -> void;
+	auto deleteMenu() -> void;
 
 	auto setVisible(bool visible) -> void;
 

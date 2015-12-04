@@ -39,6 +39,9 @@ public:
 	auto addMenuSettings() -> void;
 
 	auto addToRender(GuiRect* newRect) -> void;
+	auto addMenu(GuiMenu* newMenu) -> void;
+	auto removeToRender(GuiRect* rectToDelete) -> void;
+	auto removeMenu(GuiMenu* menuToDelete) -> void;
 	auto loadProgram(std::string const& nameShader) -> void;
 	auto loadShader(std::string const& name, GLint shaderType) -> GLuint;
 	auto loadText(std::string const& text, maths::Vector4 colorText) -> GLuint;
@@ -47,6 +50,7 @@ public:
 	auto getPressedElement() -> GuiRect*;
 
 	auto getDrawRect() const& -> std::vector<GuiRect*> { return this->drawRect; };
+	auto getListMenus() const& -> std::vector<GuiMenu*> { return this->listMenus; };
 	auto getGuiEvt() const& -> GuiEventReceiver* { return this->guiEvt; };
 	auto getWidth() const -> int { return this->windowWidth; };
 	auto getHeight() const -> int { return this->windowHeight; };
