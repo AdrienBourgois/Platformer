@@ -43,9 +43,6 @@ int main(int argc, char* argv[])
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
 
-	//int windowWidth = device->getGui()->getWidth();
-	//std::function<int()> func = [&windowWidth]() {return windowWidth;};
-
 	device->getGui()->addMenuTitleScreen();	
 
 	while (device->run())
