@@ -6,6 +6,11 @@
 #include <string>
 
 namespace id {
+
+namespace scene {
+	class MeshSceneNode;
+} // namespace scene
+
 namespace json {
 
 class JsonValue;
@@ -23,6 +28,8 @@ public:
 	
 	auto indent() -> std::string;
 	auto write(JsonObject* obj) -> void; 
+
+	auto writeNode(scene::MeshSceneNode* node) -> void;
 
 	static int 		indentation;
 private:

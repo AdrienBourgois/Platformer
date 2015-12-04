@@ -292,7 +292,6 @@ auto JsonReader::loadAllNode(Device* device) ->void
 	std::vector<std::string> parent = readString("parent");
 	std::vector<std::string> objPath = readString("objPath");
 	std::vector<std::vector<float>> matrix = readNumberArray("transformation");	
-
 	for (unsigned int i = 0; i < name.size(); ++i)
 	{
 		scene::SceneNode* node = findNode(parent[i], device->getSceneManager()->getRootNode());

@@ -1,6 +1,13 @@
+#include "meshSceneNode.h"
+#include "mesh.h"
 #include "json/jsonWriter.h"
 #include "json/jsonValue.h"
 #include "json/jsonObject.h"
+#include "json/jsonNumber.h"
+#include "json/jsonBool.h"
+#include "json/jsonNull.h"
+#include "json/jsonArray.h"
+#include "json/jsonString.h"
 #include "txtLogger.h"
 
 namespace {
@@ -23,8 +30,6 @@ JsonWriter::JsonWriter(std::string name)
 JsonWriter::~JsonWriter()
 {
 	logger->log("Deleting JsonWriter");
-
-	file.close();
 
 	logger->log("JsonWriter has been deleted");
 }
@@ -65,6 +70,31 @@ auto JsonWriter::write(JsonObject* obj) -> void
 	}
 	file << "}";
 
+}
+
+auto JsonWriter::writeNode(scene::MeshSceneNode* node) -> void
+{
+
+	JsonObject* obj  = new JsonObject;
+	JsonObject* objNode = new JsonObject;
+
+	if (node->getParent())
+		objNode->addInObject("parent", new JsonString(node->getParent()->getName()));
+	else
+ 		objNode->addInObject("parent", new JsonNull);
+
+	objNode->addInObject("name", new JsonString(node->getName()));
+	JsonArray* matrix = new JsonArray;
+	for (unsigned int i = 0; i < 16; ++i)
+			matrix->addInArray(new JsonNumber(node->getTransformation().val[i]));
+	objNode->addInObject("transformation", matrix);
+	objNode->addInObject("objPath", new JsonString(node->getMesh()->getObjPath()));
+	obj->addInObject("node1", objNode);
+	write(obj);
+
+	JsonValue::deleteAllJsonValue();
+
+	file.close();
 }
 
 } // namespace json
