@@ -20,7 +20,7 @@ namespace scene {
 
 auto MeshSceneNode::createMeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> MeshSceneNode*
 {
-	SDL_assert(scn && parent);
+	SDL_assert(scn);
 
 	MeshSceneNode* meshSceneNode = new (std::nothrow)MeshSceneNode(scn, parent, name, shader, path);
 	if (!meshSceneNode)

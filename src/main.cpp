@@ -2,6 +2,7 @@
 #include <typeinfo>
 #include <new>
 #include <memory>
+#include <string>
 
 #include "device.h"
 #include "window.h"
@@ -23,12 +24,15 @@
 #include "enemy.h"
 #include "player.h"
 #include "guiMenu.h"
-
-#include <iostream>
+#include "txtLogger.h"
+#include "json/jsonWriter.h"
+#include "json/jsonReader.h"
 
 int main(int argc, char* argv[])
 {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
+	(void)argc;
+	(void)argv;
 
 	logger->setLogLevel(id::LL_ALL);
 
@@ -42,7 +46,8 @@ int main(int argc, char* argv[])
 	LOG(L_INFO, 4432, "dqwedqwdqw",4554754,455454);
 	LOG(L_DEBUG, 4432, "dqwedqwdqw",4554754,455454);
 	std::unique_ptr<id::Device> device = device->create();
-	
+
+
 	if (argc > 1)
 	{
 		id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), id::FileUtility::getFileNameFromPath(argv[1]), "pos3d_tex2d", argv[1]);
@@ -59,6 +64,13 @@ int main(int argc, char* argv[])
 id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
+
+//	id::json::JsonWriter jsonWriter;
+//	jsonWriter.writeNode(mesh_scn);	
+
+//	id::json::JsonReader jsonReader;
+//	jsonReader.loadAllNode(device.get());
+
 
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();

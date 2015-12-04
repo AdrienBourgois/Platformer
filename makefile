@@ -1,46 +1,53 @@
 TARGET = plateformer 
 
-SRC = 	main.cpp\
+SRC = 	cameraSceneNode.cpp\
 		device.cpp\
-		txtLogger.cpp\
-		window.cpp\
-		shaders.cpp\
 		driver.cpp\
-		sceneManager.cpp\
-		sceneNode.cpp\
-		cameraSceneNode.cpp\
-		meshSceneNode.cpp\
-		maths/utility.cpp\
-		maths/matrix.cpp\
-		maths/vector.cpp\
-		mesh.cpp\
-		texture.cpp\
+		enemy.cpp\
+		entity.cpp\
+		event.cpp\
+		fileUtility.cpp\
+		guiButton.cpp\
+		guiChangeTextureGroupWindow.cpp\
+		guiDebugWindow.cpp\
+		guiEditMaterialWindow.cpp\
+		guiEditShader.cpp\
+		guiEventReceiver.cpp\
+		guiLogger.cpp\
+		guiManager.cpp\
+		guiMenu.cpp\
+		guiOpenFile.cpp\
+		guiRect.cpp\
+		guiWindow.cpp\
 		imgui.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
-		guiDebugWindow.cpp\
-		guiOpenFile.cpp\
-		fileUtility.cpp\
-		material.cpp\
-		guiEditMaterialWindow.cpp\
-		guiChangeTextureGroupWindow.cpp\
-		saveToJson.cpp\
-		guiEditShader.cpp\
-		guiWindow.cpp\
-		loadFromJson.cpp\
-		screenshot.cpp\
-		guiManager.cpp\
-		guiRect.cpp\
-		guiButton.cpp\
-		guiEventReceiver.cpp\
+		json/jsonArray.cpp\
+		json/jsonBool.cpp\
+		json/jsonNull.cpp\
+		json/jsonNumber.cpp\
+		json/jsonObject.cpp\
+		json/jsonReader.cpp\
+		json/jsonString.cpp\
+		json/jsonValue.cpp\
+		json/jsonWriter.cpp\
 		logger.cpp\
-		guiLogger.cpp\
-		entity.cpp\
+		main.cpp\
+		material.cpp\
+		maths/matrix.cpp\
+		maths/utility.cpp\
+		maths/vector.cpp\
+		mesh.cpp\
+		meshSceneNode.cpp\
 		player.cpp\
-		enemy.cpp\
-		event.cpp\
+		sceneManager.cpp\
+		sceneNode.cpp\
+		screenshot.cpp\
+		shaders.cpp\
 		stateManager.cpp\
-		guiMenu.cpp\
+		texture.cpp\
+		txtLogger.cpp\
+		window.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 
@@ -51,7 +58,7 @@ OBJ_DIR = obj/$(MODE)/
 
 SRC_DIR = src/
 
-INC_DIR = include/ usr/include/SDL2/ 
+INC_DIR = include/ //usr/include/SDL2/ 
 
 OBJ = $(patsubst %.cpp,$(OBJ_DIR)%.o,$(SRC))
 

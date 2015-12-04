@@ -36,6 +36,7 @@ public:
 	virtual auto getRotation() const 				-> maths::Vector3;
 	
 	virtual auto getTransformation() const 			-> maths::Matrix4 			{ return _transformation; }
+	virtual auto setTransformation(maths::Matrix4 mat) -> void 					{ _transformation = mat; }
 	virtual auto AbsoluteTransformation() const 	-> maths::Matrix4;
 	
 	virtual auto getChildrens() const 				-> std::vector<SceneNode*> 	{ return _childrens; }
