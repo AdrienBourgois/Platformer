@@ -39,7 +39,7 @@ SRC = 	main.cpp\
 		player.cpp\
 		enemy.cpp\
 		event.cpp\
-		stateManager.cpp
+		stateManager.cpp\
 		guiMenu.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
