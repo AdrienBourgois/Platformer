@@ -22,6 +22,9 @@
 #include "event.h"
 #include "enemy.h"
 #include "player.h"
+#include "guiMenu.h"
+
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
@@ -53,9 +56,6 @@ int main(int argc, char* argv[])
 
 	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj"); // player creation
 
-		
-
-	
 id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
@@ -65,6 +65,8 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	
 	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
+
+	device->getGui()->addMenuTitleScreen();	
 
 	while (device->run())
 	{
@@ -81,9 +83,11 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		#endif
 	
 		if (player) // if player was not create create , don't try to use the event
-		ev->playerEventReceiver();
+			ev->playerEventReceiver();
 
 		device->getGui()->renderGui();
+
+		device->getGui()->render();
 		device->getWindow()->swap();
 	}
 	ImGui::Shutdown();

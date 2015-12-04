@@ -1,70 +1,74 @@
 #ifndef GUI_RECT_H_INCLUDED
 #define GUI_RECT_H_INCLUDED
 
-#include <GL/glew.h>
+#include <GL/gl.h>
+#include <vector>
 #include <string>
+#include <functional>
 
-#include "sceneManager.h"
-#include "sceneNode.h"
+#include "guiManager.h"
 #include "maths/vector.h"
 
 namespace id {
 namespace gui {
 
-class GuiManager;
-
 class GuiRect
 {
 public:
-	GuiRect(GuiManager* gui);
-	~GuiRect();
+	GuiRect(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::function<void()> func);
+	virtual ~GuiRect();
 
-	auto createRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void;
-	auto createButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void;
-	auto createText(std::string const& text, maths::Vector4 colorText) -> void;
-	auto createVertexObject() -> void;
-	auto vertexAttributesRect() -> void;
-	auto vertexAttributesButton() -> void;
-	auto calculatePosCornerRect(maths::Vector2 pos, float width, float height) -> maths::Vector4x2;
-	auto stockParameters(GuiRect* parent, bool visible, maths::Vector2 pos, float width, float height, maths::Vector4 color) -> void;
-
+	virtual auto createElement(maths::Vector4 color) -> void;
+	auto calculateCoordsRect() -> maths::Vector4x2;
 	auto addChild(GuiRect* child) -> void;
+	virtual auto genVertexObject() -> void;
 
 	auto getParent() const -> GuiRect* { return this->parent; };
-	auto getColor() const -> maths::Vector4 { return this->color; };
-	auto getPos() const -> maths::Vector2 { return this->pos; };
+	auto getRect() const& -> std::vector<float> { return this->rect; };
+	auto getShaderName() const& -> std::string { return this->shaderName; };
+	auto getType() const -> std::string { return this->type; };
+	auto getPosX() const -> float { return this->posX; };
+	auto getPosY() const -> float { return this->posY; };
 	auto getWidth() const -> float { return this->width; };
 	auto getHeight() const -> float { return this->height; };
+	auto getColorBg() const -> maths::Vector4 { return this->colorBg; };
 	auto getVao() const -> GLuint { return this->vao; };
 	auto getVbo() const -> GLuint { return this->vbo; };
-	auto getRect() const -> std::vector<GLfloat> { return this->rect; };
 	auto getTexID() const -> GLuint { return this->texID; };
-	auto getVisible() const -> bool { return this->visible; };
 	auto getID() const -> int { return this->id; };
-	auto getIsPressed() const -> bool { return this->isPressed; };
+	auto getVisible() const -> bool { return this->visible; };
+	auto getListenEvent() const -> bool { return this->listenEvent; };
+	auto getPressed() const -> bool { return this->pressed; };
+	auto getFunc() -> std::function<void()> { return this->func; };
 
-	auto setIsPressed(bool pressed) -> void { this->isPressed = pressed; };
+	auto setListenEvent(bool listen) -> void { this->listenEvent = listen; };
+	auto setTexID(GLuint newTexID) -> void { this->texID = newTexID; };
 	auto setVisible(bool visible) -> void;
+	auto setPressed(bool press) -> void { this->pressed = press; };
 
-private:
+protected:
 	GuiManager* gui;
 	GuiRect* parent;
 	std::vector<GuiRect*> children;
-	std::vector<GLfloat> rect;
-	maths::Vector2 pos;
-	float width;
-	float height;
-	maths::Vector4 color;
+	std::vector<float> rect;
+	std::string shaderName;
+	std::string type;
+
+	float posX, posY;
+	float width, height;
+	maths::Vector4 colorBg;
 	GLuint vao;
 	GLuint vbo;
 	GLuint texID;
-
 	int id;
-	bool isPressed;
 	bool visible;
+	bool listenEvent;
+
+	bool pressed;
+	std::function<void()> func;
 };
 
-} // end namespace gui
+} // end namespace
 
 } // end namespace id
 

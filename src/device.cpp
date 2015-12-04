@@ -49,7 +49,7 @@ Device::Device()
 	id::imgui_impl::Init();
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
-	_gui			= new (std::nothrow)gui::GuiManager(_window.get()->getWidth(), _window.get()->getHeight());
+	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
 
 	logger->log("Device has been created.");
 }
@@ -60,17 +60,15 @@ Device::~Device()
 
 	_driver.reset(nullptr);
 	_window.reset(nullptr);
-	delete _gui;
-	_gui = nullptr;
 	delete _sceneManager;
 	_sceneManager = nullptr;
+	_gui.reset(nullptr);
 
 	id::imgui_impl::Shutdown();
 	Texture::deleteTextures();
 	
 	logger->log("Quitting SDL...", LL_DEBUG);
 	SDL_Quit();
-	TTF_Quit();
 	logger->log("SDL has been quitted");
 
 	logger->log("Device has been deleted.");
@@ -82,8 +80,8 @@ auto Device::run() -> bool
 	SDL_Event ev;
     while (SDL_PollEvent(&ev))
     {
-		this->_gui->getGuiEvt()->eventListener(&ev);
 		imgui_impl::ProcessEvent(&ev);
+		this->_gui->getGuiEvt()->eventListener(&ev);
         switch (ev.type)
         {
             case SDL_QUIT:

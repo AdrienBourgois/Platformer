@@ -1,12 +1,16 @@
 #include <SDL2/SDL.h>
+#include <functional>
+#include <string>
 
+#include "txtLogger.h"
 #include "guiEventReceiver.h"
 #include "guiManager.h"
 #include "guiRect.h"
-#include "maths/vector.h"
-#include "txtLogger.h"
+#include "guiButton.h"
 
+// debug
 #include <iostream>
+// end
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
@@ -16,7 +20,7 @@ namespace id {
 namespace gui {
 
 GuiEventReceiver::GuiEventReceiver(GuiManager* gui)
-: gui(gui), mouseX(0), mouseY(0)
+: gui(gui), mouseX(0), mouseY(0), listenKeys(false)
 {
 	logger->log("Creating GuiEventReceiver...", LL_INFO);
 
@@ -30,54 +34,76 @@ GuiEventReceiver::~GuiEventReceiver()
 
 	logger->log("GuiEventReceiver deleted", LL_INFO);
 }
-auto GuiEventReceiver::eventListener(SDL_Event* ev) -> bool
+auto GuiEventReceiver::eventListener(SDL_Event* ev) -> void
 {
-	setMouseCoords();
+	refreshMouseCoords();
+	listenNextKey(ev);
+	
 	if (ev->type == SDL_MOUSEBUTTONDOWN)
 	{
 		if (ev->button.button == SDL_BUTTON_LEFT)
 		{
-			checkButtonClicked();
-			return true;
+			checkMouseOnButton();
 		}
 	}
-
-	return false;
 }
-auto GuiEventReceiver::checkButtonClicked() -> bool
+auto GuiEventReceiver::checkMouseOnButton() -> void
 {
-	for (std::vector<GuiRect*>::iterator it = this->gui->getRenderedRect().begin(); it !=  this->gui->getRenderedRect().end(); ++it)
+	resetEvents();
+	std::vector<GuiRect*> drawRect = this->gui->getDrawRect();
+	for (auto it = drawRect.begin(); it !=  drawRect.end(); ++it)
 	{
-		if ((*it)->getVisible())
+		if ((*it)->getVisible() && (*it)->getListenEvent())
 		{
-			if ((*it)->getTexID() != 0)
+			float posX = (*it)->getPosX();
+			float posY = (*it)->getPosY();
+			float width = (*it)->getWidth();
+			float height = (*it)->getHeight();
+			float leftSide = posX - (width/2);
+			float rightSide = posX + (width/2);
+			float upSide = posY - (height/2);
+			float downSide = posY + (height/2);
+			if ((this->mouseX > leftSide && this->mouseX < rightSide)
+				&& (this->mouseY > upSide && this->mouseY < downSide))
 			{
-				float width = (*it)->getWidth();
-				float height = (*it)->getHeight();
-				maths::Vector2 pos = (*it)->getPos();
-				float leftSide = pos.val[0] - (width/2);
-				float rightSide = pos.val[0] + (width/2);
-				float bottomSide = pos.val[1] - (height/2);
-				float upSide = pos.val[1] + (height/2);
+				(*it)->setPressed(true);
+				std::function<void()> func = (*it)->getFunc();
+				if (func)
+					func();
+				else
+					logger->log("Listen event on a button without function", LL_WARNING);
 
-				if ((this->mouseX > leftSide && this->mouseX < rightSide) && (this->mouseY > bottomSide && this->mouseY < upSide))
-				{
-					(*it)->setIsPressed(true);
-
-					return true;
-				}
+				return;
 			}
 		}
 	}
-
-	return false;
 }
-auto GuiEventReceiver::setMouseCoords() -> void
+auto GuiEventReceiver::listenNextKey(SDL_Event* ev) -> void
+{
+	if (ev->type == SDL_KEYDOWN && this->listenKeys)
+	{
+		std::string key = SDL_GetScancodeName(ev->key.keysym.scancode);
+		if (key != "")
+		{
+			GuiButton* but = static_cast<GuiButton*>(this->gui->getPressedElement());
+			but->setNewText(key);
+			this->listenKeys = false;
+			resetEvents();
+		}
+	}
+}
+auto GuiEventReceiver::refreshMouseCoords() -> void
 {
 	SDL_GetMouseState(&this->mouseX, &this->mouseY);
-	this->mouseX -= this->gui->getWidthWin()/2;
-	this->mouseY -= this->gui->getHeightWin()/2;
+	this->mouseX -= this->gui->getWidth()/2;
+	this->mouseY -= this->gui->getHeight()/2;
 	this->mouseY = -this->mouseY;
+}
+auto GuiEventReceiver::resetEvents() -> void
+{
+	std::vector<GuiRect*> drawRect = this->gui->getDrawRect();
+    for (auto it = drawRect.begin(); it !=  drawRect.end(); ++it)
+		(*it)->setPressed(false);
 }
 
 } // end namespace gui

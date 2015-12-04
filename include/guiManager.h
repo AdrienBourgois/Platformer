@@ -1,61 +1,72 @@
-#ifndef GUI_H_INCLUDED
-#define GUI_H_INCLUDED
+#ifndef GUI_MANAGER_H_INCLUDED
+#define GUI_MANAGER_H_INCLUDED
 
-#include <SDL2/SDL.h>
+#include <GL/gl.h>
 #include <SDL2/SDL_ttf.h>
-#include <vector>
 #include <memory>
+#include <vector>
+#include <map>
+#include <string>
+#include <functional>
 
+#include "maths/matrix.h"
 #include "maths/vector.h"
-#include "guiRect.h"
-#include "sceneManager.h"
-#include "window.h"
 
 namespace id {
 namespace gui {
 
+class GuiRect;
+class GuiButton;
 class GuiEventReceiver;
+class GuiMenu;
 
 class GuiManager
 {
 public:
-	GuiManager(int widthWin, int heightWin);
 	~GuiManager();
+	GuiManager(GuiManager const&) = delete;
+	GuiManager(GuiManager&&) = delete;
+	GuiManager& operator = (GuiManager const&) = delete;
+	GuiManager& operator = (GuiManager&&) = delete;
 
-	auto initGui() -> void;
-	auto renderGui() -> void;
-	auto createShader(std::string const& name, GLint shaderType) -> GLuint;
-	auto createProgram(std::string const& pathShader) -> GLuint;
-	auto addToRender(GuiRect* rect) -> void;
+	static auto createGuiManager(int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>;
+	auto render() -> void;
 
-	auto addRect(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 color, bool visible) -> void;
-	auto addButton(GuiRect* parent, maths::Vector2 pos, float width, float height, maths::Vector4 colorBg, maths::Vector4 colorText, std::string const& text, bool visible, int id) -> void;
-	auto buttonIsPressed(int id) -> bool;
-	auto getGuiRectFromID(int id) -> GuiRect*;
+	auto addRect(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 color) -> void;
+	auto addButton(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 colorBg, std::string const& text, maths::Vector4 colorText, std::function<void()> func) -> void;
+	auto addStaticText(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::string const& text, maths::Vector4 colorText) -> void;
+	auto addMenuTitleScreen() -> void;
+	auto addMenuSettings() -> void;
 
-	auto getRenderedRect() -> std::vector<GuiRect*>& { return this->renderedRect; };
-	auto getGuiEvt() const -> GuiEventReceiver* { return this->guiEvt; };
-	auto getRootGui() const -> GuiRect* { return this->rootGui; };
-	auto getFont() const -> TTF_Font* { return this->font; };
-	auto getWidthWin() const -> int { return this->widthWin; };
-	auto getHeightWin() const -> int { return this->heightWin; };
+	auto addToRender(GuiRect* newRect) -> void;
+	auto loadProgram(std::string const& nameShader) -> void;
+	auto loadShader(std::string const& name, GLint shaderType) -> GLuint;
+	auto loadText(std::string const& text, maths::Vector4 colorText) -> GLuint;
+	auto changeText(GuiButton* button) -> void;
+	auto getElementFromID(int id) -> GuiRect*;
+	auto getPressedElement() -> GuiRect*;
+
+	auto getDrawRect() const& -> std::vector<GuiRect*> { return this->drawRect; };
+	auto getGuiEvt() const& -> GuiEventReceiver* { return this->guiEvt; };
+	auto getWidth() const -> int { return this->windowWidth; };
+	auto getHeight() const -> int { return this->windowHeight; };
+	auto getRoot() const& -> GuiRect* { return this->root; };
 
 private:
-	std::vector<GuiRect*> renderedRect;
+	GuiManager(int windowWidth, int windowHeight);
+	std::vector<GuiRect*> drawRect;
+	std::vector<GuiMenu*> listMenus;
+	std::map<std::string, GLuint> programGui;
 	GuiEventReceiver* guiEvt;
-	GuiRect* rootGui;
 
-	GLuint prgIDRect;
-	GLuint prgIDButton;
-	GLuint proj;
+	int windowWidth, windowHeight;
+	std::array<float, 16> camOrtho;
 	TTF_Font* font;
-
-	int widthWin;
-	int heightWin;
+	GuiRect* root;
 };
 
 } // end namespace gui
 
 } // end namespace id
 
-#endif // GUI_H_INCLUDED
+#endif // GUI_MANAGER_H_INCLUDED

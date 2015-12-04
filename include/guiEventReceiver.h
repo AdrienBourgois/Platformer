@@ -14,19 +14,22 @@ public:
 	GuiEventReceiver(GuiManager* gui);
 	~GuiEventReceiver();
 
-	auto eventListener(SDL_Event* ev) -> bool;
-	auto checkButtonClicked() -> bool;
-	auto setMouseCoords() -> void;
+	auto eventListener(SDL_Event* ev) -> void;
+	auto checkMouseOnButton() -> void;
+	auto listenNextKey(SDL_Event* ev) -> void;
+	auto refreshMouseCoords() -> void;
+	auto resetEvents() -> void;
+
+	auto setListenKeys(bool listen) -> void { this->listenKeys = listen; };
 
 private:
 	GuiManager* gui;
-
-	int mouseX;
-	int mouseY;
+	int mouseX, mouseY;
+	bool listenKeys;
 };
 
-} // end namespace gui
+} // end namespace 
 
 } // end namespace id
 
-#endif
+#endif // GUI_EVENT_RECEIVER_H_INCLUDED
