@@ -31,7 +31,9 @@ SRC = 	main.cpp\
 		screenshot.cpp\
 		guiManager.cpp\
 		guiRect.cpp\
+		guiButton.cpp\
 		guiEventReceiver.cpp\
+		guiMenu.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 
