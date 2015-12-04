@@ -53,12 +53,12 @@ auto EditMaterialWindow::Display(Device* dev) -> void
 		{
 			for (std::string shader_name : _shader_list)
 			{
-				_active_node->getScene()->getDriver()->getShader()->loadProgram(shader_name);
-				unsigned int prg_id = _active_node->getScene()->getDriver()->getShader()->getPrg(shader_name);
-				bool selec = ((scene::MeshSceneNode*)(_active_node))->getPrgId() == prg_id;
+				bool selec = false;
 				ImGui::Selectable(shader_name.c_str(), &selec, 0, {170,0});
 				if (selec)
 				{
+					_active_node->getScene()->getDriver()->getShader()->loadProgram(shader_name);
+					unsigned int prg_id = _active_node->getScene()->getDriver()->getShader()->getPrg(shader_name);
 					((scene::MeshSceneNode*)(_active_node))->setPrgId(prg_id);
 				}
 				ImGui::SameLine();

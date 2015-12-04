@@ -1,6 +1,5 @@
 #include <string>
 #include <iostream>
-#include <vector>
 
 #include "shaders.h"
 #include "meshSceneNode.h"
@@ -66,17 +65,7 @@ auto MeshSceneNode::draw(video::Driver* driver) -> void
 {
 	SDL_assert(driver);
 
-	for (auto& v : _mesh->getGroups())
-	{
-		Material* material = _mesh->getMaterial();
-		Texture* texture = material->getTextureFromMTL(v.second.mtl);
-		unsigned int texture_id = 0;
-		if (texture)
-			texture_id = texture->getID();
-		driver->ChangeTexture(texture_id);
-		driver->drawTriangles(v.second.vao, v.second.vbo, v.second.dataSize());
-	}
-	SceneNode::draw(driver);
+	driver->draw(this);
 }
 
 } // namespace scene

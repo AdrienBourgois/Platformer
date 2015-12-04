@@ -32,6 +32,11 @@ SRC = 	main.cpp\
 		screenshot.cpp\
 		logger.cpp\
 		guiLogger.cpp\
+		entity.cpp\
+		player.cpp\
+		enemy.cpp\
+		event.cpp\
+		stateManager.cpp
 
 LIBS = SDL2 GL GLEW SDL2_image
 

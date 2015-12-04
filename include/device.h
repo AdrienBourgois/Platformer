@@ -1,6 +1,7 @@
 #ifndef DEVICE_H_INCLUDED
 #define DEVICE_H_INCLUDED
 
+#include <chrono>
 #include <GL/glew.h> 
 #include <SDL2/SDL.h> 
 #include <memory>
@@ -33,14 +34,15 @@ public:
 			auto getSceneManager() const 	-> scene::SceneManager* 		{ return _sceneManager;	}
 			auto setSceneManager(scene::SceneManager* smgr) -> void 		{ _sceneManager = smgr;	}
 
+
 			auto run() 	-> bool;
+
 private:
 	Device();
 
 	std::unique_ptr<video::Driver> 	_driver;
 	std::unique_ptr<Window>			_window;
 	scene::SceneManager*			_sceneManager;
-
 };
 
 

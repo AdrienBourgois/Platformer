@@ -14,10 +14,17 @@
 #include "fileUtility.h"
 #include "logger.h"
 #include "guiLogger.h"
+#include "maths/utility.h"
+#include "event.h"
+#include "enemy.h"
+#include "player.h"
+
 
 int main(int argc, char* argv[])
 {
-	id::TXTLogger::getInstance()->setLogLevel(id::LL_ALL);
+	id::TXTLogger* logger = id::TXTLogger::getInstance();
+
+	logger->setLogLevel(id::LL_ALL);
 
 	LOG(L_ERROR, 32, 454,4554754,455454);
 	LOG(L_ERROR, 4432, "dqwedqwdqw",4554754,455454);
@@ -34,9 +41,19 @@ int main(int argc, char* argv[])
 	{
 		id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), id::FileUtility::getFileNameFromPath(argv[1]), "pos3d_tex2d", argv[1]);
 		(void) mesh_scn;
-	}
 
-	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
+	}
+		id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "");
+
+
+	id::scene::Enemy * enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/Dragon.obj"); // enemy creation
+
+	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj"); // player creation
+
+		
+
+	
+id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
 
@@ -46,20 +63,28 @@ int main(int argc, char* argv[])
 	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 
 //	bool visible2 = true;	
+	
+	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
+
 	while (device->run())
 	{
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
 		
+		debug_logger->DisplayLog();	
 //		ImGui::ShowTestWindow(&visible2);
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
 		
-		debug_logger->DisplayLog();	
+		//debug_logger->DisplayLog();	
 		#ifdef _DEBUG
 			ImGui::Render();
 		#endif
+	
+		if (player) // if player was not create create , don't try to use the event
+		ev->playerEventReceiver();
+
 		device->getWindow()->swap();
 	}
 

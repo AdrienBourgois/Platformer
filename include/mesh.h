@@ -46,7 +46,8 @@ public:
 			auto getMaterial() const 		-> Material* 		{ return _material; 	}
 
 			auto loadObj(std::string const& path) -> void;
-	
+		
+
 			auto getGroups() 		-> std::map< std::string, mesh_group > { return _groups; }
 	
 	static 	auto deleteAllMeshes() 	-> void;

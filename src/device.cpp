@@ -7,6 +7,8 @@
 #include "texture.h"
 #include "screenshot.h"
 #include "logger.h"
+#include "event.h"
+
 namespace {
 
 id::TXTLogger* logger = id::TXTLogger::getInstance();

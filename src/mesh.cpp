@@ -22,15 +22,17 @@ auto Mesh::createMesh(std::string const& path, video::Driver* driver) -> Mesh*
 {
 	SDL_assert(driver);
 
-	for (auto&& mesh : Mesh::_meshes)
-	{
-		if (mesh->getObjPath() == path)
-			{
-				logger->log("Didn't create new Mesh in Mesh::createMesh(std::string const& path, std::string const& tex_path, video::Driver* driver) because mesh already exist.");
-				return mesh;
-			}
-	}
 
+	if (path != "")
+		for (auto&& mesh : Mesh::_meshes)
+		{
+			if (mesh->getObjPath() == path)
+				{
+					logger->log("Didn't create new Mesh in Mesh::createMesh(std::string const& path, std::string const& tex_path, video::Driver* driver) because mesh already exist.");
+					return mesh;
+				}
+		}
+	
 	Mesh* mesh = new (std::nothrow) Mesh(path, driver);
 	if (!mesh)
 		logger->log("Failed at creating Mesh in Mesh::createMesh(std::string const& path, std::string const& tex_path, video::Driver* driver)", LL_WARNING);
@@ -40,11 +42,14 @@ auto Mesh::createMesh(std::string const& path, video::Driver* driver) -> Mesh*
 }
 
 Mesh::Mesh(std::string const& path, video::Driver* driver)
-: _driver(driver), _objPath(path)
+: _driver(driver), _objPath(path), _material(nullptr)
 {
 	logger->log("Creating Mesh...", LL_DEBUG);
 	
-	loadObj(_objPath);
+	if (_objPath != "")
+	{
+		loadObj(_objPath);
+	}
 	for (auto& v : _groups)
 		_driver->genVertexObject(v.second.dataSize() * sizeof(v.second.data[0]), &v.second.data[0], &v.second.vbo, &v.second.vao);
 	
@@ -148,6 +153,7 @@ auto Mesh::loadObj(std::string const& path) -> void
 			}
 		}
 	}
+
 	
 	for (auto const& grp : faces)
 	{
@@ -192,7 +198,6 @@ auto Mesh::loadObj(std::string const& path) -> void
 	logger->log("Obj has been loaded.");
 
 }
-
 
 } // namespace scene
 } // namespace id

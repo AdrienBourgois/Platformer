@@ -1,6 +1,8 @@
 #ifndef MESH_SCENE_NODE_H_INCLUDED
 #define MESH_SCENE_NODE_H_INCLUDED
 
+#include <vector>
+
 #include "sceneNode.h"
 
 namespace id {
@@ -32,11 +34,16 @@ public:
 
 	virtual auto draw(video::Driver* drv) 	-> void;
 
-private:
+protected:
 	MeshSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path);
+	
 	Mesh* 			_mesh;
 	unsigned int 	_prg_id;
 };
+
+
+
+
 
 } // namespace scene
 } // namespace id
