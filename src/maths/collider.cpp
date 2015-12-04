@@ -8,7 +8,7 @@
 
 
 namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
+    id::TXTLogger* logger = id::TXTLogger::getInstance();
 }
 
 namespace id{
@@ -17,15 +17,15 @@ namespace maths{
 Collider::Collider(Polyhedron& polyhedron)
 :polyhedron(polyhedron)
 {
-	logger->log("Creating Collider...", LL_DEBUG);
-	logger->log("Collider has been created.");
+    logger->log("Creating Collider...", LL_DEBUG);
+    logger->log("Collider has been created.");
 }
 
 Collider::~Collider()
 {
-	logger->log("Deleting Collider...", LL_DEBUG);
+    logger->log("Deleting Collider...", LL_DEBUG);
 
-	logger->log("Collider has been deleted.");	
+    logger->log("Collider has been deleted.");  
 }
 
 auto Collider::updateBoundingBox() -> void
@@ -78,7 +78,7 @@ auto Collider::advancedCollide(Collider const& col) const -> bool
             count_intersection = 0;
     }
 
-	return false;
+    return false;
 }
 
 } // namespace maths

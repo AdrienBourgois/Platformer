@@ -11,28 +11,28 @@ struct Vector4
 {
     float val[4];
     
-    auto operator+(Vector4 const vector) 	-> Vector4;
-    auto operator*(float& val) const 		-> Vector4;
-    auto operator*=(float& val) 			-> Vector4&;	
+    auto operator+(Vector4 const vector)    -> Vector4;
+    auto operator*(float& val) const        -> Vector4;
+    auto operator*=(float& val)             -> Vector4&;    
 };
 
 struct Vector3
 {
-	float val[3];
+    float val[3];
 
     Vector3() = default;
     Vector3(float, float, float);
-	
-	auto operator+(Vector3 const vector) 	-> Vector3;
-	auto operator*(float& val) const 		-> Vector3;
-	auto operator*=(float& val) 			-> Vector3&;
-	auto operator-(Vector3 const vector) const	-> Vector3;
-		
-	auto dotProduct(Vector3 const vec) const -> float;
-	auto crossProduct(Vector3 const vec) const -> Vector3;
+    
+    auto operator+(Vector3 const vector)    -> Vector3;
+    auto operator*(float& val) const        -> Vector3;
+    auto operator*=(float& val)             -> Vector3&;
+    auto operator-(Vector3 const vector) const  -> Vector3;
 
-	auto getNormalized() const 				-> Vector3;
-	auto norm() const -> float;
+    auto dotProduct(Vector3 const vec) const -> float;
+    auto crossProduct(Vector3 const vec) const -> Vector3;
+
+    auto getNormalized() const              -> Vector3;
+    auto norm() const -> float;
 };
 
 

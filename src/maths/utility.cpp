@@ -12,22 +12,22 @@ namespace maths {
 
 auto degToRad(float angle) -> float
 {
-	return angle * M_PI / 180.f;
+    return angle * M_PI / 180.f;
 }
 
 auto radToDeg(float angle) -> float
 {
-	return angle * 180.f / M_PI;	
+    return angle * 180.f / M_PI;    
 }
 
 auto calcDistance(Vector3 pPoint, Vector3 pNormal, Vector3 sCenter, float sRayon) -> float
 {
-	return abs(sqrt(pNormal.dotProduct(sCenter - pPoint))) - sRayon;
+    return abs(sqrt(pNormal.dotProduct(sCenter - pPoint))) - sRayon;
 }
 
 auto calcDistance(Vector3 s1Center, float s1Rayon, Vector3 s2Center, float s2Rayon) -> float
 {
-	return (s1Center - s2Center).norm() - (s1Rayon + s2Rayon);
+    return (s1Center - s2Center).norm() - (s1Rayon + s2Rayon);
 }
 
 auto calcDistance(Vector3 point, Vector4 polyhedron) -> float
@@ -102,119 +102,117 @@ auto isPointInsidePoly(Vector3 point, std::vector<Vector3> poly) -> bool
 
     int x = 0;
     int y = 0;
-	int z = 0;
-	minCoordRange(poly, x, y);
+    int z = 0;
+    minCoordRange(poly, x, y);
     for (unsigned int i = 0; i < poly.size(); ++i)
     {
         if (((poly[i].val[y] > point.val[y]) != (poly[j].val[y] > point.val[y])) &&
            (point.val[x] < ((((poly[j].val[x] - poly[i].val[x]) * (point.val[y] - poly[i].val[y])) / (poly[j].val[y] - poly[i].val[y] ))+ poly[i].val[x])))
-		{
-			c = !c;
-			++z;
-		}
+        {
+            c = !c;
+            ++z;
+        }
         j = i;
     }
-	std::cout << z << std::endl;
+    std::cout << z << std::endl;
     return c;
 }
 
 auto getPointsFromVectorFloat(std::vector<float> shape) -> std::vector<Vector3>
 {
-	std::vector<Vector3> points;
-	Vector3 point;
-	float x = 0, y = 0, z = 0;
+    std::vector<Vector3> points;
+    Vector3 point;
+    float x = 0, y = 0, z = 0;
 
 
-	for (unsigned int i = 0; i < shape.size(); ++i)
-	{
-		if (i % 8 == 0)
-			x = shape[i];
-		else if (i % 8 == 1 )
-			y = shape[i];
-		else if ( i % 8 == 2 )
-		{
-			z = shape[i];
-			point = {x, y, z};
-			points.push_back(point);
-		}
-	}
+    for (unsigned int i = 0; i < shape.size(); ++i)
+    {
+        if (i % 8 == 0)
+            x = shape[i];
+        else if (i % 8 == 1 )
+            y = shape[i];
+        else if ( i % 8 == 2 )
+        {
+            z = shape[i];
+            point = {x, y, z};
+            points.push_back(point);
+        }
+    }
 
-	return points;	
-
+    return points;
 }
 
 auto calCoordFromMatrix(std::vector<Vector3> vecPoint, Matrix4x4 matrix) -> std::vector<Vector3>
 {
-	Vector3 oldPos;
+    Vector3 oldPos;
 
-	for (auto&& point : vecPoint)
-	{
-		oldPos = point;
-		matrix *= matrix.translate(point.val[0], point.val[1], point.val[2]);
-		point = matrix.getPosition();
-		matrix *= matrix.translate(-oldPos.val[0], -oldPos.val[1], -oldPos.val[2]);
-	}
+    for (auto&& point : vecPoint)
+    {
+        oldPos = point;
+        matrix *= matrix.translate(point.val[0], point.val[1], point.val[2]);
+        point = matrix.getPosition();
+        matrix *= matrix.translate(-oldPos.val[0], -oldPos.val[1], -oldPos.val[2]);
+    }
 
-	return vecPoint;	
+    return vecPoint;    
 }
 
 
 std::vector<GLfloat> const Shape::cube{
 
-	//back face
-	1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-    1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
-    -1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-											  			
-     1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-    -1.0f, 1.0f,-1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
-											
-	//front face							
-	-1.0f, 1.0f, 1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f,-1.0f, 1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
-    1.0f,-1.0f, 1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-											  		  
-	1.0f, 1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f, 1.0f, 1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-    1.0f,-1.0f, 1.0f, 		1.f, 0.f,		0.f, 0.f, 0.f,
-											
-	//top face								
-	1.0f, 1.0f, 1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-    1.0f, 1.0f,-1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-											  			
-	1.0f, 1.0f, 1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-    -1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f, 1.0f, 1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
-											
-	//bottom face							  
-	 1.0f,-1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
-    1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-											  			
-	1.0f,-1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f,-1.0f, 1.0f, 		0.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
-											
-	//left face								
-	-1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,  
-    -1.0f,-1.0f, 1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-    -1.0f, 1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
-											  			
-	-1.0f,-1.0f,-1.0f,		0.f, 0.f,		0.f, 0.f, 0.f,
-    -1.0f, 1.0f, 1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
-    -1.0f, 1.0f,-1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-											
-	// right face							   
-	1.0f, 1.0f, 1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-    1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-    1.0f, 1.0f,-1.0f,		1.f, 1.f,		0.f, 0.f, 0.f,
-											  			
-	1.0f,-1.0f,-1.0f,		1.f, 0.f,		0.f, 0.f, 0.f,
-    1.0f, 1.0f, 1.0f,		0.f, 1.f,		0.f, 0.f, 0.f,
-    1.0f,-1.0f, 1.0f,		0.f, 0.f,		0.f, 0.f, 0.f
+    //back face
+    1.0f, 1.0f,-1.0f,       0.f, 1.f,       0.f, 0.f, 0.f,
+    1.0f,-1.0f,-1.0f,       0.f, 0.f,       0.f, 0.f, 0.f,
+    -1.0f,-1.0f,-1.0f,      1.f, 0.f,       0.f, 0.f, 0.f,
 
+     1.0f, 1.0f,-1.0f,      0.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f,-1.0f,-1.0f,      1.f, 0.f,       0.f, 0.f, 0.f,
+    -1.0f, 1.0f,-1.0f,      1.f, 1.f,       0.f, 0.f, 0.f,
+
+    //front face                            
+    -1.0f, 1.0f, 1.0f,      0.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f,-1.0f, 1.0f,      0.f, 0.f,       0.f, 0.f, 0.f,
+    1.0f,-1.0f, 1.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
+
+    1.0f, 1.0f, 1.0f,       1.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f, 1.0f, 1.0f,      0.f, 1.f,       0.f, 0.f, 0.f,
+    1.0f,-1.0f, 1.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
+
+    //top face                              
+    1.0f, 1.0f, 1.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
+    1.0f, 1.0f,-1.0f,       1.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f, 1.0f,-1.0f,      0.f, 1.f,       0.f, 0.f, 0.f,
+
+    1.0f, 1.0f, 1.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
+    -1.0f, 1.0f,-1.0f,      0.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f, 1.0f, 1.0f,      0.f, 0.f,       0.f, 0.f, 0.f,
+
+    //bottom face                             
+     1.0f,-1.0f, 1.0f,      1.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f,-1.0f,-1.0f,      0.f, 0.f,       0.f, 0.f, 0.f,
+    1.0f,-1.0f,-1.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
+
+    1.0f,-1.0f, 1.0f,       1.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f,-1.0f, 1.0f,      0.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f,-1.0f,-1.0f,      0.f, 0.f,       0.f, 0.f, 0.f,
+
+    //left face                             
+    -1.0f,-1.0f,-1.0f,      0.f, 0.f,       0.f, 0.f, 0.f,  
+    -1.0f,-1.0f, 1.0f,      1.f, 0.f,       0.f, 0.f, 0.f,
+    -1.0f, 1.0f, 1.0f,      1.f, 1.f,       0.f, 0.f, 0.f,
+
+    -1.0f,-1.0f,-1.0f,      0.f, 0.f,       0.f, 0.f, 0.f,
+    -1.0f, 1.0f, 1.0f,      1.f, 1.f,       0.f, 0.f, 0.f,
+    -1.0f, 1.0f,-1.0f,      0.f, 1.f,       0.f, 0.f, 0.f,
+
+    // right face                              
+    1.0f, 1.0f, 1.0f,       0.f, 1.f,       0.f, 0.f, 0.f,
+    1.0f,-1.0f,-1.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
+    1.0f, 1.0f,-1.0f,       1.f, 1.f,       0.f, 0.f, 0.f,
+
+    1.0f,-1.0f,-1.0f,       1.f, 0.f,       0.f, 0.f, 0.f,
+    1.0f, 1.0f, 1.0f,       0.f, 1.f,       0.f, 0.f, 0.f,
+    1.0f,-1.0f, 1.0f,       0.f, 0.f,       0.f, 0.f, 0.f
 };
 
 auto collideRayTriangle(const Vector3 V1, const Vector3 V2, const Vector3 V3, const Vector3 O, const Vector3 D) -> bool

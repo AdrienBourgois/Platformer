@@ -8,8 +8,8 @@ namespace id {
 namespace maths {
 
 class Matrix4x4;
-class Vector3;	
-class Vector4;	
+class Vector3;  
+class Vector4;  
 
 auto degToRad(float angle) -> float;
 auto radToDeg(float angle) -> float;
@@ -37,8 +37,8 @@ auto more_by_z(const Vector3& point1, const Vector3& point2) -> bool;
 
 class Shape
 {
-	public:
-		static std::vector<GLfloat>const cube;
+    public:
+        static std::vector<GLfloat>const cube;
 };
 
 
