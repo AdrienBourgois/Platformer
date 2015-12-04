@@ -101,6 +101,7 @@ auto GuiEventReceiver::refreshMouseCoords() -> void
 }
 auto GuiEventReceiver::resetEvents() -> void
 {
+	this->listenKeys = false;
 	std::vector<GuiRect*> drawRect = this->gui->getDrawRect();
     for (auto it = drawRect.begin(); it !=  drawRect.end(); ++it)
 		(*it)->setPressed(false);
