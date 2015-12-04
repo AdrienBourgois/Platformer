@@ -99,7 +99,7 @@ auto GuiMenu::createMenuSettings() -> void
 	this->idRectMenu.push_back(GUI_ID_BUTTON_RUN);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/8.4), 0, this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_JUMP, true, "Jump", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_JUMP);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), 0, this->windowWidth/24, this->windowHeight/18, GUI_ID_BUTTON_JUMP, true, colorBut, "Space", colorText, nullptr);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), 0, this->windowWidth/24, this->windowHeight/18, GUI_ID_BUTTON_JUMP, true, colorBut, "Space", colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_JUMP);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/8.4), -(this->windowHeight/7), this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_SHOOT, true, "Shoot", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_SHOOT);
