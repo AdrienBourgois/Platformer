@@ -77,5 +77,13 @@ std::vector<GLfloat> const Shape::cube{
     1.0f,-1.0f, 1.0f, 		1.f, 0.f,		 0.f, 0.f, 0.f
 };
 
+Color4::Color4(float c1, float c2, float c3, float c4)
+{
+	this->color[0] = c1/255;
+	this->color[1] = c2/255;
+	this->color[2] = c3/255;
+	this->color[3] = c4/255;
+}
+
 } // namespace maths
 } // namespace id

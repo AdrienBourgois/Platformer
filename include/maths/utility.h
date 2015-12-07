@@ -35,6 +35,12 @@ class Shape
 };
 
 
+struct Color4
+{
+	Color4(float c1, float c2, float c3, float c4);
+	float color[4];
+};
+
 } // namespace maths
 } // namespace id
 
