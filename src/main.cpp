@@ -57,21 +57,16 @@ int main(int argc, char* argv[])
 	}
 		id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "");
 
-
 	id::scene::Enemy * enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/Dragon.obj"); // enemy creation
 
 	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj"); // player creation
 
-id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
+	//id::json::JsonWriter jsonWriter;
+	//jsonWriter.saveDefaultBindKey();
+
+
+	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
-    (void)cam;
-
-//	id::json::JsonWriter jsonWriter;
-//	jsonWriter.writeNode(mesh_scn);	
-
-//	id::json::JsonReader jsonReader;
-//	jsonReader.loadAllNode(device.get());
-
 
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
