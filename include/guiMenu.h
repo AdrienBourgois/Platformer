@@ -1,6 +1,7 @@
 #ifndef GUI_MENU_H_INCLUDED
 #define GUI_MENU_H_INCLUDED
 
+#include <functional>
 #include <vector>
 
 #include "guiManager.h"
@@ -14,7 +15,7 @@ public:
 	GuiMenu(GuiManager* gui);
 	~GuiMenu();
 
-	auto createMenuTitleScreen() -> void;
+	auto createMenuTitleScreen(std::function<void()> funcQuit) -> void;
 	auto createMenuSettings() -> void;
 	auto deleteMenu() -> void;
 

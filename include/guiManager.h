@@ -35,7 +35,7 @@ public:
 	auto addRect(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 color) -> void;
 	auto addButton(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 colorBg, std::string const& text, maths::Vector4 colorText, std::function<void()> func) -> void;
 	auto addStaticText(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::string const& text, maths::Vector4 colorText) -> void;
-	auto addMenuTitleScreen() -> void;
+	auto addMenuTitleScreen(std::function<void()> funcQuit) -> void;
 	auto addMenuSettings() -> void;
 
 	auto addToRender(GuiRect* newRect) -> void;

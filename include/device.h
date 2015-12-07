@@ -1,9 +1,9 @@
 #ifndef DEVICE_H_INCLUDED
 #define DEVICE_H_INCLUDED
 
-#include <chrono>
 #include <GL/glew.h> 
 #include <SDL2/SDL.h> 
+#include <chrono>
 #include <memory>
 
 namespace id {
@@ -41,6 +41,7 @@ public:
 
 
 			auto run() 	-> bool;
+			auto close() -> void;
 
 private:
 	Device();
@@ -49,6 +50,9 @@ private:
 	std::unique_ptr<Window>			_window;
 	scene::SceneManager*			_sceneManager;
 	std::unique_ptr<gui::GuiManager> 				_gui;
+
+	bool running;
+
 };
 
 
