@@ -41,16 +41,16 @@ int main(int argc, char* argv[])
 //	mesh_scn3->setPosition({0,0,10});
 	id::json::JsonWriter jsonWriter;
 //	jsonWriter.writeAllNode(device->getSceneManager()->getRootNode(), "partie1");	
-	jsonWriter.saveDefaultBindKey();
+//	jsonWriter.saveDefaultBindKey();
 
-	if (jsonWriter.checkExistingValue("SPACE"))
-		std::cout << "existing value" << std::endl;
-	else
-		std::cout << "not existing value" << std::endl;
+//	if (jsonWriter.checkExistingValue("105"))
+//		std::cout << "existing value" << std::endl;
+//	else
+//		std::cout << "not existing value" << std::endl;
 //	jsonWriter.modifyLineByNameSearch("jump", "k");
 //	jsonWriter.modifyLineByValueSearch("D", "M");
-//	id::json::JsonReader jsonReader;
-//	jsonReader.loadAllNode(device.get());
+	id::json::JsonReader jsonReader;
+	jsonReader.loadAllNode(device.get());
 
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);

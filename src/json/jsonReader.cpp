@@ -1,4 +1,5 @@
 #include <sstream>
+#include <fstream>
 
 #include "txtLogger.h"
 #include "json/jsonValue.h"
@@ -29,11 +30,9 @@ auto findNode(std::string name, id::scene::SceneNode* node) -> id::scene::SceneN
 namespace id {
 namespace json {
 
-JsonReader::JsonReader(std::string name)
-:file(("./assets/json/" + name + ".json").c_str(), std::ios_base::in)
+JsonReader::JsonReader()
 {
-	std::string str = "Creating jsonReader to read ./assets/json/" + name + ".json...";
-	logger->log(str, LL_DEBUG);
+	logger->log("Creating jsonReader...", LL_DEBUG);
 
 	logger->log("Jsonreader has been created.");
 }
@@ -42,14 +41,15 @@ JsonReader::~JsonReader()
 {
 	logger->log("Deleting JsonReader...", LL_DEBUG);
 
-	file.close();
-
 	logger->log("JsonReader has been deleted.");
 }
 
-auto JsonReader::readBool(std::string key) -> std::vector<bool>
+auto JsonReader::readBool(std::string key, std::string fileName) -> std::vector<bool>
 {
-	file.seekg(0, file.beg);
+
+	std::ifstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+
 	std::string line;
 	std::string keyFile;
 	std::vector<bool> vecBool;
@@ -72,17 +72,18 @@ auto JsonReader::readBool(std::string key) -> std::vector<bool>
 				}
 			}
 		}
-		file.clear();
 	}
+	file.close();
 	return vecBool;
 }
 
-auto JsonReader::readString(std::string key) -> std::vector<std::string>
+auto JsonReader::readString(std::string key, std::string fileName) -> std::vector<std::string>
 {
-	file.seekg(0, file.beg);
+	std::ifstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
 	std::string line;
 	std::string keyFile;
-	std::string finalstr = "";
+	std::string finalstr;
 	std::vector<std::string> vecString;
 
 	if (file.is_open())
@@ -102,16 +103,18 @@ auto JsonReader::readString(std::string key) -> std::vector<std::string>
 				}
 			}
 		}
-		file.clear();
 	}
-	
+	file.close();	
 	return vecString;
 
 }
 
-auto JsonReader::readNull(std::string key) -> std::vector<bool>
+auto JsonReader::readNull(std::string key, std::string fileName) -> std::vector<bool>
 {
-	file.seekg(0, file.beg);
+
+	std::ifstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+
 	std::string line;
 	std::string keyFile;
 	std::string finalstr;
@@ -136,7 +139,7 @@ auto JsonReader::readNull(std::string key) -> std::vector<bool>
 				}
 			}
 		}
-		file.clear();
+		file.close();
 	}
 	return vecNull;
 
@@ -144,9 +147,11 @@ auto JsonReader::readNull(std::string key) -> std::vector<bool>
 
 }
 
-auto JsonReader::readNumber(std::string key) -> std::vector<float>
+auto JsonReader::readNumber(std::string key, std::string fileName) -> std::vector<float>
 {
-	file.seekg(0, file.beg);
+	std::ifstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+
 	std::string line;
 	std::string keyFile;
 	std::string finalNumber;
@@ -168,14 +173,16 @@ auto JsonReader::readNumber(std::string key) -> std::vector<float>
 				}
 			}
 		}
-		file.clear();
+		file.close();
 	}
 	return vecNum;
 }
 
-auto JsonReader::readStringArray(std::string key) -> std::vector<std::vector<std::string>>
+auto JsonReader::readStringArray(std::string key, std::string fileName) -> std::vector<std::vector<std::string>>
 {
-	file.seekg(0, file.beg);
+	std::ifstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+
 	std::string line;
 	std::string keyFile;
 	std::string finalstr;
@@ -204,14 +211,16 @@ auto JsonReader::readStringArray(std::string key) -> std::vector<std::vector<std
 				}
 			}
 		}
-		file.clear();
+		file.close();
 	}
 	return vecVal;
 }
 
-auto JsonReader::readBoolArray(std::string key) -> std::vector<std::vector<bool>>
+auto JsonReader::readBoolArray(std::string key, std::string fileName) -> std::vector<std::vector<bool>>
 {
-	file.seekg(0, file.beg);
+	std::ifstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+
 	std::string line;
 	std::string keyFile;
 	std::string finalstr;
@@ -244,14 +253,16 @@ auto JsonReader::readBoolArray(std::string key) -> std::vector<std::vector<bool>
 				}
 			}
 		}
-		file.clear();
+		file.close();
 	}
 	return vecVal;
 }
 
-auto JsonReader::readNumberArray(std::string key) -> std::vector<std::vector<float>>
+auto JsonReader::readNumberArray(std::string key, std::string fileName) -> std::vector<std::vector<float>>
 {
-	file.seekg(0, file.beg);
+	std::ifstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+
 	std::string line;
 	std::string keyFile;
 	std::string finalNumber;
@@ -282,17 +293,17 @@ auto JsonReader::readNumberArray(std::string key) -> std::vector<std::vector<flo
 				}
 			}
 		}
-		file.clear();
+		file.close();
 	}
 	return vecVal;
 }
 
-auto JsonReader::loadAllNode(Device* device) ->void 
+auto JsonReader::loadAllNode(Device* device, std::string fileName) ->void 
 {
-	std::vector<std::string> name = readString("name");
-	std::vector<std::string> parent = readString("parent");
-	std::vector<std::string> objPath = readString("objPath");
-	std::vector<std::vector<float>> matrix = readNumberArray("transformation");	
+	std::vector<std::string> name = readString("name", fileName);
+	std::vector<std::string> parent = readString("parent", fileName);
+	std::vector<std::string> objPath = readString("objPath", fileName);
+	std::vector<std::vector<float>> matrix = readNumberArray("transformation", fileName);	
 	for (unsigned int i = 0; i < name.size(); ++i)
 	{
 		scene::SceneNode* node = findNode(parent[i], device->getSceneManager()->getRootNode());
@@ -304,6 +315,13 @@ auto JsonReader::loadAllNode(Device* device) ->void
 	}
 }
 
+/*
+auto JsonReader::loadKeyBinding(std::string fileName) -> std::map<std::string, std::string>
+{
+	std::map<std::string, std::string> mapKeyAffect;
+	
+}
+*/
 } // namespace json
 } // namespace id
 
