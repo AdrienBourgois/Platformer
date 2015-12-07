@@ -20,8 +20,8 @@ namespace {
 namespace id {
 namespace scene {
 
-Event::Event(Player* player, Enemy* enemy)
-:player(player), enemy(enemy)
+Event::Event(Player* player)
+:player(player)
 {
 	logger->log("Initializing Event...", LL_DEBUG);
 

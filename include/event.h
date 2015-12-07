@@ -12,7 +12,7 @@ class Event {
 
 public :
 
-	Event(Player* player, Enemy* enemy);
+	Event(Player* player);
 	~Event();
 	
 
