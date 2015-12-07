@@ -122,16 +122,16 @@ auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 	file << "{" << std::endl;
 
 	JsonObject* objKey  = new JsonObject;
-	objKey->addInObject("forward", new JsonString("w"));
-	objKey->addInObject("backward", new JsonString("s"));
-	objKey->addInObject("turn_right", new JsonString("d"));
-	objKey->addInObject("turn_left", new JsonString("a"));
-	objKey->addInObject("strafe_right", new JsonString("e"));
-	objKey->addInObject("strafe_left", new JsonString("q"));
-	objKey->addInObject("jump", new JsonString("space"));
-	objKey->addInObject("shoot", new JsonString("j"));
-	objKey->addInObject("run", new JsonString("r"));
-	objKey->addInObject("pause", new JsonString("p"));
+	objKey->addInObject("Forward", new JsonString("W"));
+	objKey->addInObject("Backward", new JsonString("S"));
+	objKey->addInObject("Turn_right", new JsonString("D"));
+	objKey->addInObject("Turn_left", new JsonString("A"));
+	objKey->addInObject("Strafe_right", new JsonString("E"));
+	objKey->addInObject("Strafe_left", new JsonString("Q"));
+	objKey->addInObject("Jump", new JsonString("SPACE"));
+	objKey->addInObject("Shoot", new JsonString("J"));
+	objKey->addInObject("Run", new JsonString("R"));
+	objKey->addInObject("Pause", new JsonString("P"));
 
 	write(objKey, file);
 
