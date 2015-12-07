@@ -315,13 +315,39 @@ auto JsonReader::loadAllNode(Device* device, std::string fileName) ->void
 	}
 }
 
-/*
+
 auto JsonReader::loadKeyBinding(std::string fileName) -> std::map<std::string, std::string>
 {
+	std::ifstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+
 	std::map<std::string, std::string> mapKeyAffect;
+	std::string line;
+	std::string key;
+	std::string value;
+
+	while (std::getline(file, line))
+	{
+		if (line.size() > 0)
+		{
+			std::stringstream sstr(line);
+			sstr >> key;
+			if (key.size() > 1)
+			{
+				sstr >> value;
+				sstr >> value;
+				if (value[0] == '"')
+					value = id::FileUtility::getStringWithoutExtra(value);
+				else
+					value = id::FileUtility::getNumberStringFromString(value);
+				mapKeyAffect[id::FileUtility::getStringWithoutExtra(key)] = value;
+			}
+		}
+	}
+	return mapKeyAffect;
 	
 }
-*/
+
 } // namespace json
 } // namespace id
 

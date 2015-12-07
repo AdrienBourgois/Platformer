@@ -50,8 +50,10 @@ int main(int argc, char* argv[])
 //	jsonWriter.modifyLineByNameSearch("jump", "k");
 //	jsonWriter.modifyLineByValueSearch("D", "M");
 	id::json::JsonReader jsonReader;
-	jsonReader.loadAllNode(device.get());
-
+//	jsonReader.loadAllNode(device.get());
+	std::map<std::string, std::string> map = jsonReader.loadKeyBinding();
+	for (auto&& val : map)
+		std::cout << val.first << " : " << val.second << std::endl;
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});

@@ -31,9 +31,8 @@ public:
 	auto readBoolArray(std::string key, std::string fileName = "partie1") -> std::vector<std::vector<bool>>;
 	auto readNumberArray(std::string key, std::string fileName = "partie1") -> std::vector<std::vector<float>>;
 
-
 	auto loadAllNode(Device* device, std::string fileName = "partie1") -> void;
-//	auto loadKeyBinding() -> std::map<std::string, std::string>;
+	auto loadKeyBinding(std::string fileName = "bindingKey") -> std::map<std::string, std::string>;
 };
 
 
