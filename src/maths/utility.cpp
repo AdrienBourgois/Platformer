@@ -136,6 +136,8 @@ auto getPointsFromVectorFloat(std::vector<float> shape) -> std::vector<Vector3>
             z = shape[i];
             point = {x, y, z};
             points.push_back(point);
+
+            std::cout << "New point " << i << " : " << point << std::endl;
         }
     }
 

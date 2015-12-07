@@ -24,8 +24,21 @@ int main()
     
     auto mesh = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
     auto mesh2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "", id::maths::Shape::cube);
-    mesh->setPosition({0,15,40});
-    mesh2->setPosition({3,13.5,40});
+    //mesh->setPosition({0,15,40});
+    //mesh2->setPosition({3,13.5,40});
+
+    for (auto it = mesh->getMesh()->getGroups().begin(); it != mesh->getMesh()->getGroups().end(); ++it)
+    {
+        std::cout << " ***** Mesh Point " << ((*it).second).data[0] << std::endl;
+    }
+
+    std::map<std::string, id::scene::mesh_group>::iterator it = mesh->getMesh()->getGroups().begin();
+    std::vector<float> meshPoints = (it->second).data;
+
+    for (unsigned int i = 0; i < meshPoints.size(); ++i)
+    {
+        std::cout << "Mesh Point " << i << " : " << meshPoints[i] << std::endl;
+    }
 
     id::maths::ColliderManager colMgr;
     colMgr.addCollider(mesh, 1);
