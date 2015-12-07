@@ -21,6 +21,7 @@ public:
 	virtual auto createElement(maths::Vector4 color) -> void;
 	auto calculateCoordsRect() -> maths::Vector4x2;
 	auto addChild(GuiRect* child) -> void;
+	auto addGradient(maths::Vector4 colorStart, maths::Vector4 colorStop) -> void;
 	virtual auto genVertexObject() -> void;
 
 	auto getParent() const -> GuiRect* { return this->parent; };
@@ -38,13 +39,13 @@ public:
 	auto getID() const -> int { return this->id; };
 	auto getVisible() const -> bool { return this->visible; };
 	auto getListenEvent() const -> bool { return this->listenEvent; };
-	auto getPressed() const -> bool { return this->pressed; };
+	auto getIsPressed() const -> bool { return this->pressed; };
 	auto getFunc() -> std::function<void()> { return this->func; };
 
 	auto setListenEvent(bool listen) -> void { this->listenEvent = listen; };
 	auto setTexID(GLuint newTexID) -> void { this->texID = newTexID; };
 	auto setVisible(bool visible) -> void;
-	auto setPressed(bool press) -> void { this->pressed = press; };
+	auto setIsPressed(bool press) -> void { this->pressed = press; };
 
 protected:
 	GuiManager* gui;

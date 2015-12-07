@@ -27,6 +27,7 @@
 #include "txtLogger.h"
 #include "json/jsonWriter.h"
 #include "json/jsonReader.h"
+#include "guiLifeBar.h"
 
 int main(int argc, char* argv[])
 {
@@ -80,7 +81,10 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 
 	id::Device* dev = device.get();
 	std::function<void()> funcQuit = [dev]() {dev->close();};
-	device->getGui()->addMenuTitleScreen(funcQuit);	
+	device->getGui()->addMenuTitleScreen(funcQuit);
+
+	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 100);
+	(void)life;
 
 	while (device->run())
 	{

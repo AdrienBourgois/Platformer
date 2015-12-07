@@ -67,7 +67,7 @@ auto GuiEventReceiver::checkMouseOnButton() -> void
 			if ((this->mouseX > leftSide && this->mouseX < rightSide)
 				&& (this->mouseY > upSide && this->mouseY < downSide))
 			{
-				(*it)->setPressed(true);
+				(*it)->setIsPressed(true);
 				std::function<void()> func = (*it)->getFunc();
 				if (func)
 					func();
@@ -105,7 +105,7 @@ auto GuiEventReceiver::resetEvents() -> void
 	this->listenKeys = false;
 	std::vector<GuiRect*> drawRect = this->gui->getDrawRect();
     for (auto it = drawRect.begin(); it !=  drawRect.end(); ++it)
-		(*it)->setPressed(false);
+		(*it)->setIsPressed(false);
 }
 
 } // end namespace gui

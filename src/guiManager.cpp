@@ -99,7 +99,7 @@ auto GuiManager::render() -> void
 
 				GLint colorLoc = glGetUniformLocation(prgID, "color");
 				maths::Vector4 color;
-				if ((*it)->getPressed())
+				if ((*it)->getIsPressed())
 					color = {0.85f, 0.64f, 0.12f, 1.f};
 				else
 					color = (*it)->getColorBg();
@@ -303,7 +303,7 @@ auto GuiManager::getPressedElement() -> GuiRect*
 {
     for (auto it = this->drawRect.begin(); it !=  this->drawRect.end(); ++it)
 	{
-    	if ((*it)->getPressed())
+    	if ((*it)->getIsPressed())
 			return *it;
 	}
 	return nullptr;
