@@ -1,4 +1,7 @@
+#include <sstream>
+
 #include "meshSceneNode.h"
+#include "sceneNode.h"
 #include "mesh.h"
 #include "json/jsonWriter.h"
 #include "json/jsonValue.h"
@@ -19,8 +22,7 @@ int id::json::JsonWriter::indentation = 0;
 namespace id {
 namespace json { 
 
-JsonWriter::JsonWriter(std::string name)
-:file(("./assets/json/" + name + ".json").c_str(), std::ios_base::out)
+JsonWriter::JsonWriter()
 {
 	logger->log("Creating JsonWriter...", LL_DEBUG);
 
@@ -42,39 +44,30 @@ auto JsonWriter::indent() -> std::string
 	return str;
 }
 
-auto JsonWriter::write(JsonObject* obj) -> void
+auto JsonWriter::write(JsonObject* obj, std::ofstream& file) -> void
 {
+
 	std::map<std::string, JsonValue*> mapValue = obj->getMapValue();
 
-	file << "{" << std::endl;
 	if (!mapValue.empty())
 	{
 		indentation++;
 
-		unsigned int i = 1;
-		unsigned int j = mapValue.size();
 		for (auto&& val : mapValue)
 		{
 			file << indent();
 			file << "\"" << val.first << "\" : ";
 			file << val.second->serialize();
-			if ( i == j)
-				file << "\n";
-			else
-				file << ",\n";
-			++i;
+			file << ",\n";
 		}
 
 		--indentation;
 		file << indent();
 	}
-	file << "}";
-
 }
 
-auto JsonWriter::writeNode(scene::MeshSceneNode* node) -> void
+auto JsonWriter::writeNode(scene::SceneNode* node, std::ofstream& file) -> void
 {
-
 	JsonObject* obj  = new JsonObject;
 	JsonObject* objNode = new JsonObject;
 
@@ -88,13 +81,194 @@ auto JsonWriter::writeNode(scene::MeshSceneNode* node) -> void
 	for (unsigned int i = 0; i < 16; ++i)
 			matrix->addInArray(new JsonNumber(node->getTransformation().val[i]));
 	objNode->addInObject("transformation", matrix);
-	objNode->addInObject("objPath", new JsonString(node->getMesh()->getObjPath()));
-	obj->addInObject("node1", objNode);
-	write(obj);
-
+	if (dynamic_cast<scene::MeshSceneNode*>(node))
+		objNode->addInObject("objPath", new JsonString(dynamic_cast<scene::MeshSceneNode*>(node)->getMesh()->getObjPath()));
+	obj->addInObject("node", objNode);
+	write(obj, file);
 	JsonValue::deleteAllJsonValue();
+}
 
+auto JsonWriter::writeAllNode(scene::SceneNode* root, std::string fileName) -> void
+{
+	std::ofstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	file << "{" << std::endl;
+
+
+	for (auto&& child : root->getChildrens())
+	{
+		writeNode(child, file);
+		writeAllNode(child, file);
+	}
+
+	file.seekp(-2, file.cur); 
+	file << "\n}" << std::endl;
 	file.close();
+}
+
+auto JsonWriter::writeAllNode(scene::SceneNode* node, std::ofstream& file) -> void
+{
+	for (auto&& child : node->getChildrens())
+	{
+		writeNode(child, file);
+		writeAllNode(child, file);
+	}
+}
+
+auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
+{
+	std::ofstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	file << "{" << std::endl;
+
+	JsonObject* objKey  = new JsonObject;
+	objKey->addInObject("Forward", new JsonString("W"));
+	objKey->addInObject("Backward", new JsonString("S"));
+	objKey->addInObject("Turn_right", new JsonString("D"));
+	objKey->addInObject("Turn_left", new JsonString("A"));
+	objKey->addInObject("Strafe_right", new JsonString("E"));
+	objKey->addInObject("Strafe_left", new JsonString("Q"));
+	objKey->addInObject("Jump", new JsonString("SPACE"));
+	objKey->addInObject("Shoot", new JsonString("J"));
+	objKey->addInObject("Run", new JsonString("R"));
+	objKey->addInObject("Pause", new JsonString("P"));
+
+	write(objKey, file);
+
+	file.seekp(-2, file.cur); 
+	file << "\n}" << std::endl;
+	file.close();
+
+}
+
+auto JsonWriter::modifyLineByNameSearch(std::string keyLine, std::string newValue, std::string fileName) -> void
+{
+	std::ifstream fileRead;
+	fileRead.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::in);
+
+	std::string line;
+	std::string key;
+	std::string copyStream;
+	std::string completeFile;
+
+	while(std::getline(fileRead, line))
+	{
+		std::stringstream sstr(line);
+		sstr >> key;
+		if (key == "\"" + keyLine + "\"")
+		{
+			for (unsigned int i = 0; i < line.size(); ++i)
+				if (line[i] == '\t')
+					completeFile += "\t";
+			completeFile += key;
+			sstr >> key; // ignore ":"
+			completeFile += " " + key;
+			sstr >> key;
+			if (key[0] == '"')
+				copyStream = " \"" + newValue + "\"";
+			else
+				copyStream = " " + newValue;	
+
+			if (key[key.size()-1] == ',')
+				copyStream += ',';
+
+			completeFile += copyStream + "\n";
+		}
+		else
+		{
+			completeFile += line + "\n";
+		}
+	}
+	fileRead.close();
+	
+	std::ofstream fileWrite;
+	fileWrite.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	fileWrite << completeFile;
+	fileWrite.close();
+}
+
+auto JsonWriter::modifyLineByValueSearch(std::string value, std::string newValue, std::string fileName) -> void
+{
+	std::ifstream fileRead;
+	fileRead.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::in);
+
+	std::string line;
+	std::string key;
+	std::string copyStream;
+	std::string completeFile;
+	std::string copyValue;
+	while(std::getline(fileRead, line))
+	{
+		std::stringstream sstr(line);
+		sstr >> key;
+	
+		for (unsigned int i = 0; i < line.size(); ++i)
+			if (line[i] == '\t')
+				completeFile += "\t";
+		completeFile += key + " "; // get Name
+
+		if (key.size() != 1)
+		{
+			sstr >> key;
+			completeFile += key + " "; // get ":"
+			sstr >> key;
+			if (key[0] == '"')
+				copyValue = "\"" + value + "\"";
+			else
+				copyValue = value;
+			if (key == copyValue || key == copyValue + "," )
+			{
+
+				if (key[0] == '"')
+					newValue = "\"" + newValue + "\"";
+
+				copyStream = newValue;
+				if (key[key.size()-1] == ',')
+					copyStream += ',';
+
+				completeFile += copyStream + "\n";
+			}
+			else
+			{
+				completeFile += key + "\n";
+			}
+		}
+		else
+			completeFile += "\n";
+	}
+	fileRead.close();
+	
+	std::ofstream fileWrite;
+	fileWrite.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	fileWrite << completeFile;
+	fileWrite.close();
+}
+
+auto JsonWriter::checkExistingValue(std::string value, std::string fileName) -> bool
+{
+	std::ifstream fileRead;
+	fileRead.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::in);
+
+	std::string line;
+	std::string key;
+
+	while(std::getline(fileRead, line))
+	{
+		std::stringstream sstr(line);
+		sstr >> key; // ignore name
+		sstr >> key; // ignore ":"
+		sstr >> key;
+		if (key[0] == '"')
+		{
+			if (key == "\"" + value + "\"" || key == "\"" + value + "\"," )
+				return true;
+		}
+		else
+			if (key == value || key == value + ",")
+				return true;
+	}
+	return false;
+	fileRead.close();
 }
 
 } // namespace json

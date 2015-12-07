@@ -8,6 +8,7 @@ SRC = 	cameraSceneNode.cpp\
 		event.cpp\
 		fileUtility.cpp\
 		guiButton.cpp\
+		fileUtility.cpp\
 		guiChangeTextureGroupWindow.cpp\
 		guiDebugWindow.cpp\
 		guiEditMaterialWindow.cpp\
@@ -19,6 +20,7 @@ SRC = 	cameraSceneNode.cpp\
 		guiMenu.cpp\
 		guiOpenFile.cpp\
 		guiRect.cpp\
+		guiOpenFile.cpp\
 		guiWindow.cpp\
 		imgui.cpp\
 		imgui_draw.cpp\
