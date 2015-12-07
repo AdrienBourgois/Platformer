@@ -42,9 +42,9 @@ int main(int argc, char* argv[])
 	id::json::JsonWriter jsonWriter;
 //	jsonWriter.writeAllNode(device->getSceneManager()->getRootNode(), "partie1");	
 
-	jsonWriter.saveDefaultBindKey();
-	jsonWriter.modifyLine("jump", "k", "bindingKey");
-
+//	jsonWriter.saveDefaultBindKey();
+//	jsonWriter.modifyLineByNameSearch("jump", "k");
+	jsonWriter.modifyLineByValueSearch("SPACE", "J");
 //	id::json::JsonReader jsonReader;
 //	jsonReader.loadAllNode(device.get());
 

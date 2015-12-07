@@ -141,15 +141,15 @@ auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 
 }
 
-auto JsonWriter::modifyLine(std::string keyLine, std::string newValue, std::string fileName) -> void
+auto JsonWriter::modifyLineByNameSearch(std::string keyLine, std::string newValue, std::string fileName) -> void
 {
 	std::ifstream fileRead;
 	fileRead.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::in);
 
-	std::string line;
-	std::string key;
-	std::string copyStream;
-	std::string completeFile;
+	std::string line = "";
+	std::string key = "";
+	std::string copyStream = "";
+	std::string completeFile = "";
 
 	while(std::getline(fileRead, line))
 	{
@@ -178,6 +178,63 @@ auto JsonWriter::modifyLine(std::string keyLine, std::string newValue, std::stri
 		{
 			completeFile += line + "\n";
 		}
+	}
+	fileRead.close();
+	
+	std::ofstream fileWrite;
+	fileWrite.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	fileWrite << completeFile;
+	fileWrite.close();
+}
+
+auto JsonWriter::modifyLineByValueSearch(std::string value, std::string newValue, std::string fileName) -> void
+{
+	std::ifstream fileRead;
+	fileRead.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::in);
+
+	std::string line;
+	std::string key;
+	std::string copyStream;
+	std::string completeFile;
+	std::string copyValue;
+	while(std::getline(fileRead, line))
+	{
+		std::stringstream sstr(line);
+		sstr >> key;
+	
+		for (unsigned int i = 0; i < line.size(); ++i)
+			if (line[i] == '\t')
+				completeFile += "\t";
+		completeFile += key + " "; // get Name
+
+		if (key.size() != 1)
+		{
+			sstr >> key;
+			completeFile += key + " "; // get ":"
+			sstr >> key;
+			if (key[0] == '"')
+				copyValue = "\"" + value + "\"";
+			else
+				copyValue = value;
+			if (key == copyValue || key == copyValue + "," )
+			{
+
+				if (key[0] == '"')
+					newValue = "\"" + newValue + "\"";
+
+				copyStream = newValue;
+				if (key[key.size()-1] == ',')
+					copyStream += ',';
+
+				completeFile += copyStream + "\n";
+			}
+			else
+			{
+				completeFile += key + "\n";
+			}
+		}
+		else
+			completeFile += "\n";
 	}
 	fileRead.close();
 	
