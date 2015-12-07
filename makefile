@@ -1,42 +1,42 @@
 TARGET = plateformer 
 
-SRC = 	main.cpp\
-		txtLogger.cpp\
-		json/jsonWriter.cpp\
-		json/jsonObject.cpp\
-		json/jsonArray.cpp\
-		json/jsonString.cpp\
-		json/jsonBool.cpp\
-		json/jsonNumber.cpp\
-		json/jsonNull.cpp\
-		json/jsonValue.cpp\
-		json/jsonReader.cpp\
-		fileUtility.cpp\
+SRC = 	cameraSceneNode.cpp\
 		device.cpp\
-		window.cpp\
-		shaders.cpp\
 		driver.cpp\
-		sceneManager.cpp\
-		sceneNode.cpp\
-		cameraSceneNode.cpp\
-		meshSceneNode.cpp\
-		maths/utility.cpp\
-		maths/matrix.cpp\
-		maths/vector.cpp\
-		mesh.cpp\
-		texture.cpp\
-		material.cpp\
-		screenshot.cpp\
-		guiEditMaterialWindow.cpp\
+		fileUtility.cpp\
 		guiChangeTextureGroupWindow.cpp\
+		guiDebugWindow.cpp\
+		guiEditMaterialWindow.cpp\
 		guiEditShader.cpp\
+		guiOpenFile.cpp\
 		guiWindow.cpp\
 		imgui.cpp\
 		imgui_demo.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
-		guiDebugWindow.cpp\
-		guiOpenFile.cpp\
+		json/jsonArray.cpp\
+		json/jsonBool.cpp\
+		json/jsonNull.cpp\
+		json/jsonNumber.cpp\
+		json/jsonObject.cpp\
+		json/jsonReader.cpp\
+		json/jsonString.cpp\
+		json/jsonValue.cpp\
+		json/jsonWriter.cpp\
+		main.cpp\
+		material.cpp\
+		maths/matrix.cpp\
+		maths/utility.cpp\
+		maths/vector.cpp\
+		mesh.cpp\
+		meshSceneNode.cpp\
+		sceneManager.cpp\
+		sceneNode.cpp\
+		screenshot.cpp\
+		shaders.cpp\
+		texture.cpp\
+		txtLogger.cpp\
+		window.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image
 

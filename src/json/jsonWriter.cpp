@@ -1,4 +1,5 @@
 #include "meshSceneNode.h"
+#include "sceneNode.h"
 #include "mesh.h"
 #include "json/jsonWriter.h"
 #include "json/jsonValue.h"
@@ -19,8 +20,7 @@ int id::json::JsonWriter::indentation = 0;
 namespace id {
 namespace json { 
 
-JsonWriter::JsonWriter(std::string name)
-:file(("./assets/json/" + name + ".json").c_str(), std::ios_base::out)
+JsonWriter::JsonWriter()
 {
 	logger->log("Creating JsonWriter...", LL_DEBUG);
 
@@ -42,8 +42,11 @@ auto JsonWriter::indent() -> std::string
 	return str;
 }
 
-auto JsonWriter::write(JsonObject* obj) -> void
+auto JsonWriter::write(JsonObject* obj, std::string fileName) -> void
 {
+	std::ofstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+
 	std::map<std::string, JsonValue*> mapValue = obj->getMapValue();
 
 	file << "{" << std::endl;
@@ -69,12 +72,11 @@ auto JsonWriter::write(JsonObject* obj) -> void
 		file << indent();
 	}
 	file << "}";
-
+	file.close();
 }
 
-auto JsonWriter::writeNode(scene::MeshSceneNode* node) -> void
+auto JsonWriter::writeNode(scene::MeshSceneNode* node, std::string fileName) -> void
 {
-
 	JsonObject* obj  = new JsonObject;
 	JsonObject* objNode = new JsonObject;
 
@@ -90,11 +92,22 @@ auto JsonWriter::writeNode(scene::MeshSceneNode* node) -> void
 	objNode->addInObject("transformation", matrix);
 	objNode->addInObject("objPath", new JsonString(node->getMesh()->getObjPath()));
 	obj->addInObject("node1", objNode);
-	write(obj);
+	write(obj, fileName);
 
 	JsonValue::deleteAllJsonValue();
+}
 
-	file.close();
+auto JsonWriter::writeAllNode(scene::SceneNode* root, std::string fileName) -> void
+{
+	(void) root;
+	(void) fileName;
+}
+
+auto JsonWriter::modifyLine(std::string keyLine, std::string newValue, std::string fileName) -> void
+{
+	(void)keyLine;
+	(void)newValue;
+	(void)fileName;
 }
 
 } // namespace json

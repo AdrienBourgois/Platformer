@@ -9,6 +9,7 @@ namespace id {
 
 namespace scene {
 	class MeshSceneNode;
+	class SceneNode;
 } // namespace scene
 
 namespace json {
@@ -19,7 +20,7 @@ class JsonObject;
 class JsonWriter
 {
 public:
-	JsonWriter(std::string name = "partie1");
+	JsonWriter();
 	virtual ~JsonWriter();
 	JsonWriter(JsonWriter const&) = delete;
 	JsonWriter(JsonWriter&&) = delete;
@@ -27,13 +28,12 @@ public:
 	auto operator=(JsonWriter&&) -> JsonWriter& = delete;
 	
 	auto indent() -> std::string;
-	auto write(JsonObject* obj) -> void; 
+	auto write(JsonObject* obj, std::string fileName) -> void; 
 
-	auto writeNode(scene::MeshSceneNode* node) -> void;
-
+	auto writeNode(scene::MeshSceneNode* node, std::string fileName) -> void;
+	auto writeAllNode(scene::SceneNode* root, std::string fileName) -> void;
+	auto modifyLine(std::string keyLine, std::string newValue, std::string fileName) -> void;
 	static int 		indentation;
-private:
-	std::ofstream 	file;
 
 };
 

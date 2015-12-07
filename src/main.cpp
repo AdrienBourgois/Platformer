@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 	mesh_scn->setPosition({10,10,10});
 	id::json::JsonWriter jsonWriter;
 	
-	jsonWriter.writeNode(mesh_scn);	
+	jsonWriter.writeNode(mesh_scn, "partie1");	
 
 //	id::json::JsonReader jsonReader;
 
