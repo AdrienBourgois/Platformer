@@ -32,6 +32,9 @@ public:
 	auto writeNode(scene::SceneNode* node, std::ofstream& file) -> void;
 	auto writeAllNode(scene::SceneNode* root, std::string fileName) -> void;
 	auto writeAllNode(scene::SceneNode* node, std::ofstream& file) -> void;
+
+	auto saveDefaultBindKey(std::string fileName = "bindingKey") -> void;
+
 	auto modifyLine(std::string keyLine, std::string newValue, std::string fileName) -> void;
 	static int 		indentation;
 

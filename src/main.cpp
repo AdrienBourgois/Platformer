@@ -39,9 +39,9 @@ int main(int argc, char* argv[])
 //	mesh_scn1->setPosition({0,10,10});
 //	mesh_scn2->setPosition({10,-10,10});
 //	mesh_scn3->setPosition({0,0,10});
-//	id::json::JsonWriter jsonWriter;
+	id::json::JsonWriter jsonWriter;
 //	jsonWriter.writeAllNode(device->getSceneManager()->getRootNode(), "partie1");	
-
+	jsonWriter.saveDefaultBindKey();
 	id::json::JsonReader jsonReader;
 	jsonReader.loadAllNode(device.get());
 

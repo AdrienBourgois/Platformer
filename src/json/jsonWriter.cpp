@@ -99,9 +99,9 @@ auto JsonWriter::writeAllNode(scene::SceneNode* root, std::string fileName) -> v
 		writeAllNode(child, file);
 	}
 
-		file.seekp(-2, file.cur); 
-		file << "\n}" << std::endl;
-		file.close();
+	file.seekp(-2, file.cur); 
+	file << "\n}" << std::endl;
+	file.close();
 }
 
 auto JsonWriter::writeAllNode(scene::SceneNode* node, std::ofstream& file) -> void
@@ -112,6 +112,33 @@ auto JsonWriter::writeAllNode(scene::SceneNode* node, std::ofstream& file) -> vo
 		writeAllNode(child, file);
 	}
 }
+
+auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
+{
+	std::ofstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	file << "{" << std::endl;
+
+	JsonObject* objKey  = new JsonObject;
+	objKey->addInObject("forward", new JsonString("w"));
+	objKey->addInObject("backward", new JsonString("s"));
+	objKey->addInObject("turn_right", new JsonString("d"));
+	objKey->addInObject("turn_left", new JsonString("a"));
+	objKey->addInObject("strafe_right", new JsonString("e"));
+	objKey->addInObject("strafe_left", new JsonString("q"));
+	objKey->addInObject("jump", new JsonString("space"));
+	objKey->addInObject("shoot", new JsonString("j"));
+	objKey->addInObject("run", new JsonString("r"));
+	objKey->addInObject("pause", new JsonString("p"));
+
+	write(objKey, file);
+
+	file.seekp(-2, file.cur); 
+	file << "\n}" << std::endl;
+	file.close();
+
+}
+
 auto JsonWriter::modifyLine(std::string keyLine, std::string newValue, std::string fileName) -> void
 {
 	(void)keyLine;
