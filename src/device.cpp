@@ -51,6 +51,8 @@ Device::Device()
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
 	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
 
+	running = true;
+
 	logger->log("Device has been created.");
 }
 
@@ -86,7 +88,7 @@ auto Device::run() -> bool
         {
             case SDL_QUIT:
             {
-                return false;
+                close();
                 break;
             }
 			case SDL_KEYDOWN:
@@ -95,7 +97,7 @@ auto Device::run() -> bool
 				{
 					case SDL_SCANCODE_ESCAPE:
 					{
-						return false;
+						close();
 					}
 					break;
 					case SDL_SCANCODE_F7:
@@ -112,7 +114,11 @@ auto Device::run() -> bool
                 break;
         }
     }
-	return true;
+	return running;
+}
+auto Device::close() -> void
+{
+	running = false;
 }
 
 } // end namespace id

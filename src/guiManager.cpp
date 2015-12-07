@@ -138,10 +138,10 @@ auto GuiManager::addStaticText(GuiRect* parent, float posX, float posY, float wi
 	GuiRect* newStaticText = getElementFromID(id);
 	newStaticText->setListenEvent(false);
 }
-auto GuiManager::addMenuTitleScreen() -> void
+auto GuiManager::addMenuTitleScreen(std::function<void()> funcQuit) -> void
 {
 	GuiMenu* newMenu = new GuiMenu(this);
-	newMenu->createMenuTitleScreen();
+	newMenu->createMenuTitleScreen(funcQuit);
 	addMenu(newMenu);
 }
 auto GuiManager::addMenuSettings() -> void

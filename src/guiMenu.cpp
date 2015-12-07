@@ -1,6 +1,7 @@
 #include <functional>
 #include <vector>
 
+#include "device.h"
 #include "txtLogger.h"
 #include "guiMenu.h"
 #include "guiManager.h"
@@ -39,7 +40,7 @@ GuiMenu::~GuiMenu()
 
 	logger->log("GuiMenu deleted", LL_INFO);
 }
-auto GuiMenu::createMenuTitleScreen() -> void
+auto GuiMenu::createMenuTitleScreen(std::function<void()> funcQuit) -> void
 {
 	maths::Vector4 colorBut = {0.5f, 0.f, 0.f, 1.f};
 	maths::Vector4 colorText = {1.f, 1.f, 1.f, 1.f};
@@ -56,7 +57,8 @@ auto GuiMenu::createMenuTitleScreen() -> void
 
 	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, -(this->windowHeight/18), this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_SETTINGS, true, colorBut, "Settings", colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_SETTINGS);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, -(this->windowHeight/6), this->windowWidth/8, this->windowHeight/13, GUI_ID_BUTTON_QUIT, true, colorBut, "Quit", colorText, nullptr);
+
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, -(this->windowHeight/6), this->windowWidth/8, this->windowHeight/13, GUI_ID_BUTTON_QUIT, true, colorBut, "Quit", colorText, funcQuit);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_QUIT);
 }
 auto GuiMenu::createMenuSettings() -> void

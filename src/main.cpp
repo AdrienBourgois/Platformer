@@ -78,7 +78,9 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 	
 	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
 
-	device->getGui()->addMenuTitleScreen();	
+	id::Device* dev = device.get();
+	std::function<void()> funcQuit = [dev]() {dev->close();};
+	device->getGui()->addMenuTitleScreen(funcQuit);	
 
 	while (device->run())
 	{
