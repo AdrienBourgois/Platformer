@@ -88,6 +88,9 @@ auto GuiEventReceiver::listenNextKey(SDL_Event* ev) -> void
 		{
 			GuiButton* but = static_cast<GuiButton*>(this->gui->getPressedElement());
 			but->setNewText(key);
+			json::JsonWriter jsonWriter;
+			if (!jsonWriter.checkExistingValue(key))
+				jsonWriter.modifyLineByValueSearch(but->getText(), key);
 			this->listenKeys = false;
 			resetEvents();
 		}
