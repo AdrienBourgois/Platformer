@@ -18,8 +18,7 @@ public :
 
 	static auto createEvent(Player* player) -> Event*;
 
-	auto playerEventReceiver() -> void;
-	auto enemyEventReceiver() -> void;
+	auto eventReceiver() -> void;
 
 
 //	auto setPlayer(Player* player) -> void {this->player = player;}
