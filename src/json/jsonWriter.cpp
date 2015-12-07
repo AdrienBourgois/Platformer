@@ -42,40 +42,29 @@ auto JsonWriter::indent() -> std::string
 	return str;
 }
 
-auto JsonWriter::write(JsonObject* obj, std::string fileName) -> void
+auto JsonWriter::write(JsonObject* obj, std::ofstream& file) -> void
 {
-	std::ofstream file;
-	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
 
 	std::map<std::string, JsonValue*> mapValue = obj->getMapValue();
 
-	file << "{" << std::endl;
 	if (!mapValue.empty())
 	{
 		indentation++;
 
-		unsigned int i = 1;
-		unsigned int j = mapValue.size();
 		for (auto&& val : mapValue)
 		{
 			file << indent();
 			file << "\"" << val.first << "\" : ";
 			file << val.second->serialize();
-			if ( i == j)
-				file << "\n";
-			else
-				file << ",\n";
-			++i;
+			file << ",\n";
 		}
 
 		--indentation;
 		file << indent();
 	}
-	file << "}";
-	file.close();
 }
 
-auto JsonWriter::writeNode(scene::MeshSceneNode* node, std::string fileName) -> void
+auto JsonWriter::writeNode(scene::SceneNode* node, std::ofstream& file) -> void
 {
 	JsonObject* obj  = new JsonObject;
 	JsonObject* objNode = new JsonObject;
@@ -90,19 +79,39 @@ auto JsonWriter::writeNode(scene::MeshSceneNode* node, std::string fileName) -> 
 	for (unsigned int i = 0; i < 16; ++i)
 			matrix->addInArray(new JsonNumber(node->getTransformation().val[i]));
 	objNode->addInObject("transformation", matrix);
-	objNode->addInObject("objPath", new JsonString(node->getMesh()->getObjPath()));
-	obj->addInObject("node1", objNode);
-	write(obj, fileName);
-
+	if (dynamic_cast<scene::MeshSceneNode*>(node))
+		objNode->addInObject("objPath", new JsonString(dynamic_cast<scene::MeshSceneNode*>(node)->getMesh()->getObjPath()));
+	obj->addInObject("node", objNode);
+	write(obj, file);
 	JsonValue::deleteAllJsonValue();
 }
 
 auto JsonWriter::writeAllNode(scene::SceneNode* root, std::string fileName) -> void
 {
-	(void) root;
-	(void) fileName;
+	std::ofstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	file << "{" << std::endl;
+
+
+	for (auto&& child : root->getChildrens())
+	{
+		writeNode(child, file);
+		writeAllNode(child, file);
+	}
+
+		file.seekp(-2, file.cur); 
+		file << "\n}" << std::endl;
+		file.close();
 }
 
+auto JsonWriter::writeAllNode(scene::SceneNode* node, std::ofstream& file) -> void
+{
+	for (auto&& child : node->getChildrens())
+	{
+		writeNode(child, file);
+		writeAllNode(child, file);
+	}
+}
 auto JsonWriter::modifyLine(std::string keyLine, std::string newValue, std::string fileName) -> void
 {
 	(void)keyLine;

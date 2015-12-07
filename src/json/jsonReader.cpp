@@ -18,7 +18,8 @@ auto findNode(std::string name, id::scene::SceneNode* node) -> id::scene::SceneN
 	if (node->getName() == name)
 		return node;
 	for (auto&& nod : node->getChildrens())
-		return findNode(name, nod);
+		if(findNode(name, nod))
+			return findNode(name, nod);
 	return nullptr;
 
 }
