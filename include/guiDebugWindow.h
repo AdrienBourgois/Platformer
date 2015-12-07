@@ -6,7 +6,7 @@
 struct ImVec2;
 
 namespace id {
-
+class DebugLogger;
 class Device;
 namespace scene {
 class SceneNode;
@@ -27,6 +27,7 @@ private:
 	auto DisplayNodesTree(scene::SceneNode* node) -> void;
 
 	EditMaterialWindow* _edit_material_window;
+	DebugLogger*	_guiLogger;
 };
 
 } // namespace id

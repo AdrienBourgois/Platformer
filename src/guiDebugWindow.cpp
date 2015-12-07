@@ -8,12 +8,11 @@
 #include "meshSceneNode.h"
 #include "mesh.h"
 #include "cameraSceneNode.h"
-#include "saveToJson.h"
 #include "device.h"
 #include "maths/vector.h"
 #include "window.h"
 #include "guiEditMaterialWindow.h"
-
+#include "guiLogger.h"
 
 namespace id {
 
@@ -21,11 +20,13 @@ DebugWindow::DebugWindow()
 : GUI_Window(true)
 {
 	_edit_material_window = new EditMaterialWindow();
+	_guiLogger = new DebugLogger();
 }
 
 DebugWindow::~DebugWindow()
 {
 	delete _edit_material_window;
+	delete _guiLogger;
 }
 
 auto DebugWindow::Display(Device* dev) -> void
@@ -102,12 +103,19 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 				ImGui::TreePop();
 				return;
 			}
-			
+		
+			if ((node != (node->getScene()->getRootNode())) &&
+			(node != ((scene::SceneNode*)(node->getScene()->getActiveCamera()))) &&			
+			ImGui::SmallButton("Show Collider"))
+			{
+				ImGui::Text("text");
+				std::cout << "WIP" << std::endl;
+			}
+
 			if ((node != (node->getScene()->getRootNode())) &&
 			(node != ((scene::SceneNode*)(node->getScene()->getActiveCamera()))) &&
 			ImGui::SmallButton("Save"))
 			{
-				JsonValue::saveToJson(static_cast<scene::MeshSceneNode*>(node));
 				ImGui::OpenPopup("Save");
 				ImGui::TreePop();
 				return;
@@ -127,6 +135,7 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 				ImGui::TreePop();
 				return;
 			}
+
 		for (scene::SceneNode* child : node->getChildrens())
 		{
 			DebugWindow::DisplayNodesTree(child);

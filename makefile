@@ -1,42 +1,64 @@
 TARGET = plateformer 
 
-SRC = 	main.cpp\
+SRC = 	cameraSceneNode.cpp\
 		device.cpp\
-		txtLogger.cpp\
-		window.cpp\
-		shaders.cpp\
 		driver.cpp\
-		sceneManager.cpp\
-		sceneNode.cpp\
-		cameraSceneNode.cpp\
-		meshSceneNode.cpp\
-		maths/utility.cpp\
-		maths/matrix.cpp\
-		maths/vector.cpp\
-		mesh.cpp\
-		texture.cpp\
+		enemy.cpp\
+		entity.cpp\
+		event.cpp\
+		fileUtility.cpp\
+		guiButton.cpp\
+		guiChangeTextureGroupWindow.cpp\
+		guiDebugWindow.cpp\
+		guiEditMaterialWindow.cpp\
+		guiEditShader.cpp\
+		guiEventReceiver.cpp\
+		guiLogger.cpp\
+		guiManager.cpp\
+		guiMenu.cpp\
+		guiOpenFile.cpp\
+		guiRect.cpp\
+		guiWindow.cpp\
 		imgui.cpp\
 		imgui_demo.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
-		guiDebugWindow.cpp\
-		guiOpenFile.cpp\
-		fileUtility.cpp\
+		json/jsonArray.cpp\
+		json/jsonBool.cpp\
+		json/jsonNull.cpp\
+		json/jsonNumber.cpp\
+		json/jsonObject.cpp\
+		json/jsonReader.cpp\
+		json/jsonString.cpp\
+		json/jsonValue.cpp\
+		json/jsonWriter.cpp\
+		logger.cpp\
+		main.cpp\
 		material.cpp\
-		guiEditMaterialWindow.cpp\
-		guiChangeTextureGroupWindow.cpp\
-		saveToJson.cpp\
-		guiEditShader.cpp\
-		guiWindow.cpp\
-		loadFromJson.cpp\
-		screenshot.cpp\
-		entity.cpp\
+		maths/collider.cpp\
+		maths/colliderManager.cpp\
+		maths/matrix.cpp\
+		maths/polyhedron.cpp\
+		maths/utility.cpp\
+		maths/vector.cpp\
+		mesh.cpp\
+		meshSceneNode.cpp\
 		player.cpp\
-		enemy.cpp\
-		event.cpp\
-		stateManager.cpp
+		sceneManager.cpp\
+		sceneNode.cpp\
+		screenshot.cpp\
+		shaders.cpp\
+		stateManager.cpp\
+		texture.cpp\
+		txtLogger.cpp\
+		window.cpp\
 
-LIBS = SDL2 GL GLEW SDL2_image
+LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
+
+MODE = release
+BIN_DIR = bin/$(MODE)/
+
+OBJ_DIR = obj/$(MODE)/
 
 MODE = release
 BIN_DIR = bin/$(MODE)/
@@ -60,17 +82,21 @@ CPPFLAGS =
 LDFLAGS = -W -Wall -Werror
 CXX = g++ -std=c++14
 
-.PHONY: all clean fclean re debug release
+.PHONY: all clean fclean re debug release clog
+
+all: $(MODE)
 
 all: $(MODE)
 
 release: CXXFLAGS += -O3
 release: LDFLAGS += -O3
+release: clog
 release: $(TARGET)
 
 debug: CXXFLAGS += -O0 -g3
 debug: LDFLAGS += -O0 -g3
 debug: CPPFLAGS += -D_DEBUG
+debug: clog 
 debug: $(TARGET)
 
 master: CXXFLAGS += -O3
@@ -93,12 +119,14 @@ $(ARBO):
 
 -include $(DEPENDENCIES)
 
-clean:
+clog:
+	$(RM) logs/*
+
+clean:  clog
 	$(RM) $(OBJ)
 	$(RM) $(DEPENDENCIES)
 	$(RM) -r $(ARBO)
 	$(RM) .*.swp
-	$(RM) logs/*
 	$(RM) assets/json/*
 
 fclean: clean

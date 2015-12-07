@@ -8,6 +8,7 @@
 
 #include "txtLogger.h"
 
+
 namespace id {
 
 TXTLogger* TXTLogger::instance = nullptr;
@@ -43,10 +44,8 @@ void TXTLogger::log(std::string& text, E_LOG_FLAG logFlag)
 		}
 
 		recordLogFlag(logOFS, logFlag);
-
 		logOFS << text << std::endl;
-
-		logOFS.close();
+	logOFS.close();
 	}
 }
 

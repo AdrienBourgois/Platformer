@@ -1,5 +1,6 @@
 #include "fileUtility.h"
 
+#include <iostream>
 namespace id {
 
 auto FileUtility::getFileNameFromPath(std::string path) -> std::string
@@ -40,5 +41,25 @@ auto FileUtility::getPathWithoutFileName(std::string path) -> std::string
     }
 	return path.substr(0, i + 1);
 }
+
+auto FileUtility::getStringWithoutExtra(std::string str) -> std::string
+{
+	for (int i = str.size() -1 ; i >= 0; --i)
+		if (str[i] == '"' || str[i] == ',')
+			str.erase(str.begin() + i);
+	return str;
+}
+
+auto FileUtility::getNumberStringFromString(std::string str) -> std::string
+{
+	for (int i = str.size() -1 ; i >= 0; --i)
+		if (str[i] < '0' || str[i] > '9')
+			if (str[i] != '-' && str[i] != '.')
+				str.erase(str.begin() + i);
+	return str;
+
+
+}
+
 
 } // namespace id

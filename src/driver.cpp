@@ -6,6 +6,8 @@
 #include "window.h"
 #include "txtLogger.h"
 #include "shaders.h"
+
+#include <iostream>
 #include "meshSceneNode.h"
 #include "mesh.h"
 
@@ -161,7 +163,6 @@ auto Driver::useProgram(GLuint prg) -> void
 
 auto Driver::deleteProgram(GLuint prg) -> void
 {
-//	this->useProgram(0);
 	glDeleteProgram(prg);
 }
 
@@ -179,7 +180,6 @@ auto Driver::AttachUniformMatrix4(GLuint prg_id, std::string var_name, maths::Ma
 
 auto Driver::LoadTexture(std::string const& path, GLenum format) -> GLuint
 {
-	//logger->log(std::string("Loading " + path), LL_INFO);
 	SDL_Surface* surf = IMG_Load(path.c_str());
 
     SDL_assert(surf);

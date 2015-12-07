@@ -12,7 +12,6 @@
 #include "imgui_impl.h"
 #include "window.h"
 #include "fileUtility.h"
-#include "loadFromJson.h"
 
 
 namespace id {
@@ -77,14 +76,16 @@ auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool forc
 				id::scene::MeshSceneNode::createMeshSceneNode(smgr, smgr->getRootNode(), file_name, "pos3d_tex2d", path.c_str());
 			}
 		}
+		/*
 		else if (type == 8 && (FileUtility::getExtensionFromFileName(file_name) == "json")) // is a json save
 		{
 
 			bool selec = false;
 			ImGui::Selectable(("   " + file_name).c_str(), &selec);
-			if (selec)
-				JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
+		//	if (selec)
+//				JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
 		}
+		*/
 	}
 }
 

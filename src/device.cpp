@@ -1,3 +1,6 @@
+#include <new>
+#include <SDL2/SDL_ttf.h>
+
 #include "device.h"
 #include "driver.h"
 #include "window.h"
@@ -6,6 +9,9 @@
 #include "imgui_impl.h"
 #include "texture.h"
 #include "screenshot.h"
+#include "guiManager.h"
+#include "guiEventReceiver.h"
+#include "logger.h"
 #include "event.h"
 
 namespace {
@@ -24,7 +30,7 @@ auto Device::create() -> std::unique_ptr<Device>
 		logger->log("Failed at creating device in Device::create()", LL_ERROR);
 		SDL_assert(dev);
 	}
-
+	LOG(L_ERROR,"BONJOUR", "i54");
 	return std::unique_ptr<Device>(dev);
 
 }
@@ -43,7 +49,7 @@ Device::Device()
 	id::imgui_impl::Init();
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
-
+	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
 
 	logger->log("Device has been created.");
 }
@@ -56,6 +62,7 @@ Device::~Device()
 	_window.reset(nullptr);
 	delete _sceneManager;
 	_sceneManager = nullptr;
+	_gui.reset(nullptr);
 
 	id::imgui_impl::Shutdown();
 	Texture::deleteTextures();
@@ -74,6 +81,7 @@ auto Device::run() -> bool
     while (SDL_PollEvent(&ev))
     {
 		imgui_impl::ProcessEvent(&ev);
+		this->_gui->getGuiEvt()->eventListener(&ev);
         switch (ev.type)
         {
             case SDL_QUIT:
