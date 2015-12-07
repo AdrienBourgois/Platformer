@@ -146,10 +146,10 @@ auto JsonWriter::modifyLineByNameSearch(std::string keyLine, std::string newValu
 	std::ifstream fileRead;
 	fileRead.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::in);
 
-	std::string line = "";
-	std::string key = "";
-	std::string copyStream = "";
-	std::string completeFile = "";
+	std::string line;
+	std::string key;
+	std::string copyStream;
+	std::string completeFile;
 
 	while(std::getline(fileRead, line))
 	{
@@ -242,6 +242,33 @@ auto JsonWriter::modifyLineByValueSearch(std::string value, std::string newValue
 	fileWrite.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
 	fileWrite << completeFile;
 	fileWrite.close();
+}
+
+auto JsonWriter::checkExistingValue(std::string value, std::string fileName) -> bool
+{
+	std::ifstream fileRead;
+	fileRead.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::in);
+
+	std::string line;
+	std::string key;
+
+	while(std::getline(fileRead, line))
+	{
+		std::stringstream sstr(line);
+		sstr >> key; // ignore name
+		sstr >> key; // ignore ":"
+		sstr >> key;
+		if (key[0] == '"')
+		{
+			if (key == "\"" + value + "\"" || key == "\"" + value + "\"," )
+				return true;
+		}
+		else
+			if (key == value || key == value + ",")
+				return true;
+	}
+	return false;
+	fileRead.close();
 }
 
 } // namespace json

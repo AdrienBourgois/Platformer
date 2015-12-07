@@ -37,6 +37,7 @@ public:
 
 	auto modifyLineByNameSearch(std::string keyLine, std::string newValue, std::string fileName = "bindingKey") -> void;
 	auto modifyLineByValueSearch(std::string value, std::string newValue, std::string fileName = "bindingKey") -> void;
+	auto checkExistingValue(std::string value, std::string fileName = "bindingKey") -> bool;
 	static int 		indentation;
 
 };

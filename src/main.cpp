@@ -41,10 +41,14 @@ int main(int argc, char* argv[])
 //	mesh_scn3->setPosition({0,0,10});
 	id::json::JsonWriter jsonWriter;
 //	jsonWriter.writeAllNode(device->getSceneManager()->getRootNode(), "partie1");	
+	jsonWriter.saveDefaultBindKey();
 
-//	jsonWriter.saveDefaultBindKey();
+	if (jsonWriter.checkExistingValue("SPACE"))
+		std::cout << "existing value" << std::endl;
+	else
+		std::cout << "not existing value" << std::endl;
 //	jsonWriter.modifyLineByNameSearch("jump", "k");
-	jsonWriter.modifyLineByValueSearch("SPACE", "J");
+//	jsonWriter.modifyLineByValueSearch("D", "M");
 //	id::json::JsonReader jsonReader;
 //	jsonReader.loadAllNode(device.get());
 
