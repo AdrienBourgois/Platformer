@@ -65,6 +65,17 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
 
+
+	float last = 0.f;
+	float deltaTime = 0.f;
+	float now = SDL_GetTicks();
+
+	if (now > last)
+	{	
+		deltaTime = (now-last) / 1000.f;
+		last = now;
+	}
+
 //	id::json::JsonWriter jsonWriter;
 //	jsonWriter.writeNode(mesh_scn);	
 
@@ -96,7 +107,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		#endif
 	
 		if (player) // if player was not create create , don't try to use the event
-			ev->playerEventReceiver();
+			ev->eventReceiver(deltaTime);
 
 		device->getWindow()->swap();
 	}
