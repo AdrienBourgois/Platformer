@@ -36,6 +36,7 @@ public:
 	auto saveDefaultBindKey(std::string fileName = "bindingKey") -> void;
 
 	auto modifyLine(std::string keyLine, std::string newValue, std::string fileName) -> void;
+
 	static int 		indentation;
 
 };

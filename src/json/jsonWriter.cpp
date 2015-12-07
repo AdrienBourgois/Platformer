@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "meshSceneNode.h"
 #include "sceneNode.h"
 #include "mesh.h"
@@ -141,9 +143,48 @@ auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 
 auto JsonWriter::modifyLine(std::string keyLine, std::string newValue, std::string fileName) -> void
 {
-	(void)keyLine;
-	(void)newValue;
-	(void)fileName;
+	std::ifstream fileRead;
+	fileRead.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::in);
+
+	std::string line;
+	std::string key;
+	std::string copyStream;
+	std::string completeFile;
+
+	while(std::getline(fileRead, line))
+	{
+		std::stringstream sstr(line);
+		sstr >> key;
+		if (key == "\"" + keyLine + "\"")
+		{
+			for (unsigned int i = 0; i < line.size(); ++i)
+				if (line[i] == '\t')
+					completeFile += "\t";
+			completeFile += key;
+			sstr >> key; // ignore ":"
+			completeFile += " " + key;
+			sstr >> key;
+			if (key[0] == '"')
+				copyStream = " \"" + newValue + "\"";
+			else
+				copyStream = " " + newValue;	
+
+			if (key[key.size()-1] == ',')
+				copyStream += ',';
+
+			completeFile += copyStream + "\n";
+		}
+		else
+		{
+			completeFile += line + "\n";
+		}
+	}
+	fileRead.close();
+	
+	std::ofstream fileWrite;
+	fileWrite.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	fileWrite << completeFile;
+	fileWrite.close();
 }
 
 } // namespace json

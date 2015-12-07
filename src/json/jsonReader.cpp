@@ -1,4 +1,5 @@
 #include <sstream>
+
 #include "txtLogger.h"
 #include "json/jsonValue.h"
 #include "json/jsonReader.h"
@@ -8,7 +9,6 @@
 #include "meshSceneNode.h"
 #include "sceneNode.h"
 #include "maths/matrix.h"
-#include <iostream>
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

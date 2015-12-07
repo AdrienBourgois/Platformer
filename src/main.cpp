@@ -41,9 +41,14 @@ int main(int argc, char* argv[])
 //	mesh_scn3->setPosition({0,0,10});
 	id::json::JsonWriter jsonWriter;
 //	jsonWriter.writeAllNode(device->getSceneManager()->getRootNode(), "partie1");	
-	jsonWriter.saveDefaultBindKey();
-	id::json::JsonReader jsonReader;
-	jsonReader.loadAllNode(device.get());
+
+//	jsonWriter.saveDefaultBindKey();
+	jsonWriter.modifyLine("jump", "k", "bindingKey");
+	jsonWriter.modifyLine("parent", "dragon", "partie1");
+
+//	id::json::JsonReader jsonReader;
+//	jsonReader.loadAllNode(device.get());
+
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
