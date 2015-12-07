@@ -22,18 +22,8 @@ ColliderManager::~ColliderManager()
 
 auto ColliderManager::addCollider(id::scene::MeshSceneNode* meshSceneNode, int id) -> void
 {
-    std::map<std::string, id::scene::mesh_group>::iterator it = meshSceneNode->getMesh()->getGroups().begin();
-    for (unsigned int i = 0; i < (it->second).data.size(); ++i)
-    {
-        std::cout << "Point numero " << i << " : " << (it->second).data[i] << std::endl;
-    }
+    std::map<std::string, id::scene::mesh_group>::const_iterator it = meshSceneNode->getMesh()->getGroups().begin();
     Polyhedron polyhedron(id::maths::getPointsFromVectorFloat((it->second).data));
-    std::cout << "Add" << std::endl;
-    for (unsigned int i = 0; i < polyhedron.getPoints().size(); ++i)
-    {
-        std::cout << i << " : " << polyhedron.getPoints()[i] << std::endl;
-    }
-    std::cout << "---------" << std::endl;
     Collider collider(polyhedron);
     std::tuple<Collider, int, int, id::scene::MeshSceneNode*> tuple = std::make_tuple(collider, id, (int)this->listCollider.size(), meshSceneNode);
     std::get<0>(tuple) = collider;
@@ -47,8 +37,6 @@ auto ColliderManager::updateCollider() -> void
     {
         std::vector<Vector3> points = calCoordFromMatrix(std::get<0>(this->listCollider[i]).getPolyhedron().getPoints(), std::get<3>(this->listCollider[i])->AbsoluteTransformation());
         std::get<0>(this->listCollider[i]).getPolyhedron().setPoints(points);
-        std::cout << "Update element " << i << std::endl;
-        //std::cout << calCoordFromMatrix(std::get<0>(this->listCollider[i]).getPolyhedron().getPoints(), std::get<3>(this->listCollider[i])->AbsoluteTransformation()) << std::endl;
     }
 }
 

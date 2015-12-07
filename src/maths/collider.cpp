@@ -32,10 +32,10 @@ auto Collider::updateBoundingBox() -> void
 {
     std::vector<Vector3> points = this->getPolyhedron().getPoints();
 
-    for (unsigned int i = 0; i < points.size(); ++i)
-    {
-        std::cout << i << " : " << points[i] << std::endl;
-    }
+    //for (unsigned int i = 0; i < points.size(); ++i)
+    //{
+    //    std::cout << i << " : " << points[i] << std::endl;
+    //}
 
     float Xmin = (*(std::min_element(points.begin(), points.end(), less_by_x))).val[0];
     float Xmax = (*(std::min_element(points.begin(), points.end(), more_by_x))).val[0];

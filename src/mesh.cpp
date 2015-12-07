@@ -18,7 +18,7 @@ namespace scene {
 std::vector<Mesh*> Mesh::_meshes = std::vector<Mesh*>();
 
 
-auto Mesh::createMesh(std::string const& path, std::vector<GLfloat> shape, video::Driver* driver) -> Mesh*
+auto Mesh::createMesh(std::string const& path, std::vector<GLfloat> const& shape, video::Driver* driver) -> Mesh*
 {
 	SDL_assert(driver);
 
@@ -35,12 +35,6 @@ auto Mesh::createMesh(std::string const& path, std::vector<GLfloat> shape, video
 	
 	Mesh* mesh = new (std::nothrow) Mesh(path, shape, driver);
     
-    std::vector<float> shapeGroup = mesh->_groups["cube"].data;
-    for (unsigned int i = 0; i < shapeGroup.size(); ++i)
-    {
-        std::cout << "  --> ShapeGroup Point FROM CREATMESH" << i << " : " << shapeGroup[i] << std::endl;
-    }
-
 	if (!mesh)
 		logger->log("Failed at creating Mesh in Mesh::createMesh(std::string const& path, std::string const& tex_path, video::Driver* driver)", LL_WARNING);
 
@@ -48,7 +42,7 @@ auto Mesh::createMesh(std::string const& path, std::vector<GLfloat> shape, video
 	return mesh;
 }
 
-Mesh::Mesh(std::string const& path, std::vector<GLfloat> shape, video::Driver* driver)
+Mesh::Mesh(std::string const& path, std::vector<GLfloat> const& shape, video::Driver* driver)
 : _driver(driver), _objPath(path), _material(nullptr)
 {
 	logger->log("Creating Mesh...", LL_DEBUG);
@@ -210,23 +204,12 @@ auto Mesh::loadObj(std::string const& path) -> void
 
 }
 
-auto Mesh::loadShape(std::vector<GLfloat> shape) -> void
+auto Mesh::loadShape(std::vector<GLfloat> const& shape) -> void
 {
-    for (unsigned int i = 0; i < shape.size(); ++i)
-    {
-        std::cout << "Shape Point " << i << " : " << shape[i] << std::endl;
-    }
-
 	_groups["cube"].name = "cube";
 	
 	for (unsigned int i = 0; i < shape.size(); ++i)
 		_groups["cube"].data.push_back(shape[i]);
-
-    std::vector<float> shapeGroup = _groups["cube"].data;
-    for (unsigned int i = 0; i < shapeGroup.size(); ++i)
-    {
-        std::cout << "  --> ShapeGroup Point " << i << " : " << shapeGroup[i] << std::endl;
-    }
 
 }
 } // namespace scene
