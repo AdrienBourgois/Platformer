@@ -4,7 +4,6 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <fstream>
 
 namespace id {
 
@@ -17,26 +16,23 @@ class JsonValue;
 class JsonReader
 {
 public:
-	JsonReader(std::string name = "partie1");
+	JsonReader();
 	~JsonReader();
 	JsonReader(JsonReader const&) = delete;
 	JsonReader(JsonReader&&) = delete;
 	auto operator=(JsonReader const&) -> JsonReader& = delete;
 	auto operator=(JsonReader&&) -> JsonReader& = delete;
 
-	auto readBool(std::string key) -> std::vector<bool>;
-	auto readString(std::string key) -> std::vector<std::string>;
-	auto readNull(std::string key) -> std::vector<bool>;
-	auto readNumber(std::string key) -> std::vector<float>;
-	auto readStringArray(std::string key) -> std::vector<std::vector<std::string>>;
-	auto readBoolArray(std::string key) -> std::vector<std::vector<bool>>;
-	auto readNumberArray(std::string key) -> std::vector<std::vector<float>>;
+	auto readBool(std::string key, std::string fileName = "partie1") -> std::vector<bool>;
+	auto readString(std::string key, std::string fileName = "partie1") -> std::vector<std::string>;
+	auto readNull(std::string key, std::string fileName = "partie1") -> std::vector<bool>;
+	auto readNumber(std::string key, std::string fileName = "partie1") -> std::vector<float>;
+	auto readStringArray(std::string key, std::string fileName = "partie1") -> std::vector<std::vector<std::string>>;
+	auto readBoolArray(std::string key, std::string fileName = "partie1") -> std::vector<std::vector<bool>>;
+	auto readNumberArray(std::string key, std::string fileName = "partie1") -> std::vector<std::vector<float>>;
 
-
-	auto loadAllNode(Device* device) -> void;
-
-private:
-	std::ifstream file;
+	auto loadAllNode(Device* device, std::string fileName = "partie1") -> void;
+	auto loadKeyBinding(std::string fileName = "bindingKey") -> std::map<std::string, std::string>;
 };
 
 
