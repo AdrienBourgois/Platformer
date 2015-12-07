@@ -3,6 +3,8 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
+
+#include "stateManager.h"
 #include "event.h"
 #include "enemy.h"
 #include "player.h"
@@ -43,7 +45,7 @@ auto Event::playerEventReceiver() -> void
 		
 	const Uint8* state = SDL_GetKeyboardState(nullptr);
 
-	player->entitySpeedIs();
+	player->entitySpeed();
 
 	float speedrun = player->getSpeedRun();
 	float speed = player->getSpeed();
@@ -112,7 +114,7 @@ auto Event::playerEventReceiver() -> void
 		player->setEntityState(STATE_RUNNING);
 	}
 	
-	if (player->entityIs() == true)
+	if (player->entityIsMovement() == true)
 		player->setPosition({x, y, z});
 
 		player->setRotation({rotx, roty, rotz});

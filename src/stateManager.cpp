@@ -25,24 +25,6 @@ StateManager::~StateManager()
 	logger->log("StateManager has been deleted.", LL_DEBUG);
 }
 
-auto StateManager::entityIs() -> bool
-{
-	bool inMovement = false;	
-
-	if (STATE_WALKING)
-		inMovement = true;
-
-	else if (STATE_RUNNING)
-		inMovement = true;
-
-	else if (STATE_DEAD)
-		inMovement = false;
-
-	else
-		inMovement = false;
-	
-	return inMovement;
-}
 
 }//namespace scene
 }//namespace id 
