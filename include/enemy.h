@@ -3,11 +3,10 @@
 
 #include <vector>
 #include "entity.h"
+#include "pathEnemy.h"
 
 namespace id {
 namespace scene {
-
-class PathEnemy;
 
 class Enemy : public Entity {
 
@@ -17,12 +16,12 @@ public:
 	~Enemy();
 
 	auto enemyPatrol(bool enemyReachPos) -> void;
+	auto getPath() const -> PathEnemy* {return pathEnemy;}
 
 private:
 
 	Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path);
-	std::vector<maths::Vector3> pos;
-	PathEnemy* path;	
+	PathEnemy* pathEnemy;	
 
 };
 

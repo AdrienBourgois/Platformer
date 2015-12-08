@@ -22,6 +22,7 @@
 #include "maths/utility.h"
 #include "event.h"
 #include "enemy.h"
+#include "pathEnemy.h"
 #include "player.h"
 #include "guiMenu.h"
 #include "txtLogger.h"
@@ -65,8 +66,6 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
 
-
-	std::cout << enemy->getPosition() << std::endl;	
 	
 
 	float last = 0.f;
@@ -78,6 +77,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		deltaTime = (now-last) / 1000.f;
 		last = now;
 	}
+
 
 //	id::json::JsonWriter jsonWriter;
 //	jsonWriter.writeNode(mesh_scn);	
@@ -99,12 +99,14 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
-		
+	
+	
 		debug_logger->DisplayLog();	
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
-	
-	
+		
+		enemy->getPath()->enemyPatrol(enemy);
+
 		device->getGui()->render();
 		#ifdef _DEBUG
 			ImGui::Render();

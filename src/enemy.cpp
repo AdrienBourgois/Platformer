@@ -18,6 +18,9 @@ Enemy::Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std:
 {
 	logger->log("Creating Enemy...", LL_DEBUG);
 
+
+	pathEnemy = new PathEnemy();
+
 	setHp(1);
 	setLife(1);
 	setAttack(1);
@@ -41,6 +44,7 @@ auto Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const&
 
 	return enemy;
 }
+
 
 }//namespace scene
 }//namespace id

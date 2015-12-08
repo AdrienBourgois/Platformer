@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "enemy.h"
 #include "pathEnemy.h"
 #include "txtLogger.h"
 
@@ -28,9 +29,22 @@ PathEnemy::~PathEnemy()
 }
 
 
-auto PathEnemy::enemyPatrol(bool enemyReachPos) -> void
+auto PathEnemy::enemyPatrol(Enemy* enemy) -> void
 {
-	(void)enemyReachPos;
+	float x = enemy->getPosition().val[0];
+	float y = enemy->getPosition().val[1];
+	float z = enemy->getPosition().val[2];
+	
+	path.push_back({0, 0, 0});
+	path.push_back({0, 2, 0});
+
+	y += 0.5f;
+
+	if ((maths::Vector3){x, y, z} == path[1])
+	    std::cout << "Point atteint ! Hourra joie bonheur !" << std::endl;
+	
+
+	enemy->setPosition({x, y, z});
 }
 
 }//namespace scene 

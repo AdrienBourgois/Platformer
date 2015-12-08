@@ -5,8 +5,11 @@
 #include "maths/vector.h"
 
 
+
 namespace id {
 namespace scene {
+
+class Enemy;
 
 class PathEnemy {
 	
@@ -14,7 +17,7 @@ public:
 	PathEnemy();
 	~PathEnemy();
 
-	auto enemyPatrol(bool enemyReachPos) -> void;
+	auto enemyPatrol(Enemy* enemy) -> void;
 
 private:
 	std::vector<maths::Vector3> path;
