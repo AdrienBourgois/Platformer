@@ -33,9 +33,9 @@ public:
 
 	auto loadAllNode(Device* device, std::string fileName = "partie1") -> void;
 	auto loadKeyBinding(std::string fileName = "bindingKey") -> std::map<std::string, std::string>;
+	auto loadScreenResolution(std::string fileName = "resolutionScreen") -> std::map<std::string, float>;
+
 };
-
-
 } // namespace json
 } // namespace id
 

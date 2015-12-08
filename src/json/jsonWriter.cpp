@@ -172,10 +172,6 @@ auto JsonWriter::writeAllNode(scene::SceneNode* node, std::ofstream& file) -> vo
 
 auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 {
-	std::ofstream file;
-	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
-	file << "{" << std::endl;
-
 	JsonObject* objKey  = new JsonObject;
 	objKey->addInObject("Forward", new JsonString("W"));
 	objKey->addInObject("Backward", new JsonString("S"));
@@ -188,25 +184,24 @@ auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 	objKey->addInObject("Run", new JsonString("R"));
 	objKey->addInObject("Pause", new JsonString("P"));
 
-	writeInObject(objKey, file);
-
-	file.seekp(-2, file.cur); 
-	file << "\n}" << std::endl;
-	file.close();
-
+	write(objKey, fileName);
 }
-/*
+
 auto JsonWriter::saveDefaultResolution(std::string fileName) -> void
 {
 
-	std::ofstream file;
-	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
-	file << "{" << std::endl;
+	JsonObject* objResol  = new JsonObject;
+	objResol->addInObject("Width", new JsonNumber(1280));
+	objResol->addInObject("Height", new JsonNumber(720));
 
+	write(objResol, fileName);
+
+	modifyLineByValueSearch("1280.000000", "1280", "resolutionScreen");
+	modifyLineByValueSearch("720.000000", "720", "resolutionScreen");
 	
 }
 
-*/
+
 
 
 auto JsonWriter::modifyLineByNameSearch(std::string keyLine, std::string newValue, std::string fileName) -> void
@@ -233,7 +228,15 @@ auto JsonWriter::modifyLineByNameSearch(std::string keyLine, std::string newValu
 			completeFile += " " + key;
 			sstr >> key;
 			if (key[0] == '"')
+			{
 				copyStream = " \"" + newValue + "\"";
+				if (key[key.size()-1] != '"' && key[key.size()-1] != ',')
+				{
+					std::string keySequel;
+					sstr >> keySequel;
+					key = key + " " + keySequel;
+				}
+			}
 			else
 				copyStream = " " + newValue;	
 
@@ -269,7 +272,7 @@ auto JsonWriter::modifyLineByValueSearch(std::string value, std::string newValue
 	{
 		std::stringstream sstr(line);
 		sstr >> key;
-	
+			
 		for (unsigned int i = 0; i < line.size(); ++i)
 			if (line[i] == '\t')
 				completeFile += "\t";
@@ -281,9 +284,18 @@ auto JsonWriter::modifyLineByValueSearch(std::string value, std::string newValue
 			completeFile += key + " "; // get ":"
 			sstr >> key;
 			if (key[0] == '"')
+			{
 				copyValue = "\"" + value + "\"";
+				if (key[key.size()-1] != '"' && key[key.size()-1] != ',')
+				{
+					std::string keySequel;
+					sstr >> keySequel;
+					key = key + " " + keySequel;
+				}
+			}	
 			else
 				copyValue = value;
+			
 			if (key == copyValue || key == copyValue + "," )
 			{
 
