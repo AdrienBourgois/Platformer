@@ -27,17 +27,22 @@ public:
 	auto operator=(JsonWriter&&) -> JsonWriter& = delete;
 	
 	auto indent() -> std::string;
-	auto write(JsonObject* obj, std::ofstream& file) -> void; 
+	auto write(JsonObject* obj, std::string fileName) -> void;
+	auto writeInObject(JsonObject* obj, std::ofstream& file) -> void; 
+	
 
 	auto writeNode(scene::SceneNode* node, std::ofstream& file) -> void;
+	auto writeNode(scene::SceneNode* node, std::string fileName) -> void;
 	auto writeAllNode(scene::SceneNode* root, std::string fileName) -> void;
 	auto writeAllNode(scene::SceneNode* node, std::ofstream& file) -> void;
 
 	auto saveDefaultBindKey(std::string fileName = "bindingKey") -> void;
+//	auto saveDefaultResolution(std::string fileName) -> void;
 
 	auto modifyLineByNameSearch(std::string keyLine, std::string newValue, std::string fileName = "bindingKey") -> void;
 	auto modifyLineByValueSearch(std::string value, std::string newValue, std::string fileName = "bindingKey") -> void;
 	auto checkExistingValue(std::string value, std::string fileName = "bindingKey") -> bool;
+
 	static int 		indentation;
 
 };
