@@ -22,6 +22,7 @@ SRC = 	cameraSceneNode.cpp\
 		imgui.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
+		imgui_demo.cpp\
 		json/jsonArray.cpp\
 		json/jsonBool.cpp\
 		json/jsonNull.cpp\
@@ -31,6 +32,8 @@ SRC = 	cameraSceneNode.cpp\
 		json/jsonString.cpp\
 		json/jsonValue.cpp\
 		json/jsonWriter.cpp\
+		levelEditor.cpp\
+		leveleditor/menuLevelEditor.cpp\
 		logger.cpp\
 		main.cpp\
 		material.cpp\

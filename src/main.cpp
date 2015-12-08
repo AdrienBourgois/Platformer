@@ -27,6 +27,7 @@
 #include "txtLogger.h"
 #include "json/jsonWriter.h"
 #include "json/jsonReader.h"
+#include "levelEditor.h"
 
 int main(int argc, char* argv[])
 {
@@ -73,6 +74,8 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 
 
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
+	id::LevelEditor* level_editor = new (std::nothrow) id::LevelEditor;
+	level_editor->InitLevelEditor();
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
 	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	
@@ -85,8 +88,11 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
-		
+
+		ImGui::ShowTestWindow();	
+
 		debug_logger->DisplayLog();	
+		level_editor->DisplayLevelEditor();
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
 		
