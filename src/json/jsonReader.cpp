@@ -344,9 +344,12 @@ auto JsonReader::loadKeyBinding(std::string fileName) -> std::map<std::string, s
 			}
 		}
 	}
+
 	return mapKeyAffect;
 	
 }
+
+
 
 } // namespace json
 } // namespace id

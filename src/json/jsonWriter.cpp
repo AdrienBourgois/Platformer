@@ -44,7 +44,40 @@ auto JsonWriter::indent() -> std::string
 	return str;
 }
 
-auto JsonWriter::write(JsonObject* obj, std::ofstream& file) -> void
+auto JsonWriter::write(JsonObject* obj, std::string fileName) -> void
+{
+	std::ofstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	file << "{\n";	
+
+	std::map<std::string, JsonValue*> mapValue = obj->getMapValue();
+
+	unsigned int i = 1;
+	unsigned int j = mapValue.size();
+
+	if (!mapValue.empty())
+	{
+		indentation++;
+
+		for (auto&& val : mapValue)
+		{
+			file << indent();
+			file << "\"" << val.first << "\" : ";
+			file << val.second->serialize();
+			if (i == j)
+				file << "\n";
+			else	
+				file << ",\n";
+			++i;
+		}
+
+		--indentation;
+		file << indent();
+	}
+	file << "}"; 
+}
+
+auto JsonWriter::writeInObject(JsonObject* obj, std::ofstream& file) -> void
 {
 
 	std::map<std::string, JsonValue*> mapValue = obj->getMapValue();
@@ -84,7 +117,29 @@ auto JsonWriter::writeNode(scene::SceneNode* node, std::ofstream& file) -> void
 	if (dynamic_cast<scene::MeshSceneNode*>(node))
 		objNode->addInObject("objPath", new JsonString(dynamic_cast<scene::MeshSceneNode*>(node)->getMesh()->getObjPath()));
 	obj->addInObject("node", objNode);
-	write(obj, file);
+	writeInObject(obj, file);
+	JsonValue::deleteAllJsonValue();
+}
+
+auto JsonWriter::writeNode(scene::SceneNode* node, std::string fileName) -> void
+{
+	JsonObject* obj  = new JsonObject;
+	JsonObject* objNode = new JsonObject;
+
+	if (node->getParent())
+		objNode->addInObject("parent", new JsonString(node->getParent()->getName()));
+	else
+ 		objNode->addInObject("parent", new JsonNull);
+
+	objNode->addInObject("name", new JsonString(node->getName()));
+	JsonArray* matrix = new JsonArray;
+	for (unsigned int i = 0; i < 16; ++i)
+			matrix->addInArray(new JsonNumber(node->getTransformation().val[i]));
+	objNode->addInObject("transformation", matrix);
+	if (dynamic_cast<scene::MeshSceneNode*>(node))
+		objNode->addInObject("objPath", new JsonString(dynamic_cast<scene::MeshSceneNode*>(node)->getMesh()->getObjPath()));
+	obj->addInObject("node", objNode);
+	write(obj, fileName);
 	JsonValue::deleteAllJsonValue();
 }
 
@@ -133,13 +188,26 @@ auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 	objKey->addInObject("Run", new JsonString("R"));
 	objKey->addInObject("Pause", new JsonString("P"));
 
-	write(objKey, file);
+	writeInObject(objKey, file);
 
 	file.seekp(-2, file.cur); 
 	file << "\n}" << std::endl;
 	file.close();
 
 }
+/*
+auto JsonWriter::saveDefaultResolution(std::string fileName) -> void
+{
+
+	std::ofstream file;
+	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	file << "{" << std::endl;
+
+	
+}
+
+*/
+
 
 auto JsonWriter::modifyLineByNameSearch(std::string keyLine, std::string newValue, std::string fileName) -> void
 {
