@@ -21,8 +21,9 @@ public:
 	virtual auto createElement(maths::Vector4 color) -> void;
 	auto calculateCoordsRect() -> maths::Vector4x2;
 	auto addChild(GuiRect* child) -> void;
-	auto addGradient(maths::Vector4 colorStart, maths::Vector4 colorStop) -> void;
+	virtual auto addGradient(maths::Vector4 colorStart, maths::Vector4 colorStop) -> void;
 	virtual auto genVertexObject() -> void;
+	virtual auto refreshRect(float posX, float posY, float width, float height) -> void;
 
 	auto getParent() const -> GuiRect* { return this->parent; };
 	auto getRect() const -> std::vector<float> const& { return this->rect; };

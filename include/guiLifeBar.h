@@ -13,6 +13,8 @@ public:
 	GuiLifeBar(GuiManager* gui, float max);
 	~GuiLifeBar();
 
+	auto refreshLifeBar(float damage) -> void;
+
 private:
 	GuiManager* gui;
 	int id;

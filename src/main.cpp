@@ -61,14 +61,9 @@ int main(int argc, char* argv[])
 
 	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj"); // player creation
 
-	id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "'", "pos3d_tex2d", "./assets/models/Dragon.obj");
-	id::scene::MeshSceneNode* mesh_scn1 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "dragon1", "pos3d_tex2d", "./assets/models/Dragon.obj");
-	id::scene::MeshSceneNode* mesh_scn2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), mesh_scn1, "dragon2", "pos3d_tex2d", "./assets/models/Dragon.obj");
-	id::scene::MeshSceneNode* mesh_scn3 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), mesh_scn2, "dragon3", "pos3d_tex2d", "./assets/models/Dragon.obj");
-	mesh_scn->setPosition({10,10,10});
-	mesh_scn1->setPosition({0,10,10});
-	mesh_scn2->setPosition({10,-10,10});
-	mesh_scn3->setPosition({0,0,10});
+	//id::json::JsonWriter jsonWriter;
+	//jsonWriter.saveDefaultBindKey();
+
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
 
@@ -82,8 +77,8 @@ int main(int argc, char* argv[])
 	std::function<void()> funcQuit = [dev]() {dev->close();};
 	device->getGui()->addMenuTitleScreen(funcQuit);
 
-	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 100);
-	(void)life;
+	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 300);
+	float damage = 0.1f;
 
 	while (device->run())
 	{
@@ -102,6 +97,8 @@ int main(int argc, char* argv[])
 	
 		if (player) // if player was not create create , don't try to use the event
 			ev->playerEventReceiver();
+
+		life->refreshLifeBar(damage);
 
 		device->getWindow()->swap();
 	}
