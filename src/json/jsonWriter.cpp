@@ -172,10 +172,6 @@ auto JsonWriter::writeAllNode(scene::SceneNode* node, std::ofstream& file) -> vo
 
 auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 {
-	std::ofstream file;
-	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
-	file << "{" << std::endl;
-
 	JsonObject* objKey  = new JsonObject;
 	objKey->addInObject("Forward", new JsonString("W"));
 	objKey->addInObject("Backward", new JsonString("S"));
@@ -188,25 +184,20 @@ auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 	objKey->addInObject("Run", new JsonString("R"));
 	objKey->addInObject("Pause", new JsonString("P"));
 
-	writeInObject(objKey, file);
-
-	file.seekp(-2, file.cur); 
-	file << "\n}" << std::endl;
-	file.close();
-
+	write(objKey, fileName);
 }
-/*
+
 auto JsonWriter::saveDefaultResolution(std::string fileName) -> void
 {
 
-	std::ofstream file;
-	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
-	file << "{" << std::endl;
+	JsonObject* objResol  = new JsonObject;
+	objResol->addInObject("Width", new JsonNumber(1080));
+	objResol->addInObject("Height", new JsonNumber(860));
 
-	
+	write(objResol, fileName);
 }
 
-*/
+
 
 
 auto JsonWriter::modifyLineByNameSearch(std::string keyLine, std::string newValue, std::string fileName) -> void

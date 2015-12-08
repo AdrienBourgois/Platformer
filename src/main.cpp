@@ -41,23 +41,19 @@ int main(int argc, char* argv[])
 	mesh_scn3->setPosition({0,0,10});
 	id::json::JsonWriter jsonWriter;
 	jsonWriter.writeNode(mesh_scn, "partie1");	
-//	jsonWriter.saveDefaultBindKey();
+	jsonWriter.saveDefaultBindKey();
+	jsonWriter.saveDefaultResolution();
 //	if (jsonWriter.checkExistingValue("105"))
 //		std::cout << "existing value" << std::endl;
 //	else
 //		std::cout << "not existing value" << std::endl;
 //	jsonWriter.modifyLineByNameSearch("jump", "k");
-	jsonWriter.modifyLineByValueSearch("Right Shit", "Alt right");
-	jsonWriter.modifyLineByValueSearch("Alt right", "Right Shit");
+	jsonWriter.modifyLineByValueSearch("1080", "1280", "resolutionScreen");
+//	jsonWriter.modifyLineByValueSearch("Alt right", "Right Shit");
 	
 	id::json::JsonReader jsonReader;
 	jsonReader.loadAllNode(device.get());
 //	std::map<std::string, std::string> map = jsonReader.loadKeyBinding();
-	auto map = jsonReader.loadKeyBinding();
-	for (auto && val : map)
-	{
-		std::cout << val.first << " : " << val.second << std::endl;
-	}
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;

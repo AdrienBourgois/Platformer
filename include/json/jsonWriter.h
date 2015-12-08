@@ -37,7 +37,7 @@ public:
 	auto writeAllNode(scene::SceneNode* node, std::ofstream& file) -> void;
 
 	auto saveDefaultBindKey(std::string fileName = "bindingKey") -> void;
-//	auto saveDefaultResolution(std::string fileName) -> void;
+	auto saveDefaultResolution(std::string fileName = "resolutionScreen") -> void;
 
 	auto modifyLineByNameSearch(std::string keyLine, std::string newValue, std::string fileName = "bindingKey") -> void;
 	auto modifyLineByValueSearch(std::string value, std::string newValue, std::string fileName = "bindingKey") -> void;
