@@ -28,8 +28,8 @@ int main()
     mesh2->setPosition({3,13.5,40});
 
     id::maths::ColliderManager colMgr;
-    colMgr.addCollider(mesh, 1);
-    colMgr.addCollider(mesh2, 2);
+    colMgr.addCollider(mesh, "cube1");
+    colMgr.addCollider(mesh2, "cube2");
 
     id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
@@ -47,8 +47,12 @@ int main()
         debug_window->Display(device.get());
         open_file->Display(device.get());
 
-        colMgr.updateCollider();
-        colMgr.checkAllColisions();
+        //std::vector<std::pair<std::string, std::string>> collisions = colMgr.checkAllColisions();
+
+        //for (unsigned int i = 0; i < collisions.size(); ++i)
+        //{
+        //    std::cout << "Collision entre " << collisions[i].first << " et " << collisions[i].second << std::endl;
+        //}
 
         ImGui::Render();
         device->getWindow()->swap();

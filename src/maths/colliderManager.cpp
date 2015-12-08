@@ -20,12 +20,13 @@ ColliderManager::~ColliderManager()
     logger->log("ColliderManager has been deleted.");
 }
 
-auto ColliderManager::addCollider(id::scene::MeshSceneNode* meshSceneNode, int id) -> void
+auto ColliderManager::addCollider(id::scene::MeshSceneNode* meshSceneNode, std::string id) -> void
 {
     std::map<std::string, id::scene::mesh_group>::const_iterator it = meshSceneNode->getMesh()->getGroups().begin();
     Polyhedron polyhedron(id::maths::getPointsFromVectorFloat((it->second).data));
     Collider collider(polyhedron);
-    std::tuple<Collider, int, int, id::scene::MeshSceneNode*> tuple = std::make_tuple(collider, id, (int)this->listCollider.size(), meshSceneNode);
+
+    std::tuple<Collider, std::string, int, id::scene::MeshSceneNode*> tuple = std::make_tuple(collider, id, (int)this->listCollider.size(), meshSceneNode);
     std::get<0>(tuple) = collider;
 
     this->listCollider.push_back(tuple);
@@ -40,14 +41,16 @@ auto ColliderManager::updateCollider() -> void
     }
 }
 
-auto ColliderManager::checkAllColisions() -> std::vector<std::pair<int, int>>
+auto ColliderManager::checkAllColisions() -> std::vector<std::pair<std::string, std::string>>
 {
+    this->updateCollider();
+
     for (unsigned int i = 0; i < this->listCollider.size(); ++i)
     {
         std::get<0>(this->listCollider[i]).updateBoundingBox();
     }
 
-    std::vector<std::pair<int, int>> listCollision;
+    std::vector<std::pair<std::string, std::string>> listCollision;
 
     for (unsigned int i = 0; i < this->listCollider.size(); ++i)
     {
