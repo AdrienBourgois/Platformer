@@ -345,15 +345,21 @@ auto JsonReader::loadKeyBinding(std::string fileName) -> std::map<std::string, s
 				sstr >> value;
 				if (value[0] == '"')
 				{
-					value.erase(value.begin());
-					if (value[value.size()-1] == ',')
+					if (value[value.size()-1] != '"' && value[value.size()-1] != ',')
 					{
-						value.erase(value.end()-1);
-						value.erase(value.end()-1);
+						std::string valueSequel;
+						sstr >> valueSequel;
+						value = value + " " + valueSequel;
 					}
-					else
-						value.erase(value.end()-1);
-
+					
+						value.erase(value.begin());
+						if (value[value.size()-1] == ',')
+						{
+							value.erase(value.end()-1);
+							value.erase(value.end()-1);
+						}
+						else
+							value.erase(value.end()-1);
 				}
 				else
 					value = id::FileUtility::getNumberStringFromString(value);
