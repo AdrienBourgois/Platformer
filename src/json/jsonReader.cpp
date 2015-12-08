@@ -367,12 +367,21 @@ auto JsonReader::loadKeyBinding(std::string fileName) -> std::map<std::string, s
 			}
 		}
 	}
-
+	file.close();
 	return mapKeyAffect;
 	
 }
 
+auto JsonReader::loadScreenResolution(std::string fileName) -> std::map<std::string, float>
+{
+	std::map<std::string, float> resolutionMap;
 
+	resolutionMap["Width"] = readNumber("Width", fileName)[0];
+	resolutionMap["Height"] = readNumber("Height", fileName)[0];
+	
+	return resolutionMap;
+
+}
 
 } // namespace json
 } // namespace id

@@ -48,12 +48,20 @@ int main(int argc, char* argv[])
 //	else
 //		std::cout << "not existing value" << std::endl;
 //	jsonWriter.modifyLineByNameSearch("jump", "k");
+	id::json::JsonReader jsonReader;
+
+	auto map = jsonReader.loadScreenResolution();
+	for (auto&& val : map)
+		std::cout << val.first << " : " << val.second << std::endl;
+
 	jsonWriter.modifyLineByValueSearch("1280", "1080", "resolutionScreen");
 	jsonWriter.modifyLineByValueSearch("720", "600", "resolutionScreen");
 //	jsonWriter.modifyLineByValueSearch("Alt right", "Right Shit");
 	
-	id::json::JsonReader jsonReader;
-	jsonReader.loadAllNode(device.get());
+		jsonReader.loadAllNode(device.get());
+	map = jsonReader.loadScreenResolution();
+	for (auto&& val : map)
+		std::cout << val.first << " : " << val.second << std::endl;
 //	std::map<std::string, std::string> map = jsonReader.loadKeyBinding();
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
