@@ -74,8 +74,8 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 
 
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
-	id::LevelEditor* level_editor = new (std::nothrow) id::LevelEditor;
-	level_editor->InitLevelEditor();
+	id::LevelEditor* level_editor = new (std::nothrow) id::LevelEditor(device.get());
+//	level_editor->InitLevelEditor();
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
 	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	

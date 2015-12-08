@@ -34,6 +34,7 @@ SRC = 	cameraSceneNode.cpp\
 		json/jsonWriter.cpp\
 		levelEditor.cpp\
 		leveleditor/menuLevelEditor.cpp\
+		leveleditor/levelEditorElement.cpp\
 		logger.cpp\
 		main.cpp\
 		material.cpp\

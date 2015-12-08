@@ -4,16 +4,18 @@
 #include "imgui.h"
 #include "imgui_impl.h"
 #include "guiWindow.h"
+#include "leveleditor/levelEditorElement.h"
 
 namespace id {
 
-class MenuLevelEditor : public GUI_Window
+class MenuLevelEditor
+: public LevelEditorElement
 {
 public:
-	MenuLevelEditor();
+	MenuLevelEditor(Device* dev);
 	~MenuLevelEditor();
 	
-	auto Display() -> void;
+	auto Display() -> void override;
 	auto Update() -> void;
 
 private:

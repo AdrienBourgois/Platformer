@@ -5,15 +5,16 @@
 #include "imgui_impl.h"
 #include "logger.h"
 #include "guiWindow.h"
+#include "device.h"
 
 namespace id {
 
 class MenuLevelEditor;
 
-class LevelEditor : public GUI_Window
+class LevelEditor
 {
 public:
-	LevelEditor();
+	LevelEditor(Device* dev);
 	~LevelEditor();
 	LevelEditor(LevelEditor const&) = delete;
 	auto operator=(LevelEditor const&) = delete;
@@ -24,6 +25,7 @@ public:
 		
 private:
 //	bool	visible;
+	Device*			dev;
 	MenuLevelEditor*	menuLevelEditor;	
 };
 

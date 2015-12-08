@@ -22,8 +22,8 @@ public:
 	
 	auto Display(Device* dev) 	-> void;
 	
-	auto getActiveNode() 						-> scene::SceneNode*	{ return _active_node; }
-	auto setActiveNode(scene::SceneNode* node) 	-> void 				{ _active_node = node; }
+	auto getActiveNode() 				-> scene::SceneNode*	{ return _active_node; }
+	auto setActiveNode(scene::SceneNode* node) 	-> void			{ _active_node = node; }
 
 private:
 	scene::SceneNode* 			_active_node;

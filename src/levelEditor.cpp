@@ -1,16 +1,16 @@
 #include "levelEditor.h"
 #include "leveleditor/menuLevelEditor.h"
-//#include "leveleditor/addButtonLevelEditor.h"
-//#include "leveleditor/"
 #include "logger.h"
 #include "new"
 
 namespace id {
 
-LevelEditor::LevelEditor()
-: GUI_Window(true)
+LevelEditor::LevelEditor(Device* device)
+:dev(device)
 {
 	LOG(L_INFO, "Creating LevelEditor...");
+	menuLevelEditor = new (std::nothrow) MenuLevelEditor(device);		
+	dev = device;
 }
 
 LevelEditor::~LevelEditor()
@@ -20,7 +20,6 @@ LevelEditor::~LevelEditor()
 
 auto LevelEditor::InitLevelEditor() -> void
 {
-	menuLevelEditor = new (std::nothrow) MenuLevelEditor();		
 }
 
 auto LevelEditor::DisplayLevelEditor() -> void
