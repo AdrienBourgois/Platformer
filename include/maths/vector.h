@@ -28,6 +28,9 @@ struct Vector3
     auto operator*=(float& val)             -> Vector3&;
     auto operator-(Vector3 const vector) const  -> Vector3;
     auto operator==(Vector3 const vector) const -> bool;
+    auto operator>=(Vector3 const vector) const -> bool;
+    auto operator<=(Vector3 const vector) const -> bool;
+    auto operator!=(Vector3 const vector) const -> bool;
 
     auto dotProduct(Vector3 const vec) const -> float;
     auto crossProduct(Vector3 const vec) const -> Vector3;

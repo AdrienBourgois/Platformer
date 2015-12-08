@@ -36,20 +36,25 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 	float x = enemy->getPosition().val[0];
 	float y = enemy->getPosition().val[1];
 	float z = enemy->getPosition().val[2];
-	(void) deltaTime;
-	
+
+
+	enemy->entityIsMovement();
+	enemy->entitySpeed();	
 	enemy->setEntityState(STATE_WALKING);
 
 	path.push_back({0, 0, 0});
-	path.push_back({0, 0, 1});
+	path.push_back({0, 0, -50});
 
 
-	
-	z += speed;
+	while ((maths::Vector3){x, y, z} != path[1])	
+	z -=  speed * deltaTime;
 
-	if ((maths::Vector3){x, y, z} == path[1])
-	    std::cout << "Point atteint ! Hourra joie bonheur !" << std::endl;
-	
+	if ((maths::Vector3){x, y, z} <= path[1])
+	{
+		speed = 0.f;
+		std::cout << "Point atteint ! Hourra joie bonheur !" << std::endl;
+		enemy->setEntityState(STATE_STANDING);
+	}
 
 	enemy->setPosition({x, y, z});
 }

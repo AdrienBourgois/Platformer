@@ -48,6 +48,22 @@ auto Vector3::operator==(Vector3 const vector) const -> bool
     return (this->val[0] == vector.val[0]) && (this->val[1] == vector.val[1]) && (this->val[2] == vector.val[2]);
 }
 
+auto Vector3::operator>=(Vector3 const vector) const -> bool
+{
+	return (this->val[0] >= vector.val[0]) && (this->val[1] >= vector.val[1]) && (this->val[2] >= vector.val[2]);
+}  
+
+auto Vector3::operator<=(Vector3 const vector) const -> bool
+{
+	return (this->val[0] <= vector.val[0]) && (this->val[1] <= vector.val[1]) && (this->val[2] <= vector.val[2]);
+}
+
+auto Vector3::operator!=(Vector3 const vector) const -> bool
+{
+	return (this->val[0] != vector.val[0]) && (this->val[1] != vector.val[1]) && (this->val[2] != vector.val[2]);
+
+}
+
 auto Vector3::dotProduct(Vector3 const vec)const -> float
 {   
     float ax = this->val[0];    float ay = this->val[1];    float az = this->val[2];
