@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "elementId.h"
 #include "enemy.h"
 #include "pathEnemy.h"
 #include "txtLogger.h"
@@ -29,16 +30,22 @@ PathEnemy::~PathEnemy()
 }
 
 
-auto PathEnemy::enemyPatrol(Enemy* enemy) -> void
+auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 {
+	float speed = enemy->getSpeed();
 	float x = enemy->getPosition().val[0];
 	float y = enemy->getPosition().val[1];
 	float z = enemy->getPosition().val[2];
+	(void) deltaTime;
 	
-	path.push_back({0, 0, 0});
-	path.push_back({0, 2, 0});
+	enemy->setEntityState(STATE_WALKING);
 
-	y += 0.5f;
+	path.push_back({0, 0, 0});
+	path.push_back({0, 0, 1});
+
+
+	
+	z += speed;
 
 	if ((maths::Vector3){x, y, z} == path[1])
 	    std::cout << "Point atteint ! Hourra joie bonheur !" << std::endl;

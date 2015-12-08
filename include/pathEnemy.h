@@ -17,7 +17,7 @@ public:
 	PathEnemy();
 	~PathEnemy();
 
-	auto enemyPatrol(Enemy* enemy) -> void;
+	auto enemyPatrol(Enemy* enemy, float deltaTime) -> void;
 
 private:
 	std::vector<maths::Vector3> path;

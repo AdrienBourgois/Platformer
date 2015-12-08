@@ -92,7 +92,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 	
 	id::scene::Event* ev = new id::scene::Event(player);
 
-	device->getGui()->addMenuTitleScreen();	
+//	device->getGui()->addMenuTitleScreen();	
 
 	while (device->run())
 	{
@@ -105,9 +105,9 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
 		
-		enemy->getPath()->enemyPatrol(enemy);
+		enemy->getPath()->enemyPatrol(enemy, deltaTime);
 
-		device->getGui()->render();
+		//device->getGui()->render();
 		#ifdef _DEBUG
 			ImGui::Render();
 		#endif
