@@ -22,6 +22,7 @@
 #include "maths/utility.h"
 #include "event.h"
 #include "enemy.h"
+#include "pathEnemy.h"
 #include "player.h"
 #include "guiMenu.h"
 #include "txtLogger.h"
@@ -65,6 +66,19 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
     cam->setPosition({0.f, 15.f,50.f});
     (void)cam;
 
+	
+
+	float last = 0.f;
+	float deltaTime = 0.f;
+	float now = SDL_GetTicks();
+
+	if (now > last)
+	{	
+		deltaTime = (now-last) / 1000.f;
+		last = now;
+	}
+
+
 //	id::json::JsonWriter jsonWriter;
 //	jsonWriter.writeNode(mesh_scn);	
 
@@ -76,27 +90,30 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
 	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	
-	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
+	id::scene::Event* ev = new id::scene::Event(player);
 
-	device->getGui()->addMenuTitleScreen();	
+//	device->getGui()->addMenuTitleScreen();	
 
 	while (device->run())
 	{
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
-		
+	
+	
 		debug_logger->DisplayLog();	
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
 		
-		device->getGui()->render();
+		enemy->getPath()->enemyPatrol(enemy, deltaTime);
+
+		//device->getGui()->render();
 		#ifdef _DEBUG
 			ImGui::Render();
 		#endif
 	
 		if (player) // if player was not create create , don't try to use the event
-			ev->playerEventReceiver();
+			ev->eventReceiver(deltaTime);
 
 		device->getWindow()->swap();
 	}

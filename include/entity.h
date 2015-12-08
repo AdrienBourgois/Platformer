@@ -1,5 +1,5 @@
-#ifndef __ENTITY_H_INCLUDED__
-#define __ENTITY_H_INCLUDED__
+#ifndef ENTITY_H_INCLUDED
+#define ENTITY_H_INCLUDED
 
 #include "meshSceneNode.h"
 
@@ -16,7 +16,7 @@ public:
 
 
 	virtual auto setEntityState(int state) -> void {this->state = state;}
-	virtual auto getEntityState() -> int  {return state;}
+	virtual auto getEntityState() const -> int  {return state;}
 
 
 	virtual auto setSpeed(float speed) -> void {this->speed = speed;}
@@ -60,4 +60,4 @@ protected:
 
 
 
-#endif // __ENTITY_H_INCLUDED__
+#endif 
