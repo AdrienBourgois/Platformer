@@ -42,15 +42,5 @@ auto Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const&
 	return enemy;
 }
 
-
-auto Enemy::enemyPatrol() -> void
-{
-	
-	this->pos[1] = {0.f, 2.f, 0.f};
-
-}
-
-
-
 }//namespace scene
 }//namespace id

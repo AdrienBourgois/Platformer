@@ -52,6 +52,7 @@ SRC = 	cameraSceneNode.cpp\
 		texture.cpp\
 		txtLogger.cpp\
 		window.cpp\
+		pathEnemy.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 

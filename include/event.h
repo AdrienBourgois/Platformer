@@ -1,5 +1,5 @@
-#ifndef __EVENT_H_INCLUDED__
-#define __EVENT_H_INCLUDED__
+#ifndef EVENT_H_INCLUDED
+#define EVENT_H_INCLUDED
 
 
 namespace id {
@@ -12,7 +12,7 @@ class Event {
 
 public :
 
-	Event(Player* player, Enemy* enemy);
+	Event(Player* player);
 	~Event();
 	
 
@@ -20,9 +20,6 @@ public :
 
 	auto eventReceiver(float deltaTime) -> void;
 
-
-//	auto setPlayer(Player* player) -> void {this->player = player;}
-//	auto getPlayer() const -> Player* {return player;}
 
 
 private:
@@ -36,4 +33,4 @@ private:
 }//namespace scene
 }//namespace id
 
-#endif // __EVENT_H_INCLUDED__
+#endif 

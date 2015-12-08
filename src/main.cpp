@@ -66,6 +66,9 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
     (void)cam;
 
 
+	std::cout << enemy->getPosition() << std::endl;	
+	
+
 	float last = 0.f;
 	float deltaTime = 0.f;
 	float now = SDL_GetTicks();
@@ -87,7 +90,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
 	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	
-	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
+	id::scene::Event* ev = new id::scene::Event(player);
 
 	device->getGui()->addMenuTitleScreen();	
 
@@ -100,7 +103,8 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		debug_logger->DisplayLog();	
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
-		
+	
+	
 		device->getGui()->render();
 		#ifdef _DEBUG
 			ImGui::Render();
