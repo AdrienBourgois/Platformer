@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 		(void) mesh_scn;
 	}
 
-	id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "dragon", "pos3d_tex2d", "./assets/models/Dragon.obj");
+	id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "'", "pos3d_tex2d", "./assets/models/Dragon.obj");
 	id::scene::MeshSceneNode* mesh_scn1 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "dragon1", "pos3d_tex2d", "./assets/models/Dragon.obj");
 	id::scene::MeshSceneNode* mesh_scn2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), mesh_scn1, "dragon2", "pos3d_tex2d", "./assets/models/Dragon.obj");
 	id::scene::MeshSceneNode* mesh_scn3 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), mesh_scn2, "dragon3", "pos3d_tex2d", "./assets/models/Dragon.obj");
@@ -40,15 +40,15 @@ int main(int argc, char* argv[])
 	mesh_scn2->setPosition({10,-10,10});
 	mesh_scn3->setPosition({0,0,10});
 	id::json::JsonWriter jsonWriter;
-	jsonWriter.writeNode(device->getSceneManager()->getRootNode(), "partie1");	
+	jsonWriter.writeNode(mesh_scn, "partie1");	
 //	if (jsonWriter.checkExistingValue("105"))
 //		std::cout << "existing value" << std::endl;
 //	else
 //		std::cout << "not existing value" << std::endl;
 //	jsonWriter.modifyLineByNameSearch("jump", "k");
 //	jsonWriter.modifyLineByValueSearch("D", "M");
-//	id::json::JsonReader jsonReader;
-//	jsonReader.loadAllNode(device.get());
+	id::json::JsonReader jsonReader;
+	jsonReader.loadAllNode(device.get());
 //	std::map<std::string, std::string> map = jsonReader.loadKeyBinding();
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);

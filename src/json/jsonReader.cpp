@@ -83,7 +83,6 @@ auto JsonReader::readString(std::string key, std::string fileName) -> std::vecto
 	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
 	std::string line;
 	std::string keyFile;
-	std::string finalstr;
 	std::vector<std::string> vecString;
 
 	if (file.is_open())
@@ -98,8 +97,13 @@ auto JsonReader::readString(std::string key, std::string fileName) -> std::vecto
 				{
 					sstr >> keyFile; // ignore ':'
 					sstr >> keyFile;
-					finalstr = id::FileUtility::getStringWithoutExtra(keyFile);
-					vecString.push_back(finalstr);
+					keyFile.erase(keyFile.begin());
+					if (keyFile[keyFile.size()-1] == ',')
+					{
+						keyFile.erase(keyFile.end()-1);
+						keyFile.erase(keyFile.end()-1);
+					}
+					vecString.push_back(keyFile);
 				}
 			}
 		}

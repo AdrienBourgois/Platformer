@@ -335,8 +335,8 @@ auto JsonWriter::checkExistingValue(std::string value, std::string fileName) -> 
 			if (key == value || key == value + ",")
 				return true;
 	}
-	return false;
 	fileRead.close();
+	return false;
 }
 
 } // namespace json
