@@ -103,6 +103,9 @@ auto JsonReader::readString(std::string key, std::string fileName) -> std::vecto
 						keyFile.erase(keyFile.end()-1);
 						keyFile.erase(keyFile.end()-1);
 					}
+					else
+						keyFile.erase(keyFile.end()-1);
+
 					vecString.push_back(keyFile);
 				}
 			}
@@ -341,7 +344,17 @@ auto JsonReader::loadKeyBinding(std::string fileName) -> std::map<std::string, s
 				sstr >> value;
 				sstr >> value;
 				if (value[0] == '"')
-					value = id::FileUtility::getStringWithoutExtra(value);
+				{
+					value.erase(value.begin());
+					if (value[value.size()-1] == ',')
+					{
+						value.erase(value.end()-1);
+						value.erase(value.end()-1);
+					}
+					else
+						value.erase(value.end()-1);
+
+				}
 				else
 					value = id::FileUtility::getNumberStringFromString(value);
 				mapKeyAffect[id::FileUtility::getStringWithoutExtra(key)] = value;
