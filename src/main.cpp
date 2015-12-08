@@ -31,8 +31,8 @@ int main(int argc, char* argv[])
 		(void) mesh_scn;
 	}
 
-//	id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "'", "pos3d_tex2d", "./assets/models/Dragon.obj");
-//	id::scene::MeshSceneNode* mesh_scn1 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "dragon1", "pos3d_tex2d", "./assets/models/Dragon.obj");
+	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "CamOrigin", 45.f, 1280.f/720.f, 0.1f, 1000.f);
+    cam->setPosition({0.f, 15.f,50.f});
 //	id::scene::MeshSceneNode* mesh_scn2 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), mesh_scn1, "dragon2", "pos3d_tex2d", "./assets/models/Dragon.obj");
 //	id::scene::MeshSceneNode* mesh_scn3 = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), mesh_scn2, "dragon3", "pos3d_tex2d", "./assets/models/Dragon.obj");
 //	mesh_scn->setPosition({10,10,10});
@@ -42,11 +42,9 @@ int main(int argc, char* argv[])
 	id::json::JsonWriter jsonWriter;
 //	jsonWriter.saveDefaultBindKey();
 //	jsonWriter.saveDefaultResolution();
+//	jsonWriter.writeAllNode(device->getSceneManager()->getRootNode(), "partie1");
 	id::json::JsonReader jsonReader;
 	jsonReader.loadAllNode(device.get());
-	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
-    cam->setPosition({0.f, 15.f,50.f});
-    (void)cam;
 
 	id::DebugWindow* debug_window = new id::DebugWindow();
 	id::OpenFile* open_file = new id::OpenFile();
