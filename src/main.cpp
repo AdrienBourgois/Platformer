@@ -47,7 +47,9 @@ int main(int argc, char* argv[])
 //	else
 //		std::cout << "not existing value" << std::endl;
 //	jsonWriter.modifyLineByNameSearch("jump", "k");
-//	jsonWriter.modifyLineByValueSearch("D", "M");
+	jsonWriter.modifyLineByValueSearch("Right Shit", "Alt right");
+	jsonWriter.modifyLineByValueSearch("Alt right", "Right Shit");
+	
 	id::json::JsonReader jsonReader;
 	jsonReader.loadAllNode(device.get());
 //	std::map<std::string, std::string> map = jsonReader.loadKeyBinding();
