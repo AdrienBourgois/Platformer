@@ -9,6 +9,7 @@
 #include "guiRect.h"
 #include "guiButton.h"
 #include "guiID.h"
+#include "json/jsonReader.h"
 
 // debug
 #include <iostream>
@@ -69,47 +70,50 @@ auto GuiMenu::createMenuSettings() -> void
 	GuiManager* gui = this->gui;
 	std::function<void()> func = [gui]() { gui->getGuiEvt()->setListenKeys(true); };
 
+	json::JsonReader jsonReader;
+	std::map<std::string, std::string> values = jsonReader.loadKeyBinding();
+
 	this->gui->addRect(nullptr, 0, 0, this->windowWidth/1.2, this->windowHeight/1.2, GUI_ID_RECT_MENU_SETTINGS, true, {0.f, 0.f, 0.f, 1.f});
 	this->idRectMenu.push_back(GUI_ID_RECT_MENU_SETTINGS);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/3.2), this->windowHeight/3.6, this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_FORWARD, true, "Forward", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_FORWARD);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), this->windowHeight/3.6, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_FORWARD, true, colorBut, "W", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), this->windowHeight/3.6, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_FORWARD, true, colorBut, values["Forward"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_FORWARD);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/3.2), this->windowHeight/7, this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_BACKWARD, true, "Backward", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_BACKWARD);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), this->windowHeight/7, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_BACKWARD, true, colorBut, "S", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), this->windowHeight/7, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_BACKWARD, true, colorBut, values["Backward"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_BACKWARD);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/3.2), 0, this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_TURN_RIGHT, true, "Turn Right", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_TURN_RIGHT);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), 0, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_TURN_RIGHT, true, colorBut, "D", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), 0, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_TURN_RIGHT, true, colorBut, values["Turn_right"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_TURN_RIGHT);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/3.2), -(this->windowHeight/7), this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_TURN_LEFT, true, "Turn Left", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_TURN_LEFT);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), -(this->windowHeight/7), this->windowWidth/32, this->windowHeight/18, GUI_ID_TEXT_TURN_LEFT, true, colorBut, "A", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), -(this->windowHeight/7), this->windowWidth/32, this->windowHeight/18, GUI_ID_TEXT_TURN_LEFT, true, colorBut, values["Turn_left"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_TEXT_TURN_LEFT);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/3.2), -(this->windowHeight/3.6), this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_STRAFE_RIGHT, true, "Strafe Right", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_STRAFE_RIGHT);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), -(this->windowHeight/3.6), this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_STRAFE_RIGHT, true, colorBut, "E", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/4.2), -(this->windowHeight/3.6), this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_STRAFE_RIGHT, true, colorBut, values["Strafe_right"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_STRAFE_RIGHT);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/8.4), this->windowHeight/3.6, this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_STRAFE_LEFT, true, "Strafe Left", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_STRAFE_LEFT);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), this->windowHeight/3.6, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_STRAFE_LEFT, true, colorBut, "Q", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), this->windowHeight/3.6, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_STRAFE_LEFT, true, colorBut, values["Strafe_left"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_STRAFE_LEFT);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/8.4), this->windowHeight/7, this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_RUN, true, "Run", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_RUN);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), this->windowHeight/7, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_RUN, true, colorBut, "R", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), this->windowHeight/7, this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_RUN, true, colorBut, values["Run"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_RUN);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/8.4), 0, this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_JUMP, true, "Jump", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_JUMP);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), 0, this->windowWidth/24, this->windowHeight/18, GUI_ID_BUTTON_JUMP, true, colorBut, "Space", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), 0, this->windowWidth/24, this->windowHeight/18, GUI_ID_BUTTON_JUMP, true, colorBut, values["Jump"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_JUMP);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/8.4), -(this->windowHeight/7), this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_SHOOT, true, "Shoot", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_SHOOT);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), -(this->windowHeight/7), this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_SHOOT, true, colorBut, "J", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), -(this->windowHeight/7), this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_SHOOT, true, colorBut, values["Shoot"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_SHOOT);
 	this->gui->addStaticText(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/8.4), -(this->windowHeight/3.6), this->windowWidth/16, this->windowHeight/18, GUI_ID_TEXT_PAUSE, true, "Pause", colorText);
 	this->idRectMenu.push_back(GUI_ID_TEXT_PAUSE);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), -(this->windowHeight/3.6), this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_PAUSE, true, colorBut, "P", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), -(this->windowHeight/3.6), this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_PAUSE, true, colorBut, values["Pause"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_PAUSE);
 
 	std::function<void()> funcButAccept = [this, gui]() {this->deleteMenu(); gui->getListMenus().front()->setVisible(true);};
