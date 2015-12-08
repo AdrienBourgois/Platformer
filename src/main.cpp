@@ -48,7 +48,8 @@ int main(int argc, char* argv[])
 //	else
 //		std::cout << "not existing value" << std::endl;
 //	jsonWriter.modifyLineByNameSearch("jump", "k");
-	jsonWriter.modifyLineByValueSearch("1080", "1280", "resolutionScreen");
+	jsonWriter.modifyLineByValueSearch("1280", "1080", "resolutionScreen");
+	jsonWriter.modifyLineByValueSearch("720", "600", "resolutionScreen");
 //	jsonWriter.modifyLineByValueSearch("Alt right", "Right Shit");
 	
 	id::json::JsonReader jsonReader;

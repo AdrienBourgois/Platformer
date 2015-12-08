@@ -191,10 +191,14 @@ auto JsonWriter::saveDefaultResolution(std::string fileName) -> void
 {
 
 	JsonObject* objResol  = new JsonObject;
-	objResol->addInObject("Width", new JsonNumber(1080));
-	objResol->addInObject("Height", new JsonNumber(860));
+	objResol->addInObject("Width", new JsonNumber(1280));
+	objResol->addInObject("Height", new JsonNumber(720));
 
 	write(objResol, fileName);
+
+	modifyLineByValueSearch("1280.000000", "1280", "resolutionScreen");
+	modifyLineByValueSearch("720.000000", "720", "resolutionScreen");
+	
 }
 
 
@@ -272,15 +276,18 @@ auto JsonWriter::modifyLineByValueSearch(std::string value, std::string newValue
 			completeFile += key + " "; // get ":"
 			sstr >> key;
 			if (key[0] == '"')
+			{
 				copyValue = "\"" + value + "\"";
+				if (key[key.size()-1] != '"' && key[key.size()-1] != ',')
+					{
+					std::string keySequel;
+					sstr >> keySequel;
+					key = key + " " + keySequel;
+					}
+			}	
 			else
 				copyValue = value;
-			if (key[key.size()-1] != '"' && key[key.size()-1] != ',')
-			{
-				std::string keySequel;
-				sstr >> keySequel;
-				key = key + " " + keySequel;
-			}	
+			
 			if (key == copyValue || key == copyValue + "," )
 			{
 
