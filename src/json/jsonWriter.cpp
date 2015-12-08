@@ -179,7 +179,7 @@ auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 	objKey->addInObject("Turn_left", new JsonString("A"));
 	objKey->addInObject("Strafe_right", new JsonString("E"));
 	objKey->addInObject("Strafe_left", new JsonString("Q"));
-	objKey->addInObject("Jump", new JsonString("SPACE"));
+	objKey->addInObject("Jump", new JsonString("Space"));
 	objKey->addInObject("Shoot", new JsonString("J"));
 	objKey->addInObject("Run", new JsonString("R"));
 	objKey->addInObject("Pause", new JsonString("P"));
@@ -340,6 +340,13 @@ auto JsonWriter::checkExistingValue(std::string value, std::string fileName) -> 
 		sstr >> key;
 		if (key[0] == '"')
 		{
+			if (key[key.size()-1] != '"' && key[key.size()-1] != ',')
+			{
+				std::string keySequel;
+				sstr >> keySequel;
+				key = key + " " + keySequel;
+			}
+
 			if (key == "\"" + value + "\"" || key == "\"" + value + "\"," )
 				return true;
 		}
