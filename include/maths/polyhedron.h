@@ -19,8 +19,8 @@ class Polyhedron
         auto operator=(Polyhedron const&) -> Polyhedron& = default;
         auto operator=(Polyhedron&&) -> Polyhedron& = default;
 
-        auto getPoints() const -> const std::vector<Vector3> { return points; }
-        auto setPoints(std::vector<Vector3> vec) -> void { points = vec;}
+        auto getPoints() const -> std::vector<Vector3> const& { return points; }
+        auto setPoints(std::vector<Vector3> const& vec) -> void { points = vec; }
     private:
         std::vector<Vector3> points;
 };

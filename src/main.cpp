@@ -27,11 +27,6 @@ int main()
     mesh->setPosition({0,15,40});
     mesh2->setPosition({3,13.5,40});
 
-    //mesh->getMesh()->foreachGroup([](auto&& group)
-    //{
-    //    std::cout << " ***** Mesh Point " << group.data[0] << std::endl;
-    //});
-
     id::maths::ColliderManager colMgr;
     colMgr.addCollider(mesh, 1);
     colMgr.addCollider(mesh2, 2);

@@ -32,19 +32,12 @@ auto Collider::updateBoundingBox() -> void
 {
     std::vector<Vector3> points = this->getPolyhedron().getPoints();
 
-    //for (unsigned int i = 0; i < points.size(); ++i)
-    //{
-    //    std::cout << i << " : " << points[i] << std::endl;
-    //}
-
     float Xmin = (*(std::min_element(points.begin(), points.end(), less_by_x))).val[0];
     float Xmax = (*(std::min_element(points.begin(), points.end(), more_by_x))).val[0];
     float Ymin = (*(std::min_element(points.begin(), points.end(), less_by_y))).val[1];
     float Ymax = (*(std::min_element(points.begin(), points.end(), more_by_y))).val[1];
     float Zmin = (*(std::min_element(points.begin(), points.end(), less_by_z))).val[2];
     float Zmax = (*(std::min_element(points.begin(), points.end(), more_by_z))).val[2];
-
-    std::cout << Xmin << " / " << Xmax << " / " << Ymin << " / " << Ymax << " / " << Zmin << " / " << Zmax << std::endl;
 
     this->boundingBox = std::make_pair((Vector3){Xmin, Ymin, Zmin}, (Vector3){Xmax, Ymax, Zmax});
 }
@@ -55,8 +48,6 @@ auto Collider::collide(Collider const& col) const -> bool
     Vector3 max1 = this->boundingBox.second;
     Vector3 min2 = col.getBoundingBox().first;
     Vector3 max2 = col.getBoundingBox().second;
-
-    std::cout << min1 << max1 << "  -->  " << min2 << max2 << std::endl;
 
     if (max1.val[0] >= min2.val[0] && min1.val[0] <= max2.val[0] &&
         max1.val[1] >= min2.val[1] && min1.val[1] <= max2.val[1] &&
