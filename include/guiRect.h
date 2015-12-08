@@ -25,9 +25,9 @@ public:
 	virtual auto genVertexObject() -> void;
 
 	auto getParent() const -> GuiRect* { return this->parent; };
-	auto getRect() const& -> std::vector<float> { return this->rect; };
-	auto getShaderName() const& -> std::string { return this->shaderName; };
-	auto getType() const -> std::string { return this->type; };
+	auto getRect() const -> std::vector<float> const& { return this->rect; };
+	auto getShaderName() const -> std::string const& { return this->shaderName; };
+	auto getType() const -> std::string const& { return this->type; };
 	auto getPosX() const -> float { return this->posX; };
 	auto getPosY() const -> float { return this->posY; };
 	auto getWidth() const -> float { return this->width; };
@@ -40,7 +40,7 @@ public:
 	auto getVisible() const -> bool { return this->visible; };
 	auto getListenEvent() const -> bool { return this->listenEvent; };
 	auto getIsPressed() const -> bool { return this->pressed; };
-	auto getFunc() -> std::function<void()> { return this->func; };
+	auto getFunc() -> std::function<void()> const& { return this->func; };
 
 	auto setListenEvent(bool listen) -> void { this->listenEvent = listen; };
 	auto setTexID(GLuint newTexID) -> void { this->texID = newTexID; };

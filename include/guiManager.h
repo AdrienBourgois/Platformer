@@ -49,12 +49,12 @@ public:
 	auto getElementFromID(int id) -> GuiRect*;
 	auto getPressedElement() -> GuiRect*;
 
-	auto getDrawRect() const& -> std::vector<GuiRect*> { return this->drawRect; };
-	auto getListMenus() const& -> std::vector<GuiMenu*> { return this->listMenus; };
-	auto getGuiEvt() const& -> GuiEventReceiver* { return this->guiEvt; };
+	auto getDrawRect() const -> std::vector<GuiRect*> const& { return this->drawRect; };
+	auto getListMenus() const -> std::vector<GuiMenu*> const& { return this->listMenus; };
+	auto getGuiEvt() const -> GuiEventReceiver* { return this->guiEvt; };
 	auto getWidth() const -> int { return this->windowWidth; };
 	auto getHeight() const -> int { return this->windowHeight; };
-	auto getRoot() const& -> GuiRect* { return this->root; };
+	auto getRoot() const -> GuiRect* { return this->root; };
 
 private:
 	GuiManager(int windowWidth, int windowHeight);
