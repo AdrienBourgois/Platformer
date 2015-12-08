@@ -228,7 +228,15 @@ auto JsonWriter::modifyLineByNameSearch(std::string keyLine, std::string newValu
 			completeFile += " " + key;
 			sstr >> key;
 			if (key[0] == '"')
+			{
 				copyStream = " \"" + newValue + "\"";
+				if (key[key.size()-1] != '"' && key[key.size()-1] != ',')
+				{
+					std::string keySequel;
+					sstr >> keySequel;
+					key = key + " " + keySequel;
+				}
+			}
 			else
 				copyStream = " " + newValue;	
 
@@ -279,11 +287,11 @@ auto JsonWriter::modifyLineByValueSearch(std::string value, std::string newValue
 			{
 				copyValue = "\"" + value + "\"";
 				if (key[key.size()-1] != '"' && key[key.size()-1] != ',')
-					{
+				{
 					std::string keySequel;
 					sstr >> keySequel;
 					key = key + " " + keySequel;
-					}
+				}
 			}	
 			else
 				copyValue = value;
