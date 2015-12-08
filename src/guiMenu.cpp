@@ -116,9 +116,32 @@ auto GuiMenu::createMenuSettings() -> void
 	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), -(this->windowWidth/22), -(this->windowHeight/3.6), this->windowWidth/32, this->windowHeight/18, GUI_ID_BUTTON_PAUSE, true, colorBut, values["Pause"], colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_PAUSE);
 
-	std::function<void()> funcButAccept = [this, gui]() {this->deleteMenu(); gui->getListMenus().front()->setVisible(true);};
+	std::function<void()> funcResolution = [gui]() {gui->addMenuResolution(); gui->getGuiEvt()->resetEvents();};
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), this->windowWidth/7, this->windowHeight/3.6, this->windowWidth/16, this->windowHeight/16, GUI_ID_BUTTON_RESOLUTION, true, colorBut, "Resolution", colorText, funcResolution);
+	this->idRectMenu.push_back(GUI_ID_BUTTON_RESOLUTION);
+
+	std::function<void()> funcButAccept = [this, gui]() {gui->getListMenus().back()->deleteMenu(); this->deleteMenu(); gui->getListMenus().front()->setVisible(true);};
 	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), this->windowWidth/3, -(this->windowHeight/2.8), this->windowWidth/15, this->windowHeight/16, GUI_ID_BUTTON_BACK, true, colorBut, "Accept", colorText, funcButAccept);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_BACK);
+}
+auto GuiMenu::createMenuResolution() -> void
+{
+	maths::Vector4 colorBut = {0.5f, 0.f, 0.f, 1.f};
+	maths::Vector4 colorText = {1.f, 1.f, 1.f, 1.f};
+
+	GuiRect* parent = this->gui->getElementFromID(GUI_ID_BUTTON_RESOLUTION);
+	this->gui->addRect(parent, 0, -this->windowHeight/7.2 - parent->getHeight()/2, this->windowWidth/5, this->windowHeight/3.6, GUI_ID_RECT_RESOLUTION, true, {0.2f, 0.2f, 0.2f, 1.f});
+	this->idRectMenu.push_back(GUI_ID_RECT_RESOLUTION);
+
+	GuiManager* gui = this->gui;
+	std::function<void()> func = [gui]() {gui->getGuiEvt()->changeResolution();};
+
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_RESOLUTION), 0, this->windowHeight/12, this->windowWidth/7.8, this->windowHeight/24, GUI_ID_BUTTON_RESOLUTION_640X480, true, colorBut, "640x480", colorText, func);
+	this->idRectMenu.push_back(GUI_ID_BUTTON_RESOLUTION_640X480);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_RESOLUTION), 0, 0, this->windowWidth/7.8, this->windowHeight/24, GUI_ID_BUTTON_RESOLUTION_1280X720, true, colorBut, "1280x720", colorText, func);
+	this->idRectMenu.push_back(GUI_ID_BUTTON_RESOLUTION_1280X720);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_RESOLUTION), 0, -this->windowHeight/12, this->windowWidth/7.8, this->windowHeight/24, GUI_ID_BUTTON_RESOLUTION_1920X1080, true, colorBut, "1920x1080", colorText, func);
+	this->idRectMenu.push_back(GUI_ID_BUTTON_RESOLUTION_1920X1080);
 }
 auto GuiMenu::deleteMenu() -> void
 {

@@ -17,6 +17,7 @@ public:
 
 	auto createMenuTitleScreen(std::function<void()> funcQuit) -> void;
 	auto createMenuSettings() -> void;
+	auto createMenuResolution() -> void;
 	auto deleteMenu() -> void;
 
 	auto setVisible(bool visible) -> void;

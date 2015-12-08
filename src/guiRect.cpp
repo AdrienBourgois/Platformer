@@ -66,7 +66,9 @@ auto GuiRect::createElement(maths::Vector4 color) -> void
 auto GuiRect::calculateCoordsRect() -> maths::Vector4x2
 {
 	float posX = (this->parent) ? this->posX + this->parent->getPosX() : this->posX;
+	this->posX = posX;
 	float posY = (this->parent) ? this->posY + this->parent->getPosY() : this->posY;
+	this->posY = posY;
 	float upRightX = posX + (this->width/2);
 	float upRightY = -(posY + (this->height/2));
 	float upLeftX = posX - (this->width/2);

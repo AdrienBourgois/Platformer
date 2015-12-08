@@ -150,6 +150,12 @@ auto GuiManager::addMenuSettings() -> void
 	newMenu->createMenuSettings();
 	addMenu(newMenu);
 }
+auto GuiManager::addMenuResolution() -> void
+{
+	GuiMenu* newMenu = new GuiMenu(this);
+	newMenu->createMenuResolution();
+	addMenu(newMenu);
+}
 auto GuiManager::addToRender(GuiRect* newRect) -> void
 {
 	this->drawRect.push_back(newRect);

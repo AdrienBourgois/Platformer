@@ -61,8 +61,9 @@ int main(int argc, char* argv[])
 
 	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj"); // player creation
 
+	id::json::JsonWriter jsonWriter;
 //	jsonWriter.saveDefaultBindKey();
-//	jsonWriter.saveDefaultResolution();
+	jsonWriter.saveDefaultResolution();
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});

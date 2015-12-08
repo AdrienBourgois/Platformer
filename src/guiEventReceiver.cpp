@@ -98,6 +98,16 @@ auto GuiEventReceiver::listenNextKey(SDL_Event* ev) -> void
 		}
 	}
 }
+auto GuiEventReceiver::changeResolution() -> void
+{
+	GuiButton* but = static_cast<GuiButton*>(this->gui->getPressedElement());
+	std::string str = but->getText();
+	std::string width = str.substr(0, str.find("x"));
+	std::string height = str.substr(width.size() + 1, str.find("x"));
+	json::JsonWriter jsonWriter;
+	jsonWriter.modifyLineByNameSearch("Width", width, "resolutionScreen");
+	jsonWriter.modifyLineByNameSearch("Height", height, "resolutionScreen");
+}
 auto GuiEventReceiver::refreshMouseCoords() -> void
 {
 	SDL_GetMouseState(&this->mouseX, &this->mouseY);

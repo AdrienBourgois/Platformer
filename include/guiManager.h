@@ -37,6 +37,7 @@ public:
 	auto addStaticText(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::string const& text, maths::Vector4 colorText) -> void;
 	auto addMenuTitleScreen(std::function<void()> funcQuit) -> void;
 	auto addMenuSettings() -> void;
+	auto addMenuResolution() -> void;
 
 	auto addToRender(GuiRect* newRect) -> void;
 	auto addMenu(GuiMenu* newMenu) -> void;
