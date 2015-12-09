@@ -12,6 +12,7 @@
 #include "imgui_impl.h"
 #include "window.h"
 #include "fileUtility.h"
+#include "json/jsonReader.h"
 
 
 namespace id {
@@ -47,8 +48,8 @@ auto OpenFile::DisplayLoadLevel(Device* dev) -> void
 	
 	if (_visible)
 	{
-		ImGui::OpenPopup("Delete?");
-	      	if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		ImGui::OpenPopup("Load level");
+	      	if (ImGui::BeginPopupModal("Load level", NULL, ImGuiWindowFlags_AlwaysAutoResize))
            	{
 			DisplayDirTreeLoadLevel(dev, 4, ".", true);
 		
@@ -96,6 +97,19 @@ auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool forc
 				id::scene::MeshSceneNode::createMeshSceneNode(smgr, smgr->getRootNode(), file_name, "pos3d_tex2d", path.c_str());
 			}
 		}
+		else if (type == 8 && (FileUtility::getExtensionFromFileName(file_name) == "json")) // is a json save
+		{
+
+			bool selec = false;
+			std::string buffer = FileUtility::getFileNameWithoutExtension(file_name);
+			ImGui::Selectable(("   " + file_name).c_str(), &selec);
+			if (selec)
+			{
+				json::JsonReader jsonReader;
+				jsonReader.loadAllNode(dev, buffer);
+			}
+		}
+
 	}
 }
 
@@ -124,15 +138,7 @@ auto OpenFile::DisplayDirTreeLoadLevel(Device* dev, int type, std::string path, 
 				ImGui::TreePop();
 			}
 		}
-		else if (type == 8 && (FileUtility::getExtensionFromFileName(file_name) == "json")) // is a json save
-		{
-
-			bool selec = false;
-			ImGui::Selectable(("   " + file_name).c_str(), &selec);
-			if (selec)
-				JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
-		}
-		
+				
 	}
 }
 

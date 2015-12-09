@@ -13,6 +13,8 @@ public:
 	static auto getPathWithoutFileName(std::string path) 		-> std::string;
 	static auto getStringWithoutExtra(std::string str) 			-> std::string;
 	static auto getNumberStringFromString(std::string str)		-> std::string;
+	static auto getFileNameWithoutExtension(std::string str)	-> std::string;
+
 };
 
 } // namespace id

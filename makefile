@@ -120,7 +120,6 @@ clean:  clog
 	$(RM) $(DEPENDENCIES)
 	$(RM) -r $(ARBO)
 	$(RM) .*.swp
-	$(RM) assets/json/*
 
 fclean: clean
 	$(RM) $(BIN_DIR)$(TARGET)

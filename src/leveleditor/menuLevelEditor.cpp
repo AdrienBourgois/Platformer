@@ -1,13 +1,9 @@
 #include "SDL2/SDL.h"
 #include "leveleditor/menuLevelEditor.h"
 #include "logger.h"
-<<<<<<< HEAD
 #include "json/jsonWriter.h"
-#include "json/jsonReader.h"
 #include "sceneManager.h"
-=======
 #include "guiOpenFile.h"
->>>>>>> leveleditor2
 
 namespace id {
 
@@ -49,8 +45,6 @@ auto MenuLevelEditor::Display() -> void
 			if(ImGui::MenuItem("Load Level"))
 			{
 				openfile->setActive(true);
-			//	json::JsonReader jsonReader;
-			//	jsonReader.loadAllNode(dev, "myLevel1");
 			}
 			
 			if(ImGui::MenuItem("Exit"))

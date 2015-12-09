@@ -57,9 +57,11 @@ auto FileUtility::getNumberStringFromString(std::string str) -> std::string
 			if (str[i] != '-' && str[i] != '.')
 				str.erase(str.begin() + i);
 	return str;
-
-
 }
 
+auto FileUtility::getFileNameWithoutExtension(std::string str) -> std::string
+{
+	return str.substr(0, str.find("."));
+}
 
 } // namespace id
