@@ -39,32 +39,48 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 	float y = enemy->getPosition().val[1];
 	float z = enemy->getPosition().val[2];
 
-	index = 1;
 
 	enemy->entityIsMovement();
 	enemy->entitySpeed();	
 	enemy->setEntityState(STATE_WALKING);
 
-	path.push_back({0, 0, 0});
 	path.push_back({0, 0, -10});
-	path.push_back({10, 0, -10});
-	path.push_back({10, 0, 20});
+	path.push_back({20, 0, 0 });
+	path.push_back({-10, 0, -20});
+	path.push_back({10, 0, 10});	
 
-
-	if ((maths::Vector3){x, y, z} >= path[1])
+	if (z <= path[index].val[2])
 	{
-		z -=  speed * deltaTime;
+		z +=  speed * deltaTime;
+		
+		if ((maths::Vector3){x, y, z} >= path[index])
+		++index;
+	}
+	
+	else
+		z -= speed * deltaTime;
+	
+	if (x <= path[index].val[0])
+		x += speed * deltaTime;
+		
+
+	else 
+		x -= speed * deltaTime;
+
+
+/*	if (x <= path[index].val[0] && z <= path[index].val[2])
+	{
+		z +=  speed * deltaTime;
+		x +=  speed * deltaTime;
 	}
 
-	else if ((maths::Vector3){x, y, z} <= path[2])
+	else
 	{
-		x += speed * deltaTime;
-	}	
-
-	else if ((maths::Vector3){x, y, z} <= path[3])
 		z -=  speed * deltaTime;
-	
+		x -=  speed * deltaTime;
 
+	}
+*/
 		enemy->setPosition({x, y, z});
 }
 
