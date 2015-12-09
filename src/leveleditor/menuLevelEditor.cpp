@@ -1,5 +1,8 @@
 #include "leveleditor/menuLevelEditor.h"
 #include "logger.h"
+#include "json/jsonWriter.h"
+#include "json/jsonReader.h"
+#include "sceneManager.h"
 
 namespace id {
 
@@ -31,12 +34,14 @@ auto MenuLevelEditor::Display() -> void
 	
 			if(ImGui::MenuItem("Save Level"))
 			{
-				std::cout<< "New Level" << std::endl;
+				json::JsonWriter jsonWriter;
+				jsonWriter.writeAllNode(dev->getSceneManager()->getRootNode(), "myLevel1");
 			}
 		
 			if(ImGui::MenuItem("Load Level"))
 			{
-				std::cout<< "Load Level" << std::endl;
+				json::JsonReader jsonReader;
+				jsonReader.loadAllNode(dev, "myLevel1");
 			}
 		
 			if(ImGui::MenuItem("Exit"))

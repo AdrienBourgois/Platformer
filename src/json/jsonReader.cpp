@@ -97,7 +97,6 @@ auto JsonReader::readString(std::string key, std::string fileName) -> std::vecto
 				{
 					sstr >> keyFile; // ignore ':'
 					sstr >> keyFile;
-					std::cout << keyFile << std::endl;
 					if (keyFile != "null" && keyFile != "null,")
 					{
 						keyFile.erase(keyFile.begin());
@@ -321,7 +320,6 @@ auto JsonReader::loadAllNode(Device* device, std::string fileName) ->void
 	{
 		scene::SceneNode* node = findNode(parent[i], device->getSceneManager()->getRootNode());
 		id::maths::Matrix4 mat = id::maths::Matrix4({matrix[i][0],matrix[i][1],matrix[i][2],matrix[i][3],matrix[i][4],matrix[i][5],matrix[i][6],matrix[i][7],matrix[i][8],matrix[i][9],matrix[i][10],matrix[i][11],matrix[i][12],matrix[i][13],matrix[i][14],matrix[i][15]});
-		std::cout << objPath[i] << std::endl;
 		if (objPath[i] != "null")
 		{
 			id::scene::MeshSceneNode* mesh = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), node, name[i], "pos3d_tex2d", objPath[i]);

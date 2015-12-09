@@ -14,7 +14,7 @@ public:
 	
 	virtual	auto Display() -> void = 0;
 
-private:
+protected:
 	Device*	dev;
 };
 
