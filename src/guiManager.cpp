@@ -298,7 +298,16 @@ auto GuiManager::changeText(GuiButton* button) -> void
 }
 auto GuiManager::getElementFromID(int id) -> GuiRect*
 {
-	for (std::vector<GuiRect*>::iterator it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
+	for (auto it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
+	{
+		if ((*it)->getID() == id)
+			return *it;
+	}
+	return nullptr;
+}
+auto GuiManager::getMenuFromID(int id) -> GuiMenu*
+{
+	for (auto it = this->listMenus.begin(); it != this->listMenus.end(); ++it)
 	{
 		if ((*it)->getID() == id)
 			return *it;

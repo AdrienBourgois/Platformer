@@ -48,6 +48,7 @@ public:
 	auto loadText(std::string const& text, maths::Vector4 colorText) -> GLuint;
 	auto changeText(GuiButton* button) -> void;
 	auto getElementFromID(int id) -> GuiRect*;
+	auto getMenuFromID(int id) -> GuiMenu*;
 	auto getPressedElement() -> GuiRect*;
 
 	auto getDrawRect() const -> std::vector<GuiRect*> const& { return this->drawRect; };
