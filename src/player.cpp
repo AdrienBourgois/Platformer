@@ -4,7 +4,6 @@
 #include "stateManager.h"
 #include "player.h"
 #include "txtLogger.h"
-#include "event.h"
 
 
 namespace {

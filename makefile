@@ -5,7 +5,6 @@ SRC = 	cameraSceneNode.cpp\
 		driver.cpp\
 		enemy.cpp\
 		entity.cpp\
-		event.cpp\
 		fileUtility.cpp\
 		guiButton.cpp\
 		guiChangeTextureGroupWindow.cpp\
@@ -54,6 +53,9 @@ SRC = 	cameraSceneNode.cpp\
 		txtLogger.cpp\
 		window.cpp\
 		pathEnemy.cpp\
+		eventManager.cpp\
+		eventReceiver.cpp\
+		eventPlayer.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 

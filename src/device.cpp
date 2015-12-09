@@ -11,9 +11,11 @@
 #include "screenshot.h"
 #include "guiManager.h"
 #include "guiEventReceiver.h"
+#include "eventManager.h"
 #include "logger.h"
-#include "event.h"
 #include "json/jsonReader.h"
+
+#include <iostream>
 
 namespace {
 
@@ -54,8 +56,10 @@ Device::Device()
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
 	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
+	_eventManager	= event::EventManager::createEventManager();
 
 	running = true;
+	deltaTime = 0;
 
 	logger->log("Device has been created.");
 }
@@ -83,6 +87,7 @@ Device::~Device()
 auto Device::run() -> bool
 {
 	_sceneManager->clearDeletionQueue();
+	this->_eventManager->currentEventListener();
 	SDL_Event ev;
     while (SDL_PollEvent(&ev))
     {
