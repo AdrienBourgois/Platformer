@@ -66,7 +66,9 @@ auto GuiRect::createElement(maths::Vector4 color) -> void
 auto GuiRect::calculateCoordsRect() -> maths::Vector4x2
 {
 	float posX = (this->parent) ? this->posX + this->parent->getPosX() : this->posX;
+	this->posX = posX;
 	float posY = (this->parent) ? this->posY + this->parent->getPosY() : this->posY;
+	this->posY = posY;
 	float upRightX = posX + (this->width/2);
 	float upRightY = -(posY + (this->height/2));
 	float upLeftX = posX - (this->width/2);
@@ -81,6 +83,24 @@ auto GuiRect::calculateCoordsRect() -> maths::Vector4x2
 auto GuiRect::addChild(GuiRect* child) -> void
 {
 	this->children.push_back(child);
+}
+auto GuiRect::addGradient(maths::Vector4 colorStart, maths::Vector4 colorStop) -> void
+{
+	this->rect[2] = this->rect[26] = this->rect[32] = colorStop.val[0];
+	this->rect[3] = this->rect[27] = this->rect[33] = colorStop.val[1];
+	this->rect[4] = this->rect[28] = this->rect[34] = colorStop.val[2];
+	this->rect[5] = this->rect[29] = this->rect[35] = colorStop.val[3];
+	this->rect[8] = this->rect[14] = this->rect[20] = colorStart.val[0];
+	this->rect[9] = this->rect[15] = this->rect[21] = colorStart.val[1];
+	this->rect[10] = this->rect[16] = this->rect[22] = colorStart.val[2];
+	this->rect[11] = this->rect[17] = this->rect[23] = colorStart.val[3];
+
+	glBindVertexArray(this->vao);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+    glBufferData(GL_ARRAY_BUFFER, this->rect.size() * sizeof(float), &this->rect[0], GL_STATIC_READ);
+
+	glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 auto GuiRect::genVertexObject() -> void
 {
@@ -98,6 +118,31 @@ auto GuiRect::genVertexObject() -> void
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+auto GuiRect::refreshRect(float posX, float posY, float width, float height) -> void
+{
+	this->posX = posX;
+	this->posY = posY;
+	this->width = width;
+	this->height = height;
+
+	maths::Vector4x2 coords = calculateCoordsRect();
+
+	this->rect[0] = this->rect[30] = coords.val[0][0];
+	this->rect[1] = this->rect[31] = coords.val[0][1];
+	this->rect[6] = coords.val[1][0];
+	this->rect[7] = coords.val[1][1];
+	this->rect[12] = this->rect[18] = coords.val[2][0];
+	this->rect[13] = this->rect[19] = coords.val[2][1];
+	this->rect[24] = coords.val[3][0];
+	this->rect[25] = coords.val[3][1];
+
+	glBindVertexArray(this->vao);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+    glBufferData(GL_ARRAY_BUFFER, this->rect.size() * sizeof(float), &this->rect[0], GL_STATIC_READ);
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 auto GuiRect::setVisible(bool visible) -> void
 {

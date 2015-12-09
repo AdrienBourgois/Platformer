@@ -13,6 +13,7 @@
 #include "guiEventReceiver.h"
 #include "logger.h"
 #include "event.h"
+#include "json/jsonReader.h"
 
 namespace {
 
@@ -43,7 +44,10 @@ Device::Device()
 	SDL_Init(SDL_INIT_VIDEO);
 	logger->log("SDL has been initialized");
 
-	_window		 	= Window::createWindow(1280, 720);	
+	json::JsonReader jsonReader;
+	std::map<std::string, float> resolution = jsonReader.loadScreenResolution("resolutionScreen");
+
+	_window		 	= Window::createWindow(resolution["Width"], resolution["Height"]);	
 	_driver			= video::Driver::createDriver(_window.get());
 	
 	id::imgui_impl::Init();

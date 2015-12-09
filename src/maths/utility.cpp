@@ -282,5 +282,13 @@ auto more_by_z(const Vector3& point1, const Vector3& point2) -> bool
 {
     return point1.val[2] > point2.val[2];
 }
+Color4::Color4(float c1, float c2, float c3, float c4)
+{
+	this->color[0] = c1/255;
+	this->color[1] = c2/255;
+	this->color[2] = c3/255;
+	this->color[3] = c4/255;
+}
+
 } // namespace maths
 } // namespace id

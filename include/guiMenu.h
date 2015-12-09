@@ -17,12 +17,16 @@ public:
 
 	auto createMenuTitleScreen(std::function<void()> funcQuit) -> void;
 	auto createMenuSettings() -> void;
+	auto createMenuResolution() -> void;
 	auto deleteMenu() -> void;
+
+	auto getID() const -> int { return this->id; };
 
 	auto setVisible(bool visible) -> void;
 
 private:
 	GuiManager* gui;
+	int id;
 	std::vector<int> idRectMenu;
 	int windowWidth, windowHeight;
 };

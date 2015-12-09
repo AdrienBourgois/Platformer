@@ -13,6 +13,7 @@ SRC = 	cameraSceneNode.cpp\
 		guiEditMaterialWindow.cpp\
 		guiEditShader.cpp\
 		guiEventReceiver.cpp\
+		guiLifeBar.cpp\
 		guiLogger.cpp\
 		guiManager.cpp\
 		guiMenu.cpp\

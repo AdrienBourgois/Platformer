@@ -99,7 +99,7 @@ auto GuiManager::render() -> void
 
 				GLint colorLoc = glGetUniformLocation(prgID, "color");
 				maths::Vector4 color;
-				if ((*it)->getPressed())
+				if ((*it)->getIsPressed())
 					color = {0.85f, 0.64f, 0.12f, 1.f};
 				else
 					color = (*it)->getColorBg();
@@ -148,6 +148,12 @@ auto GuiManager::addMenuSettings() -> void
 {
 	GuiMenu* newMenu = new GuiMenu(this);
 	newMenu->createMenuSettings();
+	addMenu(newMenu);
+}
+auto GuiManager::addMenuResolution() -> void
+{
+	GuiMenu* newMenu = new GuiMenu(this);
+	newMenu->createMenuResolution();
 	addMenu(newMenu);
 }
 auto GuiManager::addToRender(GuiRect* newRect) -> void
@@ -292,7 +298,16 @@ auto GuiManager::changeText(GuiButton* button) -> void
 }
 auto GuiManager::getElementFromID(int id) -> GuiRect*
 {
-	for (std::vector<GuiRect*>::iterator it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
+	for (auto it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
+	{
+		if ((*it)->getID() == id)
+			return *it;
+	}
+	return nullptr;
+}
+auto GuiManager::getMenuFromID(int id) -> GuiMenu*
+{
+	for (auto it = this->listMenus.begin(); it != this->listMenus.end(); ++it)
 	{
 		if ((*it)->getID() == id)
 			return *it;
@@ -303,7 +318,7 @@ auto GuiManager::getPressedElement() -> GuiRect*
 {
     for (auto it = this->drawRect.begin(); it !=  this->drawRect.end(); ++it)
 	{
-    	if ((*it)->getPressed())
+    	if ((*it)->getIsPressed())
 			return *it;
 	}
 	return nullptr;
