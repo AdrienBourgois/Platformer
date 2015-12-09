@@ -17,10 +17,15 @@ public:
 	OpenFile();
 	~OpenFile() = default;
 	
-    auto Display(Device* dev) -> void;
-
+	auto Display(Device* dev) -> void;
+	auto DisplayLoadLevel(Device* dev) -> void;
+	auto DisplayDirTreeLoadLevel(Device* dev, int type, std::string path, bool force) -> void;
+	
+	auto getActive() const -> bool {return active;}	
+	auto setActive(bool act) -> void {active = act;}
 private:
     auto DisplayDirTree(Device* dev, int type, std::string path, bool force) -> void;
+	bool active;
 };
 
 } // namespace id

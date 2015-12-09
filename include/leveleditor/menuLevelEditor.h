@@ -8,6 +8,7 @@
 
 namespace id {
 
+class OpenFile;
 class MenuLevelEditor
 : public LevelEditorElement
 {
@@ -19,6 +20,7 @@ public:
 	auto Update() -> void;
 
 private:
+	OpenFile* openfile;
 };
 
 

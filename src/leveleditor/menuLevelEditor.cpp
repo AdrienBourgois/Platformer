@@ -1,5 +1,7 @@
+#include "SDL2/SDL.h"
 #include "leveleditor/menuLevelEditor.h"
 #include "logger.h"
+#include "guiOpenFile.h"
 
 namespace id {
 
@@ -8,6 +10,8 @@ MenuLevelEditor::MenuLevelEditor(Device* device)
 {
 	LOG(L_INFO, "Creating MenuLevelEditor");
 
+	openfile = new (std::nothrow) OpenFile();
+	SDL_assert(openfile);
 	LOG(L_INFO, "Creating MenuLevelEditor Finish");
 }
 
@@ -20,6 +24,7 @@ MenuLevelEditor::~MenuLevelEditor()
 
 auto MenuLevelEditor::Display() -> void 
 {
+	
 	if(ImGui::BeginMainMenuBar())
 	{
 		if(ImGui::BeginMenu("File"))
@@ -31,14 +36,15 @@ auto MenuLevelEditor::Display() -> void
 	
 			if(ImGui::MenuItem("Save Level"))
 			{
-				std::cout<< "New Level" << std::endl;
+		 		std::cout<< "Save Level" << std::endl;
 			}
-		
+	
 			if(ImGui::MenuItem("Load Level"))
 			{
-				std::cout<< "Load Level" << std::endl;
+	       			std::cout<< "Load" << std::endl;
+				openfile->setActive(true);
 			}
-		
+			
 			if(ImGui::MenuItem("Exit"))
 			{
 				std::cout<< "Exit" << std::endl;
@@ -77,6 +83,8 @@ auto MenuLevelEditor::Display() -> void
 
 	ImGui::EndMainMenuBar();
 	}
+		if(openfile->getActive())		
+			openfile->DisplayLoadLevel(dev);	
 }
 
 auto MenuLevelEditor::Update() -> void
