@@ -19,6 +19,8 @@ PathEnemy::PathEnemy()
 {
 	logger->log("Initializing PathEnemy...", LL_DEBUG);
 
+	index = 0;
+	
 	logger->log("PathEnemy hsa been initialized.", LL_DEBUG);
 }
 
@@ -37,6 +39,7 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 	float y = enemy->getPosition().val[1];
 	float z = enemy->getPosition().val[2];
 
+	index = 1;
 
 	enemy->entityIsMovement();
 	enemy->entitySpeed();	
@@ -49,13 +52,17 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 
 
 	if ((maths::Vector3){x, y, z} >= path[1])
-	z -=  speed * deltaTime;
+	{
+		z -=  speed * deltaTime;
+	}
 
 	else if ((maths::Vector3){x, y, z} <= path[2])
+	{
 		x += speed * deltaTime;
+	}	
 
 	else if ((maths::Vector3){x, y, z} <= path[3])
-	z +=  speed * deltaTime;
+		z -=  speed * deltaTime;
 	
 
 		enemy->setPosition({x, y, z});
