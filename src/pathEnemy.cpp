@@ -43,20 +43,22 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 	enemy->setEntityState(STATE_WALKING);
 
 	path.push_back({0, 0, 0});
-	path.push_back({0, 0, -50});
+	path.push_back({0, 0, -10});
+	path.push_back({10, 0, -10});
+	path.push_back({10, 0, 20});
 
 
-	while ((maths::Vector3){x, y, z} != path[1])	
+	if ((maths::Vector3){x, y, z} >= path[1])
 	z -=  speed * deltaTime;
 
-	if ((maths::Vector3){x, y, z} <= path[1])
-	{
-		speed = 0.f;
-		std::cout << "Point atteint ! Hourra joie bonheur !" << std::endl;
-		enemy->setEntityState(STATE_STANDING);
-	}
+	else if ((maths::Vector3){x, y, z} <= path[2])
+		x += speed * deltaTime;
 
-	enemy->setPosition({x, y, z});
+	else if ((maths::Vector3){x, y, z} <= path[3])
+	z +=  speed * deltaTime;
+	
+
+		enemy->setPosition({x, y, z});
 }
 
 }//namespace scene 
