@@ -17,7 +17,7 @@
 namespace id {
 
 OpenFile::OpenFile()
-: GUI_Window(true)
+: GUI_Window(true), active(false)
 {
 	
 }
@@ -41,6 +41,26 @@ auto OpenFile::Display(Device* dev) -> void
 	}
 }
 
+auto OpenFile::DisplayLoadLevel(Device* dev) -> void
+{
+	SDL_assert(dev);
+	
+	if (_visible)
+	{
+		ImGui::OpenPopup("Delete?");
+	      	if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+           	{
+			DisplayDirTreeLoadLevel(dev, 4, ".", true);
+		
+		if (ImGui::Button("Cancel", ImVec2(120,0)))
+		{
+			setActive(false);
+			 ImGui::CloseCurrentPopup();
+		}
+                ImGui::EndPopup();
+		}
+	}
+}
 auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool force = false) -> void
 {
 	SDL_assert(dev);
@@ -76,16 +96,43 @@ auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool forc
 				id::scene::MeshSceneNode::createMeshSceneNode(smgr, smgr->getRootNode(), file_name, "pos3d_tex2d", path.c_str());
 			}
 		}
-		/*
+	}
+}
+
+auto OpenFile::DisplayDirTreeLoadLevel(Device* dev, int type, std::string path, bool force = false) -> void
+{
+	SDL_assert(dev);
+
+	std::string file_name = FileUtility::getFileNameFromPath(path);
+	if ((file_name != "." && file_name != ".." && file_name[0] != '.') || force)
+	{
+		if (type == 4) // Is a directory
+		{
+			if (ImGui::TreeNode(file_name.c_str(), "%s", file_name.c_str()))
+			{
+				std::map<std::string, int> dir_content;
+				auto* dir = opendir(path.c_str());
+				dirent* dp;
+				while ((dp = readdir(dir)) != NULL)
+				{
+					dir_content[std::string(dp->d_name)] = dp->d_type;
+				}
+				//std::sort(dir_content.begin(), dir_content.end());
+				for (auto const& content : dir_content)
+					OpenFile::DisplayDirTree(dev, content.second, path + "/" + content.first);
+				closedir(dir);
+				ImGui::TreePop();
+			}
+		}
 		else if (type == 8 && (FileUtility::getExtensionFromFileName(file_name) == "json")) // is a json save
 		{
 
 			bool selec = false;
 			ImGui::Selectable(("   " + file_name).c_str(), &selec);
-		//	if (selec)
-//				JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
+			if (selec)
+				JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
 		}
-		*/
+		
 	}
 }
 

@@ -1,8 +1,13 @@
+#include "SDL2/SDL.h"
 #include "leveleditor/menuLevelEditor.h"
 #include "logger.h"
+<<<<<<< HEAD
 #include "json/jsonWriter.h"
 #include "json/jsonReader.h"
 #include "sceneManager.h"
+=======
+#include "guiOpenFile.h"
+>>>>>>> leveleditor2
 
 namespace id {
 
@@ -11,6 +16,8 @@ MenuLevelEditor::MenuLevelEditor(Device* device)
 {
 	LOG(L_INFO, "Creating MenuLevelEditor");
 
+	openfile = new (std::nothrow) OpenFile();
+	SDL_assert(openfile);
 	LOG(L_INFO, "Creating MenuLevelEditor Finish");
 }
 
@@ -23,6 +30,7 @@ MenuLevelEditor::~MenuLevelEditor()
 
 auto MenuLevelEditor::Display() -> void 
 {
+	
 	if(ImGui::BeginMainMenuBar())
 	{
 		if(ImGui::BeginMenu("File"))
@@ -37,13 +45,14 @@ auto MenuLevelEditor::Display() -> void
 				json::JsonWriter jsonWriter;
 				jsonWriter.writeAllNode(dev->getSceneManager()->getRootNode(), "myLevel1");
 			}
-		
+	
 			if(ImGui::MenuItem("Load Level"))
 			{
-				json::JsonReader jsonReader;
-				jsonReader.loadAllNode(dev, "myLevel1");
+				openfile->setActive(true);
+			//	json::JsonReader jsonReader;
+			//	jsonReader.loadAllNode(dev, "myLevel1");
 			}
-		
+			
 			if(ImGui::MenuItem("Exit"))
 			{
 				std::cout<< "Exit" << std::endl;
@@ -82,6 +91,8 @@ auto MenuLevelEditor::Display() -> void
 
 	ImGui::EndMainMenuBar();
 	}
+		if(openfile->getActive())		
+			openfile->DisplayLoadLevel(dev);	
 }
 
 auto MenuLevelEditor::Update() -> void
