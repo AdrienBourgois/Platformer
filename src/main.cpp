@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 300);
 	float damage = 0.1f;
 
-	device->getGui()->addMenuTitleScreen();	
+	device->getGui()->addMenuTitleScreen(funcQuit);	
 
 	while (device->run())
 	{

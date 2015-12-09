@@ -1,8 +1,7 @@
-#include <iostream>
+#include <SDL2/SDL.h>
 #include <string>
 #include <vector>
-#include <SDL2/SDL.h>
-
+#include <map>
 
 #include "stateManager.h"
 #include "event.h"
@@ -11,6 +10,9 @@
 #include "txtLogger.h"
 #include "maths/matrix.h"
 #include "elementId.h"
+#include "json/jsonReader.h"
+
+#include <iostream>
 
 namespace {
 
@@ -24,6 +26,8 @@ Event::Event(Player* player)
 :player(player)
 {
 	logger->log("Initializing Event...", LL_DEBUG);
+
+	loadKeys();
 
 	logger->log("Event has been initialized.", LL_DEBUG);
 }
@@ -41,7 +45,7 @@ auto Event::eventReceiver(float deltaTime) -> void
 		return;
 
 	if (player)
-	player->setEntityState(STATE_STANDING);
+		player->setEntityState(STATE_STANDING);
 		
 	const Uint8* state = SDL_GetKeyboardState(nullptr);
 
@@ -56,78 +60,68 @@ auto Event::eventReceiver(float deltaTime) -> void
 	float roty = player->getRotation().val[1];
 	float rotz = player->getRotation().val[1];
 
-
-
-	if (state[SDL_SCANCODE_S])
+	if (state[this->scancodeKeys["Backward"]])
 	{
 		z += speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
 		state[SDL_SCANCODE_R] ? z +=  speedrun * deltaTime : z += speed * deltaTime;
 	}
-
-	else if (state[SDL_SCANCODE_W])
+	else if (state[this->scancodeKeys["Forward"]])
 	{
 		z -= speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
 		state[SDL_SCANCODE_R] ? z -= speedrun * deltaTime : z -= speed * deltaTime;
 	}
 
-	if (state[SDL_SCANCODE_D])
+	if (state[this->scancodeKeys["Strafe_right"]])
 	{
 		x +=  speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
 		state[SDL_SCANCODE_R] ? x += speedrun * deltaTime : x += speed * deltaTime;
 	}
-
-	else if (state[SDL_SCANCODE_A])
+	else if (state[this->scancodeKeys["Strafe_left"]])
 	{
 		x -= speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
 		state[SDL_SCANCODE_R] ? x -= speedrun * deltaTime : x -= speed * deltaTime;
 	}
 
-/*	// ===== debug =======
-	if (state[SDL_SCANCODE_J])
-		delete player;
-
-*/	// ===== end ====
-
-
-
-	if (state[SDL_SCANCODE_Q])
+	if (state[this->scancodeKeys["Turn_left"]])
 	{
 		rotz -= speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
 	}
-
-
-	else if (state[SDL_SCANCODE_E])
+	else if (state[this->scancodeKeys["Turn_right"]])
 	{
 		rotz += speed * deltaTime;
 		player->setEntityState(STATE_WALKING);	
 	}
 
-
-	if (state[SDL_SCANCODE_R])
+	if (state[this->scancodeKeys["Run"]])
 	{
 		speed = speedrun;
 		player->setEntityState(STATE_RUNNING);
 	}
 	
 	if (player->entityIsMovement() == true)
+	{
 		player->setPosition({x, y, z});
-
 		player->setRotation({rotx, roty, rotz});
-	
+	}
+
 	if (player->getHp() == 0)
 		player->setEntityState(STATE_DEAD);
+}
+auto Event::loadKeys() -> void
+{
+	json::JsonReader jsonReader;
+	std::map<std::string, std::string> stringKeys = jsonReader.loadKeyBinding("bindingKey");
 
-
-
-	if (player->getEntityState() == STATE_DEAD)
-		std::cout << player->getEntityState() << std::endl;
-
+	for (auto it = stringKeys.begin(); it != stringKeys.end(); ++it)
+	{
+		this->scancodeKeys[it->first] = SDL_GetScancodeFromName(it->second.c_str());
+	}
 }
 
-}//namespace scene
-}//namespace id
+} // end namespace scene
+} // end namespace id
