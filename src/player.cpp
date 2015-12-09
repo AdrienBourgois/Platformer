@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "stateManager.h"
 #include "player.h"
 #include "txtLogger.h"
 #include "event.h"
@@ -19,6 +20,7 @@ Player::Player(SceneManager* scn, SceneNode* parent, std::string const& name, st
 :Entity(scn, parent, name, shader, path)
 {
 	logger->log("Creating Player...", LL_DEBUG);
+
 
 	setHp(9);
 	setLife(3);

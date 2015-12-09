@@ -1,5 +1,5 @@
-#ifndef __PLAYER_H_INCLUDED__
-#define __PLAYER_H_INCLUDED__
+#ifndef PLAYER_H_INCLUDED
+#define PLAYER_H_INCLUDED
 
 #include "entity.h"
 
@@ -25,4 +25,4 @@ private:
 }//namespace id
 
 
-#endif // __PLAYER_H_INCLUDED__
+#endif 

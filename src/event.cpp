@@ -3,6 +3,8 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
+
+#include "stateManager.h"
 #include "event.h"
 #include "enemy.h"
 #include "player.h"
@@ -18,8 +20,8 @@ namespace {
 namespace id {
 namespace scene {
 
-Event::Event(Player* player, Enemy* enemy)
-:player(player), enemy(enemy)
+Event::Event(Player* player)
+:player(player)
 {
 	logger->log("Initializing Event...", LL_DEBUG);
 
@@ -33,7 +35,7 @@ Event::~Event()
 	logger->log("Event deleted.",LL_DEBUG);
 }
 
-auto Event::playerEventReceiver() -> void 
+auto Event::eventReceiver(float deltaTime) -> void 
 {
 	if (!player)
 		return;
@@ -43,7 +45,7 @@ auto Event::playerEventReceiver() -> void
 		
 	const Uint8* state = SDL_GetKeyboardState(nullptr);
 
-	player->entitySpeedIs();
+	player->entitySpeed();
 
 	float speedrun = player->getSpeedRun();
 	float speed = player->getSpeed();
@@ -58,32 +60,32 @@ auto Event::playerEventReceiver() -> void
 
 	if (state[SDL_SCANCODE_S])
 	{
-		z += speed;
+		z += speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
-		state[SDL_SCANCODE_R] ? z +=  speedrun : z += speed;
+		state[SDL_SCANCODE_R] ? z +=  speedrun * deltaTime : z += speed * deltaTime;
 	}
 
 	else if (state[SDL_SCANCODE_W])
 	{
-		z -= speed;
+		z -= speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
-		state[SDL_SCANCODE_R] ? z -= speedrun : z -= speed;
+		state[SDL_SCANCODE_R] ? z -= speedrun * deltaTime : z -= speed * deltaTime;
 	}
 
 	if (state[SDL_SCANCODE_D])
 	{
-		x +=  speed;
+		x +=  speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
-		state[SDL_SCANCODE_R] ? x += speedrun : x += speed;
+		state[SDL_SCANCODE_R] ? x += speedrun * deltaTime : x += speed * deltaTime;
 	}
 
 	else if (state[SDL_SCANCODE_A])
 	{
-		x -= speed;
+		x -= speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
-		state[SDL_SCANCODE_R] ? x -= speedrun : x -= speed;
-		
+		state[SDL_SCANCODE_R] ? x -= speedrun * deltaTime : x -= speed * deltaTime;
 	}
+
 /*	// ===== debug =======
 	if (state[SDL_SCANCODE_J])
 		delete player;
@@ -94,14 +96,14 @@ auto Event::playerEventReceiver() -> void
 
 	if (state[SDL_SCANCODE_Q])
 	{
-		rotz -= speed;
+		rotz -= speed * deltaTime;
 		player->setEntityState(STATE_WALKING);
 	}
 
 
 	else if (state[SDL_SCANCODE_E])
 	{
-		rotz += speed;
+		rotz += speed * deltaTime;
 		player->setEntityState(STATE_WALKING);	
 	}
 
@@ -112,7 +114,7 @@ auto Event::playerEventReceiver() -> void
 		player->setEntityState(STATE_RUNNING);
 	}
 	
-	if (player->entityIs() == true)
+	if (player->entityIsMovement() == true)
 		player->setPosition({x, y, z});
 
 		player->setRotation({rotx, roty, rotz});

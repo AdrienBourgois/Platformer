@@ -4,29 +4,29 @@
 #include <memory>
 #include <string>
 
-#include "device.h"
-#include "window.h"
-#include "txtLogger.h"
-#include "meshSceneNode.h"
 #include "cameraSceneNode.h"
+#include "device.h"
+#include "driver.h"
+#include "enemy.h"
+#include "event.h"
+#include "fileUtility.h"
+#include "guiDebugWindow.h"
+#include "guiEventReceiver.h"
+#include "guiLogger.h"
+#include "guiManager.h"
+#include "guiMenu.h"
+#include "guiOpenFile.h"
 #include "imgui.h"
 #include "imgui_impl.h"
-#include "guiDebugWindow.h"
-#include "guiOpenFile.h"
-#include "driver.h"
-#include "fileUtility.h"
-#include "guiManager.h"
-#include "guiEventReceiver.h"
-#include "logger.h"
-#include "guiLogger.h"
-#include "maths/utility.h"
-#include "event.h"
-#include "enemy.h"
-#include "player.h"
-#include "guiMenu.h"
-#include "txtLogger.h"
-#include "json/jsonWriter.h"
 #include "json/jsonReader.h"
+#include "json/jsonWriter.h"
+#include "logger.h"
+#include "maths/utility.h"
+#include "meshSceneNode.h"
+#include "pathEnemy.h"
+#include "player.h"
+#include "txtLogger.h"
+#include "window.h"
 
 int main(int argc, char* argv[])
 {
@@ -56,9 +56,9 @@ int main(int argc, char* argv[])
 	}
 	id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "cube", "pos3d_tex2d", "");
 
-	id::scene::Enemy * enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/Dragon.obj"); // enemy creation
+	id::scene::Enemy * enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/models/Dragon.obj"); // enemy creation
 
-	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/Robot.obj"); // player creation
+	id::scene::Player * player = id::scene::Player::createPlayer(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/models/Robot.obj"); // player creation
 
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
@@ -69,6 +69,18 @@ int main(int argc, char* argv[])
 //	mesh_scn1->setPosition({0,10,10});
 //	mesh_scn2->setPosition({10,-10,10});
 //	mesh_scn3->setPosition({0,0,10});
+	
+
+	float last = 0.f;
+	float deltaTime = 0.f;
+	float now = SDL_GetTicks();
+
+	if (now > last)
+	{	
+		deltaTime = (now-last) / 1000.f;
+		last = now;
+	}
+
 //	id::json::JsonWriter jsonWriter;
 //	jsonWriter.saveDefaultBindKey();
 //	jsonWriter.saveDefaultResolution();
@@ -77,37 +89,36 @@ int main(int argc, char* argv[])
 //	jsonReader.loadAllNode(device.get());
 
 //	id::json::JsonWriter jsonWriter;
-	id::json::JsonReader jsonReader;
 
 //	jsonWriter.writeAllNode(device->getSceneManager()->getRootNode(), "partie1");	
-	jsonReader.loadAllNode(device.get());
 
 
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
 	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	
-	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
 
-	device->getGui()->addMenuTitleScreen();	
+//	device->getGui()->addMenuTitleScreen();	
 
 	while (device->run())
 	{
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
-		
+	
+	
 		debug_logger->DisplayLog();	
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
 		
-		device->getGui()->render();
+		enemy->getPath()->enemyPatrol(enemy, deltaTime);
+
+		//device->getGui()->render();
 		#ifdef _DEBUG
 			ImGui::Render();
 		#endif
 	
-		if (player) // if player was not create create , don't try to use the event
-			ev->playerEventReceiver();
+		ev->eventReceiver(deltaTime);
 
 		device->getWindow()->swap();
 	}
