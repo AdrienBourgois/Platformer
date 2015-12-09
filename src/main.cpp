@@ -22,6 +22,7 @@
 #include "maths/utility.h"
 #include "event.h"
 #include "enemy.h"
+#include "pathEnemy.h"
 #include "player.h"
 #include "guiMenu.h"
 #include "txtLogger.h"
@@ -64,6 +65,17 @@ int main(int argc, char* argv[])
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
 
+	float last = 0.f;
+	float deltaTime = 0.f;
+	float now = SDL_GetTicks();
+
+	if (now > last)
+	{	
+		deltaTime = (now-last) / 1000.f;
+		last = now;
+	}
+
+
 //	id::json::JsonWriter jsonWriter;
 	id::json::JsonReader jsonReader;
 
@@ -78,7 +90,7 @@ int main(int argc, char* argv[])
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
 	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	
-	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
+	id::scene::Event* ev = new id::scene::Event(player);
 
 	id::Device* dev = device.get();
 	std::function<void()> funcQuit = [dev]() {dev->close();};
@@ -87,23 +99,28 @@ int main(int argc, char* argv[])
 	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 300);
 	float damage = 0.1f;
 
+	device->getGui()->addMenuTitleScreen();	
+
 	while (device->run())
 	{
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
-		
+	
+	
 		debug_logger->DisplayLog();	
 		debug_window->Display(device.get());
 		open_file->Display(device.get());
 		
+		enemy->getPath()->enemyPatrol(enemy, deltaTime);
+
 		device->getGui()->render();
 		#ifdef _DEBUG
 			ImGui::Render();
 		#endif
 	
 		if (player) // if player was not create create , don't try to use the event
-			ev->playerEventReceiver();
+			ev->eventReceiver(deltaTime);
 
 		life->refreshLifeBar(damage);
 

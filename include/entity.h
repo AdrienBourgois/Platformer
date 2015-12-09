@@ -1,21 +1,22 @@
-#ifndef __ENTITY_H_INCLUDED__
-#define __ENTITY_H_INCLUDED__
+#ifndef ENTITY_H_INCLUDED
+#define ENTITY_H_INCLUDED
 
-#include "stateManager.h"
 #include "meshSceneNode.h"
 
 namespace id {
 namespace scene {
 
-class Entity : public MeshSceneNode, public StateManager {
+class StateManager;
+
+class Entity : public MeshSceneNode {
 
 public:
 
 	virtual ~Entity();
 
 
-	virtual auto setEntityState(int state) -> void override {this->state = state;}
-	virtual auto getEntityState() -> int override {return state;}
+	virtual auto setEntityState(int state) -> void {this->state = state;}
+	virtual auto getEntityState() const -> int  {return state;}
 
 
 	virtual auto setSpeed(float speed) -> void {this->speed = speed;}
@@ -34,7 +35,9 @@ public:
 	virtual auto setAttack(unsigned int attack) -> void {this->attack = attack;}
 	virtual auto getAttack() const -> unsigned int {return attack;}
 	
-	virtual auto entitySpeedIs() -> void; // For adjust the speed of the player according to his state (walk, run, dead ...)
+	virtual auto entitySpeed() -> void; 
+	virtual auto entityIsMovement() -> bool;	
+
 
 protected:
 
@@ -47,6 +50,8 @@ protected:
 	unsigned int life;
 	unsigned int attack;
 
+	StateManager* stateEntity;
+
 };
 
 
@@ -55,4 +60,4 @@ protected:
 
 
 
-#endif // __ENTITY_H_INCLUDED__
+#endif 

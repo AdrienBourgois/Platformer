@@ -53,7 +53,7 @@ Device::Device()
 	id::imgui_impl::Init();
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
-	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
+//	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
 
 	running = true;
 
@@ -68,7 +68,7 @@ Device::~Device()
 	_window.reset(nullptr);
 	delete _sceneManager;
 	_sceneManager = nullptr;
-	_gui.reset(nullptr);
+//	_gui.reset(nullptr);
 
 	id::imgui_impl::Shutdown();
 	Texture::deleteTextures();
@@ -87,7 +87,7 @@ auto Device::run() -> bool
     while (SDL_PollEvent(&ev))
     {
 		imgui_impl::ProcessEvent(&ev);
-		this->_gui->getGuiEvt()->eventListener(&ev);
+		//this->_gui->getGuiEvt()->eventListener(&ev);
         switch (ev.type)
         {
             case SDL_QUIT:
