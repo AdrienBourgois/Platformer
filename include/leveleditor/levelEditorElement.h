@@ -13,9 +13,10 @@ public:
 	virtual	~LevelEditorElement();
 	
 	virtual	auto Display() -> void = 0;
-
+	virtual auto Display(Device* dev) ->void = 0;
 protected:
 	Device*	dev;
+	bool visible;
 };
 
 

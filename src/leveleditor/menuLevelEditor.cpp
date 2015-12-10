@@ -12,6 +12,8 @@ MenuLevelEditor::MenuLevelEditor(Device* device)
 
 	openfile = new (std::nothrow) OpenFile();
 	SDL_assert(openfile);
+	menuAssets = new (std::nothrow) MenuAssetsLevelEditor(device);
+	SDL_assert(menuAssets);
 	LOG(L_INFO, "Creating MenuLevelEditor Finish");
 }
 
@@ -20,6 +22,10 @@ MenuLevelEditor::~MenuLevelEditor()
 	LOG(L_INFO, "Destructing MenuLevelEditor");
 	
 	LOG(L_INFO, "Destructing MenuLevelEditor Finish");
+}
+auto MenuLevelEditor::Display(Device* dev) ->void 
+{
+(void)dev;
 }
 
 auto MenuLevelEditor::Display() -> void 
@@ -42,7 +48,7 @@ auto MenuLevelEditor::Display() -> void
 			if(ImGui::MenuItem("Load Level"))
 			{
 	       			std::cout<< "Load" << std::endl;
-				openfile->setActive(true);
+				openfile->setLoadMenu(true);
 			}
 			
 			if(ImGui::MenuItem("Exit"))
@@ -57,7 +63,8 @@ auto MenuLevelEditor::Display() -> void
 			if(ImGui::BeginMenu("Entity"))
 			{
 				if(ImGui::MenuItem("Player", "Create spawn player"))
-				{}
+				{
+				}
 				if(ImGui::MenuItem("Enemy", "Create spawn eneny"))
 				{}			
 				ImGui::EndMenu();
@@ -65,7 +72,9 @@ auto MenuLevelEditor::Display() -> void
 			if(ImGui::BeginMenu("Plateform"))
 			{
 				if(ImGui::MenuItem("Create cube","Create cube plateform"))
-				{}
+				{
+				openfile->setAddMenu(true);
+				}
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenu();
@@ -73,7 +82,8 @@ auto MenuLevelEditor::Display() -> void
 			
 		if(ImGui::BeginMenu("Assets"))
 		{
-		ImGui::EndMenu();
+			menuAssets->setActive(true);
+			ImGui::EndMenu();
 		}
 		
 		if(ImGui::BeginMenu("Transform"))
@@ -83,8 +93,12 @@ auto MenuLevelEditor::Display() -> void
 
 	ImGui::EndMainMenuBar();
 	}
-		if(openfile->getActive())		
-			openfile->DisplayLoadLevel(dev);	
+		if(openfile->getLoadMenu())		
+			openfile->DisplayLoadLevel(dev);
+		if(openfile->getAddMenu())
+			openfile->DisplayMenuAdd(dev);
+		if(menuAssets->getActive())
+			menuAssets->Display(dev);	
 }
 
 auto MenuLevelEditor::Update() -> void

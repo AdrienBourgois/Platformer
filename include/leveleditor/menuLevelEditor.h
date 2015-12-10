@@ -4,7 +4,8 @@
 #include "imgui.h"
 #include "imgui_impl.h"
 #include "guiWindow.h"
-#include "leveleditor/levelEditorElement.h"
+//#include "leveleditor/levelEditorElement.h"
+#include "leveleditor/menuAssetsLevelEditor.h"
 
 namespace id {
 
@@ -17,10 +18,12 @@ public:
 	~MenuLevelEditor();
 	
 	auto Display() -> void override;
+	auto Display(Device* dev) -> void override;
 	auto Update() -> void;
 
 private:
 	OpenFile* openfile;
+	MenuAssetsLevelEditor* menuAssets;	
 };
 
 

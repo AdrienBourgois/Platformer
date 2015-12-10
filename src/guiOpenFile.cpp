@@ -17,7 +17,7 @@
 namespace id {
 
 OpenFile::OpenFile()
-: GUI_Window(true), active(false)
+: GUI_Window(true), loadMenu(false), addMenu(false)
 {
 	
 }
@@ -47,20 +47,38 @@ auto OpenFile::DisplayLoadLevel(Device* dev) -> void
 	
 	if (_visible)
 	{
-		ImGui::OpenPopup("Delete?");
-	      	if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		ImGui::OpenPopup("Load");
+	      	if (ImGui::BeginPopupModal("Load", NULL, ImGuiWindowFlags_AlwaysAutoResize))
            	{
 			DisplayDirTreeLoadLevel(dev, 4, ".", true);
 		
 		if (ImGui::Button("Cancel", ImVec2(120,0)))
 		{
-			setActive(false);
+			setAddMenu(false);
 			 ImGui::CloseCurrentPopup();
 		}
                 ImGui::EndPopup();
 		}
 	}
 }
+
+auto OpenFile::DisplayMenuAdd(Device* dev) -> void
+{
+	SDL_assert(dev);
+	
+	if (_visible)
+	{
+	      	if (ImGui::Begin("Add Menu"))
+           	{
+			DisplayDirTree(dev, 4, ".", true);
+		
+		//	setAddMenu(false);
+              		ImGui::End();
+		}
+//		setAddMenu(false);
+	}
+}
+
 auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool force = false) -> void
 {
 	SDL_assert(dev);
@@ -129,8 +147,8 @@ auto OpenFile::DisplayDirTreeLoadLevel(Device* dev, int type, std::string path, 
 
 			bool selec = false;
 			ImGui::Selectable(("   " + file_name).c_str(), &selec);
-			if (selec)
-				JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
+		//	if (selec)
+			//	JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
 		}
 		
 	}

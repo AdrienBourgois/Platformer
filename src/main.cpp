@@ -73,10 +73,13 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 //	jsonReader.loadAllNode(device.get());
 
 
+	#ifdef _DEBUG
 	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
+	#endif
+
 	id::LevelEditor* level_editor = new (std::nothrow) id::LevelEditor(device.get());
 //	level_editor->InitLevelEditor();
-	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
+//	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
 //	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	
 	id::scene::Event* ev = new id::scene::Event(player, enemy); // Event initialization
@@ -91,15 +94,15 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 
 		ImGui::ShowTestWindow();	
 
+		#ifdef _DEBUG
 		debug_logger->DisplayLog();	
+		#endif
 		level_editor->DisplayLevelEditor();
-		debug_window->Display(device.get());
+//		debug_window->Display(device.get());
 	//	open_file->Display(device.get());
 		
 		device->getGui()->render();
-		#ifdef _DEBUG
-			ImGui::Render();
-		#endif
+		ImGui::Render();
 	
 		if (player) // if player was not create create , don't try to use the event
 			ev->playerEventReceiver();
@@ -107,8 +110,10 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		device->getWindow()->swap();
 	}
 	ImGui::Shutdown();
+#ifdef _DEBUG
 	delete debug_logger;	
-	delete debug_window;
+#endif
+//	delete debug_window;
 //	delete open_file;
 	
 	return EXIT_SUCCESS;

@@ -1,52 +1,58 @@
 #include <SDL2/SDL.h>
-#include <iostream>
+#include "leveleditor/menuAssetsLevelEditor.h"
 
-#include "guiDebugWindow.h"
 #include "imgui_impl.h"
 #include "imgui.h"
 #include "sceneNode.h"
+#include "logger.h"
+
+#include <iostream>
+
 #include "meshSceneNode.h"
 #include "mesh.h"
 #include "cameraSceneNode.h"
 #include "device.h"
 #include "maths/vector.h"
 #include "window.h"
-#include "guiEditMaterialWindow.h"
-#include "guiLogger.h"
 
 namespace id {
 
-DebugWindow::DebugWindow()
-: GUI_Window(true)
+MenuAssetsLevelEditor::MenuAssetsLevelEditor(Device* dev)
+: LevelEditorElement(dev), active(false)
 {
-	_edit_material_window = new EditMaterialWindow();
-	_guiLogger = new DebugLogger();
+ LOG(L_INFO,"Creating MenuAssetsLevelEditor...");
+	
+ LOG(L_INFO,"MenuAssetsLevelEditor Created");
 }
 
-DebugWindow::~DebugWindow()
+MenuAssetsLevelEditor::~MenuAssetsLevelEditor()
 {
-	delete _edit_material_window;
-	delete _guiLogger;
+LOG(L_INFO, "Deconstructing MenuAssetsLevelEditor...");
+
+LOG(L_INFO, "menuAssetsLevelEditor Deconstructed");
 }
 
-auto DebugWindow::Display(Device* dev) -> void
+auto MenuAssetsLevelEditor::Display() ->void
+{
+}
+
+auto MenuAssetsLevelEditor::Display(Device* dev) -> void
 {
 	SDL_assert(dev);
 
 	float height = dev->getWindow()->getHeight();
 	float width  = dev->getWindow()->getWidth();	
-	_edit_material_window->Display(dev);
 
 	ImGui::SetNextWindowPos({0, height*1/10}, 2);
 	
-	ImGui::Begin("Nodes", &_visible, {width*1/4, height*1/3});
+	ImGui::Begin("Assets", &visible, {width*1/4, height*1/3});
 
-	DisplayNodesTree(dev->getSceneManager()->getRootNode());
+	DisplayNodesTreeLevelEditor(dev->getSceneManager()->getRootNode());
 
 	ImGui::End();
 }
 
-auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
+auto MenuAssetsLevelEditor::DisplayNodesTreeLevelEditor(scene::SceneNode* node) ->void
 {
 	SDL_assert(node);
 
@@ -94,11 +100,11 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 			(node != ((scene::SceneNode*)(node->getScene()->getActiveCamera()))) &&
 			ImGui::SmallButton("Delete"))
 			{
-				if (_edit_material_window->getActiveNode() == node)
+			/*	if (_edit_material_window->getActiveNode() == node)
 				{
 					_edit_material_window->setVisible(false);
 					_edit_material_window->setActiveNode(nullptr);
-				}
+				}*/
 				node->addToDeletionQueue();
 				ImGui::TreePop();
 				return;
@@ -126,7 +132,7 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 				ImGui::EndPopup();
 			}
 */
-		if ((node != (node->getScene()->getRootNode())) &&
+/*		if ((node != (node->getScene()->getRootNode())) &&
 			(node != ((scene::SceneNode*)(node->getScene()->getActiveCamera()))) &&
 			ImGui::SmallButton("Edit Material"))
 			{
@@ -135,13 +141,13 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 				ImGui::TreePop();
 				return;
 			}
-
+*/
 		for (scene::SceneNode* child : node->getChildrens())
 		{
-			DebugWindow::DisplayNodesTree(child);
+//			DebugWindow::DisplayNodesTree(child);
+			DisplayNodesTreeLevelEditor(child);
 		}
 		ImGui::TreePop();
 	}
 }
-
-} // namespace id
+}//end id

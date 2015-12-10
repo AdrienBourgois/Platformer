@@ -8,6 +8,7 @@ LevelEditorElement::LevelEditorElement(Device* device)
 :dev(device)
 {
 	LOG(L_INFO,"Creating LevelEditorElement");
+	visible = true;
 }
 
 LevelEditorElement::~LevelEditorElement()

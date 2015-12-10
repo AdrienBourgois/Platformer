@@ -19,13 +19,17 @@ public:
 	
 	auto Display(Device* dev) -> void;
 	auto DisplayLoadLevel(Device* dev) -> void;
+	auto DisplayMenuAdd(Device* dev) -> void;
 	auto DisplayDirTreeLoadLevel(Device* dev, int type, std::string path, bool force) -> void;
 	
-	auto getActive() const -> bool {return active;}	
-	auto setActive(bool act) -> void {active = act;}
+	auto getLoadMenu() const -> bool {return loadMenu;}
+	auto getAddMenu() const -> bool {return addMenu;}	
+	auto setAddMenu(bool act) -> void {addMenu = act;}
+	auto setLoadMenu(bool act2) ->void {loadMenu = act2;}
 private:
     auto DisplayDirTree(Device* dev, int type, std::string path, bool force) -> void;
-	bool active;
+	bool loadMenu;
+	bool addMenu;
 };
 
 } // namespace id
