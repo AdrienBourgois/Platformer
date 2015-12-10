@@ -1,7 +1,10 @@
 #include "SDL2/SDL.h"
 #include "leveleditor/menuLevelEditor.h"
 #include "logger.h"
+#include "json/jsonWriter.h"
+#include "sceneManager.h"
 #include "guiOpenFile.h"
+#include "guiSaveFile.h"
 
 namespace id {
 
@@ -11,9 +14,11 @@ MenuLevelEditor::MenuLevelEditor(Device* device)
 	LOG(L_INFO, "Creating MenuLevelEditor");
 
 	openfile = new (std::nothrow) OpenFile();
+	savefile = new (std::nothrow) SaveFile();
 	SDL_assert(openfile);
 	menuAssets = new (std::nothrow) MenuAssetsLevelEditor(device);
 	SDL_assert(menuAssets);
+	SDL_assert(savefile);
 	LOG(L_INFO, "Creating MenuLevelEditor Finish");
 }
 
@@ -37,17 +42,16 @@ auto MenuLevelEditor::Display() -> void
 		{
 			if(ImGui::MenuItem("New Level"))
 			{
-				std::cout<< "New Level" << std::endl;
+				dev->getSceneManager()->clearAllNodeExceptRootCam(dev->getSceneManager()->getRootNode());
 			}
 	
 			if(ImGui::MenuItem("Save Level"))
 			{
-		 		std::cout<< "Save Level" << std::endl;
+				savefile->setActiveSave(true);
 			}
 	
 			if(ImGui::MenuItem("Load Level"))
 			{
-	       			std::cout<< "Load" << std::endl;
 				openfile->setLoadMenu(true);
 			}
 			
@@ -99,6 +103,8 @@ auto MenuLevelEditor::Display() -> void
 			openfile->DisplayMenuAdd(dev);
 		if(menuAssets->getActive())
 			menuAssets->Display(dev);	
+		if(savefile->getActiveSave())		
+			savefile->DisplaySaveLevel(dev);	
 }
 
 auto MenuLevelEditor::Update() -> void

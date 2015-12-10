@@ -5,7 +5,10 @@ SRC = 	cameraSceneNode.cpp\
 		driver.cpp\
 		enemy.cpp\
 		entity.cpp\
-		event.cpp\
+		eventCamera.cpp\
+		eventManager.cpp\
+		eventPlayer.cpp\
+		eventReceiver.cpp\
 		fileUtility.cpp\
 		guiButton.cpp\
 		guiChangeTextureGroupWindow.cpp\
@@ -13,16 +16,18 @@ SRC = 	cameraSceneNode.cpp\
 		guiEditMaterialWindow.cpp\
 		guiEditShader.cpp\
 		guiEventReceiver.cpp\
+		guiLifeBar.cpp\
 		guiLogger.cpp\
 		guiManager.cpp\
 		guiMenu.cpp\
 		guiOpenFile.cpp\
 		guiRect.cpp\
+		guiSaveFile.cpp\
 		guiWindow.cpp\
 		imgui.cpp\
+		imgui_demo.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
-		imgui_demo.cpp\
 		json/jsonArray.cpp\
 		json/jsonBool.cpp\
 		json/jsonNull.cpp\
@@ -33,17 +38,21 @@ SRC = 	cameraSceneNode.cpp\
 		json/jsonValue.cpp\
 		json/jsonWriter.cpp\
 		levelEditor.cpp\
-		leveleditor/menuLevelEditor.cpp\
-		leveleditor/menuAssetsLevelEditor.cpp\
 		leveleditor/levelEditorElement.cpp\
+		leveleditor/menuAssetsLevelEditor.cpp\
+		leveleditor/menuLevelEditor.cpp\
 		logger.cpp\
 		main.cpp\
 		material.cpp\
+		maths/collider.cpp\
+		maths/colliderManager.cpp\
 		maths/matrix.cpp\
+		maths/polyhedron.cpp\
 		maths/utility.cpp\
 		maths/vector.cpp\
 		mesh.cpp\
 		meshSceneNode.cpp\
+		pathEnemy.cpp\
 		player.cpp\
 		sceneManager.cpp\
 		sceneNode.cpp\
@@ -61,9 +70,14 @@ BIN_DIR = bin/$(MODE)/
 
 OBJ_DIR = obj/$(MODE)/
 
+MODE = release
+BIN_DIR = bin/$(MODE)/
+
+OBJ_DIR = obj/$(MODE)/
+
 SRC_DIR = src/
 
-INC_DIR = include/ //usr/include/SDL2/ 
+INC_DIR = include/ usr/include/SDL2/ 
 
 OBJ = $(patsubst %.cpp,$(OBJ_DIR)%.o,$(SRC))
 
@@ -79,6 +93,8 @@ LDFLAGS = -W -Wall -Werror
 CXX = g++ -std=c++14
 
 .PHONY: all clean fclean re debug release clog
+
+all: $(MODE)
 
 all: $(MODE)
 
@@ -121,13 +137,10 @@ clean:  clog
 	$(RM) $(DEPENDENCIES)
 	$(RM) -r $(ARBO)
 	$(RM) .*.swp
-	$(RM) assets/json/*
 
 fclean: clean
 	$(RM) $(BIN_DIR)$(TARGET)
 	$(RM) -r $(BIN_DIR)
-
-
 
 re: fclean all
 

@@ -111,6 +111,16 @@ auto SceneNode::getRotation() const -> maths::Vector3
 	return _transformation.getRotation();
 }
 
+auto SceneNode::setScale(maths::Vector3 sca) -> void
+{
+	_transformation.setScale(sca);
+}
+
+auto SceneNode::getScale() const -> maths::Vector3
+{
+	return _transformation.getScale();
+}
+
 auto SceneNode::AbsoluteTransformation() const -> maths::Matrix4
 {
 	if (_parent)

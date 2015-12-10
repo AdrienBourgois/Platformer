@@ -12,14 +12,13 @@
 #include "imgui_impl.h"
 #include "window.h"
 #include "fileUtility.h"
-
+#include "json/jsonReader.h"
 
 namespace id {
 
 OpenFile::OpenFile()
 : GUI_Window(true), loadMenu(false), addMenu(false)
 {
-	
 }
 
 auto OpenFile::Display(Device* dev) -> void
@@ -47,8 +46,8 @@ auto OpenFile::DisplayLoadLevel(Device* dev) -> void
 	
 	if (_visible)
 	{
-		ImGui::OpenPopup("Load");
-	      	if (ImGui::BeginPopupModal("Load", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		ImGui::OpenPopup("Load level");
+	      	if (ImGui::BeginPopupModal("Load level", NULL, ImGuiWindowFlags_AlwaysAutoResize))
            	{
 			DisplayDirTreeLoadLevel(dev, 4, ".", true);
 		
@@ -114,6 +113,7 @@ auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool forc
 				id::scene::MeshSceneNode::createMeshSceneNode(smgr, smgr->getRootNode(), file_name, "pos3d_tex2d", path.c_str());
 			}
 		}
+
 	}
 }
 
@@ -146,11 +146,15 @@ auto OpenFile::DisplayDirTreeLoadLevel(Device* dev, int type, std::string path, 
 		{
 
 			bool selec = false;
+			std::string buffer = FileUtility::getFileNameWithoutExtension(file_name);
 			ImGui::Selectable(("   " + file_name).c_str(), &selec);
-		//	if (selec)
-			//	JsonLoad::loadFromJson(file_name, dev->getSceneManager());		
+			if (selec)
+			{
+				json::JsonReader jsonReader;
+				jsonReader.loadAllNode(dev, buffer);
+			}		
+
 		}
-		
 	}
 }
 

@@ -10,6 +10,8 @@
 namespace id {
 
 class OpenFile;
+class SaveFile;
+
 class MenuLevelEditor
 : public LevelEditorElement
 {
@@ -24,6 +26,7 @@ public:
 private:
 	OpenFile* openfile;
 	MenuAssetsLevelEditor* menuAssets;	
+	SaveFile* savefile;
 };
 
 

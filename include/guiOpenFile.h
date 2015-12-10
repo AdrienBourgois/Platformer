@@ -30,8 +30,10 @@ private:
     auto DisplayDirTree(Device* dev, int type, std::string path, bool force) -> void;
 	bool loadMenu;
 	bool addMenu;
+	std::string fileNameSave;
 };
 
 } // namespace id
 
 #endif // GUI_OPEN_FILE_H_INCLUDED
+

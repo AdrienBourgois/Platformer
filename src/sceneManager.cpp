@@ -109,6 +109,21 @@ auto SceneManager::eraseRender(SceneNode* node, GLuint prg_id) -> void
 	logger->log("Render has been erased.");
 }
 
+auto SceneManager::clearAllNodeExceptRootCam(SceneNode* root) -> void
+{
+	for (auto&& node : root->getChildrens())
+	{
+		clearAllNodeExceptRootCam(node);
+		if (node != _cur_cam)
+		{
+			delete node;
+			node = nullptr;
+		}
+	}
+}
+
+
+
 auto SceneManager::addToDeletionQueue(SceneNode* node) -> void
 {
 	SDL_assert(node);
@@ -123,6 +138,7 @@ auto SceneManager::clearDeletionQueue() -> void
 	{
 		node_to_delete = *it;
 		delete node_to_delete;
+		node_to_delete = nullptr;
 	}
 	_deletion_queue.clear();
 }
