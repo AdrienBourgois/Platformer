@@ -24,6 +24,11 @@ EventManager::~EventManager()
 {
 	logger->log("Deleting EventManager...", LL_INFO);
 
+	for (auto it = this->events.begin(); it != this->events.end(); ++it)
+		delete *it;
+
+	this->currentEvent = nullptr;
+
 	logger->log("EventManager deleted", LL_INFO);
 }
 auto EventManager::createEventManager() -> std::unique_ptr<EventManager>

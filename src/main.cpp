@@ -31,6 +31,7 @@
 #include "eventManager.h"
 #include "eventReceiver.h"
 #include "eventPlayer.h"
+#include "eventCamera.h"
 
 int main(int argc, char* argv[])
 {
@@ -75,11 +76,6 @@ int main(int argc, char* argv[])
 		last = now;
 	}
 
-
-//	id::json::JsonWriter jsonWriter;
-
-//	jsonWriter.writeAllNode(device->getSceneManager()->getRootNode(), "partie1");	
-
 //	id::json::JsonWriter jsonWriter;
 //	jsonWriter.saveDefaultBindKey();
 //	jsonWriter.saveDefaultResolution();
@@ -98,7 +94,10 @@ int main(int argc, char* argv[])
 	device->getGui()->addMenuTitleScreen(funcQuit);
 
 	id::event::EventPlayer* evtPlayer = new id::event::EventPlayer(device.get(), "EventPlayer", player);
+	id::event::EventCamera* evtCam = new id::event::EventCamera(device.get(), "EventCam", cam);
 	device->getEventManager()->addEventReceiver(evtPlayer);
+	device->getEventManager()->addEventReceiver(evtCam);
+	device->getEventManager()->useEventReceiver("EventCam");
 
 	while (device->run())
 	{
@@ -121,6 +120,7 @@ int main(int argc, char* argv[])
 		device->getWindow()->swap();
 	}
 	ImGui::Shutdown();
+	delete life;
 	delete debug_logger;	
 	delete debug_window;
 	delete open_file;

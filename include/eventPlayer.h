@@ -16,7 +16,7 @@ class EventPlayer : public EventReceiver
 {
 public:
 	EventPlayer(Device* dev, std::string name, scene::Player* player);
-	~EventPlayer();
+	virtual ~EventPlayer();
 
 	virtual auto eventListener() -> void;
 	auto loadKeys() -> void;

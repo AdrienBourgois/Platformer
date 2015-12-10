@@ -31,76 +31,78 @@ EventPlayer::~EventPlayer()
 {
 	logger->log("Deleting EventPlayer...", LL_INFO);
 
+	this->player = nullptr;
+
 	logger->log("EventPlayer deleted", LL_INFO);
 }
 auto EventPlayer::eventListener() -> void
 {	
-	const Uint8* state = SDL_GetKeyboardState(nullptr);
+	const Uint8* key = SDL_GetKeyboardState(nullptr);
 	if (this->player)
 	{
-		player->entitySpeed();
+		this->player->entitySpeed();
 
-		float deltaTime = dev->getDeltaTime();
-		float speedrun = player->getSpeedRun();
-	    float speed = player->getSpeed();
-	    float x = player->getPosition().val[0];
-	    float y = player->getPosition().val[1];
-	    float z = player->getPosition().val[2];
-	    float rotx = player->getRotation().val[0];
-	    float roty = player->getRotation().val[1];
-	    float rotz = player->getRotation().val[1];
+		float deltaTime = this->dev->getDeltaTime();
+		float speedrun = this->player->getSpeedRun();
+	    float speed = this->player->getSpeed();
+	    float x = this->player->getPosition().val[0];
+	    float y = this->player->getPosition().val[1];
+	    float z = this->player->getPosition().val[2];
+	    float rotX = this->player->getRotation().val[0];
+	    float rotY = this->player->getRotation().val[1];
+	    float rotZ = this->player->getRotation().val[2];
 
-		if (state[this->scancodeKeys["Backward"]])
+		if (key[this->scancodeKeys["Backward"]])
    		{
     	    z += speed * deltaTime;
-    	   	player->setEntityState(STATE_WALKING);
-    	    state[SDL_SCANCODE_R] ? z +=  speedrun * deltaTime : z += speed * deltaTime;
+   	 	   	this->player->setEntityState(STATE_WALKING);
+    	    key[SDL_SCANCODE_R] ? z +=  speedrun * deltaTime : z += speed * deltaTime;
     	}
-    	else if (state[this->scancodeKeys["Forward"]])
+    	else if (key[this->scancodeKeys["Forward"]])
     	{
     	    z -= speed * deltaTime;
-    	    player->setEntityState(STATE_WALKING);
-    	    state[SDL_SCANCODE_R] ? z -= speedrun * deltaTime : z -= speed * deltaTime;
+    	    this->player->setEntityState(STATE_WALKING);
+    	    key[SDL_SCANCODE_R] ? z -= speedrun * deltaTime : z -= speed * deltaTime;
     	}
 	
-	    if (state[this->scancodeKeys["Strafe_right"]])
+	    if (key[this->scancodeKeys["Strafe_right"]])
 	    {
 	        x +=  speed * deltaTime;
-	        player->setEntityState(STATE_WALKING);
-    	    state[SDL_SCANCODE_R] ? x += speedrun * deltaTime : x += speed * deltaTime;
+	        this->player->setEntityState(STATE_WALKING);
+    	    key[SDL_SCANCODE_R] ? x += speedrun * deltaTime : x += speed * deltaTime;
    		}
-		else if (state[this->scancodeKeys["Strafe_left"]])
+		else if (key[this->scancodeKeys["Strafe_left"]])
     	{
     	    x -= speed * deltaTime;
-    	    player->setEntityState(STATE_WALKING);
-    	    state[SDL_SCANCODE_R] ? x -= speedrun * deltaTime : x -= speed * deltaTime;
+    	    this->player->setEntityState(STATE_WALKING);
+    	    key[SDL_SCANCODE_R] ? x -= speedrun * deltaTime : x -= speed * deltaTime;
     	}
 
-	    if (state[this->scancodeKeys["Turn_left"]])
+	    if (key[this->scancodeKeys["Turn_left"]])
 	    {
-	        rotz -= speed * deltaTime;
-	        player->setEntityState(STATE_WALKING);
+	        rotY += deltaTime * 2.f;
+	        this->player->setEntityState(STATE_WALKING);
 	    }
-	    else if (state[this->scancodeKeys["Turn_right"]])
+	    else if (key[this->scancodeKeys["Turn_right"]])
 	    {
-	        rotz += speed * deltaTime;
-	        player->setEntityState(STATE_WALKING);
+	        rotY -= deltaTime * 2.f;
+	        this->player->setEntityState(STATE_WALKING);
 	    }
 
-		if (state[this->scancodeKeys["Run"]])
+		if (key[this->scancodeKeys["Run"]])
     	{
        		speed = speedrun;
-        	player->setEntityState(STATE_RUNNING);
+        	this->player->setEntityState(STATE_RUNNING);
     	}
 
-    	if (player->entityIsMovement() == true)
+    	if (this->player->entityIsMovement() == true)
     	{
-    	    player->setPosition({x, y, z});
-    	    player->setRotation({rotx, roty, rotz});
+    	    this->player->setPosition({x, y, z});
+    	    this->player->setRotation({rotX, rotY, rotZ});
     	}
 
     	if (player->getHp() == 0)
-    	    player->setEntityState(STATE_DEAD);
+    	    this->player->setEntityState(STATE_DEAD);
 	}
 }
 auto EventPlayer::loadKeys() -> void

@@ -56,6 +56,7 @@ SRC = 	cameraSceneNode.cpp\
 		eventManager.cpp\
 		eventReceiver.cpp\
 		eventPlayer.cpp\
+		eventCamera.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 
@@ -131,7 +132,6 @@ clean:  clog
 	$(RM) $(DEPENDENCIES)
 	$(RM) -r $(ARBO)
 	$(RM) .*.swp
-	$(RM) assets/json/*
 
 fclean: clean
 	$(RM) $(BIN_DIR)$(TARGET)

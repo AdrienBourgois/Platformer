@@ -12,7 +12,7 @@ class EventReceiver
 {
 public:
 	EventReceiver(Device* dev, std::string name);
-	~EventReceiver();
+	virtual ~EventReceiver();
 
 	virtual auto eventListener() -> void = 0;
 	auto getName() const -> std::string const& { return this->name; };
