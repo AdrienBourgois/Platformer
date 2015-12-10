@@ -116,6 +116,8 @@ auto JsonWriter::writeNode(scene::SceneNode* node, std::ofstream& file) -> void
 	objNode->addInObject("transformation", matrix);
 	if (dynamic_cast<scene::MeshSceneNode*>(node))
 		objNode->addInObject("objPath", new JsonString(dynamic_cast<scene::MeshSceneNode*>(node)->getMesh()->getObjPath()));
+	else
+		objNode->addInObject("objPath", new JsonNull());
 	obj->addInObject("node", objNode);
 	writeInObject(obj, file);
 	JsonValue::deleteAllJsonValue();

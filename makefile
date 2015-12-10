@@ -5,7 +5,6 @@ SRC = 	cameraSceneNode.cpp\
 		driver.cpp\
 		enemy.cpp\
 		entity.cpp\
-		event.cpp\
 		fileUtility.cpp\
 		guiButton.cpp\
 		guiChangeTextureGroupWindow.cpp\
@@ -21,6 +20,7 @@ SRC = 	cameraSceneNode.cpp\
 		guiRect.cpp\
 		guiWindow.cpp\
 		imgui.cpp\
+		imgui_demo.cpp\
 		imgui_draw.cpp\
 		imgui_impl.cpp\
 		json/jsonArray.cpp\
@@ -35,7 +35,10 @@ SRC = 	cameraSceneNode.cpp\
 		logger.cpp\
 		main.cpp\
 		material.cpp\
+		maths/collider.cpp\
+		maths/colliderManager.cpp\
 		maths/matrix.cpp\
+		maths/polyhedron.cpp\
 		maths/utility.cpp\
 		maths/vector.cpp\
 		mesh.cpp\
@@ -49,6 +52,11 @@ SRC = 	cameraSceneNode.cpp\
 		texture.cpp\
 		txtLogger.cpp\
 		window.cpp\
+		pathEnemy.cpp\
+		eventManager.cpp\
+		eventReceiver.cpp\
+		eventPlayer.cpp\
+		eventCamera.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 
@@ -57,9 +65,14 @@ BIN_DIR = bin/$(MODE)/
 
 OBJ_DIR = obj/$(MODE)/
 
+MODE = release
+BIN_DIR = bin/$(MODE)/
+
+OBJ_DIR = obj/$(MODE)/
+
 SRC_DIR = src/
 
-INC_DIR = include/ //usr/include/SDL2/ 
+INC_DIR = include/ usr/include/SDL2/ 
 
 OBJ = $(patsubst %.cpp,$(OBJ_DIR)%.o,$(SRC))
 
@@ -75,6 +88,8 @@ LDFLAGS = -W -Wall -Werror
 CXX = g++ -std=c++14
 
 .PHONY: all clean fclean re debug release clog
+
+all: $(MODE)
 
 all: $(MODE)
 
@@ -117,13 +132,10 @@ clean:  clog
 	$(RM) $(DEPENDENCIES)
 	$(RM) -r $(ARBO)
 	$(RM) .*.swp
-	$(RM) assets/json/*
 
 fclean: clean
 	$(RM) $(BIN_DIR)$(TARGET)
 	$(RM) -r $(BIN_DIR)
-
-
 
 re: fclean all
 

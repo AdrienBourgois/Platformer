@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 
+#include "stateManager.h"
 #include "elementId.h"
 #include "entity.h"
 #include "txtLogger.h"
@@ -20,18 +21,21 @@ Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, st
 {
 	logger->log("Creating Entity ...", LL_DEBUG);
 
+	stateEntity = new StateManager();
+
 	logger->log("Entity has been created.", LL_DEBUG);
 }
 
 Entity::~Entity()
 {
 	logger->log("Deleting Entity ...", LL_DEBUG);
-
+	
+	delete stateEntity;
 
 	logger->log("Entity has been deleted.", LL_DEBUG);
 }
 
-auto Entity::entitySpeedIs() -> void 
+auto Entity::entitySpeed() -> void 
 {
 	if (STATE_WALKING)
 		setSpeed(0.3f);
@@ -45,6 +49,26 @@ auto Entity::entitySpeedIs() -> void
 		setSpeed(0.f);
 	}
 }
+
+auto Entity::entityIsMovement() -> bool
+{
+	bool inMovement = false;
+
+	if (STATE_WALKING)
+		inMovement = true;
+
+	else if (STATE_RUNNING)
+		inMovement = true;
+
+	else if (STATE_DEAD)
+		inMovement = false;
+
+	else
+		inMovement = false;
+
+	return inMovement;
+}
+
 
 
 }//namespace scene
