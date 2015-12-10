@@ -21,6 +21,8 @@ public:
 	virtual auto eventListener() -> void;
 	auto loadKeys() -> void;
 
+	auto deletePlayer() -> void;
+
 private:
 	scene::Player* player;
 	std::map<std::string, SDL_Scancode> scancodeKeys;

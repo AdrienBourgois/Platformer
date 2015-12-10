@@ -115,6 +115,10 @@ auto EventPlayer::loadKeys() -> void
         this->scancodeKeys[it->first] = SDL_GetScancodeFromName(it->second.c_str());
     }
 }
+auto EventPlayer::deletePlayer() -> void
+{
+	this->player = nullptr;
+}
 
 } // end namespace event
 
