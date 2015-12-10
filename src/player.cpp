@@ -6,7 +6,7 @@
 #include "player.h"
 #include "txtLogger.h"
 #include "eventManager.h"
-
+#include "eventPlayer.h"
 
 namespace {
 
@@ -34,6 +34,7 @@ Player::~Player()
 {
 	logger->log("Deleting Player...", LL_DEBUG);
 
+	static_cast<event::EventPlayer*>(this->dev->getEventManager()->getEventFromName("EventPlayer"))->deletePlayer();
 	this->dev = nullptr;
 
 	logger->log("Player has been deleted.", LL_DEBUG);
