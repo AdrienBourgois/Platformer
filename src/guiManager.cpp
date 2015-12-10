@@ -10,6 +10,7 @@
 #include "guiButton.h"
 #include "guiEventReceiver.h"
 #include "guiMenu.h"
+#include "device.h"
 
 // debug
 #include <iostream>
@@ -22,13 +23,14 @@ namespace {
 namespace id {
 namespace gui {
 
-GuiManager::GuiManager(int windowWidth, int windowHeight)
+GuiManager::GuiManager(Device* dev, int windowWidth, int windowHeight)
 {
 	logger->log("Creating GuiManager...", LL_INFO);
 
 	if (TTF_Init() == -1)
 		logger->log("Failed to initialisation TTF", LL_INFO);
 
+	this->dev = dev;
 	this->font = TTF_OpenFont("/usr/share/fonts/truetype/gentium-basic/GenBasB.ttf", 100);
 	loadProgram("pos2d_color4");
 	loadProgram("pos2d_tex2d_color4");
@@ -64,9 +66,9 @@ GuiManager::~GuiManager()
 
 	logger->log("GuiManager deleted", LL_INFO);
 }
-auto GuiManager::createGuiManager(int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>
+auto GuiManager::createGuiManager(Device* dev, int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>
 {
-	GuiManager* gui = new (std::nothrow) GuiManager(windowWidth, windowHeight);
+	GuiManager* gui = new (std::nothrow) GuiManager(dev, windowWidth, windowHeight);
 	if (!gui)
 	{
 		logger->log("Failed at creating gui in GuiManager::createGuiManager()", LL_ERROR);
@@ -99,7 +101,7 @@ auto GuiManager::render() -> void
 
 				GLint colorLoc = glGetUniformLocation(prgID, "color");
 				maths::Vector4 color;
-				if ((*it)->getPressed())
+				if ((*it)->getIsPressed())
 					color = {0.85f, 0.64f, 0.12f, 1.f};
 				else
 					color = (*it)->getColorBg();
@@ -138,16 +140,22 @@ auto GuiManager::addStaticText(GuiRect* parent, float posX, float posY, float wi
 	GuiRect* newStaticText = getElementFromID(id);
 	newStaticText->setListenEvent(false);
 }
-auto GuiManager::addMenuTitleScreen() -> void
+auto GuiManager::addMenuTitleScreen(std::function<void()> funcQuit) -> void
 {
 	GuiMenu* newMenu = new GuiMenu(this);
-	newMenu->createMenuTitleScreen();
+	newMenu->createMenuTitleScreen(funcQuit);
 	addMenu(newMenu);
 }
 auto GuiManager::addMenuSettings() -> void
 {
 	GuiMenu* newMenu = new GuiMenu(this);
 	newMenu->createMenuSettings();
+	addMenu(newMenu);
+}
+auto GuiManager::addMenuResolution() -> void
+{
+	GuiMenu* newMenu = new GuiMenu(this);
+	newMenu->createMenuResolution();
 	addMenu(newMenu);
 }
 auto GuiManager::addToRender(GuiRect* newRect) -> void
@@ -292,7 +300,16 @@ auto GuiManager::changeText(GuiButton* button) -> void
 }
 auto GuiManager::getElementFromID(int id) -> GuiRect*
 {
-	for (std::vector<GuiRect*>::iterator it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
+	for (auto it = this->drawRect.begin(); it != this->drawRect.end(); ++it)
+	{
+		if ((*it)->getID() == id)
+			return *it;
+	}
+	return nullptr;
+}
+auto GuiManager::getMenuFromID(int id) -> GuiMenu*
+{
+	for (auto it = this->listMenus.begin(); it != this->listMenus.end(); ++it)
 	{
 		if ((*it)->getID() == id)
 			return *it;
@@ -303,7 +320,7 @@ auto GuiManager::getPressedElement() -> GuiRect*
 {
     for (auto it = this->drawRect.begin(); it !=  this->drawRect.end(); ++it)
 	{
-    	if ((*it)->getPressed())
+    	if ((*it)->getIsPressed())
 			return *it;
 	}
 	return nullptr;

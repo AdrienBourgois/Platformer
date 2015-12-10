@@ -67,7 +67,7 @@ auto GuiEventReceiver::checkMouseOnButton() -> void
 			if ((this->mouseX > leftSide && this->mouseX < rightSide)
 				&& (this->mouseY > upSide && this->mouseY < downSide))
 			{
-				(*it)->setPressed(true);
+				(*it)->setIsPressed(true);
 				std::function<void()> func = (*it)->getFunc();
 				if (func)
 					func();
@@ -87,11 +87,26 @@ auto GuiEventReceiver::listenNextKey(SDL_Event* ev) -> void
 		if (key != "")
 		{
 			GuiButton* but = static_cast<GuiButton*>(this->gui->getPressedElement());
-			but->setNewText(key);
+			json::JsonWriter jsonWriter;
+			if (!jsonWriter.checkExistingValue(key))
+			{
+				jsonWriter.modifyLineByValueSearch(but->getText(), key);
+				but->setNewText(key);
+			}
 			this->listenKeys = false;
 			resetEvents();
 		}
 	}
+}
+auto GuiEventReceiver::changeResolution() -> void
+{
+	GuiButton* but = static_cast<GuiButton*>(this->gui->getPressedElement());
+	std::string str = but->getText();
+	std::string width = str.substr(0, str.find("x"));
+	std::string height = str.substr(width.size() + 1, str.find("x"));
+	json::JsonWriter jsonWriter;
+	jsonWriter.modifyLineByNameSearch("Width", width, "resolutionScreen");
+	jsonWriter.modifyLineByNameSearch("Height", height, "resolutionScreen");
 }
 auto GuiEventReceiver::refreshMouseCoords() -> void
 {
@@ -105,7 +120,7 @@ auto GuiEventReceiver::resetEvents() -> void
 	this->listenKeys = false;
 	std::vector<GuiRect*> drawRect = this->gui->getDrawRect();
     for (auto it = drawRect.begin(); it !=  drawRect.end(); ++it)
-		(*it)->setPressed(false);
+		(*it)->setIsPressed(false);
 }
 
 } // end namespace gui

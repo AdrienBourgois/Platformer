@@ -18,7 +18,7 @@ class Mesh;
 class MeshSceneNode : public SceneNode
 {
 public:
-	~MeshSceneNode();
+	virtual ~MeshSceneNode();
 	MeshSceneNode(MeshSceneNode const&) = delete;
 	MeshSceneNode(MeshSceneNode&&) = delete;
 	auto operator=(MeshSceneNode const&) = delete;
