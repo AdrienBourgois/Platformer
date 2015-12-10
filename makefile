@@ -18,6 +18,7 @@ SRC = 	cameraSceneNode.cpp\
 		guiMenu.cpp\
 		guiOpenFile.cpp\
 		guiRect.cpp\
+		guiSaveFile.cpp\
 		guiWindow.cpp\
 		imgui.cpp\
 		imgui_demo.cpp\

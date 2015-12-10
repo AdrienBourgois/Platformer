@@ -4,6 +4,7 @@
 #include "json/jsonWriter.h"
 #include "sceneManager.h"
 #include "guiOpenFile.h"
+#include "guiSaveFile.h"
 
 namespace id {
 
@@ -13,7 +14,9 @@ MenuLevelEditor::MenuLevelEditor(Device* device)
 	LOG(L_INFO, "Creating MenuLevelEditor");
 
 	openfile = new (std::nothrow) OpenFile();
+	savefile = new (std::nothrow) SaveFile();
 	SDL_assert(openfile);
+	SDL_assert(savefile);
 	LOG(L_INFO, "Creating MenuLevelEditor Finish");
 }
 
@@ -38,7 +41,7 @@ auto MenuLevelEditor::Display() -> void
 	
 			if(ImGui::MenuItem("Save Level"))
 			{
-				openfile->setActiveSave(true);
+				savefile->setActiveSave(true);
 			}
 	
 			if(ImGui::MenuItem("Load Level"))
@@ -86,8 +89,8 @@ auto MenuLevelEditor::Display() -> void
 	}
 		if(openfile->getActive())		
 			openfile->DisplayLoadLevel(dev);	
-		if(openfile->getActiveSave())		
-			openfile->DisplaySaveLevel(dev);	
+		if(savefile->getActiveSave())		
+			savefile->DisplaySaveLevel(dev);	
 }
 
 auto MenuLevelEditor::Update() -> void

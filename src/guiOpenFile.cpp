@@ -13,12 +13,11 @@
 #include "window.h"
 #include "fileUtility.h"
 #include "json/jsonReader.h"
-#include "json/jsonWriter.h" 
 
 namespace id {
 
 OpenFile::OpenFile()
-: GUI_Window(true), active(false), activeSave(false) 
+: GUI_Window(true), active(false)
 {
 }
 
@@ -62,44 +61,7 @@ auto OpenFile::DisplayLoadLevel(Device* dev) -> void
 	}
 }
 
-auto OpenFile::DisplaySaveLevel(Device* dev) -> void
-{
-	if (_visible)
-	{
-		ImGui::OpenPopup("Save level");
-	      	if (ImGui::BeginPopupModal("Save level", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-           	{
-				std::string displayedFilename = fileNameSave;
-				displayedFilename.reserve(fileNameSave.size() + 30);
 
-
-            	ImGui::InputText("File to save", &displayedFilename[0], displayedFilename.capacity() * sizeof(displayedFilename[0]));
-
-				for (size_t idx = 0; idx < displayedFilename.capacity(); ++idx)
-					if (displayedFilename[idx] == '\0')
-					{
-						displayedFilename.resize(idx);
-						break;
-					}
-
-				fileNameSave = displayedFilename;
-
-				if (ImGui::Button(("Save"), ImVec2(120,0)))
-				{
-					json::JsonWriter jsonWriter;
-					jsonWriter.writeAllNode(dev->getSceneManager()->getRootNode(), fileNameSave);
-				}
-
-			}	
-		if (ImGui::Button("Cancel", ImVec2(120,0)))
-		{
-			setActiveSave(false);
-			 ImGui::CloseCurrentPopup();
-		}
-                ImGui::EndPopup();
-		}
-	
-}
 
 auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool force = false) -> void
 {
