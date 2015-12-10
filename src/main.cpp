@@ -41,9 +41,9 @@ int main(int argc, char* argv[])
 
 	logger->setLogLevel(id::LL_ALL);
 
-	id::json::JsonWriter jsonWriter;
-	jsonWriter.saveDefaultBindKey();
-	jsonWriter.saveDefaultResolution();
+//	id::json::JsonWriter jsonWriter;
+//	jsonWriter.saveDefaultBindKey();
+//	jsonWriter.saveDefaultResolution();
 
 	LOG(L_ERROR, 32, 454,4554754,455454);
 	LOG(L_ERROR, 4432, "dqwedqwdqw",4554754,455454);
@@ -125,8 +125,6 @@ int main(int argc, char* argv[])
 	
 //		if (player) // if player was not create create , don't try to use the event
 //			ev->playerEventReceiver();
-		
-		device->getGui()->render();
 
 		life->refreshLifeBar(damage);
 

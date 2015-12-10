@@ -137,7 +137,7 @@ auto OpenFile::DisplayDirTreeLoadLevel(Device* dev, int type, std::string path, 
 				}
 				//std::sort(dir_content.begin(), dir_content.end());
 				for (auto const& content : dir_content)
-					OpenFile::DisplayDirTree(dev, content.second, path + "/" + content.first);
+					OpenFile::DisplayDirTreeLoadLevel(dev, content.second, path + "/" + content.first);
 				closedir(dir);
 				ImGui::TreePop();
 			}
