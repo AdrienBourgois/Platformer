@@ -38,8 +38,7 @@ auto MenuLevelEditor::Display() -> void
 	
 			if(ImGui::MenuItem("Save Level"))
 			{
-				json::JsonWriter jsonWriter;
-				jsonWriter.writeAllNode(dev->getSceneManager()->getRootNode(), "myLevel1");
+				openfile->setActiveSave(true);
 			}
 	
 			if(ImGui::MenuItem("Load Level"))
@@ -87,6 +86,8 @@ auto MenuLevelEditor::Display() -> void
 	}
 		if(openfile->getActive())		
 			openfile->DisplayLoadLevel(dev);	
+		if(openfile->getActiveSave())		
+			openfile->DisplaySaveLevel(dev);	
 }
 
 auto MenuLevelEditor::Update() -> void

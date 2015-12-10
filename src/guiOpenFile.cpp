@@ -13,14 +13,13 @@
 #include "window.h"
 #include "fileUtility.h"
 #include "json/jsonReader.h"
-
+#include "json/jsonWriter.h" 
 
 namespace id {
 
 OpenFile::OpenFile()
-: GUI_Window(true), active(false)
+: GUI_Window(true), active(false), activeSave(false) 
 {
-	
 }
 
 auto OpenFile::Display(Device* dev) -> void
@@ -62,6 +61,37 @@ auto OpenFile::DisplayLoadLevel(Device* dev) -> void
 		}
 	}
 }
+
+auto OpenFile::DisplaySaveLevel(Device* dev) -> void
+{
+	SDL_assert(dev);
+	(void)dev;	
+	if (_visible)
+	{
+		ImGui::OpenPopup("Save level");
+	      	if (ImGui::BeginPopupModal("Save level", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+           	{
+				fileNameSave.resize(fileNameSave.size() + 32);
+				std::cout << fileNameSave.size() << std::endl;
+            	ImGui::InputText("File to save", &fileNameSave[0], fileNameSave.size() * sizeof(fileNameSave[0]));
+				if (ImGui::Button(("Save"), ImVec2(120,0)))
+				{
+					json::JsonWriter jsonWriter;
+					jsonWriter.writeAllNode(dev->getSceneManager()->getRootNode(), fileNameSave);
+				}
+
+		
+			}	
+		if (ImGui::Button("Cancel", ImVec2(120,0)))
+		{
+			setActiveSave(false);
+			 ImGui::CloseCurrentPopup();
+		}
+                ImGui::EndPopup();
+		}
+	
+}
+
 auto OpenFile::DisplayDirTree(Device* dev, int type, std::string path, bool force = false) -> void
 {
 	SDL_assert(dev);
