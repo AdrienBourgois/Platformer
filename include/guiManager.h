@@ -9,6 +9,7 @@
 #include <string>
 #include <functional>
 
+#include "device.h"
 #include "maths/matrix.h"
 #include "maths/vector.h"
 
@@ -29,7 +30,7 @@ public:
 	GuiManager& operator = (GuiManager const&) = delete;
 	GuiManager& operator = (GuiManager&&) = delete;
 
-	static auto createGuiManager(int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>;
+	static auto createGuiManager(Device* dev, int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>;
 	auto render() -> void;
 
 	auto addRect(GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, maths::Vector4 color) -> void;
@@ -54,17 +55,19 @@ public:
 	auto getDrawRect() const -> std::vector<GuiRect*> const& { return this->drawRect; };
 	auto getListMenus() const -> std::vector<GuiMenu*> const& { return this->listMenus; };
 	auto getGuiEvt() const -> GuiEventReceiver* { return this->guiEvt; };
+	auto getDevice() const -> Device* { return this->dev; };
 	auto getWidth() const -> int { return this->windowWidth; };
 	auto getHeight() const -> int { return this->windowHeight; };
 	auto getRoot() const -> GuiRect* { return this->root; };
 
 private:
-	GuiManager(int windowWidth, int windowHeight);
+	GuiManager(Device* dev, int windowWidth, int windowHeight);
 	std::vector<GuiRect*> drawRect;
 	std::vector<GuiMenu*> listMenus;
 	std::map<std::string, GLuint> programGui;
 	GuiEventReceiver* guiEvt;
 
+	Device* dev;
 	int windowWidth, windowHeight;
 	std::array<float, 16> camOrtho;
 	TTF_Font* font;

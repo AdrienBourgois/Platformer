@@ -10,6 +10,7 @@
 #include "guiButton.h"
 #include "guiEventReceiver.h"
 #include "guiMenu.h"
+#include "device.h"
 
 // debug
 #include <iostream>
@@ -22,13 +23,14 @@ namespace {
 namespace id {
 namespace gui {
 
-GuiManager::GuiManager(int windowWidth, int windowHeight)
+GuiManager::GuiManager(Device* dev, int windowWidth, int windowHeight)
 {
 	logger->log("Creating GuiManager...", LL_INFO);
 
 	if (TTF_Init() == -1)
 		logger->log("Failed to initialisation TTF", LL_INFO);
 
+	this->dev = dev;
 	this->font = TTF_OpenFont("/usr/share/fonts/truetype/gentium-basic/GenBasB.ttf", 100);
 	loadProgram("pos2d_color4");
 	loadProgram("pos2d_tex2d_color4");
@@ -64,9 +66,9 @@ GuiManager::~GuiManager()
 
 	logger->log("GuiManager deleted", LL_INFO);
 }
-auto GuiManager::createGuiManager(int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>
+auto GuiManager::createGuiManager(Device* dev, int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>
 {
-	GuiManager* gui = new (std::nothrow) GuiManager(windowWidth, windowHeight);
+	GuiManager* gui = new (std::nothrow) GuiManager(dev, windowWidth, windowHeight);
 	if (!gui)
 	{
 		logger->log("Failed at creating gui in GuiManager::createGuiManager()", LL_ERROR);

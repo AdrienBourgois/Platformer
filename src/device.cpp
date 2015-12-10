@@ -53,7 +53,7 @@ Device::Device()
 	id::imgui_impl::Init();
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
-	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
+	_gui			= gui::GuiManager::createGuiManager(this, _window.get()->getWidth(), _window.get()->getHeight());
 
 	running = true;
 
