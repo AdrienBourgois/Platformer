@@ -1,7 +1,7 @@
 #ifndef GUI_MANAGER_H_INCLUDED
 #define GUI_MANAGER_H_INCLUDED
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <SDL2/SDL_ttf.h>
 #include <memory>
 #include <vector>

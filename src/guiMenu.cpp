@@ -10,6 +10,8 @@
 #include "guiButton.h"
 #include "guiID.h"
 #include "json/jsonReader.h"
+#include "eventManager.h"
+#include "eventPlayer.h"
 
 // debug
 #include <iostream>
@@ -124,8 +126,15 @@ auto GuiMenu::createMenuSettings() -> void
 	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), this->windowWidth/7, this->windowHeight/3.6, this->windowWidth/16, this->windowHeight/16, GUI_ID_BUTTON_RESOLUTION, true, colorBut, "Resolution", colorText, funcResolution);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_RESOLUTION);
 
-	std::function<void()> funcButAccept = [this, gui]() {if(gui->getMenuFromID(GUI_ID_MENU_RESOLUTION)){gui->getMenuFromID(GUI_ID_MENU_RESOLUTION)->deleteMenu();} this->deleteMenu(); gui->getListMenus().front()->setVisible(true);};
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), this->windowWidth/3, -(this->windowHeight/2.8), this->windowWidth/15, this->windowHeight/16, GUI_ID_BUTTON_BACK, true, colorBut, "Accept", colorText, funcButAccept);
+	std::function<void()> funcButAccept = [this, gui]() {
+		static_cast<event::EventPlayer*>(gui->getDevice()->getEventManager()->getEventFromName("EventPlayer"))->loadKeys();
+		if(gui->getMenuFromID(GUI_ID_MENU_RESOLUTION)){
+			gui->getMenuFromID(GUI_ID_MENU_RESOLUTION)->deleteMenu();
+		} 
+		this->deleteMenu();
+		gui->getListMenus().front()->setVisible(true);
+	};
+		this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_SETTINGS), this->windowWidth/3, -(this->windowHeight/2.8), this->windowWidth/15, this->windowHeight/16, GUI_ID_BUTTON_BACK, true, colorBut, "Accept", colorText, funcButAccept);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_BACK);
 }
 auto GuiMenu::createMenuResolution() -> void

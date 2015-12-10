@@ -12,7 +12,7 @@ public:
 
 	static auto createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> Player*;	
 
-	~Player();
+	virtual ~Player();
 
 private:
 	

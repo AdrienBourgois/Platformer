@@ -97,7 +97,6 @@ int main(int argc, char* argv[])
 	id::event::EventCamera* evtCam = new id::event::EventCamera(device.get(), "EventCam", cam);
 	device->getEventManager()->addEventReceiver(evtPlayer);
 	device->getEventManager()->addEventReceiver(evtCam);
-	device->getEventManager()->useEventReceiver("EventCam");
 
 	while (device->run())
 	{

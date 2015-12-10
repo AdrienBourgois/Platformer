@@ -56,7 +56,6 @@ Device::Device()
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
 	_gui			= gui::GuiManager::createGuiManager(this, _window.get()->getWidth(), _window.get()->getHeight());
-	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
 	_eventManager	= event::EventManager::createEventManager();
 
 	running = true;

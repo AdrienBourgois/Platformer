@@ -123,6 +123,7 @@ auto SceneManager::clearDeletionQueue() -> void
 	{
 		node_to_delete = *it;
 		delete node_to_delete;
+		node_to_delete = nullptr;
 	}
 	_deletion_queue.clear();
 }

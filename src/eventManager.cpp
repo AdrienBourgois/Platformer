@@ -63,6 +63,15 @@ auto EventManager::addEventReceiver(EventReceiver* newEvent) -> void
 
 	this->events.push_back(newEvent);
 }
+auto EventManager::getEventFromName(std::string const& name) -> EventReceiver*
+{
+	for (auto it = this->events.begin(); it != this->events.end(); ++it)
+	{
+		if ((*it)->getName() == name)
+			return *it;
+	}
+	return nullptr;
+}
 
 } // end namespace event
 
