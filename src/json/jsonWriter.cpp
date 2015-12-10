@@ -147,6 +147,7 @@ auto JsonWriter::writeNode(scene::SceneNode* node, std::string fileName) -> void
 
 auto JsonWriter::writeAllNode(scene::SceneNode* root, std::string fileName) -> void
 {
+   std::cout << "hello" << std::endl;
 	std::ofstream file;
 	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
 	file << "{" << std::endl;

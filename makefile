@@ -53,6 +53,7 @@ SRC = 	cameraSceneNode.cpp\
 		texture.cpp\
 		txtLogger.cpp\
 		window.cpp\
+		maths/timeRange.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 
