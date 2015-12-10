@@ -53,7 +53,7 @@ auto OpenFile::DisplayLoadLevel(Device* dev) -> void
 		
 		if (ImGui::Button("Cancel", ImVec2(120,0)))
 		{
-			setAddMenu(false);
+			loadMenu = false;
 			 ImGui::CloseCurrentPopup();
 		}
                 ImGui::EndPopup();
