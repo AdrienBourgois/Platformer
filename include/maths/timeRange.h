@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <tuple>
+#include <iostream>
 
 namespace id {
 namespace maths {
@@ -15,27 +16,49 @@ enum timeRangeState
     REWIND = -1
 };
 
-template <typename T>
 class ITimeRange
 {
     public:
-        ITimeRange() = delete;
-        ITimeRange(T, T, Uint32, T*);
+        ITimeRange() = default;
         ~ITimeRange() = default;
 
-        auto _update() -> void;
+        virtual auto _update(Uint32) -> void = 0;
+};
+
+template <typename T>
+class TimeRange
+:public ITimeRange
+{
+    public:
+        TimeRange() = delete;
+        
+	TimeRange(T min, T max, Uint32 time, T* adress, int state)
+	{
+	    this->min = min;
+	    this->max = max;
+	    this->time = time;
+	    this->adress = adress;
+	    this->state = state;
+	}
+        ~TimeRange() = default;
+
+	auto _update(Uint32 deltaTime) -> void
+	{
+
+	}
 
     private:
         T min;
         T max;
         Uint32 time;
         T* adress;
+        int state;
 };
 
 class TimeRangeManager 
 {
     public:
-        TimeRangeManager();
+        TimeRangeManager() = default;
         ~TimeRangeManager()= default;
 
         TimeRangeManager(TimeRangeManager const&) = delete;
@@ -46,31 +69,18 @@ class TimeRangeManager
         auto _update() -> void;
         auto _updateDeltaTime() -> void;
 
+        template <typename T>
+        auto _add(T min, T max, Uint32 time, T* adress, int state = timeRangeState::PLAY) -> void
+        {
+            TimeRange<T> tr(min, max, time, adress, state);
+            listTimeRange.push_back(&tr);
+        }
+
     private:
-        std::vector<ITimeRange> listTimeRange;
+        std::vector<ITimeRange*> listTimeRange;
         Uint32 oldTime = 0;
         Uint32 deltaTime;
 };
-
-/* template<>
-class TimeRange<>
-:public ITimeRange
-{
-    public:
-        TimeRange() = delete;
-        TimeRange()
-        ~TimeRange();
-
-        TimeRange(TimeRange const&) = delete;
-        TimeRange(TimeRange &&) = delete;
-        auto operator=(TimeRange const&) -> TimeRange = delete;
-        auto operator=(TimeRange &&) -> TimeRange = delete;
-
-        auto _update() -> void;
-
-    private:
-        
-}; */
 
 } // namespace maths
 } // namespace id
