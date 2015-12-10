@@ -34,6 +34,9 @@ public:
 	
 	virtual auto setRotation(maths::Vector3 rot) 	-> void;
 	virtual auto getRotation() const 				-> maths::Vector3;
+
+	virtual auto setScale(maths::Vector3 sca) 		-> void;
+	virtual auto getScale() const 					-> maths::Vector3;
 	
 	virtual auto getTransformation() const 			-> maths::Matrix4 			{ return _transformation; }
 	virtual auto setTransformation(maths::Matrix4 mat) -> void 					{ _transformation = mat; }

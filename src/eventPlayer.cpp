@@ -51,7 +51,7 @@ auto EventPlayer::eventListener() -> void
 	    float y = this->player->getPosition().val[1];
 	    float z = this->player->getPosition().val[2];
 	    float rotX = this->player->getRotation().val[0];
-	    float rotY = this->player->getRotation().val[1];
+		float rotY = this->player->getRotation().val[1];
 	    float rotZ = this->player->getRotation().val[2];
 
 		if (key[this->scancodeKeys["Backward"]])

@@ -29,6 +29,7 @@ static auto createSceneManager(video::Driver* driver) -> SceneManager*;
 	auto setActiveCamera(CameraSceneNode* cam) 	-> void 					{ _cur_cam = cam; }
 	auto addToRender(SceneNode* node, GLuint prg_id) -> void;
 	auto eraseRender(SceneNode* node, GLuint prg_id) -> void;
+	auto clearAllNodeExceptRootCam(SceneNode* root) -> void;
 	
 	auto addToDeletionQueue(SceneNode* node) 	-> void;
 	auto clearDeletionQueue() 					-> void;

@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 	id::LevelEditor* level_editor = new (std::nothrow) id::LevelEditor(device.get());
 //	level_editor->InitLevelEditor();
 	id::DebugWindow* debug_window = new (std::nothrow) id::DebugWindow();
-//	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
+	id::OpenFile* open_file = new (std::nothrow) id::OpenFile();
 	
 	id::Device* dev = device.get();
 	std::function<void()> funcQuit = [dev]() {dev->close();};
@@ -112,9 +112,9 @@ int main(int argc, char* argv[])
 		debug_logger->DisplayLog();	
 		level_editor->DisplayLevelEditor();
 		debug_window->Display(device.get());
-	//	open_file->Display(device.get());
+		open_file->Display(device.get());
 		
-//		device->getGui()->render();
+		device->getGui()->render();
 		#ifdef _DEBUG
 			ImGui::Render();
 		#endif

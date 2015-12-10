@@ -152,7 +152,8 @@ auto JsonWriter::writeAllNode(scene::SceneNode* root, std::string const& fileNam
 	file << "{" << std::endl;
 	for (auto&& child : root->getChildrens())
 	{
-		writeNode(child, file);
+		if (child->getName() != "Cam")
+			writeNode(child, file);
 		writeAllNode(child, file);
 	}
 

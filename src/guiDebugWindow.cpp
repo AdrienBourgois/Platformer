@@ -65,6 +65,12 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 			{
 				node->setRotation(node_rot);
 			}
+
+			maths::Vector3 node_sca = node->getScale();
+			if (ImGui::DragFloat3("Scale", (float*)&node_sca.val, 0.25f, 0.f, 0.f, "%.2f", 1.f))
+			{
+				node->setScale(node_sca);
+			}
 		}
 		if (node == ((scene::SceneNode*)(node->getScene()->getActiveCamera())))
 		{

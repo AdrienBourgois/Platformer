@@ -36,7 +36,7 @@ auto MenuLevelEditor::Display() -> void
 		{
 			if(ImGui::MenuItem("New Level"))
 			{
-				std::cout<< "New Level" << std::endl;
+				dev->getSceneManager()->clearAllNodeExceptRootCam(dev->getSceneManager()->getRootNode());
 			}
 	
 			if(ImGui::MenuItem("Save Level"))
