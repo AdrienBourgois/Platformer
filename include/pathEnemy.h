@@ -27,6 +27,8 @@ private:
 	int index;
 	std::vector<maths::Vector3> chase;
 	bool inPursuit;
+	float speedX;
+	float speedZ;
 
 };
 

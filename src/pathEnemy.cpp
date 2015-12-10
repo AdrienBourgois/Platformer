@@ -23,6 +23,8 @@ PathEnemy::PathEnemy()
 
 	inPursuit = false;
 	index = 0;
+	speedX = 0;
+	speedZ = 0;
 	
 	logger->log("PathEnemy hsa been initialized.", LL_DEBUG);
 }
@@ -37,52 +39,55 @@ PathEnemy::~PathEnemy()
 
 auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 {
-//	float speed = enemy->getSpeed();
+	//float speed = enemy->getSpeed();
 	float x = enemy->getPosition().val[0];
 	float y = enemy->getPosition().val[1];
 	float z = enemy->getPosition().val[2];
 
-	(void)deltaTime;
 
 	enemy->entityIsMovement();
 	enemy->entitySpeed();	
 	enemy->setEntityState(STATE_WALKING);
 
-	path.push_back({-10, 0, 0});
+	path.push_back({0, 0, 0});
+	path.push_back({10, 0, 0});
 	path.push_back({10, 0, -10});
 	path.push_back({-10, 0, 0});
-/*
-	if (inPursuit == false)
-	{
-		if (z <= path[index].val[2])
+
+//	if (inPursuit == false)
+//	{
+		float distanceX;
+		float distanceZ;
+		(path[index].val[0] < 0) ? distanceX = -path[index].val[0] + x: distanceX = path[index].val[0] - x;
+		(path[index].val[2] < 0) ? distanceZ = -path[index].val[2] + z: distanceZ = path[index].val[2] - z;
+
+		if (distanceX <= 0 && distanceZ <= 0)
 		{
-			z +=  speed * deltaTime;
-	
-	
-			if ((maths::Vector3){x, y, z} >= path[index])
 			++index;
+			(path[index].val[0] < 0) ? distanceX = -path[index].val[0] + x: distanceX = path[index].val[0] - x;
+			(path[index].val[2] < 0) ? distanceZ = -path[index].val[2] + z: distanceZ = path[index].val[2] - z;
+			speedX = distanceX/20.f;
+			speedZ = distanceZ/20.f;
 		}
-	
-		else
-			z -= speed * deltaTime;
-	
-		if (x <= path[index].val[0])
+		
+		if (distanceZ > 0)
 		{
-			x += speed * deltaTime;
-			if ((maths::Vector3){x, y, z} >= path[index])
-			++index;
-
+			if (z <= path[index].val[2])
+				z +=  speedZ * deltaTime;
+			else
+				z -= speedZ * deltaTime;
 		}
 
-		else 
-			x -= speed * deltaTime;
-	}
-
-*/		std::cout << "path : " << index << std::endl;
-
-		std::cout << enemy->getPosition() << std::endl;
-
+		if (distanceX > 0)
+		{
+			if (x <= path[index].val[0])
+				x += speedX * deltaTime;
+			else 
+				x -= speedX * deltaTime;
+		}
+//	}
 		enemy->setPosition({x, y, z});
+
 }
 
 auto PathEnemy::pursuit(Enemy* enemy, Player* player, float deltaTime) -> void
@@ -98,7 +103,7 @@ auto PathEnemy::pursuit(Enemy* enemy, Player* player, float deltaTime) -> void
 	float py = player->getPosition().val[1];
 	float pz = player->getPosition().val[2];
 
-/*	if (px >= x + 1.f || px >= x - 1.f)
+	if (px >= x + 1.f || px >= x - 1.f)
 	{
 		chase.push_back({px, py, pz});	
 				
@@ -106,8 +111,8 @@ auto PathEnemy::pursuit(Enemy* enemy, Player* player, float deltaTime) -> void
 		z += speed * deltaTime;
 
 		inPursuit = true;
-	}*/
-/*	else*/ if (px <= x - 1.f && py <= y + 1.f)
+	}
+	else if (px <= x - 1.f && py <= y + 1.f)
 	{
 		chase.push_back({px, py, pz});	
 		x -= speed * deltaTime;
