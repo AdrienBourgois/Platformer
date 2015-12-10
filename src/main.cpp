@@ -106,6 +106,7 @@ id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneN
 		open_file->Display(device.get());
 		
 		enemy->getPath()->enemyPatrol(enemy, deltaTime);
+		enemy->getPath()->pursuit(enemy, player, deltaTime);
 
 		//device->getGui()->render();
 		#ifdef _DEBUG
