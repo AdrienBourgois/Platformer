@@ -1,6 +1,6 @@
+#include "device.h"
 #include "txtLogger.h"
 #include "eventReceiver.h"
-#include "device.h"
 
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();

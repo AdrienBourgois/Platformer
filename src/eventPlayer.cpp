@@ -11,6 +11,8 @@
 #include "elementId.h"
 #include "json/jsonReader.h"
 
+#include <iostream>
+
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
 }
@@ -94,7 +96,6 @@ auto EventPlayer::eventListener() -> void
        		speed = speedrun;
         	this->player->setEntityState(STATE_RUNNING);
     	}
-
     	if (this->player->entityIsMovement() == true)
     	{
     	    this->player->setPosition({x, y, z});

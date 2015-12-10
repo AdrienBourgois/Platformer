@@ -29,8 +29,15 @@ Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, st
 Entity::~Entity()
 {
 	logger->log("Deleting Entity ...", LL_DEBUG);
-	
+		
+	this->speed = 0;
+	this->state = 0;
+	this->speedrun = 0;
+	this->hp = 0;
+	this->life = 0;
+	this->attack = 0;
 	delete stateEntity;
+	this->stateEntity = nullptr;
 
 	logger->log("Entity has been deleted.", LL_DEBUG);
 }

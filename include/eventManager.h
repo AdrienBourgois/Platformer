@@ -21,6 +21,8 @@ public:
 	auto currentEventListener() -> void;
 	auto addEventReceiver(EventReceiver* newEvent) -> void;
 
+	auto getEventFromName(std::string const& name) -> EventReceiver*;
+
 private:
 	EventManager();
 	std::vector<EventReceiver*> events;
