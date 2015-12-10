@@ -64,23 +64,32 @@ auto OpenFile::DisplayLoadLevel(Device* dev) -> void
 
 auto OpenFile::DisplaySaveLevel(Device* dev) -> void
 {
-	SDL_assert(dev);
-	(void)dev;	
 	if (_visible)
 	{
 		ImGui::OpenPopup("Save level");
 	      	if (ImGui::BeginPopupModal("Save level", NULL, ImGuiWindowFlags_AlwaysAutoResize))
            	{
-				fileNameSave.resize(fileNameSave.size() + 32);
-				std::cout << fileNameSave.size() << std::endl;
-            	ImGui::InputText("File to save", &fileNameSave[0], fileNameSave.size() * sizeof(fileNameSave[0]));
+				std::string displayedFilename = fileNameSave;
+				displayedFilename.reserve(fileNameSave.size() + 30);
+
+
+            	ImGui::InputText("File to save", &displayedFilename[0], displayedFilename.capacity() * sizeof(displayedFilename[0]));
+
+				for (size_t idx = 0; idx < displayedFilename.capacity(); ++idx)
+					if (displayedFilename[idx] == '\0')
+					{
+						displayedFilename.resize(idx);
+						break;
+					}
+
+				fileNameSave = displayedFilename;
+
 				if (ImGui::Button(("Save"), ImVec2(120,0)))
 				{
 					json::JsonWriter jsonWriter;
 					jsonWriter.writeAllNode(dev->getSceneManager()->getRootNode(), fileNameSave);
 				}
 
-		
 			}	
 		if (ImGui::Button("Cancel", ImVec2(120,0)))
 		{

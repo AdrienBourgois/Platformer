@@ -145,11 +145,10 @@ auto JsonWriter::writeNode(scene::SceneNode* node, std::string fileName) -> void
 	JsonValue::deleteAllJsonValue();
 }
 
-auto JsonWriter::writeAllNode(scene::SceneNode* root, std::string fileName) -> void
+auto JsonWriter::writeAllNode(scene::SceneNode* root, std::string const& fileName) -> void
 {
 	std::ofstream file;
-	std::cout << fileName << std::endl;
-	file.open(("./assets/json/" + fileName + ".json").c_str(), std::ios_base::out);
+	file.open(("./assets/json/" + fileName + ".json"), std::ofstream::binary);
 	file << "{" << std::endl;
 	for (auto&& child : root->getChildrens())
 	{

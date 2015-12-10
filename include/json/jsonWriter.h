@@ -33,7 +33,7 @@ public:
 
 	auto writeNode(scene::SceneNode* node, std::ofstream& file) -> void;
 	auto writeNode(scene::SceneNode* node, std::string fileName) -> void;
-	auto writeAllNode(scene::SceneNode* root, std::string fileName) -> void;
+	auto writeAllNode(scene::SceneNode* root, std::string const& fileName) -> void;
 	auto writeAllNode(scene::SceneNode* node, std::ofstream& file) -> void;
 
 	auto saveDefaultBindKey(std::string fileName = "bindingKey") -> void;
