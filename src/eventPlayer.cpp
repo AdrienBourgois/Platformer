@@ -64,20 +64,20 @@ auto EventPlayer::eventListener() -> void
     	{
     	    z -= speed * deltaTime;
     	    this->player->setEntityState(STATE_WALKING);
-    	    key[SDL_SCANCODE_R] ? z -= speedrun * deltaTime : z -= speed * deltaTime;
+    	    key[this->scancodeKeys["Run"]] ? z -= speedrun * deltaTime : z -= speed * deltaTime;
     	}
 	
 	    if (key[this->scancodeKeys["Strafe_right"]])
 	    {
 	        x +=  speed * deltaTime;
 	        this->player->setEntityState(STATE_WALKING);
-    	    key[SDL_SCANCODE_R] ? x += speedrun * deltaTime : x += speed * deltaTime;
+    	    key[this->scancodeKeys["Run"]] ? x += speedrun * deltaTime : x += speed * deltaTime;
    		}
 		else if (key[this->scancodeKeys["Strafe_left"]])
     	{
     	    x -= speed * deltaTime;
     	    this->player->setEntityState(STATE_WALKING);
-    	    key[SDL_SCANCODE_R] ? x -= speedrun * deltaTime : x -= speed * deltaTime;
+    	    key[this->scancodeKeys["Run"]] ? x -= speedrun * deltaTime : x -= speed * deltaTime;
     	}
 
 	    if (key[this->scancodeKeys["Turn_left"]])
