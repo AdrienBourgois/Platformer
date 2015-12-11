@@ -139,11 +139,6 @@ auto Device::run() -> bool
 						break;	
 					}
 					#endif
-					case SDL_SCANCODE_RETURN:
-					{
-						json::JsonWriter jsonWriter;
-						jsonWriter.writeAllNode(_sceneManager->getRootNode(), "partie1");
-					}
 					default:
 						break;
 				}
