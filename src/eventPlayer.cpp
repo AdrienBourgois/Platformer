@@ -57,45 +57,66 @@ auto EventPlayer::eventListener() -> void
 		if (key[this->scancodeKeys["Backward"]])
    		{
     	    z += speed * deltaTime;
-   	 	   	this->player->setEntityState(STATE_WALKING);
-    	    key[SDL_SCANCODE_R] ? z +=  speedrun * deltaTime : z += speed * deltaTime;
-    	}
+			if (!this->player->getEntityState()->checkEntityState(STATE_RUNNING))
+   	 	   	{
+				this->player->getEntityState()->setEntityState(STATE_WALKING);
+				z += speed * deltaTime;
+    	    }
+			else
+				z +=  speedrun * deltaTime;    	}
     	else if (key[this->scancodeKeys["Forward"]])
     	{
     	    z -= speed * deltaTime;
-    	    this->player->setEntityState(STATE_WALKING);
-    	    key[this->scancodeKeys["Run"]] ? z -= speedrun * deltaTime : z -= speed * deltaTime;
+    	   
+			if (!this->player->getEntityState()->checkEntityState(STATE_RUNNING)) 
+			{
+				this->player->getEntityState()->setEntityState(STATE_WALKING);
+				z -= speed * deltaTime;
+    	    }
+			else
+			z -= speedrun * deltaTime;
     	}
-	
 	    if (key[this->scancodeKeys["Strafe_right"]])
 	    {
 	        x +=  speed * deltaTime;
-	        this->player->setEntityState(STATE_WALKING);
-    	    key[this->scancodeKeys["Run"]] ? x += speedrun * deltaTime : x += speed * deltaTime;
-   		}
+			if (!this->player->getEntityState()->checkEntityState(STATE_RUNNING))
+		    {
+			    this->player->getEntityState()->setEntityState(STATE_WALKING);
+				x += speed * deltaTime;
+			}
+			else
+    	    	x += speedrun * deltaTime;
+		}
 		else if (key[this->scancodeKeys["Strafe_left"]])
     	{
     	    x -= speed * deltaTime;
-    	    this->player->setEntityState(STATE_WALKING);
-    	    key[this->scancodeKeys["Run"]] ? x -= speedrun * deltaTime : x -= speed * deltaTime;
-    	}
+			if (!this->player->getEntityState()->checkEntityState(STATE_RUNNING))
+	    	{
+			    this->player->getEntityState()->setEntityState(STATE_WALKING);
+    	    	x -= speed * deltaTime;
+			}
+			else
+				x -= speedrun * deltaTime;    	}
 
 	    if (key[this->scancodeKeys["Turn_left"]])
 	    {
 	        rotY += deltaTime * 2.f;
-	        this->player->setEntityState(STATE_WALKING);
+	        this->player->getEntityState()->setEntityState(STATE_WALKING);
 	    }
 	    else if (key[this->scancodeKeys["Turn_right"]])
 	    {
 	        rotY -= deltaTime * 2.f;
-	        this->player->setEntityState(STATE_WALKING);
+	        this->player->getEntityState()->setEntityState(STATE_WALKING);
 	    }
 
 		if (key[this->scancodeKeys["Run"]])
     	{
        		speed = speedrun;
-        	this->player->setEntityState(STATE_RUNNING);
+        	this->player->getEntityState()->setEntityState(STATE_RUNNING);
     	}
+		else
+			this->player->getEntityState()->setEntityState(STATE_WALKING);
+
     	if (this->player->entityIsMovement() == true)
     	{
     	    this->player->setPosition({x, y, z});
@@ -103,7 +124,7 @@ auto EventPlayer::eventListener() -> void
     	}
 
     	if (player->getHp() == 0)
-    	    this->player->setEntityState(STATE_DEAD);
+    	    this->player->getEntityState()->setEntityState(STATE_DEAD);
 	}
 }
 auto EventPlayer::loadKeys() -> void
