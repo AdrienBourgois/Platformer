@@ -1,5 +1,4 @@
 #include <SDL2/SDL.h>
-#include <iostream>
 
 #include "guiDebugWindow.h"
 #include "imgui_impl.h"
@@ -13,14 +12,16 @@
 #include "window.h"
 #include "guiEditMaterialWindow.h"
 #include "guiLogger.h"
-
+#include "logger.h"
 namespace id {
 
 DebugWindow::DebugWindow()
 : GUI_Window(true)
 {
+	LOG(L_INFO, "Creating DebugWindow...");
 	_edit_material_window = new EditMaterialWindow();
 	_guiLogger = new DebugLogger();
+	LOG(L_INFO, "DebugWindow Created.");
 }
 
 DebugWindow::~DebugWindow()
@@ -115,7 +116,6 @@ auto DebugWindow::DisplayNodesTree(scene::SceneNode* node) -> void
 			ImGui::SmallButton("Show Collider"))
 			{
 				ImGui::Text("text");
-				std::cout << "WIP" << std::endl;
 			}
 
 	/*		if ((node != (node->getScene()->getRootNode())) &&

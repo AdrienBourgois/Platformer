@@ -111,7 +111,7 @@ auto Driver::clear() -> void
 
 auto Driver::genVertexObject(int size, float* vertices, GLuint* vbo, GLuint* vao) -> void
 {
-   glGenVertexArrays(1, vao);
+    glGenVertexArrays(1, vao);
     glGenBuffers(1, vbo);
     
     

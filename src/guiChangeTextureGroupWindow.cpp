@@ -7,11 +7,6 @@
 #include "guiChangeTextureGroupWindow.h"
 #include "imgui_impl.h"
 #include "texture.h"
-#include "txtLogger.h"
-
-namespace {
-    id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 
@@ -70,8 +65,8 @@ auto ChangeTextureGroupWindow::DisplayDirTree(int type, std::string path, bool f
             {
 				auto* texture = Texture::addTexture(path);
 				if (!texture->load())
-					logger->log("Couldn't load texture in ChangeTextureGroup", LL_WARNING);
-				_active_material->setTexture(_active_mtl->name, file_name, texture);
+						
+		_active_material->setTexture(_active_mtl->name, file_name, texture);
             }
         }
     }

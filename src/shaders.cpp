@@ -2,38 +2,34 @@
 #include <iostream>
 
 #include "shaders.h"
-#include "txtLogger.h"
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-} // namespace
+#include "logger.h"
 
 namespace id {
 
 auto Shaders::createShaders() -> std::unique_ptr<Shaders>
 {
-	logger->log("Creating Shaders...");
+	LOG(L_INFO, "Creating Shaders...");
 
 	auto* shaders = new(std::nothrow) Shaders;
 	if (!shaders)
 	{
-		logger->log("Failed at creating shaders in Shaders::createShaders()", LL_ERROR);
+		LOG(L_ERROR, "Failed at creating shaders in Shaders::createShaders()");
 		SDL_assert(shaders && "ERROR shaders has not been created.");
 	}
 
-	logger->log("Shaders constructed", LL_INFO);
+	LOG(L_INFO, "Shaders constructed");
 
 	return std::unique_ptr<Shaders>(shaders);
 }
 
 Shaders::~Shaders()
 {
-	logger->log("Deleting Shaders...", LL_DEBUG);
+	LOG(L_DEBUG, "Deleting Shaders...");
 
 	for (auto&& prg : _program_loaded)
 		glDeleteProgram(prg.second);
 
-	logger->log("Shaders has been deleted.");
+	LOG(L_DEBUG, "Shaders has been deleted.");
 }
 
 auto Shaders::loadShader(std::string const& name, GLint shader_type) -> GLuint
@@ -82,7 +78,7 @@ auto Shaders::loadShader(std::string const& name, GLint shader_type) -> GLuint
 	else
 	{
 		std::string str = "Shader [" + filename + "] compilation success"; 
-		logger->log(str.c_str());
+		LOG(L_INFO, str.c_str());
 	}
 	return id;
 }
@@ -92,7 +88,7 @@ auto Shaders::createProgram(GLuint vs_id, GLuint fs_id) -> GLuint
 	auto prg_id = glCreateProgram();
 	if (!prg_id)
 	{
-		logger->log("Failed at creating prg_id in Shaders::loadProgram(std::string const&)", LL_ERROR);
+		LOG(L_ERROR, "Failed at creating prg_id in Shaders::loadProgram(std::string const&)");
 		SDL_assert(prg_id && "ERROR prg_id has not been created.");
 	}
 
@@ -112,14 +108,14 @@ auto Shaders::createProgram(GLuint vs_id, GLuint fs_id) -> GLuint
 		auto infolog = new char[len];
 
 		glGetProgramInfoLog(prg_id, len, &len, infolog);
-		logger->log("Program link error : ", LL_ERROR);
-		logger->log(infolog, LL_ERROR);
+		LOG(L_ERROR, "Program link error : ");
+		LOG(L_ERROR, infolog);
 		delete infolog;
 		infolog = nullptr;
 		SDL_assert(false);
 	}
 	else
-		logger->log("Program link compilation success", LL_INFO);
+		LOG(L_INFO, "Program link compilation success");
 
 	glDetachShader(prg_id, vs_id);
 	glDetachShader(prg_id, fs_id);

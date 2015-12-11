@@ -4,7 +4,7 @@
 #include <memory>
 #include <functional>
 
-#include "txtLogger.h"
+#include "logger.h"
 #include "guiManager.h"
 #include "guiRect.h"
 #include "guiButton.h"
@@ -12,23 +12,15 @@
 #include "guiMenu.h"
 #include "device.h"
 
-// debug
-#include <iostream>
-// end
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
-
 namespace id {
 namespace gui {
 
 GuiManager::GuiManager(Device* dev, int windowWidth, int windowHeight)
 {
-	logger->log("Creating GuiManager...", LL_INFO);
+	LOG(L_INFO,"Creating GuiManager...");
 
 	if (TTF_Init() == -1)
-		logger->log("Failed to initialisation TTF", LL_INFO);
+		LOG(L_ERROR,"Failed to initialisation TTF");
 
 	this->dev = dev;
 	this->font = TTF_OpenFont("/usr/share/fonts/truetype/gentium-basic/GenBasB.ttf", 100);
@@ -45,11 +37,11 @@ GuiManager::GuiManager(Device* dev, int windowWidth, int windowHeight)
 	};
 	this->root = new GuiRect(this, nullptr, 0, 0, 0, 0, 0, false, nullptr);
 
-	logger->log("GuiManager created", LL_INFO);
+	LOG(L_INFO,"GuiManager created");
 }
 GuiManager::~GuiManager()
 {
-	logger->log("Deleting GuiManager...", LL_INFO);
+	LOG(L_INFO,"Deleting GuiManager...");
 
 	TTF_CloseFont(this->font);
 	TTF_Quit();
@@ -64,14 +56,14 @@ GuiManager::~GuiManager()
 	this->root = nullptr;
 
 
-	logger->log("GuiManager deleted", LL_INFO);
+	LOG(L_INFO,"GuiManager deleted");
 }
 auto GuiManager::createGuiManager(Device* dev, int windowWidth, int windowHeight) -> std::unique_ptr<GuiManager>
 {
 	GuiManager* gui = new (std::nothrow) GuiManager(dev, windowWidth, windowHeight);
 	if (!gui)
 	{
-		logger->log("Failed at creating gui in GuiManager::createGuiManager()", LL_ERROR);
+		LOG(L_INFO,"Failed at creating gui in GuiManager::createGuiManager()");
 		SDL_assert(gui);
 	}
 	return std::unique_ptr<GuiManager>(gui);
@@ -215,7 +207,7 @@ auto GuiManager::loadProgram(std::string const& nameShader) -> void
     }
     else
     {
-        logger->log("Program linkage success");
+        LOG(L_INFO,"Program linkage success");
     }
 
 	glDetachShader(prgID, vsID);
@@ -263,7 +255,7 @@ auto GuiManager::loadShader(std::string const& name, GLint shaderType) -> GLuint
     else
     {
 		std::string str = "Shader [" + filePath + "] compilation success";
-		logger->log(str);
+		LOG(L_INFO,str);
 	}
 	
 	return id;
