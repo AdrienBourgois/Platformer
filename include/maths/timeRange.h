@@ -36,7 +36,7 @@ class TimeRange
     public:
         TimeRange() = delete;
         
-	TimeRange(T min, T max, float time, T* adress, int state = 1)
+	TimeRange(T min, T max, float time, T* adress, int state = timeRangeState::PLAY)
 	{
 	    this->min = min;
 	    this->max = max;
@@ -48,11 +48,11 @@ class TimeRange
         this->value = *(this->adress);
 
         if (min < max)
-            this->state = 1;
+            this->state = timeRangeState::PLAY;
         else if (min == max)
-            this->state = 0;
+            this->state = timeRangeState::PAUSE;
         else
-	        this->state = -1;
+	        this->state = timeRangeState::REWIND;
 
         this->state *= state;
 	}
@@ -60,7 +60,7 @@ class TimeRange
 
 	auto _update(float deltaTime) -> void
 	{
-        if ((state == 1 && this->value >= max) || (state == -1 && this->value <= max))
+        if ((state == timeRangeState::PLAY && this->value >= max) || (state == timeRangeState::REWIND && this->value <= max))
             return;
 
         if (this->min < this->max)
@@ -75,7 +75,7 @@ class TimeRange
 
     auto _pause() -> void
     {
-        this->state = 0;
+        this->state = timeRangeState::PAUSE;
     }
 
     auto _inverse() -> void
@@ -85,12 +85,12 @@ class TimeRange
 
     auto _play() -> void
     {
-        this->state = 1;
+        this->state = timeRangeState::PLAY;
     }
 
     auto _rewind() -> void
     {
-        this->state = -1;
+        this->state = timeRangeState::REWIND;
     }
 
     private:
