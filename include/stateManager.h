@@ -1,5 +1,5 @@
-#ifndef __STATEMANAGER_H_INCLUDED__
-#define __STATEMANAGER_H_INCLUDED__
+#ifndef STATEMANAGER_H_INCLUDED
+#define STATEMANAGER_H_INCLUDED
 #include "elementId.h"
 
 namespace id {
@@ -27,4 +27,4 @@ private:
 
 
 
-#endif // __STATEMANAGER_H_INCLUDED__
+#endif // STATEMANAGER_H_INCLUDED
