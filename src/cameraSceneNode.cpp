@@ -2,11 +2,8 @@
 
 #include "cameraSceneNode.h"
 #include "maths/matrix.h"
-#include "txtLogger.h"
+#include "logger.h"
 
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace scene {
@@ -18,8 +15,10 @@ auto CameraSceneNode::createCameraSceneNode(SceneManager* scn, SceneNode* parent
 	auto* cam = new (std::nothrow) CameraSceneNode(scn, parent, name, fovy, ratio, near, far);
 	if (!cam)
 	{
-		logger->log("Failed at creating Camera Scene Node in CameraSceneNode::createCameraSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, float fovy, float ratio, float near, float far)", LL_ERROR);
+		LOG(L_ERROR,"Failed at creating Camera Scene Node in CameraSceneNode::createCameraSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, float fovy, float ratio, float near, float far)");
+		#ifdef _DEBUG
 		SDL_assert(cam);
+		#endif
 	}
 
 	return cam;
@@ -28,21 +27,21 @@ auto CameraSceneNode::createCameraSceneNode(SceneManager* scn, SceneNode* parent
 CameraSceneNode::CameraSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, float fovy, float ratio, float near, float far)
 : SceneNode(scn, parent, name), _fovy(fovy), _ratio(ratio), _near(near), _far(far)
 {
-	logger->log("Creating CameraSceneNode...", LL_DEBUG);
+	LOG(L_INFO,"Creating CameraSceneNode...");
 	
 	_proj = maths::Matrix4::perspective(fovy,ratio,near,far);
 	
 	if (scn->getActiveCamera() == nullptr)
 		scn->setActiveCamera(this);
 
-	logger->log("CameraSceneNode has been created.");
+	LOG(L_INFO,"CameraSceneNode has been created.");
 }
 
 CameraSceneNode::~CameraSceneNode()
 {
-	logger->log("Deleting CameraSceneNode...", LL_DEBUG);
+	LOG(L_INFO,"Deleting CameraSceneNode...");
 
-	logger->log("CameraSceneNode has been deleted.");
+	LOG(L_INFO,"CameraSceneNode has been deleted.");
 }
 	
 auto CameraSceneNode::setFOV(float fovy) -> void

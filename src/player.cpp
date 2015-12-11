@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 
+
+#include "guiLifeBar.h"
 #include "device.h"
 #include "stateManager.h"
 #include "player.h"

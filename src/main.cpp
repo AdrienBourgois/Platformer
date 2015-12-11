@@ -41,9 +41,9 @@ int main(int argc, char* argv[])
 
 	logger->setLogLevel(id::LL_ALL);
 
-	id::json::JsonWriter jsonWriter;
-	jsonWriter.saveDefaultBindKey();
-	jsonWriter.saveDefaultResolution();
+//	id::json::JsonWriter jsonWriter;
+//	jsonWriter.saveDefaultBindKey();
+//	jsonWriter.saveDefaultResolution();
 
 	std::unique_ptr<id::Device> device = device->create();
 
@@ -55,6 +55,11 @@ int main(int argc, char* argv[])
 
 	}
 
+//	id::scene::Enemy* enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/models/Dragon.obj");
+	
+//	enemy->getPath()->addPath({20, 0, 0});
+//	enemy->getPath()->addPath({-20, 0, 0});
+	
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
 
@@ -68,9 +73,6 @@ int main(int argc, char* argv[])
 		last = now;
 	}
 
-//	id::json::JsonWriter jsonWriter;
-//	jsonWriter.saveDefaultBindKey();
-//	jsonWriter.saveDefaultResolution();
 	id::Device* dev = device.get();
 	std::function<void()> funcQuit = [dev]() {dev->close();};
 	device->getGui()->addMenuTitleScreen(funcQuit);
@@ -86,7 +88,9 @@ int main(int argc, char* argv[])
 		device->setDeltaTime(deltaTime);
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
-		
+	
+	//	enemy->getPath()->enemyPatrol(enemy, deltaTime);
+
 		device->getGui()->render();
 		ImGui::Render();
 	
