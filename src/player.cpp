@@ -26,7 +26,8 @@ Player::Player(Device* dev, SceneManager* scn, SceneNode* parent, std::string co
 	setLife(3);
 	setAttack(3);
 
-	static_cast<event::EventPlayer*>(this->dev->getEventManager()->getEventFromName("EventPlayer"))->setPlayer(this);
+	if (!static_cast<event::EventPlayer*>(this->dev->getEventManager()->getEventFromName("EventPlayer"))->getPlayer())
+		static_cast<event::EventPlayer*>(this->dev->getEventManager()->getEventFromName("EventPlayer"))->setPlayer(this);
 
 	logger->log("Player has been created.", LL_DEBUG);
 

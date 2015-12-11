@@ -26,6 +26,7 @@ public:
 	auto loadKeys() -> void;
 
 	auto setPlayer(scene::Player* player) -> void { this->player = player; }
+	auto getPlayer() -> scene::Player* { return player; }
 	auto deletePlayer() -> void;
 
 private:

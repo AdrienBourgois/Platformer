@@ -70,11 +70,11 @@ auto MenuLevelEditor::Display() -> void
 			{
 				if(ImGui::MenuItem("Player", "Create spawn player"))
 				{
-					id::scene::Player::createPlayer(dev, dev->getSceneManager(), nullptr, "Player", "pos3d_tex2d", "./assets/models/Robot.obj");
+					id::scene::Player::createPlayer(dev, dev->getSceneManager(), dev->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "./assets/models/Robot.obj");
 				}
 				if(ImGui::MenuItem("Enemy", "Create spawn eneny"))
 				{
-					id::scene::Enemy::createEnemy(dev->getSceneManager(), nullptr, "Enemy0", "pos3d_tex2d", "./assets/models/Dragon.obj");
+					id::scene::Enemy::createEnemy(dev->getSceneManager(), dev->getSceneManager()->getRootNode(), "Enemy0", "pos3d_tex2d", "./assets/models/Dragon.obj");
 				}			
 				ImGui::EndMenu();
 			}
