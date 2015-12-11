@@ -5,7 +5,10 @@ SRC = 	cameraSceneNode.cpp\
 		driver.cpp\
 		enemy.cpp\
 		entity.cpp\
-		event.cpp\
+		eventCamera.cpp\
+		eventManager.cpp\
+		eventPlayer.cpp\
+		eventReceiver.cpp\
 		fileUtility.cpp\
 		guiButton.cpp\
 		guiChangeTextureGroupWindow.cpp\
@@ -13,11 +16,13 @@ SRC = 	cameraSceneNode.cpp\
 		guiEditMaterialWindow.cpp\
 		guiEditShader.cpp\
 		guiEventReceiver.cpp\
+		guiLifeBar.cpp\
 		guiLogger.cpp\
 		guiManager.cpp\
 		guiMenu.cpp\
 		guiOpenFile.cpp\
 		guiRect.cpp\
+		guiSaveFile.cpp\
 		guiWindow.cpp\
 		imgui.cpp\
 		imgui_demo.cpp\
@@ -32,6 +37,10 @@ SRC = 	cameraSceneNode.cpp\
 		json/jsonString.cpp\
 		json/jsonValue.cpp\
 		json/jsonWriter.cpp\
+		levelEditor.cpp\
+		leveleditor/levelEditorElement.cpp\
+		leveleditor/menuAssetsLevelEditor.cpp\
+		leveleditor/menuLevelEditor.cpp\
 		logger.cpp\
 		main.cpp\
 		material.cpp\
@@ -43,6 +52,7 @@ SRC = 	cameraSceneNode.cpp\
 		maths/vector.cpp\
 		mesh.cpp\
 		meshSceneNode.cpp\
+		pathEnemy.cpp\
 		player.cpp\
 		sceneManager.cpp\
 		sceneNode.cpp\
@@ -52,7 +62,6 @@ SRC = 	cameraSceneNode.cpp\
 		texture.cpp\
 		txtLogger.cpp\
 		window.cpp\
-		pathEnemy.cpp\
 
 LIBS = SDL2 GL GLEW SDL2_image SDL2_ttf
 
@@ -128,7 +137,6 @@ clean:  clog
 	$(RM) $(DEPENDENCIES)
 	$(RM) -r $(ARBO)
 	$(RM) .*.swp
-	$(RM) assets/json/*
 
 fclean: clean
 	$(RM) $(BIN_DIR)$(TARGET)

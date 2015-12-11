@@ -158,6 +158,14 @@ void Matrix4x4::setRotation(Vector3 rot)
     *this *= rotateX(rot.val[0]) * rotateY(rot.val[1]) * rotateZ(rot.val[2]);
     _rotation = rot;
 }
+
+auto Matrix4x4::setScale(Vector3 sca) -> void
+{
+	this->val[0] = sca.val[0];
+	this->val[5] = sca.val[1];
+	this->val[10] = sca.val[2];
+}
+
 auto Matrix4x4::getPosition() const -> Vector3
 {
     return {this->val[3], this->val[7], this->val[11]};
@@ -166,6 +174,12 @@ auto Matrix4x4::getRotation() const -> Vector3
 {
     return _rotation;
 }
+
+auto Matrix4x4::getScale() const -> Vector3
+{
+	return {this->val[0], this->val[5], this->val[10]};
+}
+
 void Matrix4x4::print() const
 {
     std::cout<<" / "<<this->val[0]<<" "<<this->val[1]<<" "<<this->val[2]<<" "<<this->val[3]<<" \\ "<<std::endl;

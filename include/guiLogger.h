@@ -20,6 +20,11 @@ class DebugLogger: public GUI_Window
 public: 
 	DebugLogger();
 	~DebugLogger();
+
+	DebugLogger(DebugLogger const&) = delete;
+	DebugLogger(DebugLogger&&) = delete;
+	auto operator=(DebugLogger const&) = delete;
+	auto operator=(DebugLogger&&) = delete;
 	
 	auto DisplayLog() ->void;
 	auto UpdateDebugLog() ->void;

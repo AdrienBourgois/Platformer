@@ -1,6 +1,7 @@
 #ifndef PLAYER_H_INCLUDED
 #define PLAYER_H_INCLUDED
 
+#include "device.h"
 #include "entity.h"
 
 namespace id {
@@ -10,14 +11,13 @@ class Player : public Entity {
 
 public:
 
-	static auto createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> Player*;	
+	static auto createPlayer(Device* dev, SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> Player*;	
 
-	~Player();
+	virtual ~Player();
 
-private:
-	
-	Player(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path);
-
+private:	
+	Player(Device* dev, SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path);
+	Device* dev;
 };
 
 

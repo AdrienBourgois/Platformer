@@ -11,8 +11,11 @@
 #include "screenshot.h"
 #include "guiManager.h"
 #include "guiEventReceiver.h"
+#include "eventManager.h"
 #include "logger.h"
-#include "event.h"
+#include "json/jsonReader.h"
+
+#include <iostream>
 
 namespace {
 
@@ -43,13 +46,20 @@ Device::Device()
 	SDL_Init(SDL_INIT_VIDEO);
 	logger->log("SDL has been initialized");
 
-	_window		 	= Window::createWindow(1280, 720);	
+	json::JsonReader jsonReader;
+	std::map<std::string, float> resolution = jsonReader.loadScreenResolution("resolutionScreen");
+
+	_window		 	= Window::createWindow(resolution["Width"], resolution["Height"]);	
 	_driver			= video::Driver::createDriver(_window.get());
 	
 	id::imgui_impl::Init();
 
 	_sceneManager	= scene::SceneManager::createSceneManager(_driver.get());
-//	_gui			= gui::GuiManager::createGuiManager(_window.get()->getWidth(), _window.get()->getHeight());
+	_gui			= gui::GuiManager::createGuiManager(this, _window.get()->getWidth(), _window.get()->getHeight());
+	_eventManager	= event::EventManager::createEventManager();
+
+	running = true;
+	deltaTime = 0;
 
 	logger->log("Device has been created.");
 }
@@ -62,7 +72,8 @@ Device::~Device()
 	_window.reset(nullptr);
 	delete _sceneManager;
 	_sceneManager = nullptr;
-//	_gui.reset(nullptr);
+	_gui.reset(nullptr);
+	_eventManager.reset(nullptr);
 
 	id::imgui_impl::Shutdown();
 	Texture::deleteTextures();
@@ -77,16 +88,17 @@ Device::~Device()
 auto Device::run() -> bool
 {
 	_sceneManager->clearDeletionQueue();
+	this->_eventManager->currentEventListener();
 	SDL_Event ev;
     while (SDL_PollEvent(&ev))
     {
 		imgui_impl::ProcessEvent(&ev);
-		//this->_gui->getGuiEvt()->eventListener(&ev);
+		this->_gui->getGuiEvt()->eventListener(&ev);
         switch (ev.type)
         {
             case SDL_QUIT:
             {
-                return false;
+                close();
                 break;
             }
 			case SDL_KEYDOWN:
@@ -95,7 +107,7 @@ auto Device::run() -> bool
 				{
 					case SDL_SCANCODE_ESCAPE:
 					{
-						return false;
+						close();
 					}
 					break;
 					case SDL_SCANCODE_F7:
@@ -112,7 +124,11 @@ auto Device::run() -> bool
                 break;
         }
     }
-	return true;
+	return running;
+}
+auto Device::close() -> void
+{
+	running = false;
 }
 
 } // end namespace id

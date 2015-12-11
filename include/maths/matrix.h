@@ -53,6 +53,9 @@ struct Matrix4x4
     
             auto setRotation(Vector3 rot)               -> void;
             auto getRotation() const                    -> Vector3;
+
+            auto setScale(Vector3 sca)	                -> void;
+            auto getScale() const 	                    -> Vector3;
     
             auto print() const                          -> void;
     
