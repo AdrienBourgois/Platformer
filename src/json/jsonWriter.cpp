@@ -26,6 +26,9 @@ JsonWriter::JsonWriter()
 {
 	logger->log("Creating JsonWriter...", LL_DEBUG);
 
+	int error_mkdir = std::system("mkdir assets/json2 -p");
+	(void)error_mkdir;
+
 	logger->log("JsonWriter has been created.");
 }
 

@@ -17,7 +17,10 @@ public:
 	LevelEditor(Device* dev);
 	~LevelEditor();
 	LevelEditor(LevelEditor const&) = delete;
+	LevelEditor(LevelEditor&&) = delete;
 	auto operator=(LevelEditor const&) = delete;
+	auto operator=(LevelEditor&&) = delete;
+
 	auto getActive() const -> bool {return activeLevelEditor;}
 	auto setActive(bool act) -> void {activeLevelEditor = act;}
 
@@ -26,12 +29,11 @@ public:
 	auto UpdateLevelEditor() -> void;
 		
 private:
-//	bool	visible;
 	Device*			dev;
 	MenuLevelEditor*	menuLevelEditor;
 	bool			activeLevelEditor;
 };
 
-}//End id
+} // namespace id
 
-#endif
+#endif // LEVEL_EDITOR_H_INCLUDED

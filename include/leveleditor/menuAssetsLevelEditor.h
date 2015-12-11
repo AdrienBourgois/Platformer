@@ -1,8 +1,9 @@
-#ifndef MENUASSETSLEVELEDITOR_H_INCLUDED
-#define MENUASSETSLEVELEDITOR_H_INCLUDED
+#ifndef MENU_ASSETS_LEVEL_EDITOR_H_INCLUDED
+#define MENU_ASSETS_LEVEL_EDITOR_H_INCLUDED
 
 #include "guiWindow.h"
 #include "leveleditor/levelEditorElement.h"
+
 namespace id {
 
 class Device;
@@ -14,10 +15,14 @@ class MenuAssetsLevelEditor : public LevelEditorElement
 {
 public:
 	MenuAssetsLevelEditor(Device* dev);
-	~MenuAssetsLevelEditor();
+	virtual ~MenuAssetsLevelEditor();
+	MenuAssetsLevelEditor(MenuAssetsLevelEditor const&) = delete;
+	MenuAssetsLevelEditor(MenuAssetsLevelEditor&&) = delete;
+	auto operator=(MenuAssetsLevelEditor const&) -> MenuAssetsLevelEditor& = delete;
+	auto operator=(MenuAssetsLevelEditor&&) -> MenuAssetsLevelEditor& = delete;	
 
-	auto getActive() const -> bool {return active;}
-	auto setActive(bool act) -> void {active = act;}
+	auto getActive() const -> bool 		{ return active; }
+	auto setActive(bool act) -> void 	{ active = act;  }
 		
 	virtual auto Display() -> void override;	
 	virtual	auto Display(Device* dev) -> void override;
@@ -28,6 +33,6 @@ private:
 };
 
 
-}//end
+} // namespace id
 
-#endif
+#endif // MENU_ASSETS_LEVEL_EDITOR_H_INCLUDED

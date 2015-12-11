@@ -3,28 +3,34 @@
 
 #include <vector>
 #include "entity.h"
-#include "pathEnemy.h"
 
 namespace id {
 namespace scene {
 
-class Enemy : public Entity {
+class PathEnemy;
+
+class Enemy 
+: public Entity {
 
 public:
 
 	static auto createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> Enemy*;
-	~Enemy();
+	virtual ~Enemy();
+	Enemy(Enemy const&) = default;
+	Enemy(Enemy&&) = delete;
+	auto operator=(Enemy const&) -> Enemy& = default;
+	auto operator=(Enemy&&) -> Enemy& = delete;
 
-	auto getPath() const -> PathEnemy* {return pathEnemy;}
+	auto getPath() const -> PathEnemy* { return pathEnemy; }
 	
 private:
 
 	Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path);
-	PathEnemy* pathEnemy;	
+	PathEnemy* pathEnemy;
 
 };
 
-}//namespace scene
-}//namespace id
+}// namespace scene
+}// namespace id
 
-#endif 
+#endif // ENEMY_H_INCLUDED

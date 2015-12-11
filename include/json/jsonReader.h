@@ -31,7 +31,10 @@ public:
 	auto loadKeyBinding(std::string fileName = "bindingKey") -> std::map<std::string, std::string>;
 	auto loadScreenResolution(std::string fileName = "resolutionScreen") -> std::map<std::string, float>;
 
+private:
+
 };
+
 } // namespace json
 } // namespace id
 

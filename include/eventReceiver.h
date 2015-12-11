@@ -3,9 +3,10 @@
 
 #include <string>
 
-#include "device.h"
-
 namespace id {
+
+class Device;
+
 namespace event {
 
 class EventReceiver
@@ -13,17 +14,20 @@ class EventReceiver
 public:
 	EventReceiver(Device* dev, std::string name);
 	virtual ~EventReceiver();
+	EventReceiver(EventReceiver const&) = delete;
+	EventReceiver(EventReceiver&&) = delete;
+	auto operator=(EventReceiver const&) = delete;
+	auto operator=(EventReceiver&&) = delete;
 
 	virtual auto eventListener() -> void = 0;
-	auto getName() const -> std::string const& { return this->name; };
+	virtual auto getName() const -> std::string const& { return this->name; }
 
 protected:
 	Device* dev;
 	std::string name;
 };
 
-} // end namespace event
-
-} // end namespace id
+} // namespace event
+} // namespace id
 
 #endif // EVENT_RECEIVER_H_INCLUDED
