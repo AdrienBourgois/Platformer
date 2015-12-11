@@ -2,20 +2,12 @@
 #include <functional>
 #include <string>
 
-#include "txtLogger.h"
+#include "logger.h"
 #include "guiEventReceiver.h"
 #include "guiManager.h"
 #include "guiRect.h"
 #include "guiButton.h"
 #include "json/jsonWriter.h"
-
-// debug
-#include <iostream>
-// end
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace gui {
@@ -23,17 +15,17 @@ namespace gui {
 GuiEventReceiver::GuiEventReceiver(GuiManager* gui)
 : gui(gui), mouseX(0), mouseY(0), listenKeys(false)
 {
-	logger->log("Creating GuiEventReceiver...", LL_INFO);
+	LOG(L_INFO ,"Creating GuiEventReceiver...");
 
-	logger->log("GuiEventReceiver created", LL_INFO);
+	LOG(L_INFO ,"GuiEventReceiver created");
 }
 GuiEventReceiver::~GuiEventReceiver()
 {
-	logger->log("Deleting GuiEventReceiver...", LL_INFO);
+	LOG(L_INFO ,"Deleting GuiEventReceiver...");
 
 	this->gui = nullptr;
 
-	logger->log("GuiEventReceiver deleted", LL_INFO);
+	LOG(L_INFO ,"GuiEventReceiver deleted");
 }
 auto GuiEventReceiver::eventListener(SDL_Event* ev) -> void
 {
@@ -72,7 +64,7 @@ auto GuiEventReceiver::checkMouseOnButton() -> void
 				if (func)
 					func();
 				else
-					logger->log("Listen event on a button without function", LL_WARNING);
+					LOG(L_WARNING ,"Listen event on a button without function");
 
 				return;
 			}
