@@ -5,13 +5,7 @@
 #include "screenshot.h"
 #include "device.h"
 #include "window.h"
-#include "txtLogger.h"
-
-namespace {
-
-id::TXTLogger* logger = id::TXTLogger::getInstance();
-
-} // end namespace
+#include "logger.h"
 
 namespace id {
 
@@ -48,13 +42,13 @@ auto Screenshot::take(Device* dev) -> void
     filename += ".bmp";
 	if (SDL_SaveBMP(flip, filename.c_str()))
 	{
-		std::string error = "Error while creating screenshot! (" + std::string(SDL_GetError()) + ")";
-		logger->log(error.c_str(), LL_INFO);
+		//std::string error = "Error while creating screenshot! (" + std::string(SDL_GetError()) + ")";
+		//LOG(L_INFO, error.c_str());
 	}
 	else
 	{
-		std::string success = "Screenshot created ! (" + filename + ")";
-		logger->log(success.c_str(), LL_INFO);
+		//std::string success = "Screenshot created ! (" + filename + ")";
+		//LOG(L_INFO, success.c_str());
 	}
 	SDL_FreeSurface(flip);
 	

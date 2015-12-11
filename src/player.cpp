@@ -1,20 +1,12 @@
-#include <iostream>
 #include <string>
-
 
 #include "guiLifeBar.h"
 #include "device.h"
 #include "stateManager.h"
 #include "player.h"
-#include "txtLogger.h"
+#include "logger.h"
 #include "eventManager.h"
 #include "eventPlayer.h"
-
-namespace {
-
-	id::TXTLogger * logger = id::TXTLogger::getInstance();
-
-}//namespace 
 
 namespace id {
 namespace scene {
@@ -22,7 +14,7 @@ namespace scene {
 Player::Player(Device* dev, SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
 :Entity(scn, parent, name, shader, path), dev(dev)
 {
-	logger->log("Creating Player...", LL_DEBUG);
+	LOG(L_DEBUG, "Creating Player...");
 
 	setHp(9);
 	setLife(3);
@@ -31,18 +23,18 @@ Player::Player(Device* dev, SceneManager* scn, SceneNode* parent, std::string co
 	if (!static_cast<event::EventPlayer*>(this->dev->getEventManager()->getEventFromName("EventPlayer"))->getPlayer())
 		static_cast<event::EventPlayer*>(this->dev->getEventManager()->getEventFromName("EventPlayer"))->setPlayer(this);
 
-	logger->log("Player has been created.", LL_DEBUG);
+	LOG(L_DEBUG, "Player has been created.");
 
 }
 
 Player::~Player()
 {
-	logger->log("Deleting Player...", LL_DEBUG);
+	LOG(L_DEBUG, "Deleting Player...");
 
 	static_cast<event::EventPlayer*>(this->dev->getEventManager()->getEventFromName("EventPlayer"))->deletePlayer();
 	this->dev = nullptr;
 
-	logger->log("Player has been deleted.", LL_DEBUG);
+	LOG(L_DEBUG, "Player has been deleted.");
 }
 
 auto Player::createPlayer(Device* dev, SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> Player*
@@ -50,7 +42,7 @@ auto Player::createPlayer(Device* dev, SceneManager* scn, SceneNode* parent, std
 	Player* player = new(std::nothrow)Player(dev, scn, parent, name, shader, path);
 
 	if(!player)
-		logger->log("Failed at creating player in Player::createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)", LL_WARNING);
+		LOG(L_WARNING, "Failed at creating player in Player::createPlayer(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)");
 
 	return player;
 }
