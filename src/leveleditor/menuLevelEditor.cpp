@@ -5,6 +5,8 @@
 #include "sceneManager.h"
 #include "guiOpenFile.h"
 #include "guiSaveFile.h"
+#include "player.h"
+#include "enemy.h"
 
 namespace id {
 
@@ -68,9 +70,12 @@ auto MenuLevelEditor::Display() -> void
 			{
 				if(ImGui::MenuItem("Player", "Create spawn player"))
 				{
+					id::scene::Player::createPlayer(dev, dev->getSceneManager(), nullptr, "Player", "pos3d_tex2d", "./assets/models/Robot.obj");
 				}
 				if(ImGui::MenuItem("Enemy", "Create spawn eneny"))
-				{}			
+				{
+					id::scene::Enemy::createEnemy(dev->getSceneManager(), nullptr, "Enemy0", "pos3d_tex2d", "./assets/models/Dragon.obj");
+				}			
 				ImGui::EndMenu();
 			}
 			if(ImGui::BeginMenu("Plateform"))

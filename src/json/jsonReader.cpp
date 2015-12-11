@@ -11,7 +11,7 @@
 #include "sceneNode.h"
 #include "maths/matrix.h"
 #include "player.h"
-
+#include "enemy.h"
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
 
@@ -328,12 +328,13 @@ auto JsonReader::loadAllNode(Device* device, std::string fileName) ->void
 		}
 		else if (name[i] == "Player")
 		{	
-			id::scene::Player * player = id::scene::Player::createPlayer(device, device->getSceneManager(), node, "Player", "pos3d_tex2d", "assets/models/Robot.obj");
+			id::scene::Player * player = id::scene::Player::createPlayer(device, device->getSceneManager(), node, "Player", "pos3d_tex2d", objPath[i]);
 			player->setTransformation(mat);
 		}
 		else if (name[i].substr(0, 5) == "Enemy")
 		{
-			// create enemy
+			id::scene::Enemy* enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), node, name[i], "pos3d_tex2d", objPath[i]);
+			enemy->setTransformation(mat);
 		}
 		else
 		{
