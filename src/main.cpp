@@ -7,9 +7,9 @@
 
 int main(int argc, char* argv[])
 {
-    int min = 5;
-    int max = 50;
-    Uint32 time = 5;
+    int min = 10;
+    int max = 1000;
+    Uint32 time = 10;
     int value = 500;
 
     id::maths::TimeRangeManager trmgr;

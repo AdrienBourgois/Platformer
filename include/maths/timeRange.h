@@ -69,6 +69,26 @@ class TimeRange
         *(this->adress) = this->value;
 	}
 
+    auto _pause() -> void
+    {
+        this->state = 0;
+    }
+
+    auto _inverse() -> void
+    {
+        this->state = !this->state;
+    }
+
+    auto _play() -> void
+    {
+        this->state = 1;
+    }
+
+    auto _rewind() -> void
+    {
+        this->state = -1;
+    }
+
     private:
         T min;
         T max;
@@ -95,10 +115,11 @@ class TimeRangeManager
         auto _updateDeltaTime() -> void;
 
         template <typename T>
-        auto _add(T min, T max, float time, T* adress, int state = timeRangeState::PLAY) -> void
+        auto _add(T min, T max, float time, T* adress, int state = timeRangeState::PLAY) -> unsigned int
         {
             TimeRange<T> tr(min, max, time, adress, state);
             listTimeRange.push_back(&tr);
+            return listTimeRange.size() - 1;
         }
 
     private:
