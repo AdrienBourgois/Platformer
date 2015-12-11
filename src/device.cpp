@@ -33,7 +33,7 @@ auto Device::create() -> std::unique_ptr<Device>
 	auto* dev = new (std::nothrow) Device;
 	if (!dev)
 	{
-		logger->log("Failed at creating device in Device::create()", LL_ERROR);
+		LOG(L_ERROR,"Failed at creating device in Device::create()");
 		SDL_assert(dev);
 	}
 	return std::unique_ptr<Device>(dev);
@@ -45,9 +45,9 @@ Device::Device()
 
 	LOG(L_INFO,"Creating Device...");
 
-	logger->log("Initializing SDL...", LL_DEBUG);
+	LOG(L_INFO,"Initializing SDL...");
 	SDL_Init(SDL_INIT_VIDEO);
-	logger->log("SDL has been initialized");
+	LOG(L_INFO,"SDL has been initialized");
 
 	json::JsonReader jsonReader;
 	std::map<std::string, float> resolution = jsonReader.loadScreenResolution("resolutionScreen");
@@ -68,12 +68,12 @@ Device::Device()
 	running = true;
 	deltaTime = 0;
 
-	logger->log("Device has been created.");
+	LOG(L_INFO,"Device has been created.");
 }
 
 Device::~Device()
 {
-	logger->log("Deleting device...", LL_DEBUG);
+	LOG(L_INFO,"Deleting device...");
 	delete levelEditor;
 	#ifdef _DEBUG
 	delete debugLogger;
