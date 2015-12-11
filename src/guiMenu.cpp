@@ -52,12 +52,16 @@ auto GuiMenu::createMenuTitleScreen(std::function<void()> funcQuit) -> void
 
 	this->gui->addRect(nullptr, 0, 0, this->windowWidth/4, this->windowHeight/2, GUI_ID_RECT_MENU_TITLE, true, {0.f, 0.f, 0.f, 1.f});
 	this->idRectMenu.push_back(GUI_ID_RECT_MENU_TITLE);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, this->windowHeight/6, this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_NEW_GAME, true, colorBut, "New Game", colorText, nullptr);
+
+	json::JsonReader* jsonReader = new json::JsonReader();
+	GuiManager* gui = this->gui;
+	std::function<void()> funcNewGame = [jsonReader, gui, this]() {jsonReader->loadAllNode(gui->getDevice(), "partie1"); this->deleteMenu();};
+
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, this->windowHeight/6, this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_NEW_GAME, true, colorBut, "New Game", colorText, funcNewGame);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_NEW_GAME);
 	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, this->windowHeight/18, this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_LOAD, true, colorBut, "Load", colorText, nullptr);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_LOAD);
 
-	GuiManager* gui = this->gui;
 	std::function<void()> func = [gui, this]() { this->setVisible(false); gui->addMenuSettings(); };
 
 	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, -(this->windowHeight/18), this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_SETTINGS, true, colorBut, "Settings", colorText, func);

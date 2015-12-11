@@ -18,10 +18,6 @@ class JsonReader
 public:
 	JsonReader();
 	~JsonReader();
-	JsonReader(JsonReader const&) = delete;
-	JsonReader(JsonReader&&) = delete;
-	auto operator=(JsonReader const&) -> JsonReader& = delete;
-	auto operator=(JsonReader&&) -> JsonReader& = delete;
 
 	auto readBool(std::string key, std::string fileName = "partie1") -> std::vector<bool>;
 	auto readString(std::string key, std::string fileName = "partie1") -> std::vector<std::string>;

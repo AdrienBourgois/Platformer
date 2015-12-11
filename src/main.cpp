@@ -63,7 +63,6 @@ int main(int argc, char* argv[])
 		(void) mesh_scn;
 
 	}
-	id::scene::Player * player = id::scene::Player::createPlayer(device.get(), device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/models/Robot.obj"); // player creation
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
@@ -83,7 +82,7 @@ int main(int argc, char* argv[])
 //	jsonWriter.saveDefaultResolution();
 
 	#ifdef _DEBUG
-	id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
+		id::DebugLogger* debug_logger = new (std::nothrow) id::DebugLogger;	
 	#endif
 
 	id::LevelEditor* level_editor = new (std::nothrow) id::LevelEditor(device.get());
