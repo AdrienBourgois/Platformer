@@ -41,9 +41,9 @@ int main(int argc, char* argv[])
 
 	logger->setLogLevel(id::LL_ALL);
 
-	id::json::JsonWriter jsonWriter;
-	jsonWriter.saveDefaultBindKey();
-	jsonWriter.saveDefaultResolution();
+//	id::json::JsonWriter jsonWriter;
+//	jsonWriter.saveDefaultBindKey();
+//	jsonWriter.saveDefaultResolution();
 
 	std::unique_ptr<id::Device> device = device->create();
 
@@ -68,9 +68,6 @@ int main(int argc, char* argv[])
 		last = now;
 	}
 
-//	id::json::JsonWriter jsonWriter;
-//	jsonWriter.saveDefaultBindKey();
-//	jsonWriter.saveDefaultResolution();
 	id::Device* dev = device.get();
 	std::function<void()> funcQuit = [dev]() {dev->close();};
 	device->getGui()->addMenuTitleScreen(funcQuit);
