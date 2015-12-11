@@ -28,8 +28,9 @@ class Collider
         auto collide(Collider const&) const -> bool;
         auto advancedCollide(Collider const&) const -> bool;
 
-        auto getPolyhedron() const -> Polyhedron { return polyhedron; }
-        auto getBoundingBox() const -> std::pair<Vector3, Vector3> { return boundingBox; }
+        auto getPolyhedron() -> Polyhedron & { return polyhedron; }
+        auto getBoundingBox() const -> std::pair<Vector3, Vector3> const& { return boundingBox; }
+        auto setBoundingBox(std::pair<Vector3, Vector3> bb) -> void { this->boundingBox = bb; }
 
     private:
         Polyhedron polyhedron;
