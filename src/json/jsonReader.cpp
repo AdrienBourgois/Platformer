@@ -35,7 +35,7 @@ JsonReader::JsonReader()
 {
 	logger->log("Creating jsonReader...", LL_DEBUG);
 
-	int error_mkdir = std::system("mkdir assets/json2 -p");
+	int error_mkdir = std::system("mkdir assets/json -p");
 	(void)error_mkdir;
 
 	logger->log("Jsonreader has been created.");
