@@ -48,6 +48,7 @@ SRC = 	cameraSceneNode.cpp\
 		maths/colliderManager.cpp\
 		maths/matrix.cpp\
 		maths/polyhedron.cpp\
+		maths/timeRange.cpp\
 		maths/utility.cpp\
 		maths/vector.cpp\
 		mesh.cpp\
