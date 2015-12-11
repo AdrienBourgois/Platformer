@@ -6,8 +6,9 @@
 #include "player.h"
 #include "pathEnemy.h"
 #include "txtLogger.h"
-
 #include <iostream>
+
+#include "stateManager.h"
 
 namespace {
 
@@ -48,7 +49,7 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 
 	enemy->entityIsMovement();
 	enemy->entitySpeed();	
-	enemy->setEntityState(STATE_WALKING);
+	enemy->getEntityState()->setEntityState(STATE_WALKING);
 
 		float distanceX;
 		float distanceZ;

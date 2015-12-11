@@ -9,7 +9,8 @@ LevelEditor::LevelEditor(Device* device)
 :dev(device)
 {
 	LOG(L_INFO, "Creating LevelEditor...");
-	menuLevelEditor = new (std::nothrow) MenuLevelEditor(device);		
+	menuLevelEditor = new (std::nothrow) MenuLevelEditor(device);
+	activeLevelEditor = false;	
 	dev = device;
 }
 
@@ -24,7 +25,8 @@ auto LevelEditor::InitLevelEditor() -> void
 
 auto LevelEditor::DisplayLevelEditor() -> void
 {
-	menuLevelEditor->Display();
+	if(getActive())
+		menuLevelEditor->Display();
 }
 
 auto LevelEditor::UpdateLevelEditor() -> void

@@ -7,9 +7,13 @@
 
 #include "eventReceiver.h"
 #include "device.h"
-#include "player.h"
 
 namespace id {
+
+namespace scene {
+	class Player;
+} // namespace scene
+
 namespace event {
 
 class EventPlayer : public EventReceiver
@@ -21,6 +25,8 @@ public:
 	virtual auto eventListener() -> void;
 	auto loadKeys() -> void;
 
+	auto setPlayer(scene::Player* player) -> void { this->player = player; }
+	auto getPlayer() -> scene::Player* { return player; }
 	auto deletePlayer() -> void;
 
 private:

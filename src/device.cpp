@@ -10,10 +10,13 @@
 #include "texture.h"
 #include "screenshot.h"
 #include "guiManager.h"
+#include "guiLogger.h"
 #include "guiEventReceiver.h"
 #include "eventManager.h"
 #include "logger.h"
 #include "json/jsonReader.h"
+#include "levelEditor.h"
+#include "json/jsonWriter.h"
 
 #include <iostream>
 
@@ -33,14 +36,14 @@ auto Device::create() -> std::unique_ptr<Device>
 		logger->log("Failed at creating device in Device::create()", LL_ERROR);
 		SDL_assert(dev);
 	}
-	LOG(L_ERROR,"BONJOUR", "i54");
 	return std::unique_ptr<Device>(dev);
 
 }
 
 Device::Device()
 {
-	logger->log("Creating Device...", LL_DEBUG);
+
+	LOG(L_INFO,"Creating Device...");
 
 	logger->log("Initializing SDL...", LL_DEBUG);
 	SDL_Init(SDL_INIT_VIDEO);
@@ -49,8 +52,8 @@ Device::Device()
 	json::JsonReader jsonReader;
 	std::map<std::string, float> resolution = jsonReader.loadScreenResolution("resolutionScreen");
 
-	_window		 	= Window::createWindow(resolution["Width"], resolution["Height"]);	
-	_driver			= video::Driver::createDriver(_window.get());
+	_window 	= Window::createWindow(resolution["Width"], resolution["Height"]);	
+	_driver		= video::Driver::createDriver(_window.get());
 	
 	id::imgui_impl::Init();
 
@@ -58,6 +61,10 @@ Device::Device()
 	_gui			= gui::GuiManager::createGuiManager(this, _window.get()->getWidth(), _window.get()->getHeight());
 	_eventManager	= event::EventManager::createEventManager();
 
+	levelEditor = new (std::nothrow) LevelEditor(this);
+	#ifdef _DEBUG
+	debugLogger = new (std::nothrow) DebugLogger;
+	#endif
 	running = true;
 	deltaTime = 0;
 
@@ -67,7 +74,10 @@ Device::Device()
 Device::~Device()
 {
 	logger->log("Deleting device...", LL_DEBUG);
-
+	delete levelEditor;
+	#ifdef _DEBUG
+	delete debugLogger;
+	#endif
 	_driver.reset(nullptr);
 	_window.reset(nullptr);
 	delete _sceneManager;
@@ -78,18 +88,28 @@ Device::~Device()
 	id::imgui_impl::Shutdown();
 	Texture::deleteTextures();
 	
-	logger->log("Quitting SDL...", LL_DEBUG);
+	LOG(L_INFO,"Quitting SDL...");
 	SDL_Quit();
-	logger->log("SDL has been quitted");
+	LOG(L_INFO,"SDL has been quitted");
 
-	logger->log("Device has been deleted.");
+	LOG(L_INFO,"Device has been deleted.");
 }
 
 auto Device::run() -> bool
 {
+	imgui_impl::NewFrame(this);
+	levelEditor->setActive(true);
+	if(levelEditor->getActive())
+		levelEditor->DisplayLevelEditor();
+	#ifdef _DEBUG
+	if(debugLogger->getVisible())
+		debugLogger->DisplayLog();
+	#endif
 	_sceneManager->clearDeletionQueue();
 	this->_eventManager->currentEventListener();
+
 	SDL_Event ev;
+
     while (SDL_PollEvent(&ev))
     {
 		imgui_impl::ProcessEvent(&ev);
@@ -113,7 +133,18 @@ auto Device::run() -> bool
 					case SDL_SCANCODE_F7:
 						Screenshot::take(this);
 						break;
-
+					#ifdef _DEBUG
+					case SDL_SCANCODE_GRAVE:
+					{
+						debugLogger->setVisible(!debugLogger->getVisible());
+						break;	
+					}
+					#endif
+					case SDL_SCANCODE_RETURN:
+					{
+						json::JsonWriter jsonWriter;
+						jsonWriter.writeAllNode(_sceneManager->getRootNode(), "partie1");
+					}
 					default:
 						break;
 				}

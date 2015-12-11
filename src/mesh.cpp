@@ -172,7 +172,7 @@ auto Mesh::loadObj(std::string const& path) -> void
 					_groups[grp_name].data.push_back(  texcoord[vt-1][0] );
 					_groups[grp_name].data.push_back(  texcoord[vt-1][1] );
 				for (int j = 0; j < 3; ++j)
-					_groups[grp_name].data.push_back( vertnorm[v-1][j] );
+					_groups[grp_name].data.push_back( vertnorm[vn-1][j] );
 			}
 		}
 	}
