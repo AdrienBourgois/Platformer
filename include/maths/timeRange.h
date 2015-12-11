@@ -20,7 +20,7 @@ class ITimeRange
 {
     public:
         ITimeRange() = default;
-        ~ITimeRange() = default;
+        virtual ~ITimeRange() = default;
 
         virtual auto _update(float) -> void = 0;
         virtual auto _play() -> void = 0;
@@ -60,7 +60,7 @@ class TimeRange
 
 	auto _update(float deltaTime) -> void
 	{
-        if ((state == timeRangeState::PLAY && this->value >= max) || (state == timeRangeState::REWIND && this->value <= max))
+        if ((state == timeRangeState::PLAY && this->value >= max) || (state == timeRangeState::REWIND && this->value <= min))
             return;
 
         if (this->min < this->max)
@@ -129,10 +129,11 @@ class TimeRangeManager
         template <typename T>
         auto _add(T min, T max, float time, T* adress, int state = timeRangeState::PLAY) -> unsigned int
         {
-            TimeRange<T> tr(min, max, time, adress, state);
-            listTimeRange.push_back(&tr);
+            listTimeRange.push_back(new TimeRange<T>(min, max, time, adress, state));
             return listTimeRange.size() - 1;
         }
+
+        auto _erase(unsigned int) -> void;
 
     private:
         std::vector<ITimeRange*> listTimeRange;

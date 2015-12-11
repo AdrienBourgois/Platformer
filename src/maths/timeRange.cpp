@@ -14,6 +14,11 @@ auto TimeRangeManager::_update() -> void
     }
 }
 
+auto TimeRangeManager::_erase(unsigned int id) -> void
+{
+    this->listTimeRange.erase(this->listTimeRange.begin() + id);
+}
+
 auto TimeRangeManager::_play(unsigned int id) -> void
 {
     this->listTimeRange[id]->_play();
