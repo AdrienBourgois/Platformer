@@ -54,8 +54,12 @@ int main(int argc, char* argv[])
 		(void) mesh_scn;
 
 	}
-//	id::scene::Player * player = id::scene::Player::createPlayer(device.get(), device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/models/Robot.obj"); // player creation
 
+//	id::scene::Enemy* enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/models/Dragon.obj");
+	
+//	enemy->getPath()->addPath({20, 0, 0});
+//	enemy->getPath()->addPath({-20, 0, 0});
+	
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
 
@@ -68,10 +72,6 @@ int main(int argc, char* argv[])
 		deltaTime = (now-last) / 1000.f;
 		last = now;
 	}
-
-//	id::json::JsonWriter jsonWriter;
-//	jsonWriter.saveDefaultBindKey();
-//	jsonWriter.saveDefaultResolution();
 
 	id::Device* dev = device.get();
 	std::function<void()> funcQuit = [dev]() {dev->close();};
@@ -92,7 +92,9 @@ int main(int argc, char* argv[])
 		device->setDeltaTime(deltaTime);
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
-		
+	
+	//	enemy->getPath()->enemyPatrol(enemy, deltaTime);
+
 		device->getGui()->render();
 		ImGui::Render();
 	

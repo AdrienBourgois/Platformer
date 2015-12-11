@@ -10,18 +10,23 @@ namespace id {
 namespace scene {
 
 class Enemy;
+class Player;
 
 class PathEnemy {
 	
 public:
-	PathEnemy();
+	PathEnemy(maths::Vector3 pos);
 	~PathEnemy();
 
 	auto enemyPatrol(Enemy* enemy, float deltaTime) -> void;
+	auto addPath(maths::Vector3 pathPoint) -> void;
 
 private:
 	std::vector<maths::Vector3> path;
 	int index;
+	std::vector<maths::Vector3> chase;
+	float speedX;
+	float speedZ;
 
 };
 
