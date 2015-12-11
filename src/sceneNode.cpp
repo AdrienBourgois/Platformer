@@ -15,7 +15,7 @@ auto SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::strin
 	auto* node = new (std::nothrow) SceneNode(scn, parent, name);
 	if (!node)
 	{
-		LOG(L_ERROR,"Failed at creating Scene Node in SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name)");
+		LOG(L_ERROR, "Failed at creating Scene Node in SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name)");
 		SDL_assert(node);
 	}
 

@@ -1,11 +1,6 @@
 #include "stateManager.h"
-#include "txtLogger.h"
+#include "logger.h"
 #include "elementId.h"
-
-namespace {
-
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace scene {
@@ -14,16 +9,16 @@ namespace scene {
 StateManager::StateManager()
 :state(STATE_STANDING)
 {
-	logger->log("Initializing StateManager...", LL_DEBUG);
+	LOG(L_DEBUG, "Initializing StateManager...");
 
-	logger->log("StateManager has been initialized.", LL_DEBUG);
+	LOG(L_DEBUG, "StateManager has been initialized.");
 }
 
 StateManager::~StateManager()
 {
-	logger->log("Deleting StateManager.", LL_DEBUG);
+	LOG(L_DEBUG, "Deleting StateManager.");
 
-	logger->log("StateManager has been deleted.", LL_DEBUG);
+	LOG(L_DEBUG, "StateManager has been deleted.");
 }
 
 auto StateManager::checkEntityState(int etat) -> bool

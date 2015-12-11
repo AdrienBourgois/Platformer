@@ -4,38 +4,32 @@
 #include "mesh.h"
 #include "driver.h"
 #include "maths/matrix.h"
-#include "txtLogger.h"
+#include "logger.h"
 #include "texture.h"
 #include "fileUtility.h"
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace scene {
 
 std::vector<Mesh*> Mesh::_meshes = std::vector<Mesh*>();
 
-
 auto Mesh::createMesh(std::string const& path, video::Driver* driver) -> Mesh*
 {
 	SDL_assert(driver);
-
 
 	if (path != "")
 		for (auto&& mesh : Mesh::_meshes)
 		{
 			if (mesh->getObjPath() == path)
 				{
-					logger->log("Didn't create new Mesh in Mesh::createMesh(std::string const& path, std::string const& tex_path, video::Driver* driver) because mesh already exist.");
+					LOG(L_INFO, "Didn't create new Mesh in Mesh::createMesh(std::string const& path, std::string const& tex_path, video::Driver* driver) because mesh already exist.");
 					return mesh;
 				}
 		}
 	
 	Mesh* mesh = new (std::nothrow) Mesh(path, driver);
 	if (!mesh)
-		logger->log("Failed at creating Mesh in Mesh::createMesh(std::string const& path, std::string const& tex_path, video::Driver* driver)", LL_WARNING);
+		LOG(L_WARNING, "Failed at creating Mesh in Mesh::createMesh(std::string const& path, std::string const& tex_path, video::Driver* driver)");
 
 
 	return mesh;
@@ -44,7 +38,7 @@ auto Mesh::createMesh(std::string const& path, video::Driver* driver) -> Mesh*
 Mesh::Mesh(std::string const& path, video::Driver* driver)
 : _driver(driver), _objPath(path), _material(nullptr)
 {
-	logger->log("Creating Mesh...", LL_DEBUG);
+	LOG(L_DEBUG, "Creating Mesh...");
 	
 	if (_objPath != "")
 	{
@@ -54,19 +48,19 @@ Mesh::Mesh(std::string const& path, video::Driver* driver)
 		_driver->genVertexObject(v.second.dataSize() * sizeof(v.second.data[0]), &v.second.data[0], &v.second.vbo, &v.second.vao);
 	
 	_meshes.push_back(this);
-	logger->log("Mesh has been created.");
+	LOG(L_INFO, "Mesh has been created.");
 }
 
 
 Mesh::~Mesh()
 {
-	logger->log("Deleting mesh...", LL_DEBUG);	
+	LOG(L_DEBUG, "Deleting mesh...");
 	
 	for (auto& v : _groups)
 		_driver->deleteBuffer(&v.second.vbo);
 	delete _material;
 	
-	logger->log("Mesh has been deleted.");
+	LOG(L_INFO, "Mesh has been deleted.");
 }
 
 auto Mesh::deleteAllMeshes() -> void
@@ -77,13 +71,13 @@ auto Mesh::deleteAllMeshes() -> void
 
 auto Mesh::loadObj(std::string const& path) -> void
 {
-	logger->log("loading obj...", LL_DEBUG);
+	LOG(L_DEBUG, "loading obj...");
 
 	std::ifstream file(path);
 	
 	if (!file.good())
 	{
-		logger->log("Loading obj failed !", LL_WARNING);
+		LOG(L_WARNING, "Loading obj failed !");
 		return;
 	}
 	
@@ -179,23 +173,23 @@ auto Mesh::loadObj(std::string const& path) -> void
 	
 	char str[50];
 	sprintf(str, "Vertex count : %lu", vertices.size());
-	logger->log(str);
+	LOG(L_INFO, str);
 
 	sprintf(str, "Triangle count : %lu", vertices.size() / 3);
-	logger->log(str);
+	LOG(L_INFO, str);
 
 	sprintf(str, "Texcoord count : %lu", texcoord.size());
-	logger->log(str);
+	LOG(L_INFO, str);
 
 	sprintf(str, "Normals count : %lu", vertnorm.size());
-	logger->log(str);
+	LOG(L_INFO, str);
 
 	_vertex 		= vertices.size();
 	_triangle 		= _vertex / 3;
 	_textureCoord 	= texcoord.size();
 	_normalCoord 	= vertnorm.size(); 
 
-	logger->log("Obj has been loaded.");
+	LOG(L_INFO, "Obj has been loaded.");
 
 }
 

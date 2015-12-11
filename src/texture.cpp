@@ -1,11 +1,7 @@
 #include <iostream>
 
 #include "texture.h"
-#include "txtLogger.h"
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
+#include "logger.h"
 
 namespace id {
 
@@ -21,7 +17,7 @@ auto Texture::addTexture(std::string file) -> Texture*
 		texture = textures[file];
 
 	if (!texture)
-		logger->log("Couldnt create texture in Texture::addTexture()", LL_WARNING);
+		LOG(L_WARNING, "Couldnt create texture in Texture::addTexture()");
 
 	return texture;
 
@@ -30,16 +26,16 @@ auto Texture::addTexture(std::string file) -> Texture*
 Texture::Texture(std::string file)
 :_id((GLuint)-1), _fileName(file)
 {
-	logger->log("Creating texture...", LL_DEBUG);
+	LOG(L_DEBUG, "Creating texture...");
 	textures[_fileName] = this;
-	logger->log("Texture has been created.");
+	LOG(L_DEBUG, "Texture has been created.");
 }
 
 Texture::~Texture()
 {
-	logger->log("Deleting texture...", LL_DEBUG);
+	LOG(L_DEBUG, "Deleting texture...");
 	glDeleteTextures(1, &_id);
-	logger->log("Texture has been deleted.");
+	LOG(L_DEBUG, "Texture has been deleted.");
 }
 
 auto Texture::load() -> bool
@@ -50,13 +46,13 @@ auto Texture::load() -> bool
 		return true;
 	}
 
-	logger->log("loading texture...", LL_DEBUG);
+	LOG(L_DEBUG, "loading texture...");
 
 	SDL_Surface* imageSDL = IMG_Load(_fileName.c_str());
 	
 	if (!imageSDL)
 	{
-		logger->log("Can't load texture file in Texture::load()", LL_WARNING);
+		LOG(L_WARNING, "Can't load texture file in Texture::load()");
 		std::cout << SDL_GetError() << std::endl;
 		return false;
 	}	
@@ -96,7 +92,7 @@ auto Texture::load() -> bool
 
 	else
 	{
-		logger->log("Format of texture file incorrect in Texture::load()", LL_WARNING);
+		LOG(L_WARNING, "Format of texture file incorrect in Texture::load()");
 		SDL_FreeSurface(invImageSDL);
 		return false;
 	}
@@ -110,7 +106,7 @@ auto Texture::load() -> bool
 
 	SDL_FreeSurface(invImageSDL);
 
-	logger->log("Texture has been loaded.");
+	LOG(L_INFO, "Texture has been loaded.");
 
 	return true;
 }
@@ -119,7 +115,7 @@ auto Texture::inversPixels(SDL_Surface* imageSrc) -> SDL_Surface*
 {
 	SDL_assert(imageSrc);
 
-	logger->log("inversing pixel from image texture...", LL_DEBUG);
+	LOG(L_DEBUG, "inversing pixel from image texture...");
 	
 	SDL_Surface* imageInv = SDL_CreateRGBSurface(0, imageSrc->w, imageSrc->h, imageSrc->format->BitsPerPixel, imageSrc->format->Rmask, imageSrc->format->Gmask, imageSrc->format->Bmask, imageSrc->format->Amask);
 
@@ -134,7 +130,7 @@ auto Texture::inversPixels(SDL_Surface* imageSrc) -> SDL_Surface*
 		}
 	}
 
-	logger->log("Pixels has been inversed.");
+	LOG(L_DEBUG, "Pixels has been inversed.");
 
 return imageInv;
 }
