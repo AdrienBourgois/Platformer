@@ -5,7 +5,7 @@
 #include "enemy.h"
 #include "pathEnemy.h"
 #include "txtLogger.h"
-
+#include "stateManager.h"
 namespace {
 
 	id::TXTLogger * logger = id::TXTLogger::getInstance();
@@ -40,7 +40,7 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 
 	enemy->entityIsMovement();
 	enemy->entitySpeed();	
-	enemy->setEntityState(STATE_WALKING);
+	enemy->getEntityState()->setEntityState(STATE_WALKING);
 
 	path.push_back({0, 0, 0});
 	path.push_back({0, 0, -50});
@@ -53,7 +53,7 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 	{
 		speed = 0.f;
 		std::cout << "Point atteint ! Hourra joie bonheur !" << std::endl;
-		enemy->setEntityState(STATE_STANDING);
+		enemy->getEntityState()->setEntityState(STATE_STANDING);
 	}
 
 	enemy->setPosition({x, y, z});

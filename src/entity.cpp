@@ -17,7 +17,7 @@ namespace scene {
 
 
 Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
-:MeshSceneNode(scn, parent, name, shader, path), speed(0.f), state(STATE_STANDING), speedrun(0.f), hp(0), life(0), attack(0)
+:MeshSceneNode(scn, parent, name, shader, path), speed(0.f),speedrun(0.f), hp(0), life(0), attack(0)
 {
 	logger->log("Creating Entity ...", LL_DEBUG);
 
@@ -31,7 +31,6 @@ Entity::~Entity()
 	logger->log("Deleting Entity ...", LL_DEBUG);
 		
 	this->speed = 0;
-	this->state = 0;
 	this->speedrun = 0;
 	this->hp = 0;
 	this->life = 0;

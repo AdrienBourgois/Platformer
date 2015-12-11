@@ -10,7 +10,8 @@
 #include "meshSceneNode.h"
 #include "sceneNode.h"
 #include "maths/matrix.h"
-
+#include "player.h"
+#include "enemy.h"
 namespace {
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
 
@@ -320,10 +321,20 @@ auto JsonReader::loadAllNode(Device* device, std::string fileName) ->void
 	{
 		scene::SceneNode* node = findNode(parent[i], device->getSceneManager()->getRootNode());
 		id::maths::Matrix4 mat = id::maths::Matrix4({matrix[i][0],matrix[i][1],matrix[i][2],matrix[i][3],matrix[i][4],matrix[i][5],matrix[i][6],matrix[i][7],matrix[i][8],matrix[i][9],matrix[i][10],matrix[i][11],matrix[i][12],matrix[i][13],matrix[i][14],matrix[i][15]});
-		if (objPath[i] != "null")
+		if (objPath[i] != "null" && name[i] != "Player" && name[i].substr(0, 5) != "Enemy")
 		{
 			id::scene::MeshSceneNode* mesh = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), node, name[i], "pos3d_tex2d", objPath[i]);
 			mesh->setTransformation(mat);
+		}
+		else if (name[i] == "Player")
+		{	
+			id::scene::Player * player = id::scene::Player::createPlayer(device, device->getSceneManager(), node, "Player", "pos3d_tex2d", objPath[i]);
+			player->setTransformation(mat);
+		}
+		else if (name[i].substr(0, 5) == "Enemy")
+		{
+			id::scene::Enemy* enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), node, name[i], "pos3d_tex2d", objPath[i]);
+			enemy->setTransformation(mat);
 		}
 		else
 		{

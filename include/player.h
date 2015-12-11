@@ -1,10 +1,12 @@
 #ifndef PLAYER_H_INCLUDED
 #define PLAYER_H_INCLUDED
 
-#include "device.h"
 #include "entity.h"
 
 namespace id {
+
+class Device;
+
 namespace scene {
 
 class Player : public Entity {
