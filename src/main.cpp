@@ -63,8 +63,8 @@ int main(int, char*[])
 	std::function<void()> funcQuit = [dev]() {dev->close();};
 	device->getGui()->addMenuTitleScreen(funcQuit);
 
-	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 300);
-	float damage = 0.1f;
+//	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 300);
+//	float damage = 0.1f;
 
 	id::event::EventPlayer* evtPlayer = new id::event::EventPlayer(device.get(), "EventPlayer", nullptr);
 	id::event::EventCamera* evtCam = new id::event::EventCamera(device.get(), "EventCam", cam);
@@ -80,13 +80,13 @@ int main(int, char*[])
 		device->getGui()->render();
 		ImGui::Render();
 	
-		life->refreshLifeBar(damage);
+//		life->refreshLifeBar(damage);
 
 		device->getWindow()->swap();
 	}
 	ImGui::Shutdown();
 
-	delete life;
+//	delete life;
 	
 	return EXIT_SUCCESS;
 }
