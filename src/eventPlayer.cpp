@@ -10,6 +10,7 @@
 #include "stateManager.h"
 #include "elementId.h"
 #include "json/jsonReader.h"
+#include "json/jsonWriter.h"
 
 #include <iostream>
 
@@ -122,6 +123,12 @@ auto EventPlayer::eventListener() -> void
     	    this->player->setPosition({x, y, z});
     	    this->player->setRotation({rotX, rotY, rotZ});
     	}
+
+		if (key[this->scancodeKeys["Quick_save"]])
+		{
+			json::JsonWriter jsonWriter;
+			jsonWriter.writeAllNode(this->dev->getSceneManager()->getRootNode(), "partie1");
+		}
 
     	if (player->getHp() == 0)
     	    this->player->getEntityState()->setEntityState(STATE_DEAD);

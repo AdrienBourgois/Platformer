@@ -181,7 +181,7 @@ auto JsonWriter::saveDefaultBindKey(std::string fileName) -> void
 	objKey->addInObject("Strafe_right", new JsonString("E"));
 	objKey->addInObject("Strafe_left", new JsonString("Q"));
 	objKey->addInObject("Jump", new JsonString("Space"));
-	objKey->addInObject("Shoot", new JsonString("J"));
+	objKey->addInObject("Quick_save", new JsonString("J"));
 	objKey->addInObject("Run", new JsonString("R"));
 	objKey->addInObject("Pause", new JsonString("P"));
 

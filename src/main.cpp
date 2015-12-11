@@ -80,7 +80,9 @@ int main(int argc, char* argv[])
 	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 300);
 	float damage = 0.1f;
 
+	id::event::EventPlayer* evtPlayer = new id::event::EventPlayer(device.get(), "EventPlayer", nullptr);
 	id::event::EventCamera* evtCam = new id::event::EventCamera(device.get(), "EventCam", cam);
+	device->getEventManager()->addEventReceiver(evtPlayer);
 	device->getEventManager()->addEventReceiver(evtCam);
 
 	while (device->run())
