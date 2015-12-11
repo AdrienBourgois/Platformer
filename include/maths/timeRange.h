@@ -22,7 +22,7 @@ class ITimeRange
         ITimeRange() = default;
         ~ITimeRange() = default;
 
-        virtual auto _update(Uint32) -> void = 0;
+        virtual auto _update(float) -> void = 0;
 };
 
 template <typename T>
@@ -32,27 +32,47 @@ class TimeRange
     public:
         TimeRange() = delete;
         
-	TimeRange(T min, T max, Uint32 time, T* adress, int state)
+	TimeRange(T min, T max, float time, T* adress, int state = 1)
 	{
 	    this->min = min;
 	    this->max = max;
 	    this->time = time;
 	    this->adress = adress;
-	    this->state = state;
+
+        *(this->adress) = this->min;
+
+        if (min < max)
+            this->state = 1;
+        else if (min == max)
+            this->state = 0;
+        else
+	        this->state = -1;
+
+        this->state *= state;
 	}
         ~TimeRange() = default;
 
-	auto _update(Uint32 deltaTime) -> void
+	auto _update(float deltaTime) -> void
 	{
+        if ((state == 1 && *(this->adress) >= max) || (state == -1 && *(this->adress) <= max))
+            return;
 
+        if (this->min < this->max)
+            this->unit = (this->max - this->min) / this->time;
+        else if (this->min > this->max)
+            this->unit = (this->min - this->max) / this->time;
+
+        *(this->adress) += this->unit * (deltaTime / 1000) * this->state;
 	}
 
     private:
         T min;
         T max;
-        Uint32 time;
+        float time;
         T* adress;
         int state;
+        float unit = 0;
+
 };
 
 class TimeRangeManager 
@@ -70,7 +90,7 @@ class TimeRangeManager
         auto _updateDeltaTime() -> void;
 
         template <typename T>
-        auto _add(T min, T max, Uint32 time, T* adress, int state = timeRangeState::PLAY) -> void
+        auto _add(T min, T max, float time, T* adress, int state = timeRangeState::PLAY) -> void
         {
             TimeRange<T> tr(min, max, time, adress, state);
             listTimeRange.push_back(&tr);
@@ -78,8 +98,8 @@ class TimeRangeManager
 
     private:
         std::vector<ITimeRange*> listTimeRange;
-        Uint32 oldTime = 0;
-        Uint32 deltaTime;
+        float oldTime = 0;
+        float deltaTime;
 };
 
 } // namespace maths

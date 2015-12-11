@@ -27,7 +27,7 @@ auto TimeRangeManager::_updateDeltaTime() -> void
     this->oldTime = currentTime;
 }
 
-auto ITimeRange::_update(Uint32 deltaTime) -> void
+auto ITimeRange::_update(float deltaTime) -> void
 {
     (void)deltaTime;
 }

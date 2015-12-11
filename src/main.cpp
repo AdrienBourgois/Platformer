@@ -7,10 +7,10 @@
 
 int main(int argc, char* argv[])
 {
-    char min = 0;
-    char max = 10;
-    Uint32 time = 10;
-    char value = 0;
+    float min = 5.f;
+    float max = 50.f;
+    Uint32 time = 5;
+    float value = 500.f;
 
     id::maths::TimeRangeManager trmgr;
 
@@ -19,6 +19,8 @@ int main(int argc, char* argv[])
     while(1)
     {
         trmgr._update();
+
+        std::cout << value << std::endl;
     }
 
 	(void)argc;
