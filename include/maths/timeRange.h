@@ -80,7 +80,10 @@ class TimeRange
 
     auto _inverse() -> void
     {
-        this->state = !this->state;
+        if (this->state == timeRangeState::PLAY)
+            this->state = timeRangeState::REWIND;
+        if (this->state == timeRangeState::REWIND)
+            this->state = timeRangeState::PLAY;
     }
 
     auto _play() -> void
