@@ -2,13 +2,9 @@
 #include <vector>
 #include <functional>
 
-#include "txtLogger.h"
+#include "logger.h"
 #include "guiRect.h"
 #include "guiManager.h"
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace gui {
@@ -16,7 +12,7 @@ namespace gui {
 GuiRect::GuiRect(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::function<void()> func)
 : gui(gui), parent(parent), shaderName(""), type(""), posX(posX), posY(posY), width(width), height(height), colorBg({0.f, 0.f, 0.f, 0.f}), vao(0), vbo(0), texID(0), id(id), visible(visible), listenEvent(false), pressed(false), func(func)
 {
-	logger->log("Creating GuiRect...", LL_INFO);
+	LOG(L_INFO,"Creating GuiRect...");
 
 	if (parent)
 	{
@@ -27,11 +23,11 @@ GuiRect::GuiRect(GuiManager* gui, GuiRect* parent, float posX, float posY, float
 		this->parent = gui->getRoot();
 	}
 
-	logger->log("GuiRect created", LL_INFO);
+	LOG(L_INFO,"GuiRect created");
 }
 GuiRect::~GuiRect()
 {
-	logger->log("Deleting GuiRect...", LL_INFO);
+	LOG(L_INFO,"Deleting GuiRect...");
 
 	this->gui = nullptr;
 	this->parent = nullptr;
@@ -45,7 +41,7 @@ GuiRect::~GuiRect()
 	this->texID = 0;
 	this->func = nullptr;
 
-	logger->log("GuiRect deleted", LL_INFO);
+	LOG(L_INFO,"GuiRect deleted");
 }
 auto GuiRect::createElement(maths::Vector4 color) -> void
 {
@@ -151,6 +147,6 @@ auto GuiRect::setVisible(bool visible) -> void
 		(*it)->setVisible(visible);
 }
 
-} // end namespace gui
+} // namespace gui
 
-} // end namespace id
+} //namespace id

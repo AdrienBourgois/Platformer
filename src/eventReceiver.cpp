@@ -1,10 +1,6 @@
 #include "device.h"
-#include "txtLogger.h"
+#include "logger.h"
 #include "eventReceiver.h"
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace event {
@@ -12,17 +8,17 @@ namespace event {
 EventReceiver::EventReceiver(Device* dev, std::string name)
 : dev(dev), name(name)
 {
-	logger->log("Creating EventReceiver...", LL_INFO);
+	LOG(L_INFO ,"Creating EventReceiver...");
 
-	logger->log("EventReceiver created", LL_INFO);
+	LOG(L_INFO ,"EventReceiver created");
 }
 EventReceiver::~EventReceiver()
 {
-	logger->log("Deleting EventReceiver...", LL_INFO);
+	LOG(L_INFO ,"Deleting EventReceiver...");
 
 	this->dev = nullptr;
 
-	logger->log("EventReceiver deleted", LL_INFO);
+	LOG(L_INFO ,"EventReceiver deleted");
 }
 
 } // end namespace event

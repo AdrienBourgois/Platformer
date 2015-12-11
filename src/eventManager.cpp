@@ -2,13 +2,9 @@
 #include <vector>
 #include <string>
 
-#include "txtLogger.h"
+#include "logger.h"
 #include "eventManager.h"
 #include "eventReceiver.h"
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace event {
@@ -16,28 +12,28 @@ namespace event {
 EventManager::EventManager()
 : currentEvent(nullptr)
 {
-	logger->log("Creating EventManager...", LL_INFO);
+	LOG(L_INFO ,"Creating EventManager...");
 
-	logger->log("EventManager created", LL_INFO);
+	LOG(L_INFO ,"EventManager created");
 }
 EventManager::~EventManager()
 {
-	logger->log("Deleting EventManager...", LL_INFO);
+	LOG(L_INFO ,"Deleting EventManager...");
 
 	for (auto it = this->events.begin(); it != this->events.end(); ++it)
 		delete *it;
 
 	this->currentEvent = nullptr;
 
-	logger->log("EventManager deleted", LL_INFO);
+	LOG(L_INFO ,"EventManager deleted");
 }
 auto EventManager::createEventManager() -> std::unique_ptr<EventManager>
 {
 	auto* emgr = new (std::nothrow) EventManager();
 	if (!emgr)
 	{
-		logger->log("Failed to create EventManager", LL_ERROR);
-        SDL_assert(emgr);
+		LOG(L_ERROR ,"Failed to create EventManager");
+       		SDL_assert(emgr);
 	}
 	return std::unique_ptr<EventManager>(emgr);
 }
@@ -74,5 +70,4 @@ auto EventManager::getEventFromName(std::string const& name) -> EventReceiver*
 }
 
 } // end namespace event
-
 } // end namespace id

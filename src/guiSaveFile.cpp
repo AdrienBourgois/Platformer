@@ -5,12 +5,14 @@
 #include "json/jsonWriter.h"
 #include "imgui_impl.h"
 #include "sceneManager.h"
+#include "logger.h"
 
 namespace id {
 
 SaveFile::SaveFile()
 :activeSave(false)
 {
+	LOG(L_INFO, "Creating SaveFile");
 }
 
 auto SaveFile::DisplaySaveLevel(Device* dev) -> void

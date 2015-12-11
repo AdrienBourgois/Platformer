@@ -1,16 +1,8 @@
-#include "txtLogger.h"
+#include "logger.h"
 #include "guiLifeBar.h"
 #include "guiManager.h"
 #include "guiRect.h"
 #include "guiID.h"
-
-// debug
-#include <iostream>
-// end
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace gui {
@@ -18,21 +10,21 @@ namespace gui {
 GuiLifeBar::GuiLifeBar(GuiManager* gui, float max)
 : gui(gui), max(max), current(max)
 {
-	logger->log("Creating GuiLifeBar...", LL_INFO);
+	LOG(L_INFO ,"Creating GuiLifeBar...");
 
 	this->id = GUI_ID_RECT_LIFE_BAR;
 	gui->addRect(nullptr, gui->getWidth()/2.2 - max/2, gui->getHeight()/2.2, max, 20, this->id, true, {0.f, 0.7f, 0.f, 1.f});
 	gui->getElementFromID(this->id)->addGradient({0.f, 1.f, 0.f, 1.f}, {1.f, 0.f, 0.f, 1.f});
 
-	logger->log("GuiLifeBar created", LL_INFO);
+	LOG(L_INFO ,"GuiLifeBar created");
 }
 GuiLifeBar::~GuiLifeBar()
 {
-	logger->log("Deleting GuiLifeBar...", LL_INFO);
+	LOG(L_INFO ,"Deleting GuiLifeBar...");
 
 	this->gui = nullptr;
 
-	logger->log("GuiLifeBar deleted", LL_INFO);
+	LOG(L_INFO ,"GuiLifeBar deleted");
 }
 auto GuiLifeBar::refreshLifeBar(float damage) -> void
 {
@@ -50,5 +42,4 @@ auto GuiLifeBar::refreshLifeBar(float damage) -> void
 }
 
 } // end namespace gui
-
 } // end namespace id

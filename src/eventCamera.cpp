@@ -1,17 +1,11 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-#include "txtLogger.h"
+#include "logger.h"
 #include "eventCamera.h"
 #include "eventReceiver.h"
 #include "device.h"
 #include "cameraSceneNode.h"
-
-#include <iostream>
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace event {
@@ -19,17 +13,17 @@ namespace event {
 EventCamera::EventCamera(Device* dev, std::string name, scene::CameraSceneNode* cam)
 : EventReceiver(dev, name), cam(cam)
 {
-	logger->log("Creating EventCamera...", LL_INFO);
+	LOG(L_INFO,"Creating EventCamera...");
 
-	logger->log("EventCamera created", LL_INFO);
+	LOG(L_INFO,"EventCamera created");
 }
 EventCamera::~EventCamera()
 {
-	logger->log("Deleting EventCamera...", LL_INFO);
+	LOG(L_INFO,"Deleting EventCamera...");
 
 	this->cam = nullptr;
 
-	logger->log("EventCamera deleted", LL_INFO);
+	LOG(L_INFO,"EventCamera deleted");
 }
 auto EventCamera::eventListener() -> void
 {
@@ -67,5 +61,4 @@ auto EventCamera::eventListener() -> void
 }
 
 } // end namespace event
-
 } // end namespace id

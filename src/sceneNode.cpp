@@ -25,7 +25,7 @@ auto SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::strin
 SceneNode::SceneNode(SceneManager* scn, SceneNode* parent, std::string const& name)
 : _scn(scn), _parent(parent), _name(name), _visible(true)
 {
-	LOG(L_DEBUG, "Creating SceneNode...");
+	LOG(L_INFO,"Creating SceneNode...");
 
 	if (_parent)
 		_parent->addChild(this);
@@ -34,12 +34,12 @@ SceneNode::SceneNode(SceneManager* scn, SceneNode* parent, std::string const& na
 
 	nameWhitoutExtension();
 
-	LOG(L_INFO, "SceneNode has been created.");
+	LOG(L_INFO,"SceneNode has been created.");
 }
 
 SceneNode::~SceneNode()
 {
-	LOG(L_DEBUG, "Deleting SceneNode...");
+	LOG(L_INFO,"Deleting SceneNode...");
 
 	while (_childrens.size() > 0)
 		delete _childrens.back();

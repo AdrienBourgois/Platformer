@@ -3,13 +3,7 @@
 
 #include "enemy.h"
 #include "pathEnemy.h"
-#include "txtLogger.h"
-
-namespace {
-
-	id::TXTLogger * logger = id::TXTLogger::getInstance();
-
-}//namespace 
+#include "logger.h"
 
 namespace id {
 namespace scene {
@@ -17,7 +11,7 @@ namespace scene {
 Enemy::Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
 :Entity(scn, parent, name, shader, path)
 {
-	logger->log("Creating Enemy...", LL_DEBUG);
+	LOG(L_INFO,"Creating Enemy...");
 
 
 	pathEnemy = new PathEnemy(this->getPosition());
@@ -26,14 +20,14 @@ Enemy::Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std:
 	setLife(1);
 	setAttack(1);
 
-	logger->log("Enemy has been created.", LL_DEBUG);	
+	LOG(L_INFO,"Enemy has been created.");	
 }
 
 Enemy::~Enemy()
 {
-	logger->log("Deleting Enemy...", LL_DEBUG);
+	LOG(L_INFO,"Deleting Enemy...");
 	
-	logger->log("Enemy has been Enemy", LL_DEBUG);
+	LOG(L_INFO,"Enemy has been Enemy.");
 }
 
 auto Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path) -> Enemy*
@@ -41,7 +35,7 @@ auto Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const&
 	Enemy* enemy = new (std::nothrow)Enemy(scn, parent, name, shader, path);
 
 	if (!enemy)
-		logger->log("failed at created enemy in Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)", LL_WARNING);
+		LOG(L_WARNING,"failed at created enemy in Enemy::createEnemy(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)");
 
 	return enemy;
 }
