@@ -12,6 +12,7 @@ namespace scene {
 
 
 StateManager::StateManager()
+:state(STATE_STANDING)
 {
 	logger->log("Initializing StateManager...", LL_DEBUG);
 
@@ -25,6 +26,13 @@ StateManager::~StateManager()
 	logger->log("StateManager has been deleted.", LL_DEBUG);
 }
 
+auto StateManager::checkEntityState(int etat) -> bool
+{
+	if (state == etat)
+		return true;
+	else
+		return false;
+}
 
 }//namespace scene
 }//namespace id 

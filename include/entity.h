@@ -15,9 +15,8 @@ public:
 	virtual ~Entity();
 
 
-	virtual auto setEntityState(int state) -> void {this->state = state;}
-	virtual auto getEntityState() const -> int  {return state;}
-
+//	virtual auto setEntityState(int state) -> void {this->state = state;}
+//	virtual auto getEntityState() const -> int  {return state;}
 
 	virtual auto setSpeed(float speed) -> void {this->speed = speed;}
 	virtual auto getSpeed() const -> float {return speed;}
@@ -37,14 +36,15 @@ public:
 	
 	virtual auto entitySpeed() -> void; 
 	virtual auto entityIsMovement() -> bool;	
-
+	
+	virtual auto getEntityState() -> StateManager* {return stateEntity; }
 
 protected:
 
 	Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path);
 
 	float speed;
-	int state;
+//	int state;
 	float speedrun;
 	unsigned int hp;
 	unsigned int life;

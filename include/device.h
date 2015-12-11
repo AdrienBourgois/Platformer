@@ -26,30 +26,31 @@ namespace event {
 	class EventManager;
 } // end namespace event
 
+class LevelEditor;
+class DebugLogger;
 class Device
 {
 public:
-		~Device();
-		Device(Device const&) = delete;
-		Device(Device&&) = delete;
-		Device& operator=(Device const&) = delete;	
-		Device& operator=(Device&&) = delete;
+	~Device();
+	Device(Device const&) = delete;
+	Device(Device&&) = delete;
+	Device& operator=(Device const&) = delete;	
+	Device& operator=(Device&&) = delete;
 
-	static 	auto create() 					-> std::unique_ptr<Device>;
+	static 	auto create() -> std::unique_ptr<Device>;
 
-			auto getWindow() const 			-> Window*		 				{ return _window.get();	}
-			auto getDriver() const 			-> video::Driver* 				{ return _driver.get();	}
-			auto getSceneManager() const 	-> scene::SceneManager* 		{ return _sceneManager;	}
-			auto getGui() const				-> gui::GuiManager*				{ return _gui.get(); };
-			auto getEventManager() const 	-> event::EventManager*			{ return _eventManager.get(); };
-			auto getDeltaTime() const -> float { return this->deltaTime; };
+	auto getWindow() const -> Window*			{ return _window.get();}
+	auto getDriver() const -> video::Driver*		{ return _driver.get();}
+	auto getSceneManager() const -> scene::SceneManager*	{ return _sceneManager;}
+	auto getGui() const -> gui::GuiManager*			{ return _gui.get(); };
+	auto getEventManager() const -> event::EventManager*	{ return _eventManager.get(); };
+	auto getDeltaTime() const -> float			{ return this->deltaTime; };
 
-			auto setSceneManager(scene::SceneManager* smgr) -> void 		{ _sceneManager = smgr;	}
-			auto setDeltaTime(float deltaTime) -> void { this->deltaTime = deltaTime; };
+	auto setSceneManager(scene::SceneManager* smgr) -> void { _sceneManager = smgr;	}
+	auto setDeltaTime(float deltaTime) -> void { this->deltaTime = deltaTime; };
 
-
-			auto run() 	-> bool;
-			auto close() -> void;
+	auto run() 	-> bool;
+	auto close() -> void;
 
 private:
 	Device();
@@ -59,17 +60,12 @@ private:
 	scene::SceneManager*			_sceneManager;
 	std::unique_ptr<gui::GuiManager> _gui;
 	std::unique_ptr<event::EventManager> _eventManager;
-
+	LevelEditor*	levelEditor;
+	DebugLogger*	debugLogger;
 	bool running;
 	float deltaTime;
 };
 
-
-
-
-
 } // namespace id
-
-
 
 #endif // DEVICE_H_INCLUDED 

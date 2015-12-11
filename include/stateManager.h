@@ -14,7 +14,7 @@ public:
 
 	virtual auto setEntityState(int state) -> void {this->state = state;}
 	virtual auto getEntityState() -> int {return state;}
-	
+	virtual auto checkEntityState(int etat) -> bool;
 
 private:
 	int state;

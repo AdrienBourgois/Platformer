@@ -92,11 +92,13 @@ CPPFLAGS =
 LDFLAGS = -W -Wall -Werror
 CXX = g++ -std=c++14
 
-.PHONY: all clean fclean re debug release clog
+.PHONY: all clean fclean re debug release clog full
 
 all: $(MODE)
 
-all: $(MODE)
+full: 
+	make MODE=release
+	make MODE=debug
 
 release: CXXFLAGS += -O3
 release: LDFLAGS += -O3
@@ -146,3 +148,5 @@ re: fclean all
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c -o $@ $< $(INCLUDES)
+
+

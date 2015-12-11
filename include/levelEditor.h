@@ -18,6 +18,8 @@ public:
 	~LevelEditor();
 	LevelEditor(LevelEditor const&) = delete;
 	auto operator=(LevelEditor const&) = delete;
+	auto getActive() const -> bool {return activeLevelEditor;}
+	auto setActive(bool act) -> void {activeLevelEditor = act;}
 
 	auto InitLevelEditor() -> void;	
 	auto DisplayLevelEditor() -> void;
@@ -26,7 +28,8 @@ public:
 private:
 //	bool	visible;
 	Device*			dev;
-	MenuLevelEditor*	menuLevelEditor;	
+	MenuLevelEditor*	menuLevelEditor;
+	bool			activeLevelEditor;
 };
 
 }//End id
