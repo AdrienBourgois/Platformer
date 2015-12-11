@@ -7,6 +7,8 @@
 #include "pathEnemy.h"
 #include "txtLogger.h"
 
+#include <iostream>
+
 namespace {
 
 	id::TXTLogger * logger = id::TXTLogger::getInstance();
@@ -16,7 +18,7 @@ namespace id {
 namespace scene {
 
 
-PathEnemy::PathEnemy()
+PathEnemy::PathEnemy(maths::Vector3 pos)
 {
 	logger->log("Initializing PathEnemy...", LL_DEBUG);
 
@@ -25,6 +27,7 @@ PathEnemy::PathEnemy()
 	index = 0;
 	speedX = 0;
 	speedZ = 0;
+	path.push_back(pos);
 	
 	logger->log("PathEnemy hsa been initialized.", LL_DEBUG);
 }
@@ -39,7 +42,6 @@ PathEnemy::~PathEnemy()
 
 auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 {
-	//float speed = enemy->getSpeed();
 	float x = enemy->getPosition().val[0];
 	float y = enemy->getPosition().val[1];
 	float z = enemy->getPosition().val[2];
@@ -49,13 +51,6 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 	enemy->entitySpeed();	
 	enemy->setEntityState(STATE_WALKING);
 
-	path.push_back({0, 0, 0});
-	path.push_back({10, 0, 0});
-	path.push_back({10, 0, -10});
-	path.push_back({-10, 0, 0});
-
-//	if (inPursuit == false)
-//	{
 		float distanceX;
 		float distanceZ;
 		(path[index].val[0] < 0) ? distanceX = -path[index].val[0] + x: distanceX = path[index].val[0] - x;
@@ -63,7 +58,10 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 
 		if (distanceX <= 0 && distanceZ <= 0)
 		{
-			++index;
+			if (path.begin() + index == path.end() - 1)
+				index = 0;
+			else
+				++index;
 			(path[index].val[0] < 0) ? distanceX = -path[index].val[0] + x: distanceX = path[index].val[0] - x;
 			(path[index].val[2] < 0) ? distanceZ = -path[index].val[2] + z: distanceZ = path[index].val[2] - z;
 			speedX = distanceX/20.f;
@@ -85,7 +83,6 @@ auto PathEnemy::enemyPatrol(Enemy* enemy, float deltaTime) -> void
 			else 
 				x -= speedX * deltaTime;
 		}
-//	}
 		enemy->setPosition({x, y, z});
 
 }
@@ -127,6 +124,11 @@ auto PathEnemy::pursuit(Enemy* enemy, Player* player, float deltaTime) -> void
 	
 }
 
+
+auto PathEnemy::addPath(maths::Vector3 pathPoint) -> void
+{
+	path.push_back(pathPoint);
+}
 
 
 }//namespace scene 

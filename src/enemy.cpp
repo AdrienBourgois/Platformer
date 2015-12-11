@@ -19,7 +19,7 @@ Enemy::Enemy(SceneManager* scn, SceneNode* parent, std::string const& name, std:
 	logger->log("Creating Enemy...", LL_DEBUG);
 
 
-	pathEnemy = new PathEnemy();
+	pathEnemy = new PathEnemy(this->getPosition());
 
 	setHp(1);
 	setLife(1);

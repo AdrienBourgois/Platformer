@@ -63,7 +63,13 @@ int main(int argc, char* argv[])
 		(void) mesh_scn;
 
 	}
-	id::scene::Player * player = id::scene::Player::createPlayer(device.get(), device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/models/Robot.obj"); // player creation
+	id::scene::Player * player = id::scene::Player::createPlayer(device.get(), device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/models/Robot.obj"); 
+
+	id::scene::Enemy* enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/models/Dragon.obj");
+	
+	enemy->getPath()->addPath({20, 0, 0});
+	enemy->getPath()->addPath({-20, 0, 0});
+	
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
@@ -112,13 +118,15 @@ int main(int argc, char* argv[])
 		device->getSceneManager()->draw();
 		id::imgui_impl::NewFrame(device.get());
 	
-	
+
+		#ifdef _DEBUG	
 		debug_logger->DisplayLog();	
 		debug_window->Display(device.get());
-		open_file->Display(device.get());
+		#endif
+
+		//open_file->Display(device.get());
 		
 		enemy->getPath()->enemyPatrol(enemy, deltaTime);
-		//enemy->getPath()->pursuit(enemy, player, deltaTime);
 
 		//device->getGui()->render();
 		ImGui::ShowTestWindow();	
