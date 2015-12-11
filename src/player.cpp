@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 
+
+#include "guiLifeBar.h"
 #include "device.h"
 #include "stateManager.h"
 #include "player.h"
@@ -25,6 +27,7 @@ Player::Player(Device* dev, SceneManager* scn, SceneNode* parent, std::string co
 	setHp(9);
 	setLife(3);
 	setAttack(3);
+
 
 	logger->log("Player has been created.", LL_DEBUG);
 
