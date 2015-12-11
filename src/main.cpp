@@ -7,10 +7,10 @@
 
 int main(int argc, char* argv[])
 {
-    float min = 5.f;
-    float max = 50.f;
+    int min = 5;
+    int max = 50;
     Uint32 time = 5;
-    float value = 500.f;
+    int value = 500;
 
     id::maths::TimeRangeManager trmgr;
 

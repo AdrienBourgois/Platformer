@@ -41,6 +41,8 @@ class TimeRange
 
         *(this->adress) = this->min;
 
+        this->value = *(this->adress);
+
         if (min < max)
             this->state = 1;
         else if (min == max)
@@ -54,7 +56,7 @@ class TimeRange
 
 	auto _update(float deltaTime) -> void
 	{
-        if ((state == 1 && *(this->adress) >= max) || (state == -1 && *(this->adress) <= max))
+        if ((state == 1 && this->value >= max) || (state == -1 && this->value <= max))
             return;
 
         if (this->min < this->max)
@@ -62,12 +64,15 @@ class TimeRange
         else if (this->min > this->max)
             this->unit = (this->min - this->max) / this->time;
 
-        *(this->adress) += this->unit * (deltaTime / 1000) * this->state;
+        this->value += this->unit * (deltaTime / 1000) * this->state;
+
+        *(this->adress) = this->value;
 	}
 
     private:
         T min;
         T max;
+        double value;
         float time;
         T* adress;
         int state;
