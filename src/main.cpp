@@ -54,7 +54,6 @@ int main(int argc, char* argv[])
 		(void) mesh_scn;
 
 	}
-//	id::scene::Player * player = id::scene::Player::createPlayer(device.get(), device->getSceneManager(), device->getSceneManager()->getRootNode(), "Player", "pos3d_tex2d", "assets/models/Robot.obj"); // player creation
 
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
@@ -79,12 +78,7 @@ int main(int argc, char* argv[])
 	id::gui::GuiLifeBar* life = new id::gui::GuiLifeBar(device->getGui(), 300);
 	float damage = 0.1f;
 
-	id::event::EventPlayer* evtPlayer = new id::event::EventPlayer(device.get(), "EventPlayer", player);
-	device->getGui()->addMenuTitleScreen(funcQuit);
-
-	id::event::EventPlayer* evtPlayer = new id::event::EventPlayer(device.get(), "EventPlayer", nullptr);
 	id::event::EventCamera* evtCam = new id::event::EventCamera(device.get(), "EventCam", cam);
-	device->getEventManager()->addEventReceiver(evtPlayer);
 	device->getEventManager()->addEventReceiver(evtCam);
 
 	while (device->run())

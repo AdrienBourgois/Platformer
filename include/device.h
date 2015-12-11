@@ -44,6 +44,7 @@ public:
 	auto getSceneManager() const -> scene::SceneManager*	{ return _sceneManager;}
 	auto getGui() const -> gui::GuiManager*			{ return _gui.get(); };
 	auto getEventManager() const -> event::EventManager*	{ return _eventManager.get(); };
+	auto getLevelEditor() const -> LevelEditor* { return this->levelEditor; }
 	auto getDeltaTime() const -> float			{ return this->deltaTime; };
 
 	auto setSceneManager(scene::SceneManager* smgr) -> void { _sceneManager = smgr;	}

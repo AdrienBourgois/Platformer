@@ -12,6 +12,7 @@
 #include "json/jsonReader.h"
 #include "eventManager.h"
 #include "eventPlayer.h"
+#include "levelEditor.h"
 
 // debug
 #include <iostream>
@@ -50,24 +51,31 @@ auto GuiMenu::createMenuTitleScreen(std::function<void()> funcQuit) -> void
 	maths::Vector4 colorBut = {0.5f, 0.f, 0.f, 1.f};
 	maths::Vector4 colorText = {1.f, 1.f, 1.f, 1.f};
 
-	this->gui->addRect(nullptr, 0, 0, this->windowWidth/4, this->windowHeight/2, GUI_ID_RECT_MENU_TITLE, true, {0.f, 0.f, 0.f, 1.f});
+	this->gui->addRect(nullptr, 0, 0, this->windowWidth/4, this->windowHeight/1.4, GUI_ID_RECT_MENU_TITLE, true, {0.f, 0.f, 0.f, 1.f});
 	this->idRectMenu.push_back(GUI_ID_RECT_MENU_TITLE);
 
 	json::JsonReader* jsonReader = new json::JsonReader();
 	GuiManager* gui = this->gui;
-	std::function<void()> funcNewGame = [jsonReader, gui, this]() {jsonReader->loadAllNode(gui->getDevice(), "partie1"); this->deleteMenu();};
+	std::function<void()> funcNewGame = [jsonReader, gui, this]() {jsonReader->loadAllNode(gui->getDevice(), "level1"); this->deleteMenu();};
 
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, this->windowHeight/6, this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_NEW_GAME, true, colorBut, "New Game", colorText, funcNewGame);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, this->windowHeight/4.2, this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_NEW_GAME, true, colorBut, "New Game", colorText, funcNewGame);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_NEW_GAME);
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, this->windowHeight/18, this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_LOAD, true, colorBut, "Load", colorText, nullptr);
+
+	std::function<void()> funcLoad = [jsonReader, gui, this]() {jsonReader->loadAllNode(gui->getDevice(), "partie1"); this->deleteMenu();};
+
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, this->windowHeight/8, this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_LOAD, true, colorBut, "Load", colorText, funcLoad);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_LOAD);
+
+	std::function<void()> funcLevelEditor = [gui, this]() {gui->getDevice()->getLevelEditor()->setActive(true); this->deleteMenu();};
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, 0, this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_LEVEL_EDITOR, true, colorBut, "Level Editor", colorText, funcLevelEditor);
+	this->idRectMenu.push_back(GUI_ID_BUTTON_LEVEL_EDITOR);
 
 	std::function<void()> func = [gui, this]() { this->setVisible(false); gui->addMenuSettings(); };
 
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, -(this->windowHeight/18), this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_SETTINGS, true, colorBut, "Settings", colorText, func);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, -(this->windowHeight/8), this->windowWidth/8, this->windowHeight/12, GUI_ID_BUTTON_SETTINGS, true, colorBut, "Settings", colorText, func);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_SETTINGS);
 
-	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, -(this->windowHeight/6), this->windowWidth/8, this->windowHeight/13, GUI_ID_BUTTON_QUIT, true, colorBut, "Quit", colorText, funcQuit);
+	this->gui->addButton(this->gui->getElementFromID(GUI_ID_RECT_MENU_TITLE), 0, -(this->windowHeight/4.2), this->windowWidth/8, this->windowHeight/13, GUI_ID_BUTTON_QUIT, true, colorBut, "Quit", colorText, funcQuit);
 	this->idRectMenu.push_back(GUI_ID_BUTTON_QUIT);
 }
 auto GuiMenu::createMenuSettings() -> void

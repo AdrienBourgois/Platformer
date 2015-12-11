@@ -96,7 +96,6 @@ Device::~Device()
 auto Device::run() -> bool
 {
 	imgui_impl::NewFrame(this);
-	levelEditor->setActive(true);
 	if(levelEditor->getActive())
 		levelEditor->DisplayLevelEditor();
 	#ifdef _DEBUG

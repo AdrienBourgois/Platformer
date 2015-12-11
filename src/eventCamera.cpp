@@ -49,9 +49,9 @@ auto EventCamera::eventListener() -> void
 		if (key[SDL_SCANCODE_S])
 			z += deltaTime * 5.f;
 		if (key[SDL_SCANCODE_D])
-			rotY += deltaTime * 5.f;
-		if (key[SDL_SCANCODE_A])
 			rotY -= deltaTime * 5.f;
+		if (key[SDL_SCANCODE_A])
+			rotY += deltaTime * 5.f;
 		if (key[SDL_SCANCODE_E])
 			x += deltaTime * 5.f;
 		if (key[SDL_SCANCODE_Q])
