@@ -23,6 +23,10 @@ class ITimeRange
         ~ITimeRange() = default;
 
         virtual auto _update(float) -> void = 0;
+        virtual auto _play() -> void = 0;
+        virtual auto _pause() -> void = 0;
+        virtual auto _rewind() -> void = 0;
+        virtual auto _inverse() -> void = 0;
 };
 
 template <typename T>
@@ -113,6 +117,11 @@ class TimeRangeManager
 
         auto _update() -> void;
         auto _updateDeltaTime() -> void;
+
+        auto _play(unsigned int) -> void;
+        auto _pause(unsigned int) -> void;
+        auto _rewind(unsigned int) -> void;
+        auto _inverse(unsigned int) -> void;
 
         template <typename T>
         auto _add(T min, T max, float time, T* adress, int state = timeRangeState::PLAY) -> unsigned int

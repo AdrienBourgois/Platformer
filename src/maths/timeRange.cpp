@@ -14,6 +14,26 @@ auto TimeRangeManager::_update() -> void
     }
 }
 
+auto TimeRangeManager::_play(unsigned int id) -> void
+{
+    this->listTimeRange[id]->_play();
+}
+
+auto TimeRangeManager::_pause(unsigned int id) -> void
+{
+    this->listTimeRange[id]->_pause();
+}
+
+auto TimeRangeManager::_rewind(unsigned int id) -> void
+{
+    this->listTimeRange[id]->_rewind();
+}
+
+auto TimeRangeManager::_inverse(unsigned int id) -> void
+{
+    this->listTimeRange[id]->_inverse();
+}
+
 auto TimeRangeManager::_updateDeltaTime() -> void
 {
     if (this->oldTime == 0)
