@@ -1,5 +1,5 @@
-#ifndef __ELEMENTID_H_INCLUDED__
-#define __ELEMENTID_H_INCLUDED__
+#ifndef ELEMENTID_H_INCLUDED
+#define ELEMENTID_H_INCLUDED
 
 
 enum StateEntity {
@@ -10,7 +10,7 @@ enum StateEntity {
 	STATE_JUMPING,
 	STATE_DEAD
 	
-	};
+};
 
 
-#endif // __ELEMENTID_H_INCLUDED__
+#endif // ELEMENTID_H_INCLUDED
