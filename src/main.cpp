@@ -32,12 +32,10 @@
 #include "txtLogger.h"
 #include "window.h"
 
-int main(int argc, char* argv[])
+int main(int, char*[])
 {
 	LOG(L_INFO,"Begin Main");
 	id::TXTLogger* logger = id::TXTLogger::getInstance();
-	(void)argc;
-	(void)argv;
 
 	logger->setLogLevel(id::LL_ALL);
 
@@ -48,18 +46,6 @@ int main(int argc, char* argv[])
 	std::unique_ptr<id::Device> device = device->create();
 
 
-	if (argc > 1)
-	{
-		id::scene::MeshSceneNode* mesh_scn = id::scene::MeshSceneNode::createMeshSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), id::FileUtility::getFileNameFromPath(argv[1]), "pos3d_tex2d", argv[1]);
-		(void) mesh_scn;
-
-	}
-
-//	id::scene::Enemy* enemy = id::scene::Enemy::createEnemy(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Enemy", "pos3d_tex2d", "assets/models/Dragon.obj");
-	
-//	enemy->getPath()->addPath({20, 0, 0});
-//	enemy->getPath()->addPath({-20, 0, 0});
-	
 	id::scene::CameraSceneNode* cam = id::scene::CameraSceneNode::createCameraSceneNode(device->getSceneManager(), device->getSceneManager()->getRootNode(), "Cam", 45.f, 1280.f/720.f, 0.1f, 1000.f);
     cam->setPosition({0.f, 15.f,50.f});
 
@@ -91,8 +77,6 @@ int main(int argc, char* argv[])
 		device->getDriver()->clear();
 		device->getSceneManager()->draw();
 	
-	//	enemy->getPath()->enemyPatrol(enemy, deltaTime);
-
 		device->getGui()->render();
 		ImGui::Render();
 	

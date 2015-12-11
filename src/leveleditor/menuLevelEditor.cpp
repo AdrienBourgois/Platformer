@@ -1,5 +1,6 @@
 #include "SDL2/SDL.h"
 #include "leveleditor/menuLevelEditor.h"
+#include "leveleditor/menuAssetsLevelEditor.h"
 #include "logger.h"
 #include "json/jsonWriter.h"
 #include "sceneManager.h"

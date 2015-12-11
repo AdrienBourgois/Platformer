@@ -6,19 +6,26 @@
 struct ImVec2;
 
 namespace id {
+
 class DebugLogger;
 class Device;
+
 namespace scene {
-class SceneNode;
+	class SceneNode;
 } // namespace scene
 
 class EditMaterialWindow;
 
-class DebugWindow : public GUI_Window
+class DebugWindow 
+: public GUI_Window
 {
 public:
 	DebugWindow();
-	~DebugWindow();
+	virtual ~DebugWindow();
+	DebugWindow(DebugWindow const&) = delete;
+	DebugWindow(DebugWindow&&) = delete;
+	auto operator=(DebugWindow const&) -> DebugWindow& = delete;
+	auto operator=(DebugWindow&&) -> DebugWindow& = delete;
 	
 	auto Display(Device* dev) 	-> void;
 	auto Display() 				-> void;

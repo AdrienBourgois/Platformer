@@ -23,12 +23,12 @@ class ColliderManager
         auto operator=(ColliderManager const&) -> ColliderManager = delete;
         auto operator=(ColliderManager &&) -> ColliderManager = delete;
 
-        auto checkAllColisions() -> std::vector<std::pair<int, int>>;
-        auto addCollider(id::scene::MeshSceneNode*, int) -> void;
+        auto checkAllColisions() -> std::vector<std::pair<std::string, std::string>>;
+        auto addCollider(id::scene::MeshSceneNode*, std::string id = "" ) -> void;
         auto updateCollider() -> void;
 
     private:
-        std::vector<std::tuple<Collider, int, int, id::scene::MeshSceneNode*>> listCollider;
+        std::vector<std::tuple<Collider, std::string /* idExterne */, int /* idInterne */, id::scene::MeshSceneNode*>> listCollider;
 };
 
 } // namespace maths

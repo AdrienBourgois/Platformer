@@ -15,6 +15,8 @@ public:
 	static auto getNumberStringFromString(std::string str)		-> std::string;
 	static auto getFileNameWithoutExtension(std::string str)	-> std::string;
 
+private:
+
 };
 
 } // namespace id

@@ -4,12 +4,9 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <string>
-#include <map>
 #include <memory>
-#include <chrono>
 
 #include "maths/matrix.h"
-#include "imgui.h"
 
 namespace id
 {
@@ -35,23 +32,23 @@ public:
 			
 	static 	auto createDriver(Window* window) 	-> std::unique_ptr<Driver>;
 
-			auto setAttribute(int, int, int, int, int, int, int) 	-> void;
+			auto setAttribute(int, int, int, int, int, int, int) -> void;
 			auto initGlew() -> void;
-			auto backgroundColor(float red = 0.f, float green = 0.f, float blue = 0.f, float alpha = 1.f) 	-> void;
+			auto backgroundColor(float red = 0.f, float green = 0.f, float blue = 0.f, float alpha = 1.f) -> void;
 
-			auto useProgram(GLuint prg) 	-> void;
-			auto deleteProgram(GLuint prg) 	-> void;
+			auto useProgram(GLuint prg) -> void;
+			auto deleteProgram(GLuint prg) -> void;
 
-			auto clear() 	-> void;
+			auto clear() -> void;
 			auto genVertexObject(int size, float* vertices, GLuint* vbo, GLuint* vao) -> void;
-			auto deleteBuffer(GLuint* vbo) 	-> void;
+			auto deleteBuffer(GLuint* vbo) -> void;
 			auto draw(scene::MeshSceneNode* meshNode) -> void;
 			auto AttachUniformMatrix4(GLuint prg_id, std::string var_name, maths::Matrix4 mat) -> void;
 
-			auto LoadTexture(std::string const& path, GLenum format) 	-> GLuint;
+			auto LoadTexture(std::string const& path, GLenum format) -> GLuint;
 			auto ChangeTexture(GLuint index) -> void;
 
-			auto getShader() const 	-> Shaders* 		{return _shaders.get();}
+			auto getShader() const -> Shaders* { return _shaders.get(); }
 
 
 					
@@ -65,4 +62,4 @@ private:
 
 } // namespace video
 } // namespace id
-#endif
+#endif // DRIVER_H_INCLUDED

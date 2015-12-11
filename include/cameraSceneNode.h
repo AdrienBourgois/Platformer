@@ -8,17 +8,23 @@
 namespace id {
 
 namespace video {
-class Driver;
+	class Driver;
 } // namespace video
 
 namespace scene {
-class CameraSceneNode : public SceneNode
+
+class CameraSceneNode 
+: public SceneNode
 {
 public:
 	static auto createCameraSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, float fovy, float ratio, float near, float far) -> CameraSceneNode*;
 	
-	~CameraSceneNode();
-	
+	virtual ~CameraSceneNode();
+	CameraSceneNode(CameraSceneNode const&) = delete;
+	CameraSceneNode(CameraSceneNode&&) = delete;
+	auto operator=(CameraSceneNode const&) -> CameraSceneNode& = delete;
+	auto operator=(CameraSceneNode&&) -> CameraSceneNode& = delete;
+
 	auto getFOV() const 	-> float 		{ return _fovy;  }
 	auto getRatio() const 	-> float 		{ return _ratio; }
 	auto getNear() const 	-> float 		{ return _near;  }
@@ -43,6 +49,7 @@ private:
 
 	maths::Matrix4	_proj;
 };
+
 } // namespace scene
 } // namespace id
 

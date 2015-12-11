@@ -8,11 +8,17 @@
 namespace id {
 namespace gui {
 
+class GuiManager;
+
 class GuiEventReceiver
 {
 public:
 	GuiEventReceiver(GuiManager* gui);
 	~GuiEventReceiver();
+	GuiEventReceiver(GuiEventReceiver const&) = delete;
+	GuiEventReceiver(GuiEventReceiver&&) = delete;
+	auto operator=(GuiEventReceiver const&) = delete;
+	auto operator=(GuiEventReceiver&&) = delete;
 
 	auto eventListener(SDL_Event* ev) -> void;
 	auto checkMouseOnButton() -> void;
@@ -21,7 +27,7 @@ public:
 	auto refreshMouseCoords() -> void;
 	auto resetEvents() -> void;
 
-	auto setListenKeys(bool listen) -> void { this->listenKeys = listen; };
+	auto setListenKeys(bool listen) -> void { this->listenKeys = listen; }
 
 private:
 	GuiManager* gui;
@@ -29,8 +35,8 @@ private:
 	bool listenKeys;
 };
 
-} // end namespace 
+} // namespace 
 
-} // end namespace id
+} // namespace id
 
 #endif // GUI_EVENT_RECEIVER_H_INCLUDED

@@ -4,16 +4,10 @@
 #include "driver.h"
 #include "device.h"
 #include "window.h"
-#include "txtLogger.h"
 #include "shaders.h"
-
-#include <iostream>
 #include "meshSceneNode.h"
 #include "mesh.h"
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
+#include "logger.h"
 
 namespace id
 {
@@ -23,12 +17,12 @@ namespace video {
 Driver::Driver(Window* window)
 :_context(NULL), _shaders(nullptr)
 {
-	logger->log("Creating Driver...");
+	LOG(L_INFO,"Creating Driver...");
 
 	_context = SDL_GL_CreateContext(window->getWindow());
 	if (_context == NULL)
 	{
-		logger->log("Failed at creating context in Driver::createDriver(Window*)", LL_ERROR);
+		LOG(L_INFO, "Failed at creating context in Driver::createDriver(Window*)");
 		SDL_assert(false);
 	}
 
@@ -45,18 +39,18 @@ Driver::Driver(Window* window)
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 	
-	logger->log("Driver has been created.", LL_INFO);
+	LOG(L_INFO,"Driver has been created.");
 }
 
 Driver::~Driver()
 {
-	logger->log("Driver deleting...", LL_DEBUG);
+	LOG(L_DEBUG,"Driver deleting...");
 
 	_shaders.reset(nullptr);
 
 	SDL_GL_DeleteContext(this->_context);
 
-	logger->log("Driver deleted", LL_INFO);
+	LOG(L_INFO,"Driver deleted");
 }
 
 auto Driver::createDriver(Window* window) -> std::unique_ptr<Driver>
@@ -66,7 +60,7 @@ auto Driver::createDriver(Window* window) -> std::unique_ptr<Driver>
 	auto* drv = new(std::nothrow) Driver(window);
 	if (!drv)
 	{
-		logger->log("Failed at creating driver in Driver::createDriver(Window*)", LL_ERROR);
+		LOG(L_INFO,"Failed at creating driver in Driver::createDriver(Window*)");
 		SDL_assert(drv && "ERROR driver has not been created.");
 	}
 
@@ -77,7 +71,7 @@ auto Driver::setAttribute(int major, int minor, int red, int green, int blue, in
 {
 	SDL_assert(major && minor && red && green && blue && depth && buffer);
 
-	logger->log("Setting attribute of driver (SDL_GL_SetAttribute)...", LL_DEBUG);
+	LOG(L_INFO,"Setting attribute of driver (SDL_GL_SetAttribute)...");
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, major);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, minor);
@@ -87,27 +81,27 @@ auto Driver::setAttribute(int major, int minor, int red, int green, int blue, in
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, depth);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, buffer);
 
-	logger->log("Attribute has been setted.");
+	LOG(L_INFO,"Attribute has been setted.");
 }
 
 auto Driver::initGlew() -> void
 {
-	logger->log("Initializing glew...", LL_DEBUG);
+	LOG(L_INFO,"Initializing glew...");
 
 	glewExperimental = GL_TRUE;
     auto status = glewInit();
     SDL_assert(status == GLEW_OK);
 
-	logger->log("Glew has been initialized.");
+	LOG(L_INFO,"Glew has been initialized.");
 }
 
 auto Driver::backgroundColor(float red, float green, float blue, float alpha) -> void
 {
-	logger->log("Initializing Background Color...", LL_DEBUG);
+	LOG(L_INFO,"Initializing Background Color...");
 
 	glClearColor(red, green, blue, alpha);
 
-	logger->log("Background Color has been initialized.");
+	LOG(L_INFO,"Background Color has been initialized.");
 }
 
 auto Driver::clear() -> void
@@ -117,7 +111,7 @@ auto Driver::clear() -> void
 
 auto Driver::genVertexObject(int size, float* vertices, GLuint* vbo, GLuint* vao) -> void
 {
-	glGenVertexArrays(1, vao);
+   glGenVertexArrays(1, vao);
     glGenBuffers(1, vbo);
     
     
@@ -182,21 +176,21 @@ auto Driver::LoadTexture(std::string const& path, GLenum format) -> GLuint
 {
 	SDL_Surface* surf = IMG_Load(path.c_str());
 
-    SDL_assert(surf);
+	SDL_assert(surf);
 	GLuint tex_id;
-    glGenTextures(1, &tex_id);
-    glBindTexture(GL_TEXTURE_2D, tex_id);
+	glGenTextures(1, &tex_id);
+	glBindTexture(GL_TEXTURE_2D, tex_id);
 	
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surf->w, surf->h, 0, format, GL_UNSIGNED_BYTE, surf->pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surf->w, surf->h, 0, format, GL_UNSIGNED_BYTE, surf->pixels);
 
-    SDL_FreeSurface(surf);
+	SDL_FreeSurface(surf);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	
 
-    glBindTexture(GL_TEXTURE_2D, 0);
-    return tex_id;
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return tex_id;
 }
 
 auto Driver::ChangeTexture(GLuint index) -> void

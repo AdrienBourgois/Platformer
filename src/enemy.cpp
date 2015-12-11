@@ -2,6 +2,7 @@
 #include <string>
 
 #include "enemy.h"
+#include "pathEnemy.h"
 #include "txtLogger.h"
 
 namespace {
