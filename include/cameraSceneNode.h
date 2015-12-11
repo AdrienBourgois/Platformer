@@ -13,7 +13,8 @@ namespace video {
 
 namespace scene {
 
-class CameraSceneNode : public SceneNode
+class CameraSceneNode 
+: public SceneNode
 {
 public:
 	static auto createCameraSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name, float fovy, float ratio, float near, float far) -> CameraSceneNode*;

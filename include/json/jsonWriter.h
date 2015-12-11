@@ -20,7 +20,7 @@ class JsonWriter
 {
 public:
 	JsonWriter();
-	virtual ~JsonWriter();
+	~JsonWriter();
 	JsonWriter(JsonWriter const&) = delete;
 	JsonWriter(JsonWriter&&) = delete;
 	auto operator=(JsonWriter const&) -> JsonWriter& = delete;
@@ -44,6 +44,8 @@ public:
 	auto checkExistingValue(std::string value, std::string fileName = "bindingKey") -> bool;
 
 	static int 		indentation;
+
+private:
 
 };
 

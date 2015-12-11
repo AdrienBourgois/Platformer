@@ -14,15 +14,20 @@ class Device;
 class EditShader;
 class ChangeTextureGroupWindow;
 
-class EditMaterialWindow : public GUI_Window
+class EditMaterialWindow
+: public GUI_Window
 {
 public:
 	EditMaterialWindow();
-	~EditMaterialWindow();
-	
+	virtual ~EditMaterialWindow();
+	EditMaterialWindow(EditMaterialWindow const&) = delete;
+	EditMaterialWindow(EditMaterialWindow&&) = delete;
+	auto operator=(EditMaterialWindow const&) -> EditMaterialWindow& = delete;
+	auto operator=(EditMaterialWindow&&) -> EditMaterialWindow& = delete;	
+
 	auto Display(Device* dev) 	-> void;
 	
-	auto getActiveNode() 				-> scene::SceneNode*	{ return _active_node; }
+	auto getActiveNode() const	-> scene::SceneNode*			{ return _active_node; }
 	auto setActiveNode(scene::SceneNode* node) 	-> void			{ _active_node = node; }
 
 private:

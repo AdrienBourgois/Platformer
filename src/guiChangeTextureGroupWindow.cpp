@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 
+#include "material.h"
 #include "fileUtility.h"
 #include "guiChangeTextureGroupWindow.h"
 #include "imgui_impl.h"

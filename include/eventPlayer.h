@@ -6,9 +6,10 @@
 #include <string>
 
 #include "eventReceiver.h"
-#include "device.h"
 
 namespace id {
+
+class Device;
 
 namespace scene {
 	class Player;
@@ -16,7 +17,8 @@ namespace scene {
 
 namespace event {
 
-class EventPlayer : public EventReceiver
+class EventPlayer 
+: public EventReceiver
 {
 public:
 	EventPlayer(Device* dev, std::string name, scene::Player* player);
@@ -25,8 +27,8 @@ public:
 	virtual auto eventListener() -> void;
 	auto loadKeys() -> void;
 
-	auto setPlayer(scene::Player* player) -> void { this->player = player; }
-	auto getPlayer() -> scene::Player* { return player; }
+	auto setPlayer(scene::Player* player) -> void 	{ this->player = player; }
+	auto getPlayer() -> scene::Player* 				{ return player; }
 	auto deletePlayer() -> void;
 
 private:
@@ -34,8 +36,7 @@ private:
 	std::map<std::string, SDL_Scancode> scancodeKeys;
 };
 
-} // end namespace event
-
-} // end namespace id
+} // namespace event
+} // namespace id
 
 #endif // EVENT_PLAYER_H_INCLUDED

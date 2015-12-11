@@ -1,24 +1,31 @@
 #ifndef GUI_CHANGE_TEXTURE_GROUP_WINDOW_H_INCLUDED
 #define GUI_CHANGE_TEXTURE_GROUP_WINDOW_H_INCLUDED
 
-#include "material.h"
 #include "guiWindow.h"
 
 namespace id {
 
-class ChangeTextureGroupWindow : public GUI_Window
+class Material;
+class mtl;
+
+class ChangeTextureGroupWindow 
+: public GUI_Window
 {
 public:
 	ChangeTextureGroupWindow();
-	~ChangeTextureGroupWindow() = default;
-	
+	virtual ~ChangeTextureGroupWindow() = default;
+	ChangeTextureGroupWindow(ChangeTextureGroupWindow const&) = delete;
+	ChangeTextureGroupWindow(ChangeTextureGroupWindow&&) = delete;
+	auto operator=(ChangeTextureGroupWindow const&) -> ChangeTextureGroupWindow& = delete;
+	auto operator=(ChangeTextureGroupWindow&&) -> ChangeTextureGroupWindow& = delete;
+
 	auto Display() -> void;
 	
-	auto setActiveMaterial(Material* material) 	-> void 		{ _active_material = material; }
-	auto getActiveMaterial() 					-> Material* 	{ return _active_material; }
+	auto setActiveMaterial(Material* material) 	-> void 		{ _active_material = material; 	}
+	auto getActiveMaterial() const				-> Material* 	{ return _active_material; 		}
 	
-	auto setActiveMtl(mtl* _mtl) 				-> void 		{ _active_mtl = _mtl; }
-	auto getActiveMtl() 						-> mtl* 		{ return _active_mtl; }
+	auto setActiveMtl(mtl* _mtl) 				-> void 		{ _active_mtl = _mtl; 			}
+	auto getActiveMtl() const					-> mtl* 		{ return _active_mtl; 			}
 
 private:
 	Material* 	_active_material;
