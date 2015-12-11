@@ -10,7 +10,7 @@ public:
 	virtual ~GUI_Window() = default;
 	
 	virtual auto setVisible(bool v) -> void 	{ _visible = v; }
-
+	virtual auto getVisible()-> bool {return _visible;}
 protected:
 		bool _visible;
 };
