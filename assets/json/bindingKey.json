@@ -1,0 +1,12 @@
+{ 
+	"Backward" : "S",
+	"Forward" : "W",
+	"Jump" : "Space",
+	"Pause" : "P",
+	"Run" : "R",
+	"Quick_save" : "J",
+	"Strafe_left" : "Q",
+	"Strafe_right" : "E",
+	"Turn_left" : "A",
+	"Turn_right" : "D"
+} 
