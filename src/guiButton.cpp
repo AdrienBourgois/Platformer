@@ -2,14 +2,11 @@
 #include <string>
 #include <functional>
 
-#include "txtLogger.h"
+#include "logger.h"
 #include "guiButton.h"
 #include "guiRect.h"
 #include "guiManager.h"
 
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
 
 namespace id {
 namespace gui {
@@ -17,15 +14,15 @@ namespace gui {
 GuiButton::GuiButton(GuiManager* gui, GuiRect* parent, float posX, float posY, float width, float height, int id, bool visible, std::function<void()> func)
 : GuiRect(gui, parent, posX, posY, width, height, id, visible, func)
 {
-	logger->log("Creating Button...", LL_INFO);
+	LOG(L_INFO ,"Creating Button...");
 
-	logger->log("Button created", LL_INFO);
+	LOG(L_INFO ,"Button created");
 }
 GuiButton::~GuiButton()
 {
-	logger->log("Deleting Button...", LL_INFO);
+	LOG(L_INFO ,"Deleting Button...");
 
-	logger->log("Button deleted", LL_INFO);
+	LOG(L_INFO ,"Button deleted");
 }
 auto GuiButton::createElement(maths::Vector4 colorBg, std::string const& text, maths::Vector4 colorText) -> void
 {

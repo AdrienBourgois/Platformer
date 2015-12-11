@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "device.h"
-#include "txtLogger.h"
+#include "logger.h"
 #include "guiMenu.h"
 #include "guiManager.h"
 #include "guiEventReceiver.h"
@@ -14,35 +14,27 @@
 #include "eventPlayer.h"
 #include "levelEditor.h"
 
-// debug
-#include <iostream>
-// end
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
-
 namespace id {
 namespace gui {
 
 GuiMenu::GuiMenu(GuiManager* gui)
 : gui(gui), id(-1)
 {
-	logger->log("Creating GuiMenu...", LL_INFO);
+	LOG(L_INFO,"Creating GuiMenu...");
 
 	this->windowWidth = gui->getWidth();
 	this->windowHeight = gui->getHeight();
 
-	logger->log("GuiMenu created", LL_INFO);
+	LOG(L_INFO,"GuiMenu created");
 }
 GuiMenu::~GuiMenu()
 {
-	logger->log("Deleting GuiMenu...", LL_INFO);
+	LOG(L_INFO,"Deleting GuiMenu...");
 
 	this->gui = nullptr;
 	this->idRectMenu.clear();
 
-	logger->log("GuiMenu deleted", LL_INFO);
+	LOG(L_INFO,"GuiMenu deleted");
 }
 auto GuiMenu::createMenuTitleScreen(std::function<void()> funcQuit) -> void
 {
@@ -185,6 +177,6 @@ auto GuiMenu::setVisible(bool visible) -> void
 	this->gui->getElementFromID(this->idRectMenu.front())->setVisible(visible);
 }
 
-} // end namespace gui
+} // namespace gui
 
-} // end namespace id
+} // namespace id

@@ -3,11 +3,7 @@
 
 #include "sceneNode.h"
 #include "maths/vector.h"
-#include "txtLogger.h"
-
-namespace {
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-}
+#include "logger.h"
 
 namespace id {
 namespace scene {
@@ -19,7 +15,7 @@ auto SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::strin
 	auto* node = new (std::nothrow) SceneNode(scn, parent, name);
 	if (!node)
 	{
-		logger->log("Failed at creating Scene Node in SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name)", LL_ERROR);
+		LOG(L_ERROR,"Failed at creating Scene Node in SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::string const& name)");
 		SDL_assert(node);
 	}
 
@@ -29,7 +25,7 @@ auto SceneNode::createSceneNode(SceneManager* scn, SceneNode* parent, std::strin
 SceneNode::SceneNode(SceneManager* scn, SceneNode* parent, std::string const& name)
 : _scn(scn), _parent(parent), _name(name), _visible(true)
 {
-	logger->log("Creating SceneNode...", LL_DEBUG);
+	LOG(L_INFO,"Creating SceneNode...");
 
 	if (_parent)
 		_parent->addChild(this);
@@ -38,12 +34,12 @@ SceneNode::SceneNode(SceneManager* scn, SceneNode* parent, std::string const& na
 
 	nameWhitoutExtension();
 
-	logger->log("SceneNode has been created.");
+	LOG(L_INFO,"SceneNode has been created.");
 }
 
 SceneNode::~SceneNode()
 {
-	logger->log("Deleting SceneNode...", LL_DEBUG);
+	LOG(L_INFO,"Deleting SceneNode...");
 
 	while (_childrens.size() > 0)
 		delete _childrens.back();
@@ -51,7 +47,7 @@ SceneNode::~SceneNode()
 	if (_parent)
 		_parent->delChild(this);
 
-	logger->log("SceneNode has been deleted.");
+	LOG(L_INFO, "SceneNode has been deleted.");
 }
 
 auto SceneNode::nameWhitoutExtension() -> void

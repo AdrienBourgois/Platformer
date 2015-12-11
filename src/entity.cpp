@@ -1,16 +1,8 @@
 #include <string>
-#include <iostream>
-
 #include "stateManager.h"
 #include "elementId.h"
 #include "entity.h"
-#include "txtLogger.h"
-
-namespace {
-
-	id::TXTLogger* logger = id::TXTLogger::getInstance();
-
-}//namespace 
+#include "logger.h"
 
 namespace id {
 namespace scene {
@@ -19,16 +11,16 @@ namespace scene {
 Entity::Entity(SceneManager* scn, SceneNode* parent, std::string const& name, std::string const& shader, std::string const& path)
 :MeshSceneNode(scn, parent, name, shader, path), speed(0.f),speedrun(0.f), hp(0), life(0), attack(0)
 {
-	logger->log("Creating Entity ...", LL_DEBUG);
+	LOG(L_INFO,"Creating Entity ...");
 
 	stateEntity = new StateManager();
 
-	logger->log("Entity has been created.", LL_DEBUG);
+	LOG(L_INFO,"Entity has been created.");
 }
 
 Entity::~Entity()
 {
-	logger->log("Deleting Entity ...", LL_DEBUG);
+	LOG(L_INFO,"Deleting Entity ...");
 		
 	this->speed = 0;
 	this->speedrun = 0;
@@ -38,7 +30,7 @@ Entity::~Entity()
 	delete stateEntity;
 	this->stateEntity = nullptr;
 
-	logger->log("Entity has been deleted.", LL_DEBUG);
+	LOG(L_INFO,"Entity has been deleted.");
 }
 
 auto Entity::entitySpeed() -> void 

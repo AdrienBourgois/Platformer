@@ -1,6 +1,5 @@
 #include "fileUtility.h"
 
-#include <iostream>
 namespace id {
 
 auto FileUtility::getFileNameFromPath(std::string path) -> std::string
